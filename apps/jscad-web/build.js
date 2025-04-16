@@ -40,6 +40,7 @@ await buildBundle(outDir + '/build', 'bundle.jscad_modeling.js', { format: 'cjs'
 await buildBundle(outDir + '/build', 'bundle.jscad_io.js', { format:'cjs', skipExisting: dev })
 await buildBundle(outDir + '/build', 'bundle.V1_api.js', { format:'cjs', skipExisting: dev })
 await buildBundle(outDir + '/build', 'bundle.jscadui.transform-babel.js', { globalName: 'jscadui_transform_babel', skipExisting: dev })
+await buildBundle(outDir + '/build', 'bundle.sw-jscad.js', { format: 'cjs', skipExisting: dev })
 
 /**************************** BUILD JS THAT can change and watch if in dev mode *************/
 await buildOne('src_bundle', outDir + '/build', 'bundle.worker.js', watch, { format: 'iife' })
