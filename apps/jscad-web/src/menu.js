@@ -1,4 +1,5 @@
 import { examples } from './examples.js'
+import { swProjects } from './projects.js'
 
 const menu = /** @type {HTMLElement} */ (document.getElementById('menu'))
 
@@ -33,6 +34,20 @@ export const init = () => {
     const li = document.createElement('li')
     li.appendChild(a)
     exampleDiv.appendChild(li)
+  })
+
+  // Add SW projects to menu
+  const swProjectDiv = /** @type {HTMLElement} */ (document.getElementById('sw-projects'))
+  examples.forEach(({ name, source }) => {
+    const a = document.createElement('a')
+    a.innerText = name
+    a.addEventListener('click', async () => {
+      console.log(`load project ${name} from ${source}`)
+      document.location.hash = '#' + source
+    })
+    const li = document.createElement('li')
+    li.appendChild(a)
+    swProjectDiv.appendChild(li)
   })
 }
 
