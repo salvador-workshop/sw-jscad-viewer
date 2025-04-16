@@ -29,7 +29,8 @@
     "gl-matrix": "^3.4.0",
     "fflate": "0.8.1",
     "@jscad/csg": "0.7.0",
-    "three": "^0.147.0"
+    "three": "^0.147.0",
+    "sw-jscad": "0.4.2-alpha.3"
   },
   "devDependencies": {
     "@jsx6/build": "0.2.4",
