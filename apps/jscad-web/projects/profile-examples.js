@@ -2,17 +2,20 @@
 const jscad = require('@jscad/modeling')
 const { translate } = jscad.transforms
 
-const profileBuilder = require('./builders/profile-builder')
+const swJscad = require('sw-jscad');
+const {
+    profileBuilder,
+} = swJscad.builders
 
 const main = () => {
-    const profile1 = profileBuilder.sqCornerCircNotch({ sqLength: 5 });
-    const profile2 = profileBuilder.octagonal({ sqLength: 5 });
+    const profile1 = profileBuilder.sqCornerCircNotch({ lib: jscad, sqLength: 5 });
+    const profile2 = profileBuilder.octagonal({ lib: jscad, sqLength: 5 });
 
-    const profile3 = profileBuilder.edge.circNotch({ totalThickness: 8, topThickness: 4 });
-    const profile4 = profileBuilder.edge.circPortrusion({ totalThickness: 8, topThickness: 4 });
+    const profile3 = profileBuilder.edge.circNotch({ lib: jscad, totalThickness: 8, topThickness: 4 });
+    const profile4 = profileBuilder.edge.circPortrusion({ lib: jscad, totalThickness: 8, topThickness: 4 });
 
-    const profile5 = profileBuilder.edge.circNotch({ totalThickness: 8, topThickness: 4, smallOffset: 1 });
-    const profile6 = profileBuilder.edge.circPortrusion({ totalThickness: 8, topThickness: 4, smallOffset: 1 });
+    const profile5 = profileBuilder.edge.circNotch({ lib: jscad, totalThickness: 8, topThickness: 4, smallOffset: 1 });
+    const profile6 = profileBuilder.edge.circPortrusion({ lib: jscad, totalThickness: 8, topThickness: 4, smallOffset: 1 });
 
     return [
         translate([0, 0, 0], profile1),

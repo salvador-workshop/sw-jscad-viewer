@@ -38,7 +38,7 @@ export const init = () => {
 
   // Add SW projects to menu
   const swProjectDiv = /** @type {HTMLElement} */ (document.getElementById('sw-projects'))
-  examples.forEach(({ name, source }) => {
+  swProjects.forEach(({ name, source }) => {
     const a = document.createElement('a')
     a.innerText = name
     a.addEventListener('click', async () => {
