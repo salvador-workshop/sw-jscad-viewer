@@ -6,15 +6,16 @@ const { translate, align, rotate, mirror } = jscad.transforms
 const { measureBoundingBox } = jscad.measurements
 const { colorize } = jscad.colors
 
-const swJscad = require('sw-jscad');
+const swJscad = require('sw-jscad')(jscad);
+console.log(swJscad);
 const {
     archBuilder,
     columnBuilder,
     profileBuilder,
     mouldBuilder,
-} = swJscad.builders
+} = swJscad
 
-console.log(swJscad, archBuilder)
+// console.log(swJscad, archBuilder)
 
 const HOLDER_HEIGHT = 42;
 const TYP_THICKNESS = 5;
@@ -69,16 +70,16 @@ const candleHolderCore = () => {
 const holderTop = () => {
     const topRad = CORE_RAD + 4;
     const topHeight = TOP_HT;
-    const topProfile = profileBuilder.edge.circNotch({ lib: jscad, totalThickness: topHeight, topThickness: topHeight - 3, smallOffset: 0.75 });
-    const topShape = mouldBuilder.polygonalEdge({ lib: jscad, numSides: ORN_POLYGON_SIDES, radius: topRad, height: topHeight, geomProfile: topProfile });
+    const topProfile = profileBuilder.edge.circNotch({ totalThickness: topHeight, topThickness: topHeight - 3, smallOffset: 0.75 });
+    const topShape = mouldBuilder.polygonalEdge({ numSides: ORN_POLYGON_SIDES, radius: topRad, height: topHeight, geomProfile: topProfile });
     return topShape;
 }
 
 const holderBase = () => {
     const baseRad = CORE_RAD + 8;
     const baseHeight = BASE_HT;
-    const baseProfile = profileBuilder.edge.circPortrusion({ lib: jscad, totalThickness: baseHeight, topThickness: baseHeight - 4, smallOffset: 0.75 });
-    const baseShape = mouldBuilder.polygonalEdge({ lib: jscad, numSides: ORN_POLYGON_SIDES, radius: baseRad, height: baseHeight, geomProfile: baseProfile });
+    const baseProfile = profileBuilder.edge.circPortrusion({ totalThickness: baseHeight, topThickness: baseHeight - 4, smallOffset: 0.75 });
+    const baseShape = mouldBuilder.polygonalEdge({ numSides: ORN_POLYGON_SIDES, radius: baseRad, height: baseHeight, geomProfile: baseProfile });
     return rotate([Math.PI, 0, 0], baseShape);
 }
 
@@ -86,14 +87,13 @@ const ornamentArches = () => {
     const columnHeight = 7;
     const sideLength = CORE_RAD * 2 * Math.tan(Math.PI / ORN_POLYGON_SIDES);
 
-    const archProfile = profileBuilder.sqCornerCircNotch({ lib: jscad, sqLength: 5 });
+    const archProfile = profileBuilder.sqCornerCircNotch({ sqLength: 5 });
     const baseArch = translate(
         [0, 0, columnHeight],
-        archBuilder.twoPt({ lib: jscad, arcRadius: sideLength, archWidth: sideLength, profileWidth: 5, geomProfile: archProfile })
+        archBuilder.twoPt({ arcRadius: sideLength, archWidth: sideLength, profileWidth: 5, geomProfile: archProfile })
     );
 
     const col = columnBuilder.threePt({
-        lib: jscad,
         base: ['cylinder', 2, 3.5],
         shaft: ['extrude', null, archProfile],
         capital: ['cylinder', 1.5, 3.5],
