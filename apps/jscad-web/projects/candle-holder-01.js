@@ -6,7 +6,7 @@ const { translate, align, rotate, mirror } = jscad.transforms
 const { measureBoundingBox } = jscad.measurements
 const { colorize } = jscad.colors
 
-const swJscad = require('sw-jscad')(jscad);
+const swJscad = require('sw-jscad').init(jscad);
 console.log(swJscad);
 const {
     archBuilder,

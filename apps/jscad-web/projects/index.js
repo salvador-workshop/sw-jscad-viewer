@@ -2,8 +2,11 @@
 const jscad = require('@jscad/modeling')
 const { translate } = jscad.transforms
 
-const swJscad = require('sw-jscad')(jscad);
+const SwJscad = require('sw-jscad');
+console.log(SwJscad);
+const swJscad = SwJscad.init(jscad);
 console.log(swJscad);
+
 const {
     archBuilder,
     columnBuilder,
