@@ -24,7 +24,7 @@ const main = () => {
     const mould3 = mouldBuilder.circularEdge({ radius: 20, height: 8, geomProfile: profile2 });
 
     const orig4 = cylinder({ radius: 20, height: 8 });
-    const mould4 = mouldBuilder.polygonalEdge({ numSides: 8, radius: 20, height: 8, geomProfile: profile2 });
+    const mould4 = mouldBuilder.circularEdge({ segments: 8, radius: 20, height: 8, geomProfile: profile2 });
 
     return [
         translate([0, 0, 0], orig1),
