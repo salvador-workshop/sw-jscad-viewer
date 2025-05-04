@@ -3,7 +3,7 @@ const jscad = require('@jscad/modeling')
 const swJscad = require('sw-jscad').init(jscad);
 
 const { trimFamilyBasic } = require('./trim-family-basic');
-const { enhanceSwJscad } = require('./enhancer');
+const { enhanceSwJscad } = require('./enhancer-trim');
 
 const { roundedCylinder, cylinder } = jscad.primitives
 const { subtract } = jscad.booleans

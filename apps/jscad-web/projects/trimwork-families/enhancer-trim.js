@@ -12,13 +12,16 @@ const enhanceSwJscad = (swJsCadInst) => {
     }
     
     swJsCadInst.layoutUtils = {
-        gridLayout: ({ elements }) => {
+        gridLayout,
+        gridFromMap: ({ elements }) => {
             return;
         },
-        linearLayout: ({ elements }) => {
+        linearLayout,
+        linearFromMap: ({ elements }) => {
             return;
         },
-        circularLayout: ({ elements }) => {
+        circularLayout,
+        circularFromMap: ({ elements }) => {
             return;
         },
     }
