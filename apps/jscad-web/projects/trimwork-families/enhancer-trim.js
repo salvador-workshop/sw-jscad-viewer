@@ -2,27 +2,30 @@
 
 const enhanceSwJscad = (swJsCadInst) => {
     const gridLayout = ({ }) => {
-        return;
+        return null;
     }
     const linearLayout = ({ elements }) => {
-        return;
+        return null;
     }
     const circularLayout = ({ elements }) => {
-        return;
+        return null;
     }
     
     swJsCadInst.layoutUtils = {
+        mark: ({ geom }) => {
+            return null;
+        },
         gridLayout,
         gridFromMap: ({ elements }) => {
-            return;
+            return null;
         },
         linearLayout,
         linearFromMap: ({ elements }) => {
-            return;
+            return null;
         },
         circularLayout,
         circularFromMap: ({ elements }) => {
-            return;
+            return null;
         },
     }
 
