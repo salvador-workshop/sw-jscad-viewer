@@ -5,6 +5,7 @@ const entrywayBuilder = require('./builders-v2/entryway-builder');
 const roofBuilder = require('./builders-v2/roof-builder');
 const wallBuilder = require('./builders-v2/wall-builder');
 const basicTrimFamily = require('./builders-v2/basic-trim-family');
+// const mouldBuilderV2 = require('./builders-v2/mould-builder');
 
 const enhanceSwJscad = ({ lib, swLib }) => {
     swLib.basicTrimFamily = basicTrimFamily.init({ lib, swLib });
@@ -12,6 +13,7 @@ const enhanceSwJscad = ({ lib, swLib }) => {
     swLib.entrywayBuilder = entrywayBuilder.init({ lib, swLib });
     swLib.roofBuilder = roofBuilder.init({ lib, swLib });
     swLib.wallBuilder = wallBuilder.init({ lib, swLib });
+    // swLib.mouldBuilder = mouldBuilderV2.init({ lib, swLib });
 
     const linearLayout = ({ elements }) => {
         return null;
