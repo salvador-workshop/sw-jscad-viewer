@@ -1,64 +1,156 @@
 "use strict"
 const jscad = require('@jscad/modeling')
-const swJscad = require('sw-jscad').init(jscad)
+// const swJscad = require('sw-jscad').init(jscad)
 
-const { roundedCylinder, cylinder, rectangle, polygon } = jscad.primitives
-const { subtract } = jscad.booleans
-const { align } = jscad.transforms
-const { measureBoundingBox } = jscad.measurements
-const { colorize } = jscad.colors
+const { polygon, square } = jscad.primitives
+const { subtract, union } = jscad.booleans
+const { rotate, translate, mirror } = jscad.transforms
 
-const {
-    transformUtils,
-} = swJscad
+// const {
+//     transformUtils,
+// } = swJscad
 
 const PHI = 1.6180339887;
 const PHI_INV = 0.6180339887;
 
-const small = ({
-    controlPoints
-}) => {
+const detailCorner = ({ sideLength }) => {
+    const baseSquare = square({ size: Math.hypot(sideLength, sideLength) });
+
+    return rotate([0, 0, Math.PI / 4], baseSquare);
+}
+
+const small = ({ controlPoints, detailDepth }) => {
+    const cornerPt1 = controlPoints.l0.t1;
+    const cornerPt2 = controlPoints.l1.t1;
     const baseShape = polygon({
         points: [
             controlPoints.l0.t0,
-            controlPoints.l0.t1,
-            controlPoints.l1.t1,
+            cornerPt1,
+            cornerPt2,
             controlPoints.l1.t0,
         ]
+    });
+    const baseCorner = detailCorner({ sideLength: detailDepth });
+    const corner1 = translate([...cornerPt1, 0], baseCorner);
+    const corner2 = translate([...cornerPt2, 0], baseCorner);
+    let cutShape = subtract(baseShape, corner1);
+    cutShape = subtract(cutShape, corner2);
+
+    return cutShape;
+}
+
+const smallOrnament1 = ({ controlPoints, detailDepth }) => {
+    const baseShape = small({ controlPoints, detailDepth });
+
+    const oPt = controlPoints.o1.t1;
+    const bCorner = detailCorner({ sideLength: detailDepth * PHI_INV });
+    const oCorner = translate([...oPt, 0], bCorner);
+
+    return subtract(baseShape, oCorner);
+}
+
+const medium = ({ controlPoints, detailDepth }) => {
+    const cornerPt1 = controlPoints.l0.t1;
+    const cornerPt2 = controlPoints.l1.t1;
+    const cornerPt3 = controlPoints.l1.t2;
+    const cornerPt4 = controlPoints.l2.t2;
+
+    const baseShape = polygon({
+        points: [
+            controlPoints.l0.t0,
+            cornerPt1,
+            cornerPt2,
+            cornerPt3,
+            cornerPt4,
+            controlPoints.l2.t0,
+        ]
     })
-    return baseShape;
+
+    const baseCorner = detailCorner({ sideLength: detailDepth });
+    const corner1 = translate([...cornerPt1, 0], baseCorner);
+    const corner2 = translate([...cornerPt2, 0], baseCorner);
+    const corner3 = translate([...cornerPt3, 0], baseCorner);
+    const corner4 = translate([...cornerPt4, 0], baseCorner);
+
+    let cutShape = subtract(baseShape, corner1);
+    cutShape = union(cutShape, corner2);
+    cutShape = subtract(cutShape, corner3);
+    cutShape = subtract(cutShape, corner4);
+
+    return cutShape;
 }
 
-const smallOrnament = () => {
-    return null;
+const mediumOrnament1 = ({ controlPoints, detailDepth }) => {
+    const baseShape = medium({ controlPoints, detailDepth });
+
+    const oPt1 = controlPoints.o2.t2;
+    const oPt2 = controlPoints.o1.t1;
+
+    const bCorner = detailCorner({ sideLength: detailDepth * PHI_INV });
+    const oCorner1 = translate([...oPt1, 0], bCorner);
+    let oCorner2 = translate([...oPt2, 0], bCorner);
+    oCorner2 = mirror({ origin: [0, controlPoints.l1.t1[1] / 2, 0], normal: [0, 1, 0] }, oCorner2);
+
+    let cutShape = subtract(baseShape, oCorner1);
+    cutShape = subtract(cutShape, oCorner2);
+
+    return cutShape;
 }
 
-const medium = () => {
-    return null;
+const large = ({ controlPoints, detailDepth }) => {
+    const cornerPt1 = controlPoints.l0.t1;
+    const cornerPt2 = controlPoints.l1.t1;
+    const cornerPt3 = controlPoints.l1.t2;
+    const cornerPt4 = controlPoints.l2.t2;
+    const cornerPt5 = controlPoints.l2.t3;
+    const cornerPt6 = controlPoints.l3.t3;
+
+    const baseShape = polygon({
+        points: [
+            controlPoints.l0.t0,
+            cornerPt1,
+            cornerPt2,
+            cornerPt3,
+            cornerPt4,
+            cornerPt5,
+            cornerPt6,
+            controlPoints.l3.t0,
+        ]
+    })
+
+    const baseCorner = detailCorner({ sideLength: detailDepth });
+    const corner1 = translate([...cornerPt1, 0], baseCorner);
+    const corner2 = translate([...cornerPt2, 0], baseCorner);
+    const corner3 = translate([...cornerPt3, 0], baseCorner);
+    const corner4 = translate([...cornerPt4, 0], baseCorner);
+    const corner5 = translate([...cornerPt5, 0], baseCorner);
+    const corner6 = translate([...cornerPt6, 0], baseCorner);
+
+    let cutShape = subtract(baseShape, corner1);
+    cutShape = union(cutShape, corner2);
+    cutShape = subtract(cutShape, corner3);
+    cutShape = union(cutShape, corner4);
+    cutShape = subtract(cutShape, corner5);
+    cutShape = subtract(cutShape, corner6);
+
+    return cutShape;
 }
 
-const mediumOrnament1 = () => {
-    return null;
-}
+const largeOrnament1 = ({ controlPoints, detailDepth }) => {
+    const baseShape = large({ controlPoints, detailDepth });
 
-const mediumOrnament2 = () => {
-    return null;
-}
+    const oPt1 = controlPoints.o3.t3;
+    const oPt2 = controlPoints.o1.t1;
 
-const large = () => {
-    return null;
-}
+    const bCorner = detailCorner({ sideLength: detailDepth * PHI_INV });
+    const oCorner1 = translate([...oPt1, 0], bCorner);
+    let oCorner2 = translate([...oPt2, 0], bCorner);
+    oCorner2 = mirror({ origin: [0, controlPoints.l1.t1[1] / 2, 0], normal: [0, 1, 0] }, oCorner2);
 
-const largeOrnament1 = () => {
-    return null;
-}
+    let cutShape = subtract(baseShape, oCorner1);
+    cutShape = subtract(cutShape, oCorner2);
 
-const largeOrnament2 = () => {
-    return null;
-}
-
-const largeOrnament3 = () => {
-    return null;
+    return cutShape;
 }
 
 /**
@@ -75,6 +167,7 @@ const trimFamilyBasic = ({
     detailDepth
 }) => {
     const numLevels = 3;
+    const dDepth = detailDepth || unitDepth / 3;
     const levelPoints = {};
     const ornamentPoints = {};
     const thicknessPoints = {};
@@ -82,7 +175,7 @@ const trimFamilyBasic = ({
     for (let levelIdx = 0; levelIdx <= numLevels; levelIdx++) {
         levelPoints[`l${levelIdx}`] = unitHeight * levelIdx;
         thicknessPoints[`t${levelIdx}`] = unitDepth * levelIdx;
-        ornamentPoints[`o${levelIdx}`] =  unitHeight * levelIdx + (unitHeight * PHI_INV);
+        ornamentPoints[`o${levelIdx + 1}`] = unitHeight * levelIdx + (unitHeight * PHI_INV);
     }
 
     console.log(levelPoints, thicknessPoints, ornamentPoints);
@@ -107,15 +200,12 @@ const trimFamilyBasic = ({
     console.log(controlPoints);
 
     return {
-        small: small({ controlPoints }),
-        smallOrnament: smallOrnament(),
-        medium: medium(),
-        mediumOrnament1: mediumOrnament1(),
-        mediumOrnament2: mediumOrnament2(),
-        large: large(),
-        largeOrnament1: largeOrnament1(),
-        largeOrnament2: largeOrnament2(),
-        largeOrnament3: largeOrnament3(),
+        small: small({ controlPoints, detailDepth: dDepth }),
+        smallOrnament1: smallOrnament1({ controlPoints, detailDepth: dDepth }),
+        medium: medium({ controlPoints, detailDepth: dDepth }),
+        mediumOrnament1: mediumOrnament1({ controlPoints, detailDepth: dDepth }),
+        large: large({ controlPoints, detailDepth: dDepth }),
+        largeOrnament1: largeOrnament1({ controlPoints, detailDepth: dDepth }),
     };
 }
 
