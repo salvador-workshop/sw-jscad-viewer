@@ -7,11 +7,11 @@ const { wallBuilder } = require('./builders-v2/wall-builder');
 const { basicTrimFamily } = require('./builders-v2/basic-trim-family');
 
 const enhanceSwJscad = (jsCadInst, swJsCadInst) => {
+    swJsCadInst.basicTrimFamily = basicTrimFamily({ lib: jsCadInst, swLib: swJsCadInst });
     swJsCadInst.buttressBuilder = buttressBuilder({ lib: jsCadInst, swLib: swJsCadInst });
     swJsCadInst.entrywayBuilder = entrywayBuilder({ lib: jsCadInst, swLib: swJsCadInst });
     swJsCadInst.roofBuilder = roofBuilder({ lib: jsCadInst, swLib: swJsCadInst });
     swJsCadInst.wallBuilder = wallBuilder({ lib: jsCadInst, swLib: swJsCadInst });
-    swJsCadInst.basicTrimFamily = basicTrimFamily({ lib: jsCadInst, swLib: swJsCadInst });
 
     const linearLayout = ({ elements }) => {
         return null;

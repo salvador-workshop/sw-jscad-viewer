@@ -1,10 +1,12 @@
 const { basicTrimFamily } = require('./basic-trim-family');
 
 const wallBuilder = ({ lib, swLib }) => {
+    const { union } = lib.booleans
     const { translate } = lib.transforms
     const { cuboid } = lib.primitives
     const {
         mouldBuilder,
+        basicTrimFamily,
     } = swLib
 
     const crownTrim = ({ totalHeight, totalThickness, totalLength, trimProfile }) => {
@@ -32,28 +34,29 @@ const wallBuilder = ({ lib, swLib }) => {
          * @returns Wall geometry
          */
         build: (opts) => {
+            console.log(opts);
             const baseWall = cuboid({
-                size: [length, thickness, height],
+                size: [opts.length, opts.thickness, opts.height],
             });
 
-            const tFamilyBasic = basicTrimFamily({ unitHeight: 20, unitDepth: 10 });
+            const tFamilyBasic = basicTrimFamily.build({ unitHeight: opts.trimUnitHeight, unitDepth: opts.trimUnitDepth });
 
             let bTrim = baseTrim({
-                totalHeight: 30,
-                totalThickness: 5,
-                totalLength: 30,
+                totalHeight: 1,
+                totalThickness: opts.thickness,
+                totalLength: opts.length,
                 trimProfile: tFamilyBasic.base.small,
             });
             let dTrim = dadoTrim({
-                totalHeight: 30,
-                totalThickness: 5,
-                totalLength: 30,
+                totalHeight: 1,
+                totalThickness: opts.thickness,
+                totalLength: opts.length,
                 trimProfile: tFamilyBasic.dado.medium,
             });
             let cTrim = crownTrim({
-                totalHeight: 30,
-                totalThickness: 5,
-                totalLength: 30,
+                totalHeight: 1,
+                totalThickness: opts.thickness,
+                totalLength: opts.length,
                 trimProfile: tFamilyBasic.crown.largeOrn1,
             });
 
@@ -69,6 +72,8 @@ const wallBuilder = ({ lib, swLib }) => {
             ]
 
             // return wallWithTrim;
+
+            // return baseWall;
         }
     };
 }

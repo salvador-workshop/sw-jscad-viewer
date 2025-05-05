@@ -4,7 +4,9 @@ const { translate } = jscad.transforms
 const { cuboid, cylinder } = jscad.primitives
 
 const swJscad = require('sw-jscad').init(jscad);
-console.log(swJscad);
+const { enhanceSwJscad } = require('./enhancer');
+enhanceSwJscad(jscad, swJscad);
+
 const {
     profileBuilder,
     mouldBuilder,
@@ -17,8 +19,8 @@ const main = () => {
     const orig1 = cuboid({ size: [20, 40, 8] });
     const mould1 = mouldBuilder.cuboidOneEdge({ size: [20, 40, 8], geomProfile: profile1 });
 
-    const orig2 = cuboid({ size: [20, 40, 8] });
-    const mould2 = mouldBuilder.cuboidEdge({ size: [20, 40, 8], geomProfile: profile1 });
+    const orig2 = cuboid({ size: [10, 40, 8] });
+    const mould2 = mouldBuilder.cuboidEdge({ size: [10, 40, 8], geomProfile: profile1 });
 
     const orig3 = cylinder({ radius: 20, height: 8 });
     const mould3 = mouldBuilder.circularEdge({ radius: 20, height: 8, geomProfile: profile2 });
