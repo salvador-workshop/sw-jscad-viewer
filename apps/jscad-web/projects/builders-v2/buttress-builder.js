@@ -19,4 +19,4 @@ const buttressBuilder = ({ lib, swLib }) => {
     };
 }
 
-module.exports = { buttressBuilder }
+module.exports = { init: buttressBuilder }

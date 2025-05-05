@@ -1,9 +1,9 @@
 "use strict"
 
 const jscad = require('@jscad/modeling')
-const swJscad = require('sw-jscad').init(jscad);
+const swJscad = require('sw-jscad').init({ lib: jscad });
 const { enhanceSwJscad } = require('./enhancer');
-enhanceSwJscad(jscad, swJscad);
+enhanceSwJscad({ lib: jscad, swLib: swJscad});
 
 const { translate } = jscad.transforms;
 const {

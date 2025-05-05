@@ -20,4 +20,4 @@ const entrywayBuilder = ({ lib, swLib }) => {
     };
 }
 
-module.exports = { entrywayBuilder }
+module.exports = { init: entrywayBuilder }

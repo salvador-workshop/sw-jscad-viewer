@@ -1,7 +1,6 @@
 "use strict"
 
 const basicTrimFamily = ({ lib, swLib }) => {
-
     const { polygon, square } = lib.primitives
     const { subtract, union } = lib.booleans
     const { rotate, translate, mirror, center } = lib.transforms
@@ -281,4 +280,4 @@ const basicTrimFamily = ({ lib, swLib }) => {
     }
 }
 
-module.exports = { basicTrimFamily }
+module.exports = { init: basicTrimFamily }

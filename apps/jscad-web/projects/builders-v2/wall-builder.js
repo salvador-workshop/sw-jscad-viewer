@@ -78,4 +78,4 @@ const wallBuilder = ({ lib, swLib }) => {
     };
 }
 
-module.exports = { wallBuilder }
+module.exports = { init: wallBuilder }

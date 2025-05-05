@@ -6,7 +6,7 @@ const { align } = jscad.transforms
 const { measureBoundingBox } = jscad.measurements
 const { colorize } = jscad.colors
 
-const swJscad = require('sw-jscad').init(jscad);
+const swJscad = require('sw-jscad').init({ lib: jscad });
 console.log(swJscad);
 const {
     transformUtils,

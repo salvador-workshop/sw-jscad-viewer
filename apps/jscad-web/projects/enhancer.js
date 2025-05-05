@@ -1,17 +1,17 @@
 "use strict"
 
-const { buttressBuilder } = require('./builders-v2/buttress-builder');
-const { entrywayBuilder } = require('./builders-v2/entryway-builder');
-const { roofBuilder } = require('./builders-v2/roof-builder');
-const { wallBuilder } = require('./builders-v2/wall-builder');
-const { basicTrimFamily } = require('./builders-v2/basic-trim-family');
+const buttressBuilder = require('./builders-v2/buttress-builder');
+const entrywayBuilder = require('./builders-v2/entryway-builder');
+const roofBuilder = require('./builders-v2/roof-builder');
+const wallBuilder = require('./builders-v2/wall-builder');
+const basicTrimFamily = require('./builders-v2/basic-trim-family');
 
-const enhanceSwJscad = (jsCadInst, swJsCadInst) => {
-    swJsCadInst.basicTrimFamily = basicTrimFamily({ lib: jsCadInst, swLib: swJsCadInst });
-    swJsCadInst.buttressBuilder = buttressBuilder({ lib: jsCadInst, swLib: swJsCadInst });
-    swJsCadInst.entrywayBuilder = entrywayBuilder({ lib: jsCadInst, swLib: swJsCadInst });
-    swJsCadInst.roofBuilder = roofBuilder({ lib: jsCadInst, swLib: swJsCadInst });
-    swJsCadInst.wallBuilder = wallBuilder({ lib: jsCadInst, swLib: swJsCadInst });
+const enhanceSwJscad = ({ lib, swLib }) => {
+    swLib.basicTrimFamily = basicTrimFamily.init({ lib, swLib });
+    swLib.buttressBuilder = buttressBuilder.init({ lib, swLib });
+    swLib.entrywayBuilder = entrywayBuilder.init({ lib, swLib });
+    swLib.roofBuilder = roofBuilder.init({ lib, swLib });
+    swLib.wallBuilder = wallBuilder.init({ lib, swLib });
 
     const linearLayout = ({ elements }) => {
         return null;
@@ -20,7 +20,7 @@ const enhanceSwJscad = (jsCadInst, swJsCadInst) => {
         return null;
     }
 
-    swJsCadInst.layoutUtils = {
+    swLib.layoutUtils = {
         add2DMark: ({ geom }) => {
             return null;
         },
@@ -46,7 +46,7 @@ const enhanceSwJscad = (jsCadInst, swJsCadInst) => {
     }
     InputError.prototype = new Error;
 
-    swJsCadInst.errors = {
+    swLib.errors = {
         InputError,
     }
 }

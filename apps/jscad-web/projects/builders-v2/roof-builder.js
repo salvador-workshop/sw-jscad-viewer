@@ -15,4 +15,4 @@ const roofBuilder = ({ lib, swLib }) => {
     };
 }
 
-module.exports = { roofBuilder }
+module.exports = { init: roofBuilder }

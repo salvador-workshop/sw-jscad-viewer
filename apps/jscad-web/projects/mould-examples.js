@@ -3,9 +3,9 @@ const jscad = require('@jscad/modeling')
 const { translate } = jscad.transforms
 const { cuboid, cylinder } = jscad.primitives
 
-const swJscad = require('sw-jscad').init(jscad);
+const swJscad = require('sw-jscad').init({ lib: jscad });
 const { enhanceSwJscad } = require('./enhancer');
-enhanceSwJscad(jscad, swJscad);
+enhanceSwJscad({ lib: jscad, swLib: swJscad });
 
 const {
     profileBuilder,
