@@ -1,0 +1,81 @@
+const { basicTrimFamily } = require('./basic-trim-family');
+
+const wallBuilder = ({ lib, swLib }) => {
+    const { union } = lib.booleans
+    const { translate } = lib.transforms
+    const { cuboid } = lib.primitives
+    const {
+        mouldBuilder,
+        basicTrimFamily,
+    } = swLib
+
+    const crownTrim = ({ totalHeight, totalThickness, totalLength, trimProfile }) => {
+        return mouldBuilder.cuboidEdge({ size: [totalLength, totalThickness, totalHeight], geomProfile: trimProfile });
+    }
+    const dadoTrim = ({ totalHeight, totalThickness, totalLength, trimProfile }) => {
+        return mouldBuilder.cuboidEdge({ size: [totalLength, totalThickness, totalHeight], geomProfile: trimProfile });
+    }
+    const baseTrim = ({ totalHeight, totalThickness, totalLength, trimProfile }) => {
+        return mouldBuilder.cuboidEdge({ size: [totalLength, totalThickness, totalHeight], geomProfile: trimProfile });
+    }
+
+    return {
+        /**
+         * Builds a wall.
+         * @param {Object} opts 
+         * @param {number} opts.height
+         * @param {number} opts.thickness
+         * @param {number} opts.length
+         * @param {string[]} opts.wallOpts 
+         * @param {string[]} opts.trimOpts - ['base', 'dado', 'crown']
+         * @param {number} opts.trimUnitHeight
+         * @param {number} opts.trimUnitDepth
+         * @param {number} opts.trimSides - sides where trim is present. Expects an integer between 1-4
+         * @returns Wall geometry
+         */
+        build: (opts) => {
+            console.log(opts);
+            const baseWall = cuboid({
+                size: [opts.length, opts.thickness, opts.height],
+            });
+
+            const tFamilyBasic = basicTrimFamily.build({ unitHeight: opts.trimUnitHeight, unitDepth: opts.trimUnitDepth });
+
+            let bTrim = baseTrim({
+                totalHeight: 1,
+                totalThickness: opts.thickness,
+                totalLength: opts.length,
+                trimProfile: tFamilyBasic.base.small,
+            });
+            let dTrim = dadoTrim({
+                totalHeight: 1,
+                totalThickness: opts.thickness,
+                totalLength: opts.length,
+                trimProfile: tFamilyBasic.dado.medium,
+            });
+            let cTrim = crownTrim({
+                totalHeight: 1,
+                totalThickness: opts.thickness,
+                totalLength: opts.length,
+                trimProfile: tFamilyBasic.crown.largeOrn1,
+            });
+
+            let wallWithTrim = union(baseWall, bTrim);
+            wallWithTrim = union(wallWithTrim, dTrim);
+            wallWithTrim = union(wallWithTrim, cTrim);
+
+            return [
+                translate([0, 0, 0], baseWall),
+                translate([0, 60, 0], bTrim),
+                translate([0, 120, 0], dTrim),
+                translate([0, 180, 0], cTrim),
+            ]
+
+            // return wallWithTrim;
+
+            // return baseWall;
+        }
+    };
+}
+
+module.exports = { init: wallBuilder }

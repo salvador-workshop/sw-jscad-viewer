@@ -5,6 +5,8 @@ export const swProjects = [
   { name: 'SW Builders (Columns)', source: './projects/column-examples.js' },
   { name: 'SW Builders (N-Foils)', source: './projects/foil-examples.js' },
   { name: 'SW Builders (Moulds)', source: './projects/mould-examples.js' },
+  { name: 'SW Builders (Trim Family)', source: './projects/trim-family-examples.js' },
+  { name: 'SW Builders (Walls)', source: './projects/wall-examples.js' },
   { name: 'Candle Holder v1', source: './projects/candle-holder/candle-holder-01.js' },
   { name: 'Candle Holder v2', source: './projects/candle-holder/index.js' },
 ]

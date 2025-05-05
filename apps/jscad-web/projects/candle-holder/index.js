@@ -1,6 +1,6 @@
 "use strict"
 const jscad = require('@jscad/modeling')
-const swJscad = require('sw-jscad').init(jscad);
+const swJscad = require('sw-jscad').init({ lib: jscad });
 const { candleHolderCore } = require('./candle-holder-core')
 
 const { roundedCylinder, cylinder } = jscad.primitives
