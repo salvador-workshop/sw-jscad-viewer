@@ -12,7 +12,7 @@ const enhanceSwJscad = (swJsCadInst) => {
     }
     
     swJsCadInst.layoutUtils = {
-        mark: ({ geom }) => {
+        addMark: ({ geom }) => {
             return null;
         },
         gridLayout,

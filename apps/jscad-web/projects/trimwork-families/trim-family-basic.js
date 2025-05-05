@@ -2,7 +2,7 @@
 const jscad = require('@jscad/modeling')
 const swJscad = require('sw-jscad').init(jscad)
 
-const { roundedCylinder, cylinder } = jscad.primitives
+const { roundedCylinder, cylinder, rectangle, polygon } = jscad.primitives
 const { subtract } = jscad.booleans
 const { align } = jscad.transforms
 const { measureBoundingBox } = jscad.measurements
@@ -15,8 +15,18 @@ const {
 const PHI = 1.6180339887;
 const PHI_INV = 0.6180339887;
 
-const small = () => {
-    return null;
+const small = ({
+    controlPoints
+}) => {
+    const baseShape = polygon({
+        points: [
+            controlPoints.l0.t0,
+            controlPoints.l0.t1,
+            controlPoints.l1.t1,
+            controlPoints.l1.t0,
+        ]
+    })
+    return baseShape;
 }
 
 const smallOrnament = () => {
@@ -64,21 +74,40 @@ const trimFamilyBasic = ({
     unitDepth,
     detailDepth
 }) => {
-    const controlPoints = {
-        c1: { name: 'bottom-rear', type: 'core', pt: [0, 0] },
-        c2: { name: 'bottom-front', type: 'core', pt: [unitDepth, 0] },
-        c3: { name: 'first-rear', type: 'core', pt: [unitDepth, unitHeight] },
-        c4: { name: 'first-front', type: 'core', pt: [unitDepth * 2, unitHeight] },
-        c5: { name: 'second-rear', type: 'core', pt: [unitDepth * 2, unitHeight * 2] },
-        c6: { name: 'second-front', type: 'core', pt: [unitDepth * 3, unitHeight * 2] },
-        c7: { name: 'top-rear', type: 'core', pt: [0, unitHeight * 3] },
-        c8: { name: 'top-front', type: 'core', pt: [unitDepth * 3, unitHeight * 3] },
-        o1: { name: 'ornament-1', type: 'detail', pt: [unitDepth, unitHeight * PHI_INV] },
-        o2: { name: 'ornament-2', type: 'detail', pt: [unitDepth * 2, unitHeight * PHI_INV + unitHeight] },
-        o3: { name: 'ornament-3', type: 'detail', pt: [unitDepth * 3, unitHeight * PHI_INV + (unitHeight * 2)] },
+    const numLevels = 3;
+    const levelPoints = {};
+    const ornamentPoints = {};
+    const thicknessPoints = {};
+
+    for (let levelIdx = 0; levelIdx <= numLevels; levelIdx++) {
+        levelPoints[`l${levelIdx}`] = unitHeight * levelIdx;
+        thicknessPoints[`t${levelIdx}`] = unitDepth * levelIdx;
+        ornamentPoints[`o${levelIdx}`] =  unitHeight * levelIdx + (unitHeight * PHI_INV);
     }
+
+    console.log(levelPoints, thicknessPoints, ornamentPoints);
+
+    const controlPoints = {};
+
+    const getPointsForLevel = (levelPt) => {
+        const lPoints = {};
+        for (const [tPtName, tPtValue] of Object.entries(thicknessPoints)) {
+            lPoints[tPtName] = [tPtValue, levelPt];
+        }
+        return lPoints;
+    }
+
+    for (const [ptName, ptValue] of Object.entries(levelPoints)) {
+        controlPoints[ptName] = getPointsForLevel(ptValue);
+    }
+    for (const [ptName, ptValue] of Object.entries(ornamentPoints)) {
+        controlPoints[ptName] = getPointsForLevel(ptValue);
+    }
+
+    console.log(controlPoints);
+
     return {
-        small: small(),
+        small: small({ controlPoints }),
         smallOrnament: smallOrnament(),
         medium: medium(),
         mediumOrnament1: mediumOrnament1(),

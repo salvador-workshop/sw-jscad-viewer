@@ -11,23 +11,24 @@ const { align } = jscad.transforms
 const { measureBoundingBox } = jscad.measurements
 const { colorize } = jscad.colors
 
-const enhancedSwJscad = enhanceSwJscad(swJscad);
+// const enhancedSwJscad = enhanceSwJscad(swJscad);
+enhanceSwJscad(swJscad);
 const {
     transformUtils,
-} = enhancedSwJscad
+} = swJscad
 
 const main = () => {
-    const tFamilyBasic = trimFamilyBasic();
+    const tFamilyBasic = trimFamilyBasic({unitHeight: 20, unitDepth: 10});
     return [
         tFamilyBasic.small,
-        tFamilyBasic.smallOrnament,
-        tFamilyBasic.medium,
-        tFamilyBasic.mediumOrnament1,
-        tFamilyBasic.mediumOrnament2,
-        tFamilyBasic.large,
-        tFamilyBasic.largeOrnament1,
-        tFamilyBasic.largeOrnament2,
-        tFamilyBasic.largeOrnament3,
+        // tFamilyBasic.smallOrnament,
+        // tFamilyBasic.medium,
+        // tFamilyBasic.mediumOrnament1,
+        // tFamilyBasic.mediumOrnament2,
+        // tFamilyBasic.large,
+        // tFamilyBasic.largeOrnament1,
+        // tFamilyBasic.largeOrnament2,
+        // tFamilyBasic.largeOrnament3,
     ];
 }
 
