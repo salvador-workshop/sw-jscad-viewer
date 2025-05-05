@@ -4,7 +4,7 @@ const jscad = require('@jscad/modeling')
 
 const { polygon, square } = jscad.primitives
 const { subtract, union } = jscad.booleans
-const { rotate, translate, mirror } = jscad.transforms
+const { rotate, translate, mirror, center } = jscad.transforms
 
 // const {
 //     transformUtils,
@@ -19,7 +19,7 @@ const detailCorner = ({ sideLength }) => {
     return rotate([0, 0, Math.PI / 4], baseSquare);
 }
 
-const small = ({ controlPoints, detailDepth }) => {
+const small = ({ controlPoints, detailDepth, styleOpts }) => {
     const cornerPt1 = controlPoints.l0.t1;
     const cornerPt2 = controlPoints.l1.t1;
     const baseShape = polygon({
@@ -33,14 +33,17 @@ const small = ({ controlPoints, detailDepth }) => {
     const baseCorner = detailCorner({ sideLength: detailDepth });
     const corner1 = translate([...cornerPt1, 0], baseCorner);
     const corner2 = translate([...cornerPt2, 0], baseCorner);
+
     let cutShape = subtract(baseShape, corner1);
-    cutShape = subtract(cutShape, corner2);
+    if (!['crown', 'base'].includes(styleOpts)) {
+        cutShape = subtract(cutShape, corner2);
+    }
 
     return cutShape;
 }
 
-const smallOrnament1 = ({ controlPoints, detailDepth }) => {
-    const baseShape = small({ controlPoints, detailDepth });
+const smallOrnament1 = ({ controlPoints, detailDepth, styleOpts }) => {
+    const baseShape = small({ controlPoints, detailDepth, styleOpts });
 
     const oPt = controlPoints.o1.t1;
     const bCorner = detailCorner({ sideLength: detailDepth * PHI_INV });
@@ -49,7 +52,7 @@ const smallOrnament1 = ({ controlPoints, detailDepth }) => {
     return subtract(baseShape, oCorner);
 }
 
-const medium = ({ controlPoints, detailDepth }) => {
+const medium = ({ controlPoints, detailDepth, styleOpts }) => {
     const cornerPt1 = controlPoints.l0.t1;
     const cornerPt2 = controlPoints.l1.t1;
     const cornerPt3 = controlPoints.l1.t2;
@@ -75,13 +78,15 @@ const medium = ({ controlPoints, detailDepth }) => {
     let cutShape = subtract(baseShape, corner1);
     cutShape = union(cutShape, corner2);
     cutShape = subtract(cutShape, corner3);
-    cutShape = subtract(cutShape, corner4);
+    if (!['crown', 'base'].includes(styleOpts)) {
+        cutShape = subtract(cutShape, corner4);
+    }
 
     return cutShape;
 }
 
-const mediumOrnament1 = ({ controlPoints, detailDepth }) => {
-    const baseShape = medium({ controlPoints, detailDepth });
+const mediumOrnament1 = ({ controlPoints, detailDepth, styleOpts }) => {
+    const baseShape = medium({ controlPoints, detailDepth, styleOpts });
 
     const oPt1 = controlPoints.o2.t2;
     const oPt2 = controlPoints.o1.t1;
@@ -97,7 +102,7 @@ const mediumOrnament1 = ({ controlPoints, detailDepth }) => {
     return cutShape;
 }
 
-const large = ({ controlPoints, detailDepth }) => {
+const large = ({ controlPoints, detailDepth, styleOpts }) => {
     const cornerPt1 = controlPoints.l0.t1;
     const cornerPt2 = controlPoints.l1.t1;
     const cornerPt3 = controlPoints.l1.t2;
@@ -131,13 +136,15 @@ const large = ({ controlPoints, detailDepth }) => {
     cutShape = subtract(cutShape, corner3);
     cutShape = union(cutShape, corner4);
     cutShape = subtract(cutShape, corner5);
-    cutShape = subtract(cutShape, corner6);
+    if (!['crown', 'base'].includes(styleOpts)) {
+        cutShape = subtract(cutShape, corner6);
+    }
 
     return cutShape;
 }
 
-const largeOrnament1 = ({ controlPoints, detailDepth }) => {
-    const baseShape = large({ controlPoints, detailDepth });
+const largeOrnament1 = ({ controlPoints, detailDepth, styleOpts }) => {
+    const baseShape = large({ controlPoints, detailDepth, styleOpts });
 
     const oPt1 = controlPoints.o3.t3;
     const oPt2 = controlPoints.o1.t1;
@@ -159,12 +166,14 @@ const largeOrnament1 = ({ controlPoints, detailDepth }) => {
  * @param {number} opts.unitHeight - Typical height for basic trim unit
  * @param {number} opts.unitDepth - Typical depth for basic trim unit
  * @param {number} opts.detailDepth - Size of corner details (mm). Defaults to 1/3 of `unitDepth`
+ * @param {number} opts.styleOpts - Style options ("base", "crown", "dado"). Defaults to "dado"
  * @returns 
  */
 const trimFamilyBasic = ({
     unitHeight,
     unitDepth,
-    detailDepth
+    detailDepth,
+    styleOpts = 'dado',
 }) => {
     const numLevels = 3;
     const dDepth = detailDepth || unitDepth / 3;
@@ -199,14 +208,72 @@ const trimFamilyBasic = ({
 
     console.log(controlPoints);
 
-    return {
-        small: small({ controlPoints, detailDepth: dDepth }),
-        smallOrnament1: smallOrnament1({ controlPoints, detailDepth: dDepth }),
-        medium: medium({ controlPoints, detailDepth: dDepth }),
-        mediumOrnament1: mediumOrnament1({ controlPoints, detailDepth: dDepth }),
-        large: large({ controlPoints, detailDepth: dDepth }),
-        largeOrnament1: largeOrnament1({ controlPoints, detailDepth: dDepth }),
+    const crownMouldings = {
+        small: center({}, small({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
+        medium: center({}, medium({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
+        large: center({}, large({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
+        smallOrnament1: center({}, smallOrnament1({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
+        mediumOrnament1: center({}, mediumOrnament1({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
+        largeOrnament1: center({}, largeOrnament1({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
     };
+    const dadoMouldings = {
+        small: center({}, mirror(
+            { normal: [0, 1, 0] },
+            small({ controlPoints, detailDepth: dDepth, styleOpts })
+        )),
+        smallOrnament1: center({}, mirror(
+            { normal: [0, 1, 0] },
+            smallOrnament1({ controlPoints, detailDepth: dDepth, styleOpts })
+        )),
+        medium: center({}, mirror(
+            { normal: [0, 1, 0] },
+            medium({ controlPoints, detailDepth: dDepth, styleOpts })
+        )),
+        mediumOrnament1: center({}, mirror(
+            { normal: [0, 1, 0] },
+            mediumOrnament1({ controlPoints, detailDepth: dDepth, styleOpts })
+        )),
+        large: center({}, mirror(
+            { normal: [0, 1, 0] },
+            large({ controlPoints, detailDepth: dDepth, styleOpts })
+        )),
+        largeOrnament1: center({}, mirror(
+            { normal: [0, 1, 0] },
+            largeOrnament1({ controlPoints, detailDepth: dDepth, styleOpts })
+        )),
+    };
+    const baseMouldings = {
+        small: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crownMouldings.small
+        )),
+        smallOrnament1: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crownMouldings.smallOrnament1
+        )),
+        medium: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crownMouldings.medium
+        )),
+        mediumOrnament1: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crownMouldings.mediumOrnament1
+        )),
+        large: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crownMouldings.large
+        )),
+        largeOrnament1: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crownMouldings.largeOrnament1
+        )),
+    };
+
+    return {
+        crownMouldings,
+        dadoMouldings,
+        baseMouldings,
+    }
 }
 
 module.exports = { trimFamilyBasic }
