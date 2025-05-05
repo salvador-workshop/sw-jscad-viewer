@@ -1,5 +1,5 @@
 {
-  "name": "jscadui",
+  "name": "sw-jscad-viewer",
   "version": "0.1.0",
   "description": "JS CAD UI",
   "main": "index.js",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hrgdavor/jscadui.git"
+    "url": "git+https://github.com/salvador-workshop/sw-jscad-viewer.git"
   },
   "keywords": [
     "jscad",
@@ -30,10 +30,7 @@
   ],
   "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/hrgdavor/jscadui/issues"
-  },
-  "homepage": "https://github.com/hrgdavor/jscadui#readme",
+  "homepage": "https://github.com/salvador-workshop/sw-jscad-viewer#readme",
   "devDependencies": {
     "turbo": "1.6.3"
   }

@@ -1,6 +1,6 @@
 {
   "name": "@jscadui/jscad-web",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "start": "node build.js --dev --skipDocs",
