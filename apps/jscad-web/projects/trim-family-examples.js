@@ -1,19 +1,17 @@
 "use strict"
+
 const jscad = require('@jscad/modeling')
-// const swJscad = require('sw-jscad').init(jscad);
+const swJscad = require('sw-jscad').init(jscad);
+const { enhanceSwJscad } = require('./enhancer');
+enhanceSwJscad(jscad, swJscad);
 
-const { basicTrimFamily } = require('./basic-trim-family');
-// const { enhanceSwJscad } = require('./enhancer-trim');
-
-const { translate } = jscad.transforms
-
-// enhanceSwJscad(swJscad);
-// const {
-//     transformUtils,
-// } = swJscad
+const { translate } = jscad.transforms;
+const {
+    basicTrimFamily,
+} = swJscad
 
 const main = () => {
-    const tFamilyBasic = basicTrimFamily({ unitHeight: 20, unitDepth: 10 });
+    const tFamilyBasic = basicTrimFamily.build({ unitHeight: 20, unitDepth: 10 });
     return [
         translate([0, 0], tFamilyBasic.base.small),
         translate([20, 0], tFamilyBasic.base.medium),
