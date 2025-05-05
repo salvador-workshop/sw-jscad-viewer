@@ -208,20 +208,20 @@ const trimFamilyBasic = ({
 
     console.log(controlPoints);
 
-    const crownMouldings = {
+    const crown = {
         small: center({}, small({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
         medium: center({}, medium({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
         large: center({}, large({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
-        smallOrnament1: center({}, smallOrnament1({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
-        mediumOrnament1: center({}, mediumOrnament1({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
-        largeOrnament1: center({}, largeOrnament1({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
+        smallOrn1: center({}, smallOrnament1({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
+        mediumOrn1: center({}, mediumOrnament1({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
+        largeOrn1: center({}, largeOrnament1({ controlPoints, detailDepth: dDepth, styleOpts: 'crown' })),
     };
-    const dadoMouldings = {
+    const dado = {
         small: center({}, mirror(
             { normal: [0, 1, 0] },
             small({ controlPoints, detailDepth: dDepth, styleOpts })
         )),
-        smallOrnament1: center({}, mirror(
+        smallOrn1: center({}, mirror(
             { normal: [0, 1, 0] },
             smallOrnament1({ controlPoints, detailDepth: dDepth, styleOpts })
         )),
@@ -229,7 +229,7 @@ const trimFamilyBasic = ({
             { normal: [0, 1, 0] },
             medium({ controlPoints, detailDepth: dDepth, styleOpts })
         )),
-        mediumOrnament1: center({}, mirror(
+        mediumOrn1: center({}, mirror(
             { normal: [0, 1, 0] },
             mediumOrnament1({ controlPoints, detailDepth: dDepth, styleOpts })
         )),
@@ -237,42 +237,42 @@ const trimFamilyBasic = ({
             { normal: [0, 1, 0] },
             large({ controlPoints, detailDepth: dDepth, styleOpts })
         )),
-        largeOrnament1: center({}, mirror(
+        largeOrn1: center({}, mirror(
             { normal: [0, 1, 0] },
             largeOrnament1({ controlPoints, detailDepth: dDepth, styleOpts })
         )),
     };
-    const baseMouldings = {
+    const base = {
         small: center({}, mirror(
             { normal: [0, 1, 0] },
-            crownMouldings.small
+            crown.small
         )),
-        smallOrnament1: center({}, mirror(
+        smallOrn1: center({}, mirror(
             { normal: [0, 1, 0] },
-            crownMouldings.smallOrnament1
+            crown.smallOrnament1
         )),
         medium: center({}, mirror(
             { normal: [0, 1, 0] },
-            crownMouldings.medium
+            crown.medium
         )),
-        mediumOrnament1: center({}, mirror(
+        mediumOrn1: center({}, mirror(
             { normal: [0, 1, 0] },
-            crownMouldings.mediumOrnament1
+            crown.mediumOrnament1
         )),
         large: center({}, mirror(
             { normal: [0, 1, 0] },
-            crownMouldings.large
+            crown.large
         )),
-        largeOrnament1: center({}, mirror(
+        largeOrn1: center({}, mirror(
             { normal: [0, 1, 0] },
-            crownMouldings.largeOrnament1
+            crown.largeOrnament1
         )),
     };
 
     return {
-        crownMouldings,
-        dadoMouldings,
-        baseMouldings,
+        crown,
+        dado,
+        base,
     }
 }
 

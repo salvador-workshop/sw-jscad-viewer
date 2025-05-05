@@ -1,30 +1,26 @@
 "use strict"
 
 const enhanceSwJscad = (swJsCadInst) => {
-    const gridLayout = ({ }) => {
-        return null;
-    }
     const linearLayout = ({ elements }) => {
         return null;
     }
-    const circularLayout = ({ elements }) => {
+    const gridLayout = ({ }) => {
         return null;
     }
     
     swJsCadInst.layoutUtils = {
-        addMark: ({ geom }) => {
+        add2DMark: ({ geom }) => {
             return null;
         },
-        gridLayout,
-        gridFromMap: ({ elements }) => {
+        add3DMark: ({ geom }) => {
             return null;
         },
         linearLayout,
         linearFromMap: ({ elements }) => {
             return null;
         },
-        circularLayout,
-        circularFromMap: ({ elements }) => {
+        gridLayout,
+        gridFromMap: ({ elements }) => {
             return null;
         },
     }
