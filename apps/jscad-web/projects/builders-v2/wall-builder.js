@@ -29,6 +29,7 @@ const wallBuilder = ({ lib, swLib }) => {
         /**
          * Builds a wall.
          * @param {Object} opts 
+         * @param {number} opts.dadoHeight - height of dado rail
          * @param {number} opts.height
          * @param {number} opts.thickness
          * @param {number} opts.length
@@ -41,21 +42,25 @@ const wallBuilder = ({ lib, swLib }) => {
          */
         build: (opts) => {
             console.log(opts);
+            const dadoHt = opts.dadoHeight || opts.height * (1 - swLib.constants.PHI_INV);
             const baseWall = align({ modes: ['center', 'center', 'min'] }, cuboid({
                 size: [opts.length, opts.thickness, opts.height],
+            }));
+            const dadoWallSpecs = [2 * opts.trimUnitDepth + opts.length, 2 * opts.trimUnitDepth + opts.thickness];
+            const dadoWall = align({ modes: ['center', 'center', 'min'] }, cuboid({
+                size: [dadoWallSpecs[0], dadoWallSpecs[1], dadoHt],
             }));
 
             const tFamilyBasic = basicTrimFamily.build({ unitHeight: opts.trimUnitHeight, unitDepth: opts.trimUnitDepth });
 
-            const baseTrimSpecs = [2 * opts.trimUnitDepth + opts.length, 2 * opts.trimUnitDepth + opts.thickness];
+            const baseTrimSpecs = [4 * opts.trimUnitDepth + opts.length, 4 * opts.trimUnitDepth + opts.thickness];
             let bTrim = align({ modes: ['center', 'center', 'min'] }, baseTrim({
                 totalLength: baseTrimSpecs[0],
                 totalThickness: baseTrimSpecs[1],
                 trimProfile: tFamilyBasic.base.small,
             }));
-
             const dadoTrimSpecs = [4 * opts.trimUnitDepth + opts.length, 4 * opts.trimUnitDepth + opts.thickness];
-            let dTrim = align({ modes: ['center', 'center', 'center'], relativeTo: [0, 0, opts.height * swLib.constants.PHI_INV] }, dadoTrim({
+            let dTrim = align({ modes: ['center', 'center', 'center'], relativeTo: [0, 0, dadoHt] }, dadoTrim({
                 totalLength: dadoTrimSpecs[0],
                 totalThickness: dadoTrimSpecs[1],
                 trimProfile: tFamilyBasic.dado.medium,
@@ -69,6 +74,7 @@ const wallBuilder = ({ lib, swLib }) => {
             }));
 
             let wallWithTrim = union(baseWall, bTrim);
+            wallWithTrim = union(wallWithTrim, dadoWall);
             wallWithTrim = union(wallWithTrim, dTrim);
             wallWithTrim = union(wallWithTrim, cTrim);
 
