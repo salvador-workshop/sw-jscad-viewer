@@ -2,21 +2,27 @@ const { basicTrimFamily } = require('./basic-trim-family');
 
 const wallBuilder = ({ lib, swLib }) => {
     const { union } = lib.booleans
-    const { translate } = lib.transforms
+    const { align } = lib.transforms
     const { cuboid } = lib.primitives
+    const { measureDimensions } = lib.measurements;
     const {
         mouldBuilder,
         basicTrimFamily,
     } = swLib
 
-    const crownTrim = ({ totalHeight, totalThickness, totalLength, trimProfile }) => {
-        return mouldBuilder.cuboidEdge({ size: [totalLength, totalThickness, totalHeight], geomProfile: trimProfile });
+    const crownTrim = ({ totalThickness, totalLength, trimProfile }) => {
+        const profileDims = measureDimensions(trimProfile);
+        return mouldBuilder.cuboidEdge({ size: [totalLength, totalThickness, profileDims[1]], geomProfile: trimProfile });
     }
-    const dadoTrim = ({ totalHeight, totalThickness, totalLength, trimProfile }) => {
-        return mouldBuilder.cuboidEdge({ size: [totalLength, totalThickness, totalHeight], geomProfile: trimProfile });
+
+    const dadoTrim = ({ totalThickness, totalLength, trimProfile }) => {
+        const profileDims = measureDimensions(trimProfile);
+        return mouldBuilder.cuboidEdge({ size: [totalLength, totalThickness, profileDims[1]], geomProfile: trimProfile });
     }
-    const baseTrim = ({ totalHeight, totalThickness, totalLength, trimProfile }) => {
-        return mouldBuilder.cuboidEdge({ size: [totalLength, totalThickness, totalHeight], geomProfile: trimProfile });
+
+    const baseTrim = ({ totalThickness, totalLength, trimProfile }) => {
+        const profileDims = measureDimensions(trimProfile);
+        return mouldBuilder.cuboidEdge({ size: [totalLength, totalThickness, profileDims[1]], geomProfile: trimProfile });
     }
 
     return {
@@ -35,45 +41,38 @@ const wallBuilder = ({ lib, swLib }) => {
          */
         build: (opts) => {
             console.log(opts);
-            const baseWall = cuboid({
+            const baseWall = align({ modes: ['center', 'center', 'min'] }, cuboid({
                 size: [opts.length, opts.thickness, opts.height],
-            });
+            }));
 
             const tFamilyBasic = basicTrimFamily.build({ unitHeight: opts.trimUnitHeight, unitDepth: opts.trimUnitDepth });
 
-            let bTrim = baseTrim({
-                totalHeight: 1,
-                totalThickness: opts.thickness,
-                totalLength: opts.length,
+            const baseTrimSpecs = [2 * opts.trimUnitDepth + opts.length, 2 * opts.trimUnitDepth + opts.thickness];
+            let bTrim = align({ modes: ['center', 'center', 'min'] }, baseTrim({
+                totalLength: baseTrimSpecs[0],
+                totalThickness: baseTrimSpecs[1],
                 trimProfile: tFamilyBasic.base.small,
-            });
-            let dTrim = dadoTrim({
-                totalHeight: 1,
-                totalThickness: opts.thickness,
-                totalLength: opts.length,
+            }));
+
+            const dadoTrimSpecs = [4 * opts.trimUnitDepth + opts.length, 4 * opts.trimUnitDepth + opts.thickness];
+            let dTrim = align({ modes: ['center', 'center', 'center'], relativeTo: [0, 0, opts.height * swLib.constants.PHI_INV] }, dadoTrim({
+                totalLength: dadoTrimSpecs[0],
+                totalThickness: dadoTrimSpecs[1],
                 trimProfile: tFamilyBasic.dado.medium,
-            });
-            let cTrim = crownTrim({
-                totalHeight: 1,
-                totalThickness: opts.thickness,
-                totalLength: opts.length,
+            }));
+
+            const crownTrimSpecs = [6 * opts.trimUnitDepth + opts.length, 6 * opts.trimUnitDepth + opts.thickness];
+            let cTrim = align({ modes: ['center', 'center', 'max'], relativeTo: [0, 0, opts.height] }, crownTrim({
+                totalLength: crownTrimSpecs[0],
+                totalThickness: crownTrimSpecs[1],
                 trimProfile: tFamilyBasic.crown.largeOrn1,
-            });
+            }));
 
             let wallWithTrim = union(baseWall, bTrim);
             wallWithTrim = union(wallWithTrim, dTrim);
             wallWithTrim = union(wallWithTrim, cTrim);
 
-            return [
-                translate([0, 0, 0], baseWall),
-                translate([0, 60, 0], bTrim),
-                translate([0, 120, 0], dTrim),
-                translate([0, 180, 0], cTrim),
-            ]
-
-            // return wallWithTrim;
-
-            // return baseWall;
+            return wallWithTrim;
         }
     };
 }
