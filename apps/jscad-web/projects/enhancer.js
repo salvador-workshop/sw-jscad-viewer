@@ -7,12 +7,6 @@ const wallBuilder = require('./builders-v2/wall-builder');
 const basicTrimFamily = require('./builders-v2/basic-trim-family');
 
 const enhanceSwJscad = ({ lib, swLib }) => {
-    swLib.constants = {
-        INCHES_MM_FACTOR: 25.4,
-        GRIDFINITY_UNIT: 42,
-        PHI: 1.6180339887,
-        PHI_INV: 0.6180339887,
-    }
     swLib.basicTrimFamily = basicTrimFamily.init({ lib, swLib });
     swLib.buttressBuilder = buttressBuilder.init({ lib, swLib });
     swLib.entrywayBuilder = entrywayBuilder.init({ lib, swLib });

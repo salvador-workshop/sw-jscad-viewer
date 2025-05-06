@@ -1,4 +1,3 @@
-const { basicTrimFamily } = require('./basic-trim-family');
 
 const wallBuilder = ({ lib, swLib }) => {
     const { union } = lib.booleans
