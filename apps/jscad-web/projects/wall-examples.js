@@ -67,17 +67,20 @@ const main = () => {
         trimSides: 4,
     });
 
-    layoutUtils.addToLayout({ name: 'Base Wall', desc: 'No trim', geom: baseWall });
-    layoutUtils.addToLayout({ name: 'Wall (1)', desc: 'Base + dado trim', geom: wall1 });
-    layoutUtils.addToLayout({ name: 'Wall (2)', desc: 'Base + crown trim', geom: wall2 });
-    layoutUtils.addToLayout({ name: 'Dado Wall (1)', desc: '1 trim unit thicker', geom: wallDado1 });
-    layoutUtils.addToLayout({ name: 'Dado Wall (2)', desc: '2 trim units thicker', geom: wallDado2 });
-
     const layoutOpts = {
-        whatevs: 'testVal'
+        column: true,
+        relativeTo: [0, -75, 0],
+        layoutMargin: 8,
         // noFrame: true,
     }
-    const layoutContent = layoutUtils.gridLayout({ layoutOpts });
+
+    layoutUtils.addToLayout({ name: 'Base Wall', desc: 'No trim', geom: baseWall, layoutOpts });
+    layoutUtils.addToLayout({ name: 'Wall (1)', desc: 'Base + dado trim', geom: wall1, layoutOpts });
+    layoutUtils.addToLayout({ name: 'Wall (2)', desc: 'Base + crown trim', geom: wall2, layoutOpts });
+    layoutUtils.addToLayout({ name: 'Dado Wall (1)', desc: '1 trim unit thicker', geom: wallDado1, layoutOpts });
+    layoutUtils.addToLayout({ name: 'Dado Wall (2)', desc: '2 trim units thicker', geom: wallDado2, layoutOpts });
+
+    const layoutContent = layoutUtils.linearLayout({ layoutOpts });
 
     return [
         ...layoutContent

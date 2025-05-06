@@ -55,7 +55,6 @@ const layoutUtils = {
             const newEntries = [...sortedLayoutEntries, layoutEntry];
             sortedLayoutEntries = newEntries.sort(dimsSizeAsc);
 
-
             if (layoutEntry.layoutDims[0] > largestDimensionX) {
                 largestDimensionX = layoutEntry.layoutDims[0];
             }
@@ -95,8 +94,8 @@ const layoutUtils = {
             });
         }
 
-        const gridLayout = ({ layoutOpts }) => {
-            console.log(`gridLayout() layoutOpts = ${JSON.stringify(layoutOpts)}`);
+        const linearLayout = ({ layoutOpts }) => {
+            console.log(`linearLayout() layoutOpts = ${JSON.stringify(layoutOpts)}`);
             console.log(`    largestDimension = ${JSON.stringify(largestDimension())}`);
             console.log(`    layoutElements.size = ${JSON.stringify(layoutElements.size)}`);
             console.log(`    layoutElements.values() = ${JSON.stringify(layoutElements.values())}`);
@@ -108,8 +107,26 @@ const layoutUtils = {
 
             layoutElements.values().forEach((val, idx) => {
                 console.log(val, idx);
-                // console.log(`    key = ${JSON.stringify(key)}, val = ${JSON.stringify(val)}`);
-                const layoutPosition = [0, largestDimension()[1] * idx, 0];
+                const offsets = { x: 0, y: 0, z: 0 };
+
+                if (layoutOpts.relativeTo) {
+                    offsets.x = offsets.x + layoutOpts.relativeTo[0];
+                    offsets.y = offsets.y + layoutOpts.relativeTo[1];
+                    offsets.z = offsets.z + layoutOpts.relativeTo[2];
+                }
+
+                let layoutPosition = [
+                    largestDimension()[0] * idx + offsets.x,
+                    offsets.y,
+                    offsets.z
+                ];
+                if (layoutOpts.column) {
+                    layoutPosition = [
+                        offsets.x,
+                        largestDimension()[1] * idx + offsets.y,
+                        offsets.z
+                    ];
+                }
                 const nextLayoutGeoms = [
                     translate(layoutPosition, val.geom),
                 ]
@@ -148,7 +165,7 @@ const layoutUtils = {
                 console.log(`    tags = ${JSON.stringify(tags)}, layoutOpts = ${JSON.stringify(layoutOpts)}`);
                 const layoutId = name + '-randomTag';
                 const objectDims = measureDimensions(geom);
-                const layoutMargin = 10;
+                const layoutMargin = layoutOpts.layoutMargin || 10;
                 const layoutDims = [
                     layoutMargin * 2 + objectDims[0],
                     layoutMargin * 2 + objectDims[1],
@@ -181,7 +198,7 @@ const layoutUtils = {
             clearLayout: () => {
                 layoutElements.clear();
             },
-            gridLayout,
+            linearLayout,
         }
     }
 }
