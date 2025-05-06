@@ -5,6 +5,7 @@ const superPrimitives = ({ lib, swLib }) => {
 
     return {
         frameCuboid: ({ size, frameWidth }) => {
+            console.log(`frameCuboid() size = ${JSON.stringify(size)}, frameWidth = ${JSON.stringify(frameWidth)}`);
             const outerCuboid = cuboid({ size });
             const baseInnerCuboid = expand({ delta: -frameWidth, corners: 'round', segments: 32 }, outerCuboid)
 
