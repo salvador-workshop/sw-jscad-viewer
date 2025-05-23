@@ -1,7 +1,7 @@
 {
-  "name": "jscadui",
+  "name": "sw-jscad-viewer",
   "version": "0.1.0",
-  "description": "JS CAD UI",
+  "description": "JSCAD viewer leveraging sw-jscad",
   "main": "index.js",
   "workspaces": [
     "packages/*",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hrgdavor/jscadui.git"
+    "url": "git+https://github.com/salvador-workshop/sw-jscad-viewer.git"
   },
   "keywords": [
     "jscad",
