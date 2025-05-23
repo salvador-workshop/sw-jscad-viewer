@@ -15,7 +15,7 @@ import { boundingBox } from '@jscadui/format-common'
 import { genParams, getParams } from '@jscadui/params'
 import { messageProxy } from '@jscadui/postmessage'
 
-import defaultCode from './examples/jscad.example.js'
+import defaultCode from './examples/sw-jscad.example.js'
 import { addV1Shim } from './src/addV1Shim.js'
 import * as editor from './src/editor.js'
 import * as engine from './src/engine.js'

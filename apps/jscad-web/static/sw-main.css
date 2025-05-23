@@ -10,3 +10,10 @@ h6 {
 #menu-button {
   border: 1px solid #888;
 }
+
+#editor-toggle {
+  background-color: #bfe;
+}
+.dark #editor-toggle {
+  background-color: #567;
+}
