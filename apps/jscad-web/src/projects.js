@@ -7,7 +7,7 @@ export const swStructureDemos = [
   { name: 'entrywayBuilder', source: './lib-demo/structures/entryway-examples.js' },
   { name: 'roofBuilder', source: './lib-demo/structures/roof-examples.js' },
   { name: 'wallBuilder', source: './lib-demo/structures/wall-examples.js' },
-  { name: 'buttressBuilder', source: './lib-demo/buttress-examples.js' },
+  { name: 'buttressBuilder', source: './lib-demo/structures/buttress-examples.js' },
 ]
 
 // Ornaments

@@ -4,7 +4,7 @@
 // WIP ENHANCEMENTS
 //-------------------
 
-const buttressBuilder = require('./builders-v2/buttress');
+// const buttressBuilder = require('./builders-v2/buttress');
 
 
 //------------------
@@ -12,7 +12,7 @@ const buttressBuilder = require('./builders-v2/buttress');
 //------------------
 
 const enhanceSwJscad = ({ lib, swLib }) => {
-    swLib.buttress = buttressBuilder.init({ lib, swLib });
+    // swLib.buttress = buttressBuilder.init({ lib, swLib });
 }
 
 module.exports = {
