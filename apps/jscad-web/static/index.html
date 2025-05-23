@@ -10,28 +10,38 @@
     <meta name="description" content="JSCAD is an open source set of modular, browser and command line tools for creating parametric 2D and 3D CAD designs with JavaScript code.">
     <meta name="keywords" content="jscad, openjscad, javascript, typescript, cad, svg, stl, obj, csg, 3mf, 3d-design, 2d-design">
     <link rel="stylesheet" href="main.css">
-    <title>JSCAD - JavaScript CAD</title>
+    <title>SW JSCAD Viewer - JavaScript CAD</title>
   </head>
   <body>
     <div class="container">
       <div id="welcome">
-        <h1>JSCAD</h1>
+        <h1>SW JSCAD Viewer</h1>
         <p>
-          JSCAD is a tool for creating parametric 2D and 3D CAD designs using JavaScript code.
-        </p>
-        <p>
-          Code CAD offers more precise control over designs, enables parameterized customization of models, and integrates seamlessly with the web.
-          With an open-source, functional API, complex models can be created with just a few lines of code.
+          <em>JSCAD</em> viewer leveraging <em>sw-jscad</em>
         </p>
         <p>
           Create designs in the editor, or drag and drop local files.
         </p>
+        <ul>
+          <li><a href="https://github.com/salvador-workshop/sw-jscad-viewer" target="_blank">GitHub Repo (viewer)</a></li>
+        </ul>
+
+        <br/>
+        <h2>sw-jscad</h2>
 
         <ul>
-          <li><a href="/docs/tutorial-01_gettingStarted.html" target="_blank">Getting Started</a></li>
-          <li><a href="/docs/" target="_blank">API Reference</a></li>
-          <li><a href="https://github.com/hrgdavor/jscadui/issues" target="_blank">GitHub (this app)</a> - for issues wth app itself</li>
-          <li><a href="https://github.com/jscad/OpenJSCAD.org" target="_blank">GitHub (JSCAD)</a> - for issues with @jscad/modeling</li>
+          <li><a href="https://salvador-workshop.github.io/sw-jscad/" target="_blank">Docs</a></li>
+          <li><a href="https://github.com/salvador-workshop/sw-jscad" target="_blank">GitHub Repo</a></li>
+          <li><a href="https://www.npmjs.com/package/sw-jscad" target="_blank">NPM package</a></li>
+        </ul>
+
+        <br/>
+        <h2>JSCAD</h2>
+
+        <ul>
+          <li><a href="https://jscad.app/docs/tutorial-01_gettingStarted.html" target="_blank">Getting Started</a></li>
+          <li><a href="https://jscad.app/docs/" target="_blank">API Reference</a></li>
+          <li><a href="https://openjscad.xyz/dokuwiki/doku.php" target="_blank">Old User Guide</a></li>
         </ul>
 
         <label for="welcome-dismiss" class="welcome-dismiss">
@@ -82,7 +92,7 @@
       </div>
 
       <div id="menu">
-        <button id="menu-button">JSCAD</button>
+        <button id="menu-button">sw-jscad</button>
         <div id="menu-content">
           <h2>Options</h2>
           <ul>
@@ -93,26 +103,36 @@
             <li><label for="zoom-to-fit">Zoom To Fit</label><input type="checkbox" id="zoom-to-fit" checked></li>
           </ul>
 
+          <br/>
           <h2>SW-JSCAD</h2>
+          <ul>
+            <li><a href="https://salvador-workshop.github.io/sw-jscad/" target="_blank">Docs</a></li>
+            <li><a href="https://github.com/salvador-workshop/sw-jscad" target="_blank">GitHub Repo</a></li>
+            <li><a href="https://github.com/salvador-workshop/sw-jscad-viewer" target="_blank">GitHub Repo (viewer)</a></li>
+            <li><a href="https://www.npmjs.com/package/sw-jscad" target="_blank">NPM package</a></li>
+          </ul>
+
+          <h3>Model Builders</h3>
+
           <ul id="sw-projects-1"></ul>
           
-          <h3>Structures</h3>
+          <h4>Structures</h4>
           <ul id="sw-projects-2"></ul>
           
-          <h3>Ornaments</h3>
+          <h4>Ornaments</h4>
           <ul id="sw-projects-3"></ul>
 
-          <h3>Models</h3>
+          <h4>Models</h4>
           <ul id="sw-projects-4"></ul>
 
+          <br/>
           <h2>JSCAD</h2>
           
           <h3>Documentation</h3>
           <ul>
-            <li><a href="https://openjscad.xyz/dokuwiki/doku.php" target="_blank">User Guide</a></li>
-            <li><a href="/docs/" target="_blank">API Reference</a></li>
-            <li><a href="https://github.com/hrgdavor/jscadui/issues" target="_blank">GitHub Issues (this app)</a></li>
-            <li><a href="https://github.com/jscad/OpenJSCAD.org/issues" target="_blank">GitHub Issues (JSCAD)</a></li>
+            <li><a href="https://jscad.app/docs/tutorial-01_gettingStarted.html" target="_blank">Getting Started</a></li>
+            <li><a href="https://jscad.app/docs/" target="_blank">API Reference</a></li>
+            <li><a href="https://openjscad.xyz/dokuwiki/doku.php" target="_blank">Old User Guide</a></li>
             <li><a href="https://openjscad.nodebb.com/" target="_blank">User Group</a></li>
             <li><a href="https://discord.gg/6PB7qZ4HC7" target="_blank">Discord Community</a></li>
           </ul>
