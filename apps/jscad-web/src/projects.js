@@ -2,20 +2,20 @@ export const swLibDemo = { name: 'sw-jscad', source: './lib-demo/index.js' }
 
 // Structures
 export const swStructureDemos = [
-  { name: 'archBuilder', source: './lib-demo/structures/arch-examples.js' },
-  { name: 'columnBuilder', source: './lib-demo/structures/column-examples.js' },
-  { name: 'entrywayBuilder', source: './lib-demo/structures/entryway-examples.js' },
-  { name: 'roofBuilder', source: './lib-demo/structures/roof-examples.js' },
-  { name: 'wallBuilder', source: './lib-demo/structures/wall-examples.js' },
-  { name: 'buttressBuilder', source: './lib-demo/structures/buttress-examples.js' },
+  { name: 'arches', source: './lib-demo/structures/arch-examples.js' },
+  { name: 'columns', source: './lib-demo/structures/column-examples.js' },
+  { name: 'entryways', source: './lib-demo/structures/entryway-examples.js' },
+  { name: 'roofs', source: './lib-demo/structures/roof-examples.js' },
+  { name: 'walls', source: './lib-demo/structures/wall-examples.js' },
+  { name: 'buttress', source: './lib-demo/structures/buttress-examples.js' },
 ]
 
 // Ornaments
 export const swOrnamentDemos = [
-  { name: 'foilBuilder', source: './lib-demo/ornaments/foil-examples.js' },
-  { name: 'mouldBuilder', source: './lib-demo/ornaments/mould-examples.js' },
-  { name: 'profileBuilder', source: './lib-demo/ornaments/profile-examples.js' },
-  { name: 'basicTrimFamily', source: './lib-demo/ornaments/trim-family-examples.js' },
+  { name: 'foils', source: './lib-demo/ornaments/foil-examples.js' },
+  { name: 'moulds', source: './lib-demo/ornaments/mould-examples.js' },
+  { name: 'profiles', source: './lib-demo/ornaments/profile-examples.js' },
+  { name: 'trim-family-aranea', source: './lib-demo/ornaments/trim-family-examples.js' },
 ]
 
 // Etc
