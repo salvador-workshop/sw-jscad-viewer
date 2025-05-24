@@ -1,6 +1,7 @@
 import { defaultKeymap } from '@codemirror/commands'
 import { javascript } from '@codemirror/lang-javascript'
 import { keymap } from '@codemirror/view'
+import { Prec } from "@codemirror/state";
 import { EditorView, basicSetup } from 'codemirror'
 import { readAsText } from '@jscadui/fs-provider'
 
@@ -86,17 +87,22 @@ export const init = (defaultCode, fn, _saveFn, _getFileFn) => {
       javascript(),
       keymap.of([
         {
-          key: 'Shift-Enter',
-          run: runScript,
-          preventDefault: true,
-        },
-        {
           key: 'Mod-s',
           run: () => save(view.state.doc.toString(), currentFile),
           preventDefault: true,
         },
         ...defaultKeymap,
       ]),
+      Prec.highest(
+        keymap.of([
+          {
+            key: 'Shift-Enter',
+            run: runScript,
+            preventDefault: true,
+            stopPropagation: true,
+          },
+        ])
+      ),
     ],
     parent: editorDiv,
   })
