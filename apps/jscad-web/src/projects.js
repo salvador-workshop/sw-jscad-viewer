@@ -20,6 +20,8 @@ export const swOrnamentDemos = [
 
 // Etc
 export const swLibDemos = [
+  // { name: 'SW Models', source: './lib-demo/index.js' },
+  { name: 'Candle Holder v2', source: './lib-demo/candle-holder/index.js' },
 ]
 
 export const swLibraryDemos = [
@@ -30,6 +32,6 @@ export const swLibraryDemos = [
 ]
 
 export const swModels = [
-  { name: 'SW Models', source: './projects/index.js' },
-  { name: 'Candle Holder v2', source: './projects/candle-holder/index.js' },
+  // { name: 'PlaceholderProject1', source: './projects/index.js' },
+  // { name: 'PlaceholderProject2', source: './projects/candle-holder/index.js' },
 ]
