@@ -112,4 +112,4 @@ dist/**
 apps/myapp
 
 # sw-jscad User Projects
-apps/jscad-web/projects
+apps/jscad-web/projects/*
