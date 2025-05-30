@@ -10,11 +10,12 @@
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.1.9",
+    "@jscad/csg": "0.7.0",
     "@jscad/io": "2.4.7",
     "@jscad/modeling": "2.12.2",
+    "@jscadui/format-common": "*",
     "@jscadui/format-jscad": "*",
     "@jscadui/format-threejs": "*",
-    "@jscadui/format-common": "*",
     "@jscadui/fs-provider": "*",
     "@jscadui/fs-serviceworker": "*",
     "@jscadui/html-gizmo": "*",
@@ -26,11 +27,11 @@
     "@jscadui/transform-babel": "*",
     "@jscadui/worker": "*",
     "codemirror": "^6.0.1",
-    "gl-matrix": "^3.4.0",
     "fflate": "0.8.1",
-    "@jscad/csg": "0.7.0",
-    "three": "^0.147.0",
-    "sw-jscad": "0.5.5"
+    "gl-matrix": "^3.4.0",
+    "sw-jscad": "0.5.6-alpha.0",
+    "sw-jscad-ui": "0.0.2-alpha.0",
+    "three": "^0.147.0"
   },
   "devDependencies": {
     "@jsx6/build": "0.2.4",
