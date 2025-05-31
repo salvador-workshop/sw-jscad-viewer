@@ -58,7 +58,7 @@ const layoutUtils = ({ lib, swLib }) => {
         }
     }
 
-    const layoutFrame = ({ title, subtitle, objectDims, layoutDims }) => {
+    const layoutFrame = ({ title, subtitle = '. . .', data1 = '..', data2 = '....', objectDims, layoutDims }) => {
         const frameWidth = 1.5;
         const recessDepth = 0.6667;
         const panelOpts = {
@@ -81,15 +81,45 @@ const layoutUtils = ({ lib, swLib }) => {
             ...panelOpts,
         });
 
+        const data1Text = text.textPanel({
+            message: data1,
+            fontSize: 3,
+            charLineWidth: 0.75,
+            ...panelOpts,
+        });
+
+        const data2Text = text.textPanel({
+            message: data2,
+            fontSize: 3,
+            charLineWidth: 0.75,
+            ...panelOpts,
+        });
+
         const basicFrame = subtract(
             cuboid({ size: [layoutDims[0], layoutDims[1], frameWidth] }),
             cuboid({ size: [layoutDims[0] - (frameWidth * 2), layoutDims[1] - (frameWidth * 2), 3] }),
         );
 
+        const ctrlPts = {
+            topLeft: [layoutDims[0] / -2, layoutDims[1] / 2],
+            topRight: [layoutDims[0] / 2, layoutDims[1] / 2],
+            bottomLeft: [layoutDims[0] / -2, layoutDims[1] / -2],
+            bottomRight: [layoutDims[0] / 2, layoutDims[1] / -2],
+        }
+
+        const alignmentSlots = {
+            topLeft: { modes: ['min', 'max', 'min'], relativeTo: [...ctrlPts.topLeft, 0] },
+            topRight: { modes: ['max', 'max', 'min'], relativeTo: [...ctrlPts.topRight, 0] },
+            bottomLeft: { modes: ['min', 'min', 'min'], relativeTo: [...ctrlPts.bottomLeft, 0] },
+            bottomRight: { modes: ['max', 'min', 'min'], relativeTo: [...ctrlPts.bottomRight, 0] },
+        }
+
         return union(
             align({ modes: ['center', 'center', 'min'] }, basicFrame),
-            translate([0, layoutDims[1] / 2, 0], align({ modes: ['center', 'center', 'min'] }, titleText)),
-            translate([0, layoutDims[1] / -2, 0], align({ modes: ['center', 'center', 'min'] }, subtitleText)),
+            align(alignmentSlots.topLeft, data1Text),
+            align(alignmentSlots.topRight, data2Text),
+            align(alignmentSlots.bottomLeft, titleText),
+            align(alignmentSlots.bottomRight, subtitleText),
         );
     }
 
