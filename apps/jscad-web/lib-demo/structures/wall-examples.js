@@ -21,6 +21,7 @@ const main = () => {
         relativeTo: [0, -75, 0],
         layoutMargin: 15,
         // noFrame: true,
+        layoutSpace: 15,
     }
 
     const baseWall = walls.build({

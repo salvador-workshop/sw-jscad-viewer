@@ -6,8 +6,6 @@ const enhancer = require('./enhancer');
 
 const swJscad = SwJscad.init({ lib: jscad });
 const swJscadUi = SwJscadUi.init({ lib: jscad, swLib: swJscad });
-enhancer.enhanceSwJscad({ lib: jscad, swLib: swJscad, swUiLib: swJscadUi });
-
 
 const {
     arches,
@@ -20,8 +18,9 @@ const {
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 15,
+        layoutMargin: 0,
         noFrame: false,
+        layoutSpace: 0,
     }
 
     const profile1 = profiles.sqCornerCircNotch({ sqLength: 5 });

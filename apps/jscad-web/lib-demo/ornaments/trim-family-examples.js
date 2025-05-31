@@ -23,6 +23,7 @@ const main = () => {
         relativeTo: [0, -75, 0],
         layoutMargin: 8,
         noFrame: true,
+        layoutSpace: 0,
     }
 
     const baseTrim = [

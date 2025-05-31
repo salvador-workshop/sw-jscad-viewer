@@ -24,6 +24,7 @@ const main = () => {
     const layoutOpts = {
         layoutMargin: 5,
         noFrame: true,
+        layoutSpace: 0,
     }
 
 

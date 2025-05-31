@@ -21,6 +21,7 @@ const main = () => {
     const layoutOpts = {
         layoutMargin: 10,
         noFrame: true,
+        layoutSpace: 0,
     }
 
     const circNotchprofile = profiles.edge.circNotch({ totalThickness: 8, topThickness: 4, smallOffset: 1 });

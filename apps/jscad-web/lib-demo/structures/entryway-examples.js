@@ -19,6 +19,7 @@ const main = () => {
     const layoutOpts = {
         layoutMargin: 15,
         noFrame: true,
+        layoutSpace: 0,
     }
 
     const entryway1 = entryways.buildGothic({

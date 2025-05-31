@@ -19,6 +19,7 @@ const main = () => {
     const layoutOpts = {
         layoutMargin: 10,
         noFrame: true,
+        layoutSpace: 0,
     }
     const profile1 = profiles.sqCornerCircNotch({ sqLength: 5 });
     layout.addToLayout({ name: 'profile1', desc: '...', geom: profile1, layoutOpts });
