@@ -109,7 +109,7 @@ const main = () => {
     //-----------
     // Arches
 
-    const arch1 = arches.twoPtArch({ arcRadius: 30, archWidth: 35, profileWidth: 5, geomProfile: profile1 });
+    const arch1 = arches.twoPtArch({ arcRadius: 30, archWidth: 35, profileWidth: 5 }, profile1);
     layout.addToLayout({ name: 'arch1', desc: '...', geom: arch1, layoutOpts });
 
     const arch2 = arches.twoPtArch({ arcRadius: 30, archWidth: 35 });

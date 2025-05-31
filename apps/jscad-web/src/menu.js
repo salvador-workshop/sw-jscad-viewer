@@ -1,10 +1,10 @@
 import { examples } from './examples.js'
 import {
   swLibDemo,
-  swStructureDemos,
-  swOrnamentDemos,
-  swLibDemos,
-  swModels,
+  swBuilders,
+  swDetails,
+  swFamilies,
+  swUx,
 } from './projects.js'
 
 const menu = /** @type {HTMLElement} */ (document.getElementById('menu'))
@@ -56,23 +56,25 @@ export const init = () => {
   })
 
   // Add SW projects to menu
-  const swLibDemosDiv = /** @type {HTMLElement} */ (document.getElementById('sw-projects-1'))
-  const firstDemos = [swLibDemo, ...swLibDemos];
+  const swDemoDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo'))
+  const firstDemos = [swLibDemo, ...swUx];
   firstDemos.forEach(({ name, source }) => {
-    generateLink(name, source, swLibDemosDiv);
+    generateLink(name, source, swDemoDiv);
   });
-  const swStructuresDiv = /** @type {HTMLElement} */ (document.getElementById('sw-projects-2'))
-  swStructureDemos.forEach(({ name, source }) => {
-    generateLink(name, source, swStructuresDiv);
-  })
-  const swOrnamentsDiv = /** @type {HTMLElement} */ (document.getElementById('sw-projects-3'))
-  swOrnamentDemos.forEach(({ name, source }) => {
-    generateLink(name, source, swOrnamentsDiv);
+
+  const swBuildersDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-builders'))
+  swBuilders.forEach(({ name, source }) => {
+    generateLink(name, source, swBuildersDiv);
   })
 
-  const swModelsDiv = /** @type {HTMLElement} */ (document.getElementById('sw-projects-4'))
-  swModels.forEach(({ name, source }) => {
-    generateLink(name, source, swModelsDiv);
+  const swDetailsDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-details'))
+  swDetails.forEach(({ name, source }) => {
+    generateLink(name, source, swDetailsDiv);
+  })
+
+  const swFamiliesDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-families'))
+  swFamilies.forEach(({ name, source }) => {
+    generateLink(name, source, swFamiliesDiv);
   })
 }
 

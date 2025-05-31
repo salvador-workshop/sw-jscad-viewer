@@ -20,10 +20,10 @@ const main = () => {
 
     const profile1 = profiles.sqCornerCircNotch({ sqLength: 5 });
 
-    const arch1 = arches.twoPtArch({ arcRadius: 30, archWidth: 35, geomProfile: profile1 });
+    const arch1 = arches.twoPtArch({ arcRadius: 30, archWidth: 35 }, profile1);
     layout.addToLayout({ name: 'arch1', desc: '...', geom: arch1, layoutOpts });
 
-    const arch2 = arches.onePtArch({ arcRadius: 40, geomProfile: profile1 });
+    const arch2 = arches.onePtArch({ arcRadius: 40 }, profile1);
     layout.addToLayout({ name: 'arch2', desc: '...', geom: arch2, layoutOpts });
 
     const arch3 = arches.twoPtArch({ arcRadius: 30, archWidth: 35 });
