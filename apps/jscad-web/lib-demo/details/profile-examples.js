@@ -6,18 +6,15 @@ const SwJscadUi = require('sw-jscad-ui');
 const swJscad = SwJscad.init({ lib: jscad });
 const swJscadUi = SwJscadUi.init({ lib: jscad, swLib: swJscad });
 
-const {
-    profiles,
-} = swJscad.builders
-
-const {
-    layout,
-} = swJscadUi.ux
+const { profiles } = swJscad.details;
+const { layout } = swJscadUi.ux;
 
 const main = () => {
     const layoutOpts = {
         layoutMargin: 10,
         noFrame: true,
+        layoutSpace: 0,
+
     }
 
     const profile1 = profiles.sqCornerCircNotch({ sqLength: 5 });

@@ -7,21 +7,17 @@ const SwJscadUi = require('sw-jscad-ui');
 const swJscad = SwJscad.init({ lib: jscad });
 const swJscadUi = SwJscadUi.init({ lib: jscad, swLib: swJscad });
 
-const {
-    entryways,
-} = swJscad.builders
-
-const {
-    layout,
-} = swJscadUi.ux
+const { entryways } = swJscad.builders;
+const { layout } = swJscadUi.ux;
 
 const main = () => {
     const layoutOpts = {
         layoutMargin: 15,
         noFrame: true,
+        layoutSpace: 0,
     }
 
-    const entryway1 = entryways.buildGothic({
+    const entryway1 = entryways.buildGothicEntryway({
         wallLength: 100,
         wallThickness: 10,
         wallHeight: 100,
@@ -35,7 +31,7 @@ const main = () => {
     });
     layout.addToLayout({ name: 'entryway1', desc: '...', geom: entryway1, layoutOpts });
 
-    const entryway2 = entryways.buildGothic({
+    const entryway2 = entryways.buildGothicEntryway({
         wallLength: 100,
         wallThickness: 10,
         wallHeight: 100,
@@ -50,7 +46,7 @@ const main = () => {
     });
     layout.addToLayout({ name: 'entryway2', desc: '...', geom: entryway2, layoutOpts });
 
-    const entryway3 = entryways.buildGothic({
+    const entryway3 = entryways.buildGothicEntryway({
         wallLength: 100,
         wallThickness: 10,
         wallHeight: 100,

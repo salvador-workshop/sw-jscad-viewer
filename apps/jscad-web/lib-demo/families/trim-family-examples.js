@@ -7,22 +7,18 @@ const SwJscadUi = require('sw-jscad-ui');
 const swJscad = SwJscad.init({ lib: jscad });
 const swJscadUi = SwJscadUi.init({ lib: jscad, swLib: swJscad });
 
-const {
-    trimFamilyAranea,
-} = swJscad.builders
-
-const {
-    layout,
-} = swJscadUi.ux
+const { trimAranea } = swJscad.families;
+const { layout } = swJscadUi.ux;
 
 const main = () => {
-    const tFamilyAranea = trimFamilyAranea.build({ unitHeight: 20, unitDepth: 10 });
+    const tFamilyAranea = trimAranea.buildTrimFamily({ unitHeight: 20, unitDepth: 10 });
 
     const layoutOpts = {
         // column: true,
         relativeTo: [0, -75, 0],
         layoutMargin: 8,
         noFrame: true,
+        layoutSpace: 0,
     }
 
     const baseTrim = [

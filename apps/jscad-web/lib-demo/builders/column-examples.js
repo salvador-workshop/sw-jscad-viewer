@@ -6,19 +6,15 @@ const SwJscadUi = require('sw-jscad-ui');
 const swJscad = SwJscad.init({ lib: jscad });
 const swJscadUi = SwJscadUi.init({ lib: jscad, swLib: swJscad });
 
-const {
-    columns,
-    profiles,
-} = swJscad.builders
-
-const {
-    layout,
-} = swJscadUi.ux
+const { columns } = swJscad.builders;
+const { profiles } = swJscad.details;
+const { layout } = swJscadUi.ux;
 
 const main = () => {
     const layoutOpts = {
         layoutMargin: 10,
         noFrame: true,
+        layoutSpace: 0,
     }
 
     const profile1 = profiles.sqCornerCircNotch({ sqLength: 5 });
@@ -27,7 +23,7 @@ const main = () => {
     const profile3 = profiles.octagonal({ sqLength: 5 });
     layout.addToLayout({ name: 'profile3', desc: '...', geom: profile3, layoutOpts });
 
-    const col1 = columns.threePt({
+    const col1 = columns.threePtColumn({
         base: ['extrude', 8, null, profile1],
         shaft: ['cuboid', 2],
         capital: ['extrude', 6, null, profile3],
@@ -35,7 +31,7 @@ const main = () => {
     })
     layout.addToLayout({ name: 'col1', desc: '...', geom: col1, layoutOpts });
 
-    const col2 = columns.threePt({
+    const col2 = columns.threePtColumn({
         base: ['roundCylinder', 2, 3.5],
         shaft: ['extrude', null, profile1],
         capital: ['roundCylinder', 2, 3.5],

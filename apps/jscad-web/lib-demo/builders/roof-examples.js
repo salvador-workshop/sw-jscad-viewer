@@ -7,18 +7,14 @@ const SwJscadUi = require('sw-jscad-ui');
 const swJscad = SwJscad.init({ lib: jscad });
 const swJscadUi = SwJscadUi.init({ lib: jscad, swLib: swJscad });
 
-const {
-    roofs,
-} = swJscad.builders
-
-const {
-    layout,
-} = swJscadUi.ux
+const { roofs } = swJscad.builders;
+const { layout } = swJscadUi.ux;
 
 const main = () => {
     const layoutOpts = {
         layoutMargin: 15,
         noFrame: true,
+        layoutSpace: 0,
     }
 
     const defaultRoofOpts = {

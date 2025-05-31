@@ -10,11 +10,17 @@ const {
     arches,
     columns,
     walls,
+} = swJscad.builders
+
+const {
     foils,
     moulds,
     profiles,
-    trimFamilyAranea,
-} = swJscad.builders
+} = swJscad.details
+
+const {
+    trimAranea,
+} = swJscad.families
 
 const {
     layout,
@@ -24,6 +30,7 @@ const main = () => {
     const layoutOpts = {
         layoutMargin: 5,
         noFrame: true,
+        layoutSpace: 0,
     }
 
 
@@ -36,7 +43,7 @@ const main = () => {
     const profile3 = profiles.octagonal({ sqLength: 5 });
     layout.addToLayout({ name: 'profile3', desc: '...', geom: profile3, layoutOpts });
 
-    const tFamilyBasic = trimFamilyAranea.build({ unitHeight: 20, unitDepth: 10 });
+    const tFamilyBasic = trimAranea.buildTrimFamily({ unitHeight: 20, unitDepth: 10 });
     const dadoTrim = [
         tFamilyBasic.dado.small,
         tFamilyBasic.dado.medium,
@@ -53,13 +60,13 @@ const main = () => {
     //-----------
     // Mouldings
 
-    const mould2 = moulds.cuboidEdge({ size: [10, 40, 5], geomProfile: profile1 });
+    const mould2 = moulds.cuboidMoulding({ size: [10, 40, 5] }, profile1);
     layout.addToLayout({ name: 'mould2', desc: '...', geom: mould2, layoutOpts });
 
-    const mould3 = moulds.circularEdge({ radius: 20, height: 5, geomProfile: profile1 });
+    const mould3 = moulds.circularMoulding({ radius: 20, height: 5 }, profile1);
     layout.addToLayout({ name: 'mould3', desc: '...', geom: mould3, layoutOpts });
 
-    const mould4 = moulds.circularEdge({ segments: 8, radius: 20, height: 5, geomProfile: profile1 });
+    const mould4 = moulds.circularMoulding({ segments: 8, radius: 20, height: 5 }, profile1);
     layout.addToLayout({ name: 'mould4', desc: '...', geom: mould4, layoutOpts });
 
 
@@ -82,7 +89,7 @@ const main = () => {
     //-----------
     // Columns
 
-    const col1 = columns.threePt({
+    const col1 = columns.threePtColumn({
         base: ['extrude', 8, null, profile1],
         shaft: ['cuboid', 2],
         capital: ['extrude', 6, null, profile3],
@@ -90,7 +97,7 @@ const main = () => {
     })
     layout.addToLayout({ name: 'col1', desc: '...', geom: col1, layoutOpts });
 
-    const col2 = columns.threePt({
+    const col2 = columns.threePtColumn({
         base: ['roundCylinder', 2, 3.5],
         shaft: ['extrude', null, profile1],
         capital: ['roundCylinder', 2, 3.5],
@@ -102,17 +109,17 @@ const main = () => {
     //-----------
     // Arches
 
-    const arch1 = arches.twoPt({ arcRadius: 30, archWidth: 35, profileWidth: 5, geomProfile: profile1 });
+    const arch1 = arches.twoPtArch({ arcRadius: 30, archWidth: 35, profileWidth: 5 }, profile1);
     layout.addToLayout({ name: 'arch1', desc: '...', geom: arch1, layoutOpts });
 
-    const arch2 = arches.twoPt({ arcRadius: 30, archWidth: 35 });
+    const arch2 = arches.twoPtArch({ arcRadius: 30, archWidth: 35 });
     layout.addToLayout({ name: 'arch2', desc: '...', geom: arch2, layoutOpts });
 
 
     //-----------
     // Walls
 
-    const wall2 = walls.build({
+    const wall2 = walls.buildWall({
         height: 100,
         thickness: 10,
         length: 80,
@@ -126,7 +133,7 @@ const main = () => {
     });
     layout.addToLayout({ name: 'Wall (2)', desc: 'Base + crown trim', geom: wall2, layoutOpts });
 
-    const wallDado1 = walls.build({
+    const wallDado1 = walls.buildWall({
         height: 100,
         thickness: 10,
         length: 70,
