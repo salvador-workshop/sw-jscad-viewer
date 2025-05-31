@@ -1,14 +1,19 @@
 "use strict"
 const jscad = require('@jscad/modeling')
-const { translate } = jscad.transforms
+const SwJscad = require('sw-jscad');
+const SwJscadUi = require('sw-jscad-ui');
 
-const swJscad = require('sw-jscad').init({ lib: jscad });
-console.log(swJscad);
+const swJscad = SwJscad.init({ lib: jscad });
+const swJscadUi = SwJscadUi.init({ lib: jscad, swLib: swJscad });
+
 const {
-    layout,
     columns,
     profiles,
-} = swJscad
+} = swJscad.builders
+
+const {
+    layout,
+} = swJscadUi.ux
 
 const main = () => {
     const layoutOpts = {
