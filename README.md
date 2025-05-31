@@ -1,6 +1,6 @@
 # sw-jscad-viewer
 
-JSCAD viewer leveraging `sw-jscad`
+JSCAD viewer leveraging `sw-jscad` for creating parametric 2D and 3D CAD designs with JavaScript code
 
 Online viewer: [https://sw-jscad-viewer.netlify.app/](https://sw-jscad-viewer.netlify.app/)
 
