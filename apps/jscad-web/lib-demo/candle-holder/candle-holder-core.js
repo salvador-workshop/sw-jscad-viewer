@@ -10,7 +10,7 @@ const swJscad = require('sw-jscad').init({ lib: jscad });
 console.log(swJscad);
 const {
     transform,
-} = swJscad
+} = swJscad.utils
 
 const CANDLE_SPACE_HT = 16;
 const CANDLE_SPACE_RAD = 22;
