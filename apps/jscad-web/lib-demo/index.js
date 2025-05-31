@@ -60,13 +60,13 @@ const main = () => {
     //-----------
     // Mouldings
 
-    const mould2 = moulds.cuboidMoulding({ size: [10, 40, 5], geomProfile: profile1 });
+    const mould2 = moulds.cuboidMoulding({ size: [10, 40, 5] }, profile1);
     layout.addToLayout({ name: 'mould2', desc: '...', geom: mould2, layoutOpts });
 
-    const mould3 = moulds.circularMoulding({ radius: 20, height: 5, geomProfile: profile1 });
+    const mould3 = moulds.circularMoulding({ radius: 20, height: 5 }, profile1);
     layout.addToLayout({ name: 'mould3', desc: '...', geom: mould3, layoutOpts });
 
-    const mould4 = moulds.circularMoulding({ segments: 8, radius: 20, height: 5, geomProfile: profile1 });
+    const mould4 = moulds.circularMoulding({ segments: 8, radius: 20, height: 5 }, profile1);
     layout.addToLayout({ name: 'mould4', desc: '...', geom: mould4, layoutOpts });
 
 
