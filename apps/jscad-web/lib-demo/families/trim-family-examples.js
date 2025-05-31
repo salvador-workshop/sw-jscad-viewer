@@ -16,50 +16,39 @@ const main = () => {
     const layoutOpts = {
         // column: true,
         relativeTo: [0, -75, 0],
-        layoutMargin: 8,
-        noFrame: true,
-        layoutSpace: 0,
+        layoutMargin: 25,
+        layoutSpace: 5,
     }
 
-    const baseTrim = [
-        tFamilyAranea.base.extraSmall,
-        tFamilyAranea.base.small,
-        tFamilyAranea.base.medium,
-        tFamilyAranea.base.large,
-        tFamilyAranea.base.smallOrn1,
-        tFamilyAranea.base.mediumOrn1,
-        tFamilyAranea.base.largeOrn1,
+    const categories = ['base', 'dado', 'crown'];
+    const sizes = [
+        // 'extraSmall',
+        'small',
+        'medium',
+        'large',
+        // 'smallOrn1',
+        'mediumOrn1',
+        // 'largeOrn1',
+    ];
+    const sizesAbbrev = [
+        // 'xm',
+        'sm',
+        'md',
+        'lg',
+        // 'sm-o1',
+        'md-o1',
+        // 'lg-o1',
     ];
 
-    const dadoTrim = [
-        tFamilyAranea.dado.extraSmall,
-        tFamilyAranea.dado.small,
-        tFamilyAranea.dado.medium,
-        tFamilyAranea.dado.large,
-        tFamilyAranea.dado.smallOrn1,
-        tFamilyAranea.dado.mediumOrn1,
-        tFamilyAranea.dado.largeOrn1,
-    ];
-
-    const crownTrim = [
-        tFamilyAranea.crown.extraSmall,
-        tFamilyAranea.crown.small,
-        tFamilyAranea.crown.medium,
-        tFamilyAranea.crown.large,
-        tFamilyAranea.crown.smallOrn1,
-        tFamilyAranea.crown.mediumOrn1,
-        tFamilyAranea.crown.largeOrn1,
-    ];
-
-    const allTrims = [
-        ...baseTrim,
-        ...dadoTrim,
-        ...crownTrim,
-    ];
-
-    allTrims.forEach((trim, idx) => {
-        layout.addToLayout({ name: idx, desc: 'No trim', geom: trim, layoutOpts });
-    })
+    for (let ctgIdx = 0; ctgIdx < categories.length; ctgIdx++) {
+        for (let sIdx = 0; sIdx < sizes.length; sIdx++) {
+            const currentCtg = categories[ctgIdx];
+            const currentSize = sizes[sIdx];
+            const currentGeom = tFamilyAranea[currentCtg][currentSize];
+            console.log(currentCtg, currentSize)
+            layout.addToLayout({ name: `${currentCtg}-${sizesAbbrev[sIdx]}`, desc: '.', geom: currentGeom, layoutOpts });
+        }
+    }
 
     const layoutContent = layout.gridLayout({ layoutOpts });
     return layoutContent

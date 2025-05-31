@@ -13,8 +13,7 @@ const { layout } = swJscadUi.ux;
 const main = () => {
     const layoutOpts = {
         layoutMargin: 15,
-        noFrame: true,
-        layoutSpace: 0,
+        layoutSpace: 10,
     }
 
     const defaultRoofOpts = {

@@ -11,15 +11,11 @@ const { layout } = swJscadUi.ux;
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 10,
-        noFrame: true,
-        layoutSpace: 0,
+        layoutMargin: 18,
+        layoutSpace: 5,
     }
     const profile1 = profiles.sqCornerCircNotch({ sqLength: 5 });
-    layout.addToLayout({ name: 'profile1', desc: '...', geom: profile1, layoutOpts });
-
     const profile3 = profiles.octagonal({ sqLength: 5 });
-    layout.addToLayout({ name: 'profile3', desc: '...', geom: profile3, layoutOpts });
 
     const foil1 = foils.trefoil({ radius: 10 });
     layout.addToLayout({ name: 'foil1', desc: '...', geom: foil1, layoutOpts });
@@ -39,10 +35,10 @@ const main = () => {
     const foil6 = foils.quatrefoil({ radius: 10, lobeRadiusType: 'halfRadius' });
     layout.addToLayout({ name: 'foil6', desc: '...', geom: foil6, layoutOpts });
 
-    const foil7 = foils.trefoil({ radius: 15, lobeRadiusType: 'halfRadius', geomProfile: profile1, cutCentre: true });
+    const foil7 = foils.trefoil({ radius: 15, lobeRadiusType: 'halfRadius', cutCentre: true }, profile1);
     layout.addToLayout({ name: 'foil7', desc: '...', geom: foil7, layoutOpts });
 
-    const foil8 = foils.quatrefoil({ radius: 15, lobeRadiusType: 'mean', geomProfile: profile3, cutCentre: true });
+    const foil8 = foils.quatrefoil({ radius: 15, lobeRadiusType: 'mean', cutCentre: true }, profile3);
     layout.addToLayout({ name: 'foil8', desc: '...', geom: foil8, layoutOpts });
 
     const layoutContent = layout.gridLayout({ layoutOpts });

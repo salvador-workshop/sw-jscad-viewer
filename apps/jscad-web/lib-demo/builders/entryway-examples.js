@@ -12,9 +12,8 @@ const { layout } = swJscadUi.ux;
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 15,
-        noFrame: true,
-        layoutSpace: 0,
+        layoutMargin: 18,
+        layoutSpace: 30,
     }
 
     const entryway1 = entryways.buildGothicEntryway({

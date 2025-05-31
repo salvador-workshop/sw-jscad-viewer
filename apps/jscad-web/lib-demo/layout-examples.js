@@ -13,7 +13,7 @@ const { layout } = swJscadUi.ux;
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 0,
+        layoutMargin: 15,
         noFrame: false,
         layoutSpace: 0,
     }

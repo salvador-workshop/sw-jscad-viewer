@@ -11,10 +11,8 @@ const { layout } = swJscadUi.ux;
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 10,
-        noFrame: true,
-        layoutSpace: 0,
-
+        layoutMargin: 20,
+        layoutSpace: 8,
     }
 
     const profile1 = profiles.sqCornerCircNotch({ sqLength: 5 });

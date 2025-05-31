@@ -28,9 +28,8 @@ const {
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 5,
-        noFrame: true,
-        layoutSpace: 0,
+        layoutMargin: 18,
+        layoutSpace: 5,
     }
 
 
@@ -38,19 +37,14 @@ const main = () => {
     // Profiles
 
     const profile1 = profiles.sqCornerCircNotch({ sqLength: 5 });
-    layout.addToLayout({ name: 'profile1', desc: '...', geom: profile1, layoutOpts });
-
     const profile3 = profiles.octagonal({ sqLength: 5 });
-    layout.addToLayout({ name: 'profile3', desc: '...', geom: profile3, layoutOpts });
 
     const tFamilyBasic = trimAranea.buildTrimFamily({ unitHeight: 20, unitDepth: 10 });
     const dadoTrim = [
         tFamilyBasic.dado.small,
         tFamilyBasic.dado.medium,
         tFamilyBasic.dado.large,
-        tFamilyBasic.dado.smallOrn1,
         tFamilyBasic.dado.mediumOrn1,
-        tFamilyBasic.dado.largeOrn1,
     ];
     dadoTrim.forEach((trim, idx) => {
         layout.addToLayout({ name: `dado-${idx}`, desc: '...', geom: trim, layoutOpts });
@@ -60,14 +54,8 @@ const main = () => {
     //-----------
     // Mouldings
 
-    const mould2 = moulds.cuboidMoulding({ size: [10, 40, 5] }, profile1);
-    layout.addToLayout({ name: 'mould2', desc: '...', geom: mould2, layoutOpts });
-
     const mould3 = moulds.circularMoulding({ radius: 20, height: 5 }, profile1);
     layout.addToLayout({ name: 'mould3', desc: '...', geom: mould3, layoutOpts });
-
-    const mould4 = moulds.circularMoulding({ segments: 8, radius: 20, height: 5 }, profile1);
-    layout.addToLayout({ name: 'mould4', desc: '...', geom: mould4, layoutOpts });
 
 
     //-----------
@@ -79,23 +67,15 @@ const main = () => {
     const foil5 = foils.quatrefoil({ radius: 10, lobeRadiusType: 'inSlice' });
     layout.addToLayout({ name: 'foil5', desc: '...', geom: foil5, layoutOpts });
 
-    const foil7 = foils.trefoil({ radius: 15, lobeRadiusType: 'halfRadius', geomProfile: profile1, cutCentre: true });
+    const foil7 = foils.trefoil({ radius: 15, lobeRadiusType: 'halfRadius', cutCentre: true }, profile1);
     layout.addToLayout({ name: 'foil7', desc: '...', geom: foil7, layoutOpts });
 
-    const foil8 = foils.quatrefoil({ radius: 15, lobeRadiusType: 'mean', geomProfile: profile3, cutCentre: true });
+    const foil8 = foils.quatrefoil({ radius: 15, lobeRadiusType: 'mean', cutCentre: true }, profile3);
     layout.addToLayout({ name: 'foil8', desc: '...', geom: foil8, layoutOpts });
 
 
     //-----------
     // Columns
-
-    const col1 = columns.threePtColumn({
-        base: ['extrude', 8, null, profile1],
-        shaft: ['cuboid', 2],
-        capital: ['extrude', 6, null, profile3],
-        height: 40,
-    })
-    layout.addToLayout({ name: 'col1', desc: '...', geom: col1, layoutOpts });
 
     const col2 = columns.threePtColumn({
         base: ['roundCylinder', 2, 3.5],
@@ -131,7 +111,7 @@ const main = () => {
         trimUnitDepth: 1.25,
         trimSides: 4,
     });
-    layout.addToLayout({ name: 'Wall (2)', desc: 'Base + crown trim', geom: wall2, layoutOpts });
+    layout.addToLayout({ name: 'Wall (2)', desc: '...', geom: wall2, layoutOpts });
 
     const wallDado1 = walls.buildWall({
         height: 100,
@@ -144,7 +124,7 @@ const main = () => {
         trimUnitDepth: 1.25,
         trimSides: 4,
     });
-    layout.addToLayout({ name: 'Dado Wall (1)', desc: '1 trim unit thicker', geom: wallDado1, layoutOpts });
+    layout.addToLayout({ name: 'Dado Wall (1)', desc: '...', geom: wallDado1, layoutOpts });
 
     const layoutContent = layout.gridLayout({ layoutOpts });
     return layoutContent;
