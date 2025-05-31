@@ -5,7 +5,7 @@
 //-------------------
 
 // const buttressBuilder = require('./builders-v2/buttress');
-const expLayout = require('./layout');
+// const expLayout = require('./layout');
 
 
 //------------------
@@ -14,7 +14,7 @@ const expLayout = require('./layout');
 
 const enhanceSwJscad = ({ lib, swLib, swUiLib }) => {
     // swLib.buttress = buttressBuilder.init({ lib, swLib });
-    swUiLib.ux.layout = expLayout.init({ lib, swLib });
+    // swUiLib.ux.layout = expLayout.init({ lib, swLib });
 }
 
 module.exports = {
