@@ -12,16 +12,12 @@ const { layout } = swJscadUi.ux;
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 10,
-        noFrame: true,
-        layoutSpace: 0,
+        layoutMargin: 15,
+        layoutSpace: 15,
     }
 
     const profile1 = profiles.sqCornerCircNotch({ sqLength: 5 });
-    layout.addToLayout({ name: 'profile1', desc: '...', geom: profile1, layoutOpts });
-
     const profile3 = profiles.octagonal({ sqLength: 5 });
-    layout.addToLayout({ name: 'profile3', desc: '...', geom: profile3, layoutOpts });
 
     const col1 = columns.threePtColumn({
         base: ['extrude', 8, null, profile1],

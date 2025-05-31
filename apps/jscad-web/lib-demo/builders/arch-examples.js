@@ -12,16 +12,11 @@ const { layout } = swJscadUi.ux;
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 10,
-        noFrame: true,
+        layoutMargin: 20,
         layoutSpace: 0,
     }
 
     const profile1 = profiles.sqCornerCircNotch({ sqLength: 5 });
-    layout.addToLayout({ name: 'profile1', desc: '...', geom: profile1, layoutOpts });
-
-    const profile3 = profiles.octagonal({ sqLength: 5 });
-    layout.addToLayout({ name: 'profile3', desc: '...', geom: profile3, layoutOpts });
 
     const arch1 = arches.twoPtArch({ arcRadius: 30, archWidth: 35 }, profile1);
     layout.addToLayout({ name: 'arch1', desc: '...', geom: arch1, layoutOpts });

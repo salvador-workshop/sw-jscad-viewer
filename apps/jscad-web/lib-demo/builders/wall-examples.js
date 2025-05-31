@@ -42,31 +42,6 @@ const main = () => {
     });
     layout.addToLayout({ name: 'Wall (1)', desc: 'Base + dado trim', geom: wall1, layoutOpts });
 
-    const wall2 = walls.buildWall({
-        height: 100,
-        thickness: 10,
-        length: 80,
-        // wallOpts: 0,
-        trimOpts: ['base', 'crown'],
-        crownUnits: 1,
-        baseUnits: 2,
-        trimUnitHeight: 4,
-        trimUnitDepth: 1.25,
-    });
-    layout.addToLayout({ name: 'Wall (2)', desc: 'Base + crown trim', geom: wall2, layoutOpts });
-
-    const wallDado1 = walls.buildWall({
-        height: 100,
-        thickness: 10,
-        length: 70,
-        // wallOpts: 0,
-        trimOpts: ['base', 'dado', 'crown'],
-        dadoUnits: 1,
-        trimUnitHeight: 4,
-        trimUnitDepth: 1.25,
-    });
-    layout.addToLayout({ name: 'Dado Wall (1)', desc: '1 trim unit thicker', geom: wallDado1, layoutOpts });
-
     const wallDado2 = walls.buildWall({
         height: 100,
         thickness: 10,
@@ -78,21 +53,6 @@ const main = () => {
         trimUnitDepth: 1.25,
     });
     layout.addToLayout({ name: 'Dado Wall (2)', desc: '2 trim units thicker', geom: wallDado2, layoutOpts });
-
-
-    const wallDado3 = walls.buildWall({
-        height: 100,
-        thickness: 10,
-        length: 60,
-        // wallOpts: 0,
-        trimOpts: ['base', 'dado', 'crown'],
-        // crownUnits: 2,
-        dadoUnits: 2,
-        baseUnits: 1,
-        trimUnitHeight: 4,
-        trimUnitDepth: 1.25,
-    });
-    layout.addToLayout({ name: 'Dado Wall (3)', desc: '2 trim units thicker, ornate', geom: wallDado3, layoutOpts });
 
     const wallDado4 = walls.buildWall({
         height: 100,

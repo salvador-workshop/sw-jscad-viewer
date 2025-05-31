@@ -15,16 +15,12 @@ const {
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 10,
-        noFrame: true,
-        layoutSpace: 0,
+        layoutMargin: 18,
+        layoutSpace: 10,
     }
 
     const circNotchprofile = profiles.edge.circNotch({ totalThickness: 8, topThickness: 4, smallOffset: 1 });
-    layout.addToLayout({ name: 'circNotchprofile', desc: '...', geom: circNotchprofile, layoutOpts });
-
     const circProtProfile = profiles.edge.circPortrusion({ totalThickness: 8, topThickness: 4, smallOffset: 0.67 });
-    layout.addToLayout({ name: 'circProtProfile', desc: '...', geom: circProtProfile, layoutOpts });
 
     const orig1 = cuboid({ size: [20, 40, 8] });
     layout.addToLayout({ name: 'orig1', desc: '...', geom: orig1, layoutOpts });
