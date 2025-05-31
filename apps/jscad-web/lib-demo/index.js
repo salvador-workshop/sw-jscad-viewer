@@ -1,7 +1,5 @@
 "use strict"
 const jscad = require('@jscad/modeling')
-const { translate } = jscad.transforms
-
 const SwJscad = require('sw-jscad');
 const SwJscadUi = require('sw-jscad-ui');
 
