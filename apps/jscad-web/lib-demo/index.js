@@ -1,16 +1,16 @@
 "use strict"
 const jscad = require('@jscad/modeling')
-const SwJscad = require('sw-jscad');
-const SwJscadUi = require('sw-jscad-ui');
 
-const swJscad = SwJscad.init({ lib: jscad });
-const swJscadUi = SwJscadUi.init({ lib: jscad, swLib: swJscad });
+const swJscad = require('sw-jscad').init({ lib: jscad });
+const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
+const swjFamilies = require('sw-jscad-families').init({ lib: jscad, swLib: swJscad });
+const swjBuilders = require('sw-jscad-builders').init({ lib: jscad, swLib: swJscad, swFamilies: swjFamilies });
 
 const {
     arches,
     columns,
     walls,
-} = swJscad.builders
+} = swjBuilders
 
 const {
     foils,
@@ -20,11 +20,11 @@ const {
 
 const {
     trimAranea,
-} = swJscad.families
+} = swjFamilies
 
 const {
     layout,
-} = swJscadUi.ux
+} = swjUi.ux
 
 const main = () => {
     const layoutOpts = {

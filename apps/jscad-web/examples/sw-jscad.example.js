@@ -12,7 +12,7 @@ const { cube, sphere } = jscad.primitives
 
 const {
   colors,
-} = swJscadUi.ux
+} = swjUi.ux
 
 function main() {
   const outer = subtract(
