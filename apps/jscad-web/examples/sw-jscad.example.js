@@ -1,10 +1,8 @@
 "use strict"
 const jscad = require('@jscad/modeling')
-const SwJscad = require('sw-jscad');
-const SwJscadUi = require('sw-jscad-ui');
 
-const swJscad = SwJscad.init({ lib: jscad });
-const swJscadUi = SwJscadUi.init({ lib: jscad, swLib: swJscad });
+const swJscad = require('sw-jscad').init({ lib: jscad });
+const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
 
 const { intersect, subtract } = jscad.booleans
 const { colorize } = jscad.colors
@@ -12,7 +10,7 @@ const { cube, sphere } = jscad.primitives
 
 const {
   colors,
-} = swJscadUi.ux
+} = swjUi.ux
 
 function main() {
   const outer = subtract(

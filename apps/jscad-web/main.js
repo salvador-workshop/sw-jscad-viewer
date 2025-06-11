@@ -287,6 +287,8 @@ const bundles = {
   '@jscad/csg': toUrl('./build/bundle.V1_api.js'),
   'sw-jscad': toUrl('./build/bundle.sw-jscad.js'),
   'sw-jscad-ui': toUrl('./build/bundle.sw-jscad-ui.js'),
+  'sw-jscad-families': toUrl('./build/bundle.sw-jscad-families.js'),
+  'sw-jscad-builders': toUrl('./build/bundle.sw-jscad-builders.js'),
 }
 
 await workerApi.jscadInit({ bundles })
