@@ -42,7 +42,6 @@ await buildBundle(outDir + '/build', 'bundle.jscad_io.js', { format:'cjs', skipE
 await buildBundle(outDir + '/build', 'bundle.V1_api.js', { format:'cjs', skipExisting: dev })
 await buildBundle(outDir + '/build', 'bundle.jscadui.transform-babel.js', { globalName: 'jscadui_transform_babel', skipExisting: dev })
 await buildBundle(outDir + '/build', 'bundle.sw-jscad.js', { format: 'cjs', skipExisting: dev })
-await buildBundle(outDir + '/build', 'bundle.sw-jscad-std-specs.js', { format: 'cjs', skipExisting: dev })
 await buildBundle(outDir + '/build', 'bundle.sw-jscad-ui.js', { format: 'cjs', skipExisting: dev })
 await buildBundle(outDir + '/build', 'bundle.sw-jscad-families.js', { format: 'cjs', skipExisting: dev })
 await buildBundle(outDir + '/build', 'bundle.sw-jscad-builders.js', { format: 'cjs', skipExisting: dev })
