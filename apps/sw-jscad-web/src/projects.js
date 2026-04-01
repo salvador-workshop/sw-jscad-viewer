@@ -1,9 +1,12 @@
-export const swLibDemo = { name: 'swcad-js', source: './lib-demo/index.js' }
+export const baseDemos = [
+  { name: 'swcad-js', source: './examples/swcad-js.example.js' },
+  { name: '[Old] sw-jscad', source: './lib-demo/sw-jscad.example.js' },
+]
 
 export const swLibCore = [
   // { name: 'Area Points', source: './lib-demo/area-point-examples.js' },
   // { name: 'Centroid', source: './lib-demo/centroid-examples.js' },
-  { name: '[Depr.] sw-jscad', source: './lib-demo/sw-jscad.example.js' },
+  { name: 'Demo Pack', source: './lib-demo/index.js' },
   { name: 'Control Points', source: './lib-demo/control-points-examples.js' },
   { name: 'Mesh Cuboid', source: './lib-demo/mesh-cuboid-examples.js' },
   { name: 'Mesh Cylinder', source: './lib-demo/mesh-cylinder-examples.js' },
@@ -44,13 +47,13 @@ export const swUx = [
   { name: 'Layout frames', source: './lib-demo/layout-examples.js' },
 ]
 
-export const swLibraryDemos = [
-  swLibDemo,
-  ...swBuilders,
-  ...swDetails,
-  ...swFamilies,
-  ...swUx,
-]
+// export const swLibraryDemos = [
+//   swLibDemo,
+//   ...swBuilders,
+//   ...swDetails,
+//   ...swFamilies,
+//   ...swUx,
+// ]
 
 export const swModels = [
   { name: 'Candle holder', source: './lib-demo/candle-holder/index.js' },
