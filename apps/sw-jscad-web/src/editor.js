@@ -106,7 +106,7 @@ export const init = (defaultCode, fn, _saveFn, _getFileFn) => {
     ],
     parent: editorDiv,
   })
-  setSource(defaultCode, 'sw-jscad.example.js')
+  setSource(defaultCode, 'swcad-js.example.js')
 
   // Initialize drawer action
   drawer.init()

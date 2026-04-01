@@ -1,4 +1,4 @@
-export const swLibDemo = { name: 'sw-jscad', source: './lib-demo/index.js' }
+export const swLibDemo = { name: 'swcad-js', source: './lib-demo/index.js' }
 
 export const swLibCore = [
   // { name: 'Area Points', source: './lib-demo/area-point-examples.js' },
@@ -53,10 +53,4 @@ export const swLibraryDemos = [
 
 export const swModels = [
   { name: 'Candle holder', source: './lib-demo/candle-holder/index.js' },
-]
-
-export const swProjects = [
-  // { name: 'Connectors', source: './projects/connectors/index.js' },
-  // { name: 'Connector Parts', source: './projects/connectors/connector-parts/index.js' },
-  // { name: 'Small shelf (Alectoria)', source: './projects/shelf-alectoria/index.js' },
 ]
