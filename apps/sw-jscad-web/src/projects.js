@@ -1,6 +1,6 @@
 export const baseDemos = [
   { name: 'swcad-js', source: './examples/swcad-js.example.js' },
-  { name: '[Old] sw-jscad', source: './lib-demo/sw-jscad.example.js' },
+  { name: 'sw-jscad [Legacy]', source: './lib-demo/sw-jscad.example.js' },
 ]
 
 export const swLibCore = [
