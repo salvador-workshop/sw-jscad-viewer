@@ -110,6 +110,3 @@ dist/**
 **/.history
 **/.idea
 apps/myapp
-
-# sw-jscad User Projects
-apps/jscad-web/projects

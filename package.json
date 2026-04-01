@@ -5,7 +5,7 @@
   "main": "index.js",
   "workspaces": [
     "packages/*",
-    "apps/jscad-web"
+    "apps/sw-jscad-web"
   ],
   "directories": {
     "doc": "docs"

@@ -1,5 +1,5 @@
 {
-  "name": "@sw-jscad-viewer/jscad-web",
+  "name": "sw-jscad-web",
   "version": "0.0.3",
   "type": "module",
   "scripts": {
