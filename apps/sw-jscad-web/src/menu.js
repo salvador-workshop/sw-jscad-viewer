@@ -58,7 +58,7 @@ export const init = () => {
 
   // Add SW projects to menu
   const swDemoDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo'))
-  const firstDemos = [swLibDemo, ...swLibCore, ...swUx];
+  const firstDemos = [swLibDemo, ...swLibCore];
   firstDemos.forEach(({ name, source }) => {
     generateLink(name, source, swDemoDiv);
   });

@@ -3,6 +3,7 @@ export const swLibDemo = { name: 'swcad-js', source: './lib-demo/index.js' }
 export const swLibCore = [
   // { name: 'Area Points', source: './lib-demo/area-point-examples.js' },
   // { name: 'Centroid', source: './lib-demo/centroid-examples.js' },
+  { name: '[Depr.] sw-jscad', source: './lib-demo/sw-jscad-example.js' },
   { name: 'Control Points', source: './lib-demo/control-points-examples.js' },
   { name: 'Mesh Cuboid', source: './lib-demo/mesh-cuboid-examples.js' },
   { name: 'Mesh Cylinder', source: './lib-demo/mesh-cylinder-examples.js' },

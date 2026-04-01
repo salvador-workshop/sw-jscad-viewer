@@ -1,26 +1,30 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swJscad = require('sw-jscad').init({ lib: jscad });
-const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
-const swjFamilies = require('sw-jscad-families').init({ lib: jscad, swLib: swJscad });
-const swjBuilders = require('sw-jscad-builders').init({ lib: jscad, swLib: swJscad, swFamilies: swjFamilies });
+// const swJscad = require('sw-jscad').init({ lib: jscad });
+// const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
+// const swjFamilies = require('sw-jscad-families').init({ lib: jscad, swLib: swJscad });
+// const swjBuilders = require('sw-jscad-builders').init({ lib: jscad, swLib: swJscad, swFamilies: swjFamilies });
+
+const swCadJs = require('swcad-js').init({ lib: jscad });
+console.log('swCadJs', swCadJs)
 
 const {
     arches,
     columns,
     walls,
-} = swjBuilders
+} = swCadJs.models
 
-const { profiles, prefab } = swJscad.models
+// const { profiles, prefab } = swCadJs.models
 
 const {
     aranea,
-} = swjFamilies.trim
+} = swCadJs.profiles.trim
 
-const {
-    layout,
-} = swjUi.ux
+// const {
+//     layout,
+// } = swCadJs.models
+
 
 const main = () => {
     const layoutOpts = {

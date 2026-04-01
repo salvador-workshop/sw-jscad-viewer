@@ -6,7 +6,6 @@ const { colorize } = jscad.colors
 const { cube, sphere } = jscad.primitives
 
 const swCadJs = require('swcad-js').init({ lib: jscad });
-
 console.log('swCadJs', swCadJs)
 
 const {
