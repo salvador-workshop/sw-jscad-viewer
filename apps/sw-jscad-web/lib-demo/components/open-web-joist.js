@@ -1,0 +1,52 @@
+"use strict"
+const jscad = require('@jscad/modeling')
+
+const { translate } = jscad.transforms
+
+const swCadJs = require('swcad-js').init({ lib: jscad });
+console.log('swCadJs', swCadJs)
+
+const {
+    math,
+} = swCadJs.utils
+
+const {
+    openWebJoist,
+} = swCadJs.components
+
+function main() {
+    const spaceUnit = math.inchesToMm(3.5)
+
+    const dowelJoistPanelOpts1 = {
+        dowelRadius: 3.25 / 2,
+        width: 1.25 * 25.4,
+    }
+
+    const dowelJoistPanelOpts2 = {
+        dowelRadius: 3.25 / 2,
+        width: 1.5 * 25.4,
+        reinforcementLevel: 2
+    }
+
+    const dowelJoistPanelOpts3 = {
+        dowelRadius: 3.25 / 2,
+        width: 1.75 * 25.4,
+        reinforcementLevel: 3
+    }
+
+    const openWebJoistData = openWebJoist(dowelJoistPanelOpts2)
+
+    const openWebJoistModel = openWebJoistData[0]
+    const openWebJoistParts = openWebJoistData[1]
+
+    return [
+        translate([spaceUnit * 0, spaceUnit * 0, spaceUnit * 0], openWebJoistModel),
+
+        translate([spaceUnit * 1, spaceUnit * 0, spaceUnit * 0], openWebJoistParts.subcomponent1),
+        translate([spaceUnit * 1, spaceUnit * 1, spaceUnit * 0], openWebJoistParts.subcomponent2),
+        translate([spaceUnit * 1, spaceUnit * 2, spaceUnit * 0], openWebJoistParts.assembly1),
+        translate([spaceUnit * 1, spaceUnit * 3, spaceUnit * 0], openWebJoistParts.assembly2),
+    ]
+}
+
+module.exports = { main }
