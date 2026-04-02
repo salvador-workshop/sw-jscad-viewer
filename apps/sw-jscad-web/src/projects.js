@@ -46,15 +46,3 @@ export const swFamilies = [
 export const swUx = [
   { name: 'Layout frames', source: './lib-demo/layout-examples.js' },
 ]
-
-// export const swLibraryDemos = [
-//   swLibDemo,
-//   ...swBuilders,
-//   ...swDetails,
-//   ...swFamilies,
-//   ...swUx,
-// ]
-
-export const swModels = [
-  { name: 'Candle holder', source: './lib-demo/candle-holder/index.js' },
-]
