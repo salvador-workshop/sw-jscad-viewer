@@ -82,6 +82,11 @@ export const init = () => {
   swFamilies.forEach(({ name, source }) => {
     generateLink(name, source, swFamiliesDiv);
   })
+
+  const swUxDiv = /** @type {HTMLElement} */ (document.getElementById('sw-ui-ux'))
+  swUx.forEach(({ name, source }) => {
+    generateLink(name, source, swUxDiv);
+  })
 }
 
 const dismiss = () => {
