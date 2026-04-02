@@ -1,15 +1,12 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const { intersect, subtract } = jscad.booleans
-const { colorize } = jscad.colors
-const { cube, sphere } = jscad.primitives
+const { translate } = jscad.transforms
 
 const swCadJs = require('swcad-js').init({ lib: jscad });
 console.log('swCadJs', swCadJs)
 
 const {
-    colors,
     math,
 } = swCadJs.utils
 

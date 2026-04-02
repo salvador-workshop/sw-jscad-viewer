@@ -1,15 +1,12 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const { intersect, subtract } = jscad.booleans
-const { colorize } = jscad.colors
-const { cube, sphere } = jscad.primitives
+const { translate } = jscad.transforms
 
 const swCadJs = require('swcad-js').init({ lib: jscad });
 console.log('swCadJs', swCadJs)
 
 const {
-    colors,
     math,
 } = swCadJs.utils
 
@@ -18,19 +15,19 @@ const {
 } = swCadJs.components
 
 function main() {
-    const spaceUnit = math.inchesToMm(3.5)
+    const spaceUnit = math.inchesToMm(0.5)
 
     const interfaceThickness = 1.333333
     const lgProfileBeadWidth = interfaceThickness * 1.75
     const mdProfileBeadWidth = interfaceThickness * 1.5
     const smProfileBeadWidth = interfaceThickness * 1.125
 
-    const interfaceBeads = beadsBits.interfaceProfileBeads({
+    const interfaceBeads = beadsBits.interfaceProfileBeads(
         interfaceThickness,
         smProfileBeadWidth,
         mdProfileBeadWidth,
         lgProfileBeadWidth,
-    })
+    )
 
     return [
         translate([spaceUnit * 0, spaceUnit * 0, spaceUnit * 0], interfaceBeads.sm),
