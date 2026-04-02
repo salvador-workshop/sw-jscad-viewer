@@ -6,6 +6,10 @@ import {
   swDetails,
   swFamilies,
   swUx,
+  swcadJsProfiles,
+  swcadJsComponents,
+  swcadJsModels,
+  swcadJsUtils,
 } from './projects.js'
 
 const menu = /** @type {HTMLElement} */ (document.getElementById('menu'))
@@ -57,35 +61,63 @@ export const init = () => {
   })
 
   // Add SW projects to menu
-  
+
   const swBaseDemoDiv = /** @type {HTMLElement} */ (document.getElementById('sw-base-demo'))
   baseDemos.forEach(({ name, source }) => {
     generateLink(name, source, swBaseDemoDiv);
   });
-  
-  const swDemoCoreDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-core'))
-  swLibCore.forEach(({ name, source }) => {
-    generateLink(name, source, swDemoCoreDiv);
-  });
 
-  const swBuildersDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-builders'))
-  swBuilders.forEach(({ name, source }) => {
-    generateLink(name, source, swBuildersDiv);
+  // const swDemoCoreDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-core'))
+  // swLibCore.forEach(({ name, source }) => {
+  //   generateLink(name, source, swDemoCoreDiv);
+  // });
+
+  // const swBuildersDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-builders'))
+  // swBuilders.forEach(({ name, source }) => {
+  //   generateLink(name, source, swBuildersDiv);
+  // })
+
+  // const swDetailsDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-details'))
+  // swDetails.forEach(({ name, source }) => {
+  //   generateLink(name, source, swDetailsDiv);
+  // })
+
+  // const swFamiliesDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-families'))
+  // swFamilies.forEach(({ name, source }) => {
+  //   generateLink(name, source, swFamiliesDiv);
+  // })
+
+  // const swUxDiv = /** @type {HTMLElement} */ (document.getElementById('sw-ui-ux'))
+  // swUx.forEach(({ name, source }) => {
+  //   generateLink(name, source, swUxDiv);
+  // })
+
+  const swcadJsProfilesDiv = /** @type {HTMLElement} */ (
+    document.getElementById('swcad-js-profiles')
+  )
+  swcadJsProfiles.forEach(({ name, source }) => {
+    generateLink(name, source, swcadJsProfilesDiv);
   })
 
-  const swDetailsDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-details'))
-  swDetails.forEach(({ name, source }) => {
-    generateLink(name, source, swDetailsDiv);
+  const swcadJsComponentsDiv = /** @type {HTMLElement} */ (
+    document.getElementById('swcad-js-components')
+  )
+  swcadJsComponents.forEach(({ name, source }) => {
+    generateLink(name, source, swcadJsComponentsDiv);
   })
 
-  const swFamiliesDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-families'))
-  swFamilies.forEach(({ name, source }) => {
-    generateLink(name, source, swFamiliesDiv);
+  const swcadJsModelsDiv = /** @type {HTMLElement} */ (
+    document.getElementById('swcad-js-models')
+  )
+  swcadJsModels.forEach(({ name, source }) => {
+    generateLink(name, source, swcadJsModelsDiv);
   })
 
-  const swUxDiv = /** @type {HTMLElement} */ (document.getElementById('sw-ui-ux'))
-  swUx.forEach(({ name, source }) => {
-    generateLink(name, source, swUxDiv);
+  const swcadJsUtilsDiv = /** @type {HTMLElement} */ (
+    document.getElementById('swcad-js-utils')
+  )
+  swcadJsUtils.forEach(({ name, source }) => {
+    generateLink(name, source, swcadJsUtilsDiv);
   })
 }
 
