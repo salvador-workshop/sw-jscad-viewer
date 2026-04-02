@@ -781,8 +781,19 @@ ul {
   z-index: 4000;
 }
 
+#welcome p {
+  margin-bottom: 12px;
+}
+
 #welcome ul li {
   margin-left: 20px;
+}
+
+#welcome h2 {
+  margin-top: 8px;
+  padding-left: 2px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #111;
 }
 
 .welcome-dismiss {
@@ -798,6 +809,10 @@ ul {
 
 .dark #welcome {
   background-color: rgba(30, 30, 30, 0.8);
+}
+
+.dark #welcome h2 {
+  border-bottom: 1px solid #999;
 }
 
 .dark .welcome-dismiss {
