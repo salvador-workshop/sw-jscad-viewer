@@ -1,11 +1,6 @@
 import { examples } from './examples.js'
 import {
   baseDemos,
-  swLibCore,
-  swBuilders,
-  swDetails,
-  swFamilies,
-  swUx,
   swcadJsProfiles,
   swcadJsComponents,
   swcadJsModels,
@@ -66,31 +61,6 @@ export const init = () => {
   baseDemos.forEach(({ name, source }) => {
     generateLink(name, source, swBaseDemoDiv);
   });
-
-  // const swDemoCoreDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-core'))
-  // swLibCore.forEach(({ name, source }) => {
-  //   generateLink(name, source, swDemoCoreDiv);
-  // });
-
-  // const swBuildersDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-builders'))
-  // swBuilders.forEach(({ name, source }) => {
-  //   generateLink(name, source, swBuildersDiv);
-  // })
-
-  // const swDetailsDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-details'))
-  // swDetails.forEach(({ name, source }) => {
-  //   generateLink(name, source, swDetailsDiv);
-  // })
-
-  // const swFamiliesDiv = /** @type {HTMLElement} */ (document.getElementById('sw-demo-families'))
-  // swFamilies.forEach(({ name, source }) => {
-  //   generateLink(name, source, swFamiliesDiv);
-  // })
-
-  // const swUxDiv = /** @type {HTMLElement} */ (document.getElementById('sw-ui-ux'))
-  // swUx.forEach(({ name, source }) => {
-  //   generateLink(name, source, swUxDiv);
-  // })
 
   const swcadJsProfilesDiv = /** @type {HTMLElement} */ (
     document.getElementById('swcad-js-profiles')
