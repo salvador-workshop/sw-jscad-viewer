@@ -16,8 +16,25 @@ const {
 
 function main() {
     const spaceUnit = math.inchesToMm(3.5)
-    const openWebJoistProps = {}
-    const openWebJoistData = openWebJoist(openWebJoistProps)
+
+    const dowelJoistPanelOpts1 = {
+        dowelRadius: 3.25 / 2,
+        width: 1.25 * 25.4,
+    }
+
+    const dowelJoistPanelOpts2 = {
+        dowelRadius: 3.25 / 2,
+        width: 1.5 * 25.4,
+        reinforcementLevel: 2
+    }
+
+    const dowelJoistPanelOpts3 = {
+        dowelRadius: 3.25 / 2,
+        width: 1.75 * 25.4,
+        reinforcementLevel: 3
+    }
+
+    const openWebJoistData = openWebJoist(dowelJoistPanelOpts2)
 
     const openWebJoistModel = openWebJoistData[0]
     const openWebJoistParts = openWebJoistData[1]
