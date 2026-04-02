@@ -1,14 +1,20 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swJscad = require('sw-jscad').init({ lib: jscad });
-const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
-const swjFamilies = require('sw-jscad-families').init({ lib: jscad, swLib: swJscad });
-const swjBuilders = require('sw-jscad-builders').init({ lib: jscad, swLib: swJscad, swFamilies: swjFamilies });
+const swCadJs = require('swcad-js').init({ lib: jscad });
+console.log('swCadJs', swCadJs)
 
-const { columns } = swjBuilders;
-const { profiles } = swJscad.models;
-const { layout } = swjUi.ux;
+const {
+    column
+} = swCadJs.models;
+
+const {
+    shapes,
+} = swCadJs.profiles
+
+const {
+    layout,
+} = swCadJs.utils
 
 const main = () => {
     const layoutOpts = {
@@ -16,10 +22,10 @@ const main = () => {
         layoutSpace: 15,
     }
 
-    const profile1 = profiles.sqCornerCircNotch({ sqLength: 5 });
-    const profile3 = profiles.octagonal({ sqLength: 5 });
+    const profile1 = shapes.square.sqCornerCircNotch({ sqLength: 5 });
+    const profile3 = shapes.octagon({ sqLength: 5 });
 
-    const col1 = columns.threePtColumn({
+    const col1 = column.threePtColumn({
         base: ['extrude', 8, null, profile1],
         shaft: ['cuboid', 2],
         capital: ['extrude', 6, null, profile3],
@@ -27,7 +33,7 @@ const main = () => {
     })
     layout.addToLayout({ name: 'col1', desc: '...', layoutOpts }, col1);
 
-    const col2 = columns.threePtColumn({
+    const col2 = column.threePtColumn({
         base: ['roundCylinder', 2, 3.5],
         shaft: ['extrude', null, profile1],
         capital: ['roundCylinder', 2, 3.5],

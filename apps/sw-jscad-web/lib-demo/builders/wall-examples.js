@@ -1,13 +1,16 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swJscad = require('sw-jscad').init({ lib: jscad });
-const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
-const swjFamilies = require('sw-jscad-families').init({ lib: jscad, swLib: swJscad });
-const swjBuilders = require('sw-jscad-builders').init({ lib: jscad, swLib: swJscad, swFamilies: swjFamilies });
+const swCadJs = require('swcad-js').init({ lib: jscad });
+console.log('swCadJs', swCadJs)
 
-const { walls } = swjBuilders;
-const { layout } = swjUi.ux;
+const {
+    wall,
+} = swCadJs.models
+
+const {
+    layout,
+} = swCadJs.utils
 
 const main = () => {
     const layoutOpts = {
@@ -18,7 +21,7 @@ const main = () => {
         layoutSpace: 15,
     }
 
-    const baseWall = walls.buildWall({
+    const baseWall = wall.buildWall({
         height: 100,
         thickness: 10,
         length: 100,
@@ -29,7 +32,7 @@ const main = () => {
     });
     layout.addToLayout({ name: 'Base Wall', desc: 'No trim', layoutOpts }, baseWall);
 
-    const wall1 = walls.buildWall({
+    const wall1 = wall.buildWall({
         height: 100,
         thickness: 10,
         length: 90,
@@ -41,7 +44,7 @@ const main = () => {
     });
     layout.addToLayout({ name: 'Wall (1)', desc: 'Base + dado trim', layoutOpts }, wall1);
 
-    const wallDado2 = walls.buildWall({
+    const wallDado2 = wall.buildWall({
         height: 100,
         thickness: 10,
         length: 60,
@@ -53,7 +56,7 @@ const main = () => {
     });
     layout.addToLayout({ name: 'Dado Wall (2)', desc: '2 trim units thicker', layoutOpts }, wallDado2);
 
-    const wallDado4 = walls.buildWall({
+    const wallDado4 = wall.buildWall({
         height: 100,
         thickness: 10,
         length: 60,
@@ -67,7 +70,7 @@ const main = () => {
     });
     layout.addToLayout({ name: 'Dado Wall (4)', desc: '1 trim units thicker, ornate', layoutOpts }, wallDado4);
 
-    const halfWall1 = walls.buildWall({
+    const halfWall1 = wall.buildWall({
         height: 100,
         thickness: 10,
         length: 60,
@@ -82,7 +85,7 @@ const main = () => {
     });
     layout.addToLayout({ name: 'Half Wall (1)', desc: '...', layoutOpts }, halfWall1);
 
-    const halfWall2 = walls.buildWall({
+    const halfWall2 = wall.buildWall({
         height: 100,
         thickness: 10,
         length: 60,

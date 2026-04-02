@@ -1,13 +1,16 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swJscad = require('sw-jscad').init({ lib: jscad });
-const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
-const swjFamilies = require('sw-jscad-families').init({ lib: jscad, swLib: swJscad });
-const swjBuilders = require('sw-jscad-builders').init({ lib: jscad, swLib: swJscad, swFamilies: swjFamilies });
+const swCadJs = require('swcad-js').init({ lib: jscad });
+console.log('swCadJs', swCadJs)
 
-const { entryways } = swjBuilders;
-const { layout } = swjUi.ux;
+const {
+    wall,
+} = swCadJs.models
+
+const {
+    layout,
+} = swCadJs.utils
 
 const main = () => {
     const layoutOpts = {
@@ -15,7 +18,7 @@ const main = () => {
         layoutSpace: 30,
     }
 
-    const entryway1 = entryways.buildGothicEntryway({
+    const entryway1 = wall.entryway.buildGothicEntryway({
         wallLength: 100,
         wallThickness: 10,
         wallHeight: 100,
@@ -29,7 +32,7 @@ const main = () => {
     });
     layout.addToLayout({ name: 'entryway1', desc: '...', layoutOpts }, entryway1);
 
-    const entryway2 = entryways.buildGothicEntryway({
+    const entryway2 = wall.entryway.buildGothicEntryway({
         wallLength: 100,
         wallThickness: 10,
         wallHeight: 100,
@@ -44,7 +47,7 @@ const main = () => {
     });
     layout.addToLayout({ name: 'entryway2', desc: '...', layoutOpts }, entryway2);
 
-    const entryway3 = entryways.buildGothicEntryway({
+    const entryway3 = wall.entryway.buildGothicEntryway({
         wallLength: 100,
         wallThickness: 10,
         wallHeight: 100,
