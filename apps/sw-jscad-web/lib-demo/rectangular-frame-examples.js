@@ -1,11 +1,16 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swJscad = require('sw-jscad').init({ lib: jscad });
-const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
+const swCadJs = require('swcad-js').init({ lib: jscad });
+console.log('swCadJs', swCadJs)
 
-const { frameRect } = swJscad.models.profiles;
-const { layout } = swjUi.ux;
+const {
+    frameRect,
+} = swCadJs.profiles
+
+const {
+    layout,
+} = swCadJs.utils;
 
 const main = () => {
     const layoutOpts = {
