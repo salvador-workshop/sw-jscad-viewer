@@ -1,11 +1,16 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swJscad = require('sw-jscad').init({ lib: jscad });
-const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
+const swCadJs = require('swcad-js').init({ lib: jscad });
+console.log('swCadJs', swCadJs)
 
-const { mesh3d } = swJscad.models.prefab;
-const { layout } = swjUi.ux;
+const {
+    mesh,
+} = swCadJs.components
+
+const {
+    layout,
+} = swCadJs.utils;
 
 const main = () => {
     const layoutOpts = {
@@ -20,7 +25,7 @@ const main = () => {
             desc: '...',
             layoutOpts,
         },
-        mesh3d.meshCuboid({
+        mesh.meshCuboid({
             size: [40, 30, 20],
             meshPanelThickness: 2,
             radius: 2.5,
@@ -34,7 +39,7 @@ const main = () => {
             desc: '...',
             layoutOpts,
         },
-        mesh3d.meshCuboid({
+        mesh.meshCuboid({
             size: [40, 30, 20],
             meshPanelThickness: 2,
             radius: 2.5,
@@ -49,7 +54,7 @@ const main = () => {
             desc: 'tube-like',
             layoutOpts,
         },
-        mesh3d.meshCuboid({
+        mesh.meshCuboid({
             size: [40, 30, 20],
             meshPanelThickness: 2,
             radius: 2.5,
@@ -64,7 +69,7 @@ const main = () => {
             desc: 'offsets',
             layoutOpts,
         },
-        mesh3d.meshCuboid({
+        mesh.meshCuboid({
             size: [40, 30, 20],
             meshPanelThickness: 2,
             radius: 2.5,
@@ -80,7 +85,7 @@ const main = () => {
             desc: 'insets',
             layoutOpts,
         },
-        mesh3d.meshCuboid({
+        mesh.meshCuboid({
             size: [40, 30, 20],
             meshPanelThickness: 2,
             radius: 2.5,
@@ -96,7 +101,7 @@ const main = () => {
             desc: 'both',
             layoutOpts,
         },
-        mesh3d.meshCuboid({
+        mesh.meshCuboid({
             size: [40, 30, 20],
             meshPanelThickness: 2,
             radius: 2.5,

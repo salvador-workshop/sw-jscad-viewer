@@ -17,8 +17,7 @@ console.log(swjFamilies)
 console.log(swjBuilders)
 
 const swCadJs = require('swcad-js').init({ lib: jscad });
-
-console.log(swCadJs)
+console.log('swCadJs', swCadJs)
 
 const {
   colors,

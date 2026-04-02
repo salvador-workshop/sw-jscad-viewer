@@ -1,11 +1,16 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swJscad = require('sw-jscad').init({ lib: jscad });
-const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
+const swCadJs = require('swcad-js').init({ lib: jscad });
+console.log('swCadJs', swCadJs)
 
-const { mesh3d } = swJscad.models.prefab;
-const { layout } = swjUi.ux;
+const {
+    mesh,
+} = swCadJs.components
+
+const {
+    layout,
+} = swCadJs.utils;
 
 const main = () => {
     const layoutOpts = {
@@ -20,7 +25,7 @@ const main = () => {
             desc: 'base',
             layoutOpts,
         },
-        mesh3d.meshCylinder({
+        mesh.meshCylinder({
             radius: 12,
             height: 40,
             thickness: 1.5,
@@ -36,7 +41,7 @@ const main = () => {
             desc: 'inset',
             layoutOpts,
         },
-        mesh3d.meshCylinder({
+        mesh.meshCylinder({
             radius: 16,
             height: 45,
             thickness: 1.5,
@@ -53,7 +58,7 @@ const main = () => {
             desc: 'offset',
             layoutOpts,
         },
-        mesh3d.meshCylinder({
+        mesh.meshCylinder({
             radius: 12,
             height: 40,
             thickness: 1.5,
@@ -70,7 +75,7 @@ const main = () => {
             desc: 'in+offset',
             layoutOpts,
         },
-        mesh3d.meshCylinder({
+        mesh.meshCylinder({
             radius: 12,
             height: 40,
             thickness: 1.5,

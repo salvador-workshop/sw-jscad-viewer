@@ -1,14 +1,18 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swJscad = require('sw-jscad').init({ lib: jscad });
-const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
-
 const { union } = jscad.booleans;
 const { translate } = jscad.transforms;
 const { sphere } = jscad.primitives;
-const { geometry, maths } = swJscad.core;
-const { layout } = swjUi.ux;
+
+const swCadJs = require('swcad-js').init({ lib: jscad });
+console.log('swCadJs', swCadJs)
+
+const {
+    geometry,
+    math,
+    layout,
+} = swCadJs.utils;
 
 const generatePoints = (numPoints, offset) => {
     const min = -20
@@ -17,9 +21,9 @@ const generatePoints = (numPoints, offset) => {
 
     for (let idx = 0; idx < numPoints; idx++) {
         newPoints.push([
-            maths.getRandomInt(min, max) + offset[0],
-            maths.getRandomInt(min, max) + offset[1],
-            maths.getRandomInt(min, max) + offset[2]
+            math.getRandomInt(min, max) + offset[0],
+            math.getRandomInt(min, max) + offset[1],
+            math.getRandomInt(min, max) + offset[2]
         ])
     }
 
@@ -37,7 +41,7 @@ const main = () => {
     const pointClouds = []
 
     for (let index = 0; index < numClouds; index++) {
-        const numPointsInCloud = maths.getRandomInt(8, 11);
+        const numPointsInCloud = math.getRandomInt(8, 11);
         const offset = [
             0,
             0,
