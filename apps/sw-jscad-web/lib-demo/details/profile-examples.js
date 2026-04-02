@@ -1,11 +1,20 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swJscad = require('sw-jscad').init({ lib: jscad });
-const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
+const swCadJs = require('swcad-js').init({ lib: jscad });
+console.log('swCadJs', swCadJs)
 
-const { profiles } = swJscad.models;
-const { layout } = swjUi.ux;
+const {
+    reinforcement,
+    connections,
+    shapes,
+    edge,
+    curves,
+} = swCadJs.profiles
+
+const {
+    layout,
+} = swCadJs.utils
 
 const main = () => {
     const layoutOpts = {
@@ -13,81 +22,81 @@ const main = () => {
         layoutSpace: 5,
     }
 
-    const profile1 = profiles.sqCornerCircNotch({ sqLength: 5 });
+    const profile1 = shapes.square.sqCornerCircNotch({ sqLength: 5 });
     layout.addToLayout({ name: 'profile1', desc: '...', layoutOpts }, profile1);
 
-    const profile2 = profiles.octagonal({ sqLength: 5 });
+    const profile2 = shapes.octagon({ sqLength: 5 });
     layout.addToLayout({ name: 'profile2', desc: '...', layoutOpts }, profile2);
 
-    const profile3 = profiles.edge.circNotch({ totalThickness: 8, topThickness: 4 });
+    const profile3 = edge.circNotch({ totalThickness: 8, topThickness: 4 });
     layout.addToLayout({ name: 'profile3', desc: '...', layoutOpts }, profile3);
 
-    const profile4 = profiles.edge.circPortrusion({ totalThickness: 8, topThickness: 4 });
+    const profile4 = edge.circPortrusion({ totalThickness: 8, topThickness: 4 });
     layout.addToLayout({ name: 'profile4', desc: '...', layoutOpts }, profile4);
 
-    const profile5 = profiles.edge.circNotch({ totalThickness: 8, topThickness: 4, smallOffset: 1 });
+    const profile5 = edge.circNotch({ totalThickness: 8, topThickness: 4, smallOffset: 1 });
     layout.addToLayout({ name: 'profile5', desc: '...', layoutOpts }, profile5);
 
-    const profile6 = profiles.edge.circPortrusion({ totalThickness: 8, topThickness: 4, smallOffset: 1 });
+    const profile6 = edge.circPortrusion({ totalThickness: 8, topThickness: 4, smallOffset: 1 });
     layout.addToLayout({ name: 'profile6', desc: '...', layoutOpts }, profile6);
 
     const triProfiles = [
         {
             name: 'tri-equilateral',
-            geom: profiles.triangle.equilateral({ base: 25 }),
+            geom: shapes.triangle.equilateral({ base: 25 }),
         },
         {
             name: 'tri-rt45',
-            geom: profiles.triangle.right45({ base: 25 }),
+            geom: shapes.triangle.right45({ base: 25 }),
         },
         {
             name: 'tri-rt30',
-            geom: profiles.triangle.right30({ base: 25 }),
+            geom: shapes.triangle.right30({ base: 25 }),
         },
         {
             name: 'tri-rtGolden',
-            geom: profiles.triangle.rightGolden({ base: 25 }),
+            geom: shapes.triangle.rightGolden({ base: 25 }),
         },
         {
             name: 'tri-rtSilver',
-            geom: profiles.triangle.rightSilver({ base: 25 }),
+            geom: shapes.triangle.rightSilver({ base: 25 }),
         },
     ]
 
     const rectProfiles = [
         {
             name: 'rect-golden',
-            geom: profiles.rectangle.golden({ width: 25 }),
+            geom: shapes.rectangle.golden({ width: 25 }),
         },
         {
             name: 'rect-silver',
-            geom: profiles.rectangle.silver({ width: 25 }),
+            geom: shapes.rectangle.silver({ width: 25 }),
         },
     ]
 
     const curveProfiles = [
         {
             name: 'curves-rtGolden',
-            geom: profiles.curves.rightCorner.golden({ width: 25 }),
+            geom: curves.rightCorner.golden({ width: 25 }),
         },
         {
             name: 'curves-rtSilver',
-            geom: profiles.curves.rightCorner.silver({ width: 25 }),
+            geom: curves.rightCorner.silver({ width: 25 }),
         },
         // {
         //     name: 'curves-smTrGolden',
-        //     geom: profiles.curves.smoothTriangle.golden({ width: 25 }),
+        //     geom: curves.smoothTriangle.golden({ width: 25 }),
         // },
     ]
 
     const ellipseProfiles = [
         {
             name: 'ellipse-golden',
-            geom: profiles.ellipse.golden({ width: 25 }),
+            geom: shapes.ellipse.golden({ width: 25 }),
         },
         {
             name: 'ellipse-silver',
-            geom: profiles.ellipse.silver({ width: 25 }),
+            geom: shapes.ellipse.silver({ width: 25 }),
         },
     ]
 

@@ -1,14 +1,16 @@
 "use strict"
-
 const jscad = require('@jscad/modeling')
 
-const swJscad = require('sw-jscad').init({ lib: jscad });
-const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
-const swjFamilies = require('sw-jscad-families').init({ lib: jscad, swLib: swJscad });
+const swCadJs = require('swcad-js').init({ lib: jscad });
+console.log('swCadJs', swCadJs)
 
-const { measureDimensions, measureBoundingBox, measureCenter } = jscad.measurements;
-const { aranea } = swjFamilies.trim;
-const { layout } = swjUi.ux;
+const {
+    aranea,
+} = swCadJs.profiles.trim
+
+const {
+    layout,
+} = swCadJs.utils
 
 const main = () => {
     const tFamilyAranea = aranea.buildTrimFamily({ unitHeight: 20, unitDepth: 10 });
@@ -45,10 +47,6 @@ const main = () => {
             const currentCtg = categories[ctgIdx];
             const currentSize = sizes[sIdx];
             const currentGeom = tFamilyAranea[currentCtg][currentSize];
-            // console.log(currentCtg, currentSize)
-            // console.log(measureDimensions(currentGeom));
-            // console.log(measureBoundingBox(currentGeom));
-            // console.log(measureCenter(currentGeom));
             layout.addToLayout({ name: `${currentCtg}-${sizesAbbrev[sIdx]}`, desc: '.', layoutOpts }, currentGeom);
         }
     }

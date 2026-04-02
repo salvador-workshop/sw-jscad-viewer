@@ -1,17 +1,17 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swJscad = require('sw-jscad').init({ lib: jscad });
-const swjUi = require('sw-jscad-ui').init({ lib: jscad, swLib: swJscad });
-const swjFamilies = require('sw-jscad-families').init({ lib: jscad, swLib: swJscad });
+const swCadJs = require('swcad-js').init({ lib: jscad });
+console.log('swCadJs', swCadJs)
 
-const { union } = jscad.booleans;
-const { translate } = jscad.transforms;
-const { sphere } = jscad.primitives;
-const { geometry } = swJscad.utils;
-const { maths } = swJscad.core;
-const { layout } = swjUi.ux;
-const { dowelFittings } = swjFamilies;
+const {
+    dowelFittings
+} = swCadJs.components;
+
+const {
+    layout,
+    math,
+} = swCadJs.utils
 
 const main = () => {
     const layoutOpts = {
@@ -22,7 +22,7 @@ const main = () => {
 
     console.log(dowelFittings)
 
-    const dowelRadius = maths.inchesToMm(1 / 8)
+    const dowelRadius = math.inchesToMm(1 / 8)
 
     const singleJigs = dowelFittings.jigs.singleJigs({ dowelRadius })
     const triangularJigs = dowelFittings.jigs.triangularJigs({ dowelRadius })
