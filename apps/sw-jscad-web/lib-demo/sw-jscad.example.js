@@ -16,7 +16,7 @@ console.log(swjUi)
 console.log(swjFamilies)
 console.log(swjBuilders)
 
-const swCadJs = require('swcad-js').init({ lib: jscad });
+const swCadJs = require('swcad-js').init({ jscad });
 console.log('swCadJs', swCadJs)
 
 const {

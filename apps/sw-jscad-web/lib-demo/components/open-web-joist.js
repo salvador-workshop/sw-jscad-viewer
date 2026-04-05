@@ -3,7 +3,7 @@ const jscad = require('@jscad/modeling')
 
 const { translate } = jscad.transforms
 
-const swCadJs = require('swcad-js').init({ lib: jscad });
+const swCadJs = require('swcad-js').init({ jscad });
 console.log('swCadJs', swCadJs)
 
 const {
@@ -15,7 +15,7 @@ const {
 } = swCadJs.components
 
 function main() {
-    const spaceUnit = math.inchesToMm(1.75)
+    const spaceUnit = math.inchesToMm(2.25)
 
     const dowelJoistPanelOpts1 = {
         length: 6 * 25.4,

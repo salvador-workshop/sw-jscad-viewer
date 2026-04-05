@@ -3,7 +3,7 @@ const jscad = require('@jscad/modeling')
 
 const { cuboid, sphere, cylinder, rectangle } = jscad.primitives
 
-const swCadJs = require('swcad-js').init({ lib: jscad });
+const swCadJs = require('swcad-js').init({ jscad });
 console.log('swCadJs', swCadJs)
 
 const {

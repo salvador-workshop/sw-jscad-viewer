@@ -1,7 +1,7 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swCadJs = require('swcad-js').init({ lib: jscad });
+const swCadJs = require('swcad-js').init({ jscad });
 console.log('swCadJs', swCadJs)
 
 const {

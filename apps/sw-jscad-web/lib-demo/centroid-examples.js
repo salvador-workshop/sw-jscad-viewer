@@ -5,7 +5,7 @@ const { union } = jscad.booleans;
 const { translate } = jscad.transforms;
 const { sphere } = jscad.primitives;
 
-const swCadJs = require('swcad-js').init({ lib: jscad });
+const swCadJs = require('swcad-js').init({ jscad });
 console.log('swCadJs', swCadJs)
 
 const {
