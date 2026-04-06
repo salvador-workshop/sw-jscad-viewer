@@ -52,7 +52,8 @@ export const baseDemos = [
 
 export const swcadJsProfiles = [
   { name: 'Basic Profiles', source: './lib-demo/details/profile-examples.js' },
-  { name: 'Advanced Profiles', source: './lib-demo/details/profile-advanced-examples.js' },
+  { name: 'Connections', source: './lib-demo/profiles/connections.js' },
+  { name: 'Reinforcements', source: './lib-demo/profiles/reinforcement.js' },
   { name: 'Lumber', source: './lib-demo/families/standard-lumber-examples.js' },
   { name: 'Paper', source: './lib-demo/families/standard-paper-examples.js' },
   { name: 'Rectangular Frame', source: './lib-demo/rectangular-frame-examples.js' },
