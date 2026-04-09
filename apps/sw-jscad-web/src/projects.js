@@ -54,6 +54,7 @@ export const swcadJsProfiles = [
   { name: 'Basic Profiles', source: './lib-demo/details/profile-examples.js' },
   { name: 'Connections', source: './lib-demo/profiles/connections.js' },
   { name: 'Reinforcements', source: './lib-demo/profiles/reinforcement.js' },
+  { name: 'Mesh (2D)', source: './lib-demo/profiles/mesh-2d.js' },
   { name: 'Lumber', source: './lib-demo/families/standard-lumber-examples.js' },
   { name: 'Paper', source: './lib-demo/families/standard-paper-examples.js' },
   { name: 'Rectangular Frame', source: './lib-demo/rectangular-frame-examples.js' },

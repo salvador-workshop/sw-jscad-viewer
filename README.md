@@ -4,7 +4,7 @@ JSCAD viewer leveraging `jscad` and `swcad-js` for parametric 2D/3D CAD designs 
 
 Online viewer: [https://sw-jscad-viewer.netlify.app/](https://sw-jscad-viewer.netlify.app/)
 
-## sw-jscad
+## swcad-js
 
 API Docs: [https://salvador-workshop.github.io/swcad-js/](https://salvador-workshop.github.io/swcad-js/)  
 GitHub Repo: [https://github.com/salvador-workshop/swcad-js](https://github.com/salvador-workshop/swcad-js)  
