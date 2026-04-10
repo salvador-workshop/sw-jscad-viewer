@@ -10,8 +10,11 @@ const {
 } = swcadJs.components
 
 const {
-    layout,
     math
+} = swcadJs.calcs;
+
+const {
+    layout,
 } = swcadJs.utils;
 
 const main = () => {

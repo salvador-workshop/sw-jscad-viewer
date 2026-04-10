@@ -1,33 +1,33 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swCadJs = require('swcad-js').init({ jscad });
-console.log('swCadJs', swCadJs)
+const swcadJs = require('swcad-js').init({ jscad });
+console.log('swcadJs', swcadJs)
 
 const {
     moulding,
-} = swCadJs.components
+} = swcadJs.components
 
 const {
     arch: arch3d,
     column,
     wall,
     foil: foil3d,
-} = swCadJs.models
+} = swcadJs.models
 
 const {
     arch: arch2d,
     shapes,
     foil: foil2d,
-} = swCadJs.profiles
+} = swcadJs.profiles
 
 const {
     aranea,
-} = swCadJs.profiles.trim
+} = swcadJs.profiles.trim
 
 const {
     layout,
-} = swCadJs.utils
+} = swcadJs.utils
 
 
 const main = () => {

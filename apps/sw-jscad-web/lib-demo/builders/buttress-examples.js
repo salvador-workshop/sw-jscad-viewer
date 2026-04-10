@@ -2,16 +2,16 @@
 
 const jscad = require('@jscad/modeling')
 
-const swCadJs = require('swcad-js').init({ jscad });
-console.log('swCadJs', swCadJs)
+const swcadJs = require('swcad-js').init({ jscad });
+console.log('swcadJs', swcadJs)
 
 const {
     buttress
-} = swCadJs.models
+} = swcadJs.models
 
 const {
     layout,
-} = swCadJs.utils
+} = swcadJs.utils
 
 const main = () => {
     const layoutOpts = {
