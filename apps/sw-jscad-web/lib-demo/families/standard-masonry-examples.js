@@ -6,7 +6,7 @@ console.log('swcadJs', swcadJs)
 
 const {
     brick
-} = swcadJs.components;
+} = swcadJs.componentSpec;
 
 const {
     layout,

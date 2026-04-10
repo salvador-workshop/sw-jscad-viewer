@@ -5,7 +5,7 @@ const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
-    moulding,
+    mouldings,
 } = swcadJs.components
 
 const {
@@ -16,9 +16,8 @@ const {
 } = swcadJs.models
 
 const {
-    arch: arch2d,
     shapes,
-    foil: foil2d,
+    structure,
 } = swcadJs.profiles
 
 const {
@@ -40,8 +39,8 @@ const main = () => {
     //-----------
     // Profiles
 
-    const profile1 = shapes.square.sqCornerCircNotch({ sqLength: 5 });
-    const profile3 = shapes.octagon({ sqLength: 5 });
+    const profile1 = shapes.square.cornerCircNotch({ sqLength: 5 });
+    const profile3 = shapes.octagon.octFromDiam({ sqLength: 5 });
 
     const tFamilyBasic = aranea.buildTrimFamily({ unitHeight: 20, unitDepth: 10 });
     const dadoTrim = [
@@ -58,17 +57,17 @@ const main = () => {
     //-----------
     // Mouldings
 
-    const mould3 = moulding.circularMoulding({ radius: 20, height: 5 }, profile1);
+    const mould3 = mouldings.circularMoulding({ radius: 20, height: 5 }, profile1);
     layout.addToLayout({ name: 'mould3', desc: '...', layoutOpts }, mould3);
 
 
     //-----------
     // Foils
 
-    const foil1 = foil2d.trefoil({ radius: 10 });
+    const foil1 = structure.foil.trefoil({ radius: 10 });
     layout.addToLayout({ name: 'foil1', desc: '...', layoutOpts }, foil1);
 
-    const foil5 = foil2d.quatrefoil({ radius: 10, lobeRadiusType: 'inSlice' });
+    const foil5 = structure.foil.quatrefoil({ radius: 10, lobeRadiusType: 'inSlice' });
     layout.addToLayout({ name: 'foil5', desc: '...', layoutOpts }, foil5);
 
     const foil7 = foil3d.trefoil({ radius: 15, lobeRadiusType: 'halfRadius', cutCentre: true }, profile1);
@@ -96,7 +95,7 @@ const main = () => {
     const arch1 = arch3d.twoPtArch({ arcRadius: 30, archWidth: 35, profileWidth: 5 }, profile1);
     layout.addToLayout({ name: 'arch1', desc: '...', layoutOpts }, arch1);
 
-    const arch2 = arch2d.twoPtArch({ arcRadius: 30, archWidth: 35 });
+    const arch2 = structure.arch.twoPtArch({ arcRadius: 30, archWidth: 35 });
     layout.addToLayout({ name: 'arch2', desc: '...', layoutOpts }, arch2);
 
 

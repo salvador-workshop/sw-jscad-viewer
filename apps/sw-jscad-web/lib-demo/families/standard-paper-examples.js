@@ -6,7 +6,7 @@ console.log('swcadJs', swcadJs)
 
 const {
     paper
-} = swcadJs.profiles;
+} = swcadJs.profileSpec;
 
 const {
     layout,

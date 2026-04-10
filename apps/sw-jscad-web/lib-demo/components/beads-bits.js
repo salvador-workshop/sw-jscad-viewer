@@ -8,7 +8,7 @@ console.log('swcadJs', swcadJs)
 
 const {
     math,
-} = swcadJs.utils
+} = swcadJs.calcs
 
 const {
     beadsBits,

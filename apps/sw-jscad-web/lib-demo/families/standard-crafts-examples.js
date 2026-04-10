@@ -6,7 +6,7 @@ console.log('swcadJs', swcadJs)
 
 const {
     crafts
-} = swcadJs.components;
+} = swcadJs.componentSpec;
 
 const {
     layout,

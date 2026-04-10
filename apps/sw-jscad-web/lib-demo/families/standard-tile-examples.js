@@ -6,7 +6,7 @@ console.log('swcadJs', swcadJs)
 
 const {
     tile
-} = swcadJs.components;
+} = swcadJs.componentSpec;
 
 const {
     layout,

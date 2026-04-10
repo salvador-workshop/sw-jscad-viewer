@@ -23,7 +23,7 @@ const main = () => {
         layoutSpace: 0,
     }
 
-    const profile1 = shapes.square.sqCornerCircNotch({ sqLength: 5 });
+    const profile1 = shapes.square.cornerCircNotch({ sqLength: 5 });
 
     const arch1 = arch3d.twoPtArch({ arcRadius: 30, archWidth: 35 }, profile1);
     layout.addToLayout({ name: 'arch1', desc: '...', layoutOpts }, arch1);

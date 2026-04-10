@@ -6,7 +6,7 @@ console.log('swcadJs', swcadJs)
 
 const {
     lumber
-} = swcadJs.profiles;
+} = swcadJs.profileSpec;
 
 const {
     layout,
