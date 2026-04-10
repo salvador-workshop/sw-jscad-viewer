@@ -1,16 +1,18 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swCadJs = require('swcad-js').init({ jscad });
-console.log('swCadJs', swCadJs)
+const swcadJs = require('swcad-js').init({ jscad });
+
+console.log('swcadJs', swcadJs)
 
 const {
     mesh,
-} = swCadJs.components
+} = swcadJs.components
 
 const {
     layout,
-} = swCadJs.utils;
+    math
+} = swcadJs.utils;
 
 const main = () => {
     const layoutOpts = {
@@ -26,49 +28,9 @@ const main = () => {
             layoutOpts,
         },
         mesh.meshPanel({
-            size: [50, 30, 2.5],
-            radius: 2.5,
-            segments: 9,
-        })
-    );
-    layout.addToLayout(
-        {
-            name: 'mesh-panel-1.1',
-            desc: '...',
-            layoutOpts,
-        },
-        mesh.meshPanel({
-            size: [50, 30, 2.5],
-            radius: 2.5,
-            segments: 9,
-            edgeInsets: [2, 2],
-        })
-    );
-    layout.addToLayout(
-        {
-            name: 'mesh-panel-1.2',
-            desc: '...',
-            layoutOpts,
-        },
-        mesh.meshPanel({
-            size: [50, 30, 2.5],
-            radius: 2.5,
-            segments: 9,
-            edgeOffsets: [2, 2]
-        })
-    );
-    layout.addToLayout(
-        {
-            name: 'mesh-panel-1.3',
-            desc: '...',
-            layoutOpts,
-        },
-        mesh.meshPanel({
-            size: [50, 30, 2.5],
-            radius: 2.5,
-            segments: 9,
-            edgeInsets: [2, 2],
-            edgeOffsets: [2, 2]
+            size: [math.inchesToMm(3), math.inchesToMm(4)],
+            holeRadius: 2.5,
+            holeDistance: math.inchesToMm(3/8),
         })
     );
 
@@ -79,9 +41,10 @@ const main = () => {
             layoutOpts,
         },
         mesh.meshPanel({
-            size: [40, 30, 2.5],
-            radius: 2.5,
-            segments: 8,
+            size: [math.inchesToMm(3), math.inchesToMm(4)],
+            thickness: 5,
+            holeRadius: 5,
+            holeDistance: math.inchesToMm(3/8),
             pattern: 'square'
         })
     );
@@ -93,11 +56,10 @@ const main = () => {
             layoutOpts,
         },
         mesh.meshPanel({
-            size: [45, 35, 2],
-            radius: 3,
-            segments: 8,
-            edgeMargin: 2,
-            patternMode: 'fill'
+            size: [math.inchesToMm(3), math.inchesToMm(4)],
+            holeRadius: 6,
+            holeDistance: math.inchesToMm(3/8),
+            edgeMargin: 12.7,
         })
     );
 

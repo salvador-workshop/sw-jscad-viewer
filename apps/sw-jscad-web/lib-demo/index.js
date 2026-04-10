@@ -9,13 +9,14 @@ const {
 } = swCadJs.components
 
 const {
-    arch,
+    arch: arch3d,
     column,
     wall,
     foil: foil3d,
 } = swCadJs.models
 
 const {
+    arch: arch2d,
     shapes,
     foil: foil2d,
 } = swCadJs.profiles
@@ -92,10 +93,10 @@ const main = () => {
     //-----------
     // Arches
 
-    const arch1 = arch.twoPtArch({ arcRadius: 30, archWidth: 35, profileWidth: 5 }, profile1);
+    const arch1 = arch3d.twoPtArch({ arcRadius: 30, archWidth: 35, profileWidth: 5 }, profile1);
     layout.addToLayout({ name: 'arch1', desc: '...', layoutOpts }, arch1);
 
-    const arch2 = arch.twoPtArch({ arcRadius: 30, archWidth: 35 });
+    const arch2 = arch2d.twoPtArch({ arcRadius: 30, archWidth: 35 });
     layout.addToLayout({ name: 'arch2', desc: '...', layoutOpts }, arch2);
 
 
