@@ -5,14 +5,17 @@ const { union } = jscad.booleans;
 const { translate } = jscad.transforms;
 const { sphere } = jscad.primitives;
 
-const swCadJs = require('swcad-js').init({ jscad });
-console.log('swCadJs', swCadJs)
+const swcadJs = require('swcad-js').init({ jscad });
+console.log('swcadJs', swcadJs)
 
 const {
     geometry,
     math,
+} = swcadJs.calcs;
+
+const {
     layout,
-} = swCadJs.utils;
+} = swcadJs.utils;
 
 const generatePoints = (numPoints, offset) => {
     const min = -20

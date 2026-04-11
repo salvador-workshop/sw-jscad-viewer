@@ -1,8 +1,11 @@
 import { examples } from './examples.js'
 import {
   baseDemos,
+  swcadJsCalcs,
   swcadJsProfiles,
+  swcadJsProfileSpec,
   swcadJsComponents,
+  swcadJsComponentSpec,
   swcadJsModels,
   swcadJsUtils,
 } from './projects.js'
@@ -62,6 +65,13 @@ export const init = () => {
     generateLink(name, source, swBaseDemoDiv);
   });
 
+  const swcadJsCalcsDiv = /** @type {HTMLElement} */ (
+    document.getElementById('swcad-js-calcs')
+  )
+  swcadJsCalcs.forEach(({ name, source }) => {
+    generateLink(name, source, swcadJsCalcsDiv);
+  })
+
   const swcadJsProfilesDiv = /** @type {HTMLElement} */ (
     document.getElementById('swcad-js-profiles')
   )
@@ -69,11 +79,25 @@ export const init = () => {
     generateLink(name, source, swcadJsProfilesDiv);
   })
 
+  const swcadJsProfileSpecDiv = /** @type {HTMLElement} */ (
+    document.getElementById('swcad-js-profile-spec')
+  )
+  swcadJsProfileSpec.forEach(({ name, source }) => {
+    generateLink(name, source, swcadJsProfileSpecDiv);
+  })
+
   const swcadJsComponentsDiv = /** @type {HTMLElement} */ (
     document.getElementById('swcad-js-components')
   )
   swcadJsComponents.forEach(({ name, source }) => {
     generateLink(name, source, swcadJsComponentsDiv);
+  })
+
+  const swcadJsComponentSpecDiv = /** @type {HTMLElement} */ (
+    document.getElementById('swcad-js-component-spec')
+  )
+  swcadJsComponentSpec.forEach(({ name, source }) => {
+    generateLink(name, source, swcadJsComponentSpecDiv);
   })
 
   const swcadJsModelsDiv = /** @type {HTMLElement} */ (

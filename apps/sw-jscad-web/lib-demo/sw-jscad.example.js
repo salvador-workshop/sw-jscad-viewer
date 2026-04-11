@@ -16,12 +16,12 @@ console.log(swjUi)
 console.log(swjFamilies)
 console.log(swjBuilders)
 
-const swCadJs = require('swcad-js').init({ jscad });
-console.log('swCadJs', swCadJs)
+const swcadJs = require('swcad-js').init({ jscad });
+console.log('swcadJs', swcadJs)
 
 const {
   colors,
-} = swCadJs.utils
+} = swcadJs.utils
 
 function main() {
   const outer = subtract(

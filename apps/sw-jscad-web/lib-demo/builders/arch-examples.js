@@ -1,21 +1,21 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swCadJs = require('swcad-js').init({ jscad });
-console.log('swCadJs', swCadJs)
+const swcadJs = require('swcad-js').init({ jscad });
+console.log('swcadJs', swcadJs)
 
 const {
     arch: arch3d,
-} = swCadJs.models;
+} = swcadJs.models;
 
 const {
-    arch: arch2d,
+    structure,
     shapes,
-} = swCadJs.profiles;
+} = swcadJs.profiles;
 
 const {
     layout,
-} = swCadJs.utils;
+} = swcadJs.utils;
 
 const main = () => {
     const layoutOpts = {
@@ -23,7 +23,7 @@ const main = () => {
         layoutSpace: 0,
     }
 
-    const profile1 = shapes.square.sqCornerCircNotch({ sqLength: 5 });
+    const profile1 = shapes.square.cornerCircNotch({ sqLength: 5 });
 
     const arch1 = arch3d.twoPtArch({ arcRadius: 30, archWidth: 35 }, profile1);
     layout.addToLayout({ name: 'arch1', desc: '...', layoutOpts }, arch1);
@@ -31,10 +31,10 @@ const main = () => {
     const arch2 = arch3d.onePtArch({ arcRadius: 60 }, profile1);
     layout.addToLayout({ name: 'arch2', desc: '...', layoutOpts }, arch2);
 
-    const arch3 = arch2d.twoPtArch({ arcRadius: 30, archWidth: 35 });
+    const arch3 = structure.arch.twoPtArch({ arcRadius: 30, archWidth: 35 });
     layout.addToLayout({ name: 'arch3', desc: '...', layoutOpts }, arch3);
 
-    const arch4 = arch2d.onePtArch({ arcRadius: 60 });
+    const arch4 = structure.arch.onePtArch({ arcRadius: 60 });
     layout.addToLayout({ name: 'arch4', desc: '...', layoutOpts }, arch4);
 
     const layoutContent = layout.gridLayout({ layoutOpts });

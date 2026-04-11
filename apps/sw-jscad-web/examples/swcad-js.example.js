@@ -6,17 +6,20 @@ const { colorize } = jscad.colors
 const { cube, sphere } = jscad.primitives
 const { translate } = jscad.transforms
 
-const swCadJs = require('swcad-js').init({ jscad });
-console.log('swCadJs', swCadJs)
+const swcadJs = require('swcad-js').init({ jscad });
+console.log('swcadJs', swcadJs)
 
 const {
   math,
+} = swcadJs.calcs
+
+const {
   colors,
-} = swCadJs.utils
+} = swcadJs.utils
 
 const {
   openWebJoist,
-} = swCadJs.components
+} = swcadJs.components
 
 function main() {
   const outer = subtract(

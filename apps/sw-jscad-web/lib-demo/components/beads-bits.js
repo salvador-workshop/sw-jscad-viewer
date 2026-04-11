@@ -3,16 +3,16 @@ const jscad = require('@jscad/modeling')
 
 const { translate } = jscad.transforms
 
-const swCadJs = require('swcad-js').init({ jscad });
-console.log('swCadJs', swCadJs)
+const swcadJs = require('swcad-js').init({ jscad });
+console.log('swcadJs', swcadJs)
 
 const {
     math,
-} = swCadJs.utils
+} = swcadJs.calcs
 
 const {
     beadsBits,
-} = swCadJs.components
+} = swcadJs.components
 
 function main() {
     const spaceUnit = math.inchesToMm(0.5)

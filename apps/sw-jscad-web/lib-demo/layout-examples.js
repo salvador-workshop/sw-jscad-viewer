@@ -3,12 +3,12 @@ const jscad = require('@jscad/modeling')
 
 const { cuboid, sphere, cylinder, rectangle } = jscad.primitives
 
-const swCadJs = require('swcad-js').init({ jscad });
-console.log('swCadJs', swCadJs)
+const swcadJs = require('swcad-js').init({ jscad });
+console.log('swcadJs', swcadJs)
 
 const {
     layout,
-} = swCadJs.utils
+} = swcadJs.utils
 
 const main = () => {
     const layoutOpts = {

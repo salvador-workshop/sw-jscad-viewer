@@ -1,16 +1,16 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swCadJs = require('swcad-js').init({ jscad });
-console.log('swCadJs', swCadJs)
+const swcadJs = require('swcad-js').init({ jscad });
+console.log('swcadJs', swcadJs)
 
 const {
     crafts
-} = swCadJs.components;
+} = swcadJs.componentSpec;
 
 const {
     layout,
-} = swCadJs.utils
+} = swcadJs.utils
 
 const main = () => {
     const layoutOpts = {

@@ -8,7 +8,7 @@ console.log('swcadJs', swcadJs)
 const {
     reinforcement,
     connections,
-    mesh,
+    structure,
 } = swcadJs.profiles
 
 const {
@@ -24,11 +24,11 @@ const main = () => {
     const triPanelOpts = {
         holePattern: 'tri',
     }
-    const triPanel = mesh.meshPanel(triPanelOpts)[0]
+    const triPanel = structure.mesh.meshPanel(triPanelOpts)[0]
     const squarePanelOpts = {
         holePattern: 'square',
     }
-    const squarePanel = mesh.meshPanel(squarePanelOpts)[0]
+    const squarePanel = structure.mesh.meshPanel(squarePanelOpts)[0]
 
     const reinforcementProfiles = [
         {

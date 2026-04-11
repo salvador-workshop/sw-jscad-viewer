@@ -1,20 +1,17 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swCadJs = require('swcad-js').init({ jscad });
-console.log('swCadJs', swCadJs)
+const swcadJs = require('swcad-js').init({ jscad });
+console.log('swcadJs', swcadJs)
 
 const {
-    reinforcement,
-    connections,
     shapes,
-    edge,
-    curves,
-} = swCadJs.profiles
+    curve,
+} = swcadJs.profiles
 
 const {
     layout,
-} = swCadJs.utils
+} = swcadJs.utils
 
 const main = () => {
     const layoutOpts = {
@@ -22,23 +19,11 @@ const main = () => {
         layoutSpace: 5,
     }
 
-    const profile1 = shapes.square.sqCornerCircNotch({ sqLength: 5 });
+    const profile1 = shapes.square.cornerCircNotch({ sqLength: 5 });
     layout.addToLayout({ name: 'profile1', desc: '...', layoutOpts }, profile1);
 
-    const profile2 = shapes.octagon({ sqLength: 5 });
+    const profile2 = shapes.octagon.octFromDiam({ sqLength: 5 });
     layout.addToLayout({ name: 'profile2', desc: '...', layoutOpts }, profile2);
-
-    const profile3 = edge.circNotch({ totalThickness: 8, topThickness: 4 });
-    layout.addToLayout({ name: 'profile3', desc: '...', layoutOpts }, profile3);
-
-    const profile4 = edge.circPortrusion({ totalThickness: 8, topThickness: 4 });
-    layout.addToLayout({ name: 'profile4', desc: '...', layoutOpts }, profile4);
-
-    const profile5 = edge.circNotch({ totalThickness: 8, topThickness: 4, smallOffset: 1 });
-    layout.addToLayout({ name: 'profile5', desc: '...', layoutOpts }, profile5);
-
-    const profile6 = edge.circPortrusion({ totalThickness: 8, topThickness: 4, smallOffset: 1 });
-    layout.addToLayout({ name: 'profile6', desc: '...', layoutOpts }, profile6);
 
     const triProfiles = [
         {
@@ -77,11 +62,11 @@ const main = () => {
     const curveProfiles = [
         {
             name: 'curves-rtGolden',
-            geom: curves.rightCorner.golden({ width: 25 }),
+            geom: curve.rightCorner.golden({ width: 25 }),
         },
         {
             name: 'curves-rtSilver',
-            geom: curves.rightCorner.silver({ width: 25 }),
+            geom: curve.rightCorner.silver({ width: 25 }),
         },
         // {
         //     name: 'curves-smTrGolden',
