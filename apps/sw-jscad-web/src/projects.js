@@ -19,7 +19,6 @@ export const swcadJsComponents = [
   { name: 'Open Web Joist', source: './lib-demo/components/open-web-joist.js' },
   { name: 'Beads and Bits', source: './lib-demo/components/beads-bits.js' },
   { name: 'Mesh Panel (3D)', source: './lib-demo/mesh-panel-examples.js' },
-  { name: 'Moulds', source: './lib-demo/details/mould-examples.js' },
   { name: 'Brick', source: './lib-demo/families/standard-masonry-examples.js' },
   { name: 'Tile', source: './lib-demo/families/standard-tile-examples.js' },
 ]
@@ -29,9 +28,6 @@ export const swcadJsModels = [
   { name: 'Arch', source: './lib-demo/builders/arch-examples.js' },
   { name: 'Wall', source: './lib-demo/builders/wall-examples.js' },
   { name: 'Wall Entryway', source: './lib-demo/builders/entryway-examples.js' },
-  { name: 'Column', source: './lib-demo/builders/column-examples.js' },
-  { name: 'Roof', source: './lib-demo/builders/roof-examples.js' },
-  { name: 'Buttress', source: './lib-demo/builders/buttress-examples.js' },
 ]
 
 export const swcadJsUtils = [

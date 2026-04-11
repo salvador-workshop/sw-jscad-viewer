@@ -6,7 +6,7 @@ console.log('swcadJs', swcadJs)
 
 const {
     shapes,
-    curves,
+    curve,
 } = swcadJs.profiles
 
 const {
@@ -62,11 +62,11 @@ const main = () => {
     const curveProfiles = [
         {
             name: 'curves-rtGolden',
-            geom: curves.rightCorner.golden({ width: 25 }),
+            geom: curve.rightCorner.golden({ width: 25 }),
         },
         {
             name: 'curves-rtSilver',
-            geom: curves.rightCorner.silver({ width: 25 }),
+            geom: curve.rightCorner.silver({ width: 25 }),
         },
         // {
         //     name: 'curves-smTrGolden',

@@ -5,7 +5,7 @@ const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
-    mouldings,
+    moulding,
 } = swcadJs.components
 
 const {
@@ -57,7 +57,7 @@ const main = () => {
     //-----------
     // Mouldings
 
-    const mould3 = mouldings.circularMoulding({ radius: 20, height: 5 }, profile1);
+    const mould3 = moulding.circularMoulding({ radius: 20, height: 5 }, profile1);
     layout.addToLayout({ name: 'mould3', desc: '...', layoutOpts }, mould3);
 
 
@@ -76,17 +76,6 @@ const main = () => {
     const foil8 = foil3d.quatrefoil({ radius: 15, lobeRadiusType: 'mean', cutCentre: true }, profile3);
     layout.addToLayout({ name: 'foil8', desc: '...', layoutOpts }, foil8);
 
-
-    //-----------
-    // Columns
-
-    const col2 = column.threePtColumn({
-        base: ['roundCylinder', 2, 3.5],
-        shaft: ['extrude', null, profile1],
-        capital: ['roundCylinder', 2, 3.5],
-        height: 20,
-    });
-    layout.addToLayout({ name: 'col2', desc: '...', layoutOpts }, col2);
 
 
     //-----------

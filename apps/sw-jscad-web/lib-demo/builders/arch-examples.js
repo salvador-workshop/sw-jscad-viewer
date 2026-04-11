@@ -9,7 +9,7 @@ const {
 } = swcadJs.models;
 
 const {
-    arch: arch2d,
+    structure,
     shapes,
 } = swcadJs.profiles;
 
@@ -31,10 +31,10 @@ const main = () => {
     const arch2 = arch3d.onePtArch({ arcRadius: 60 }, profile1);
     layout.addToLayout({ name: 'arch2', desc: '...', layoutOpts }, arch2);
 
-    const arch3 = arch2d.twoPtArch({ arcRadius: 30, archWidth: 35 });
+    const arch3 = structure.arch.twoPtArch({ arcRadius: 30, archWidth: 35 });
     layout.addToLayout({ name: 'arch3', desc: '...', layoutOpts }, arch3);
 
-    const arch4 = arch2d.onePtArch({ arcRadius: 60 });
+    const arch4 = structure.arch.onePtArch({ arcRadius: 60 });
     layout.addToLayout({ name: 'arch4', desc: '...', layoutOpts }, arch4);
 
     const layoutContent = layout.gridLayout({ layoutOpts });
