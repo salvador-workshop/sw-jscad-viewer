@@ -24,12 +24,34 @@ const lgProfileBeadWidth = interfaceThickness * 1.75
 const mdProfileBeadWidth = interfaceThickness * 1.5
 const smProfileBeadWidth = interfaceThickness * 1.125
 
-const interfaceBeads = beadsBits.interface.profileBeads(
+const interfaceBeads = beadsBits.interface3d.profileBeads(
     interfaceThickness,
     smProfileBeadWidth,
     mdProfileBeadWidth,
     lgProfileBeadWidth,
 )
+
+
+const rabbetOpts = {
+    offset1: 6,
+    offset2: 8,
+    offset3: 6,
+    offset4: 8,
+}
+const chamferOpts = {
+    offset1: 6,
+    offset2: 8,
+}
+const roundOverOpts = {
+    offset1: 6,
+    offset2: 8,
+}
+const coveOpts = {
+    offset1: 6,
+    offset2: 8,
+    offset3: 6,
+    offset4: 8,
+}
 
 
 const rabbetData = beadsBitsProfiles.corner.rabbet(rabbetOpts)
@@ -59,7 +81,7 @@ const cove3dModel = cove3dData[0]
 
 
 function main() {
-    const spaceUnit = math.inchesToMm(1.5)
+    const spaceUnit = math.inchesToMm(3)
 
     return [
         translate([spaceUnit * 0, spaceUnit * 0, spaceUnit * 0], interfaceBeads.sm),
@@ -69,12 +91,12 @@ function main() {
         translate([spaceUnit * 1, spaceUnit * 0, spaceUnit * 0], rabbetModel),
         translate([spaceUnit * 1, spaceUnit * 1, spaceUnit * 0], chamferModel),
         translate([spaceUnit * 1, spaceUnit * 2, spaceUnit * 0], roundOverModel),
-        translate([spaceUnit * 1, spaceUnit * 2, spaceUnit * 0], coveModel),
+        translate([spaceUnit * 1, spaceUnit * 3, spaceUnit * 0], coveModel),
 
         translate([spaceUnit * 2, spaceUnit * 0, spaceUnit * 0], rabbet3dModel),
         translate([spaceUnit * 2, spaceUnit * 1, spaceUnit * 0], chamfer3dModel),
         translate([spaceUnit * 2, spaceUnit * 2, spaceUnit * 0], roundOver3dModel),
-        translate([spaceUnit * 2, spaceUnit * 2, spaceUnit * 0], cove3dModel),
+        translate([spaceUnit * 2, spaceUnit * 3, spaceUnit * 0], cove3dModel),
     ]
 }
 
