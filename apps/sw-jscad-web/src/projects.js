@@ -29,6 +29,7 @@ export const swcadJsComponents = [
   { name: 'Open Web Joist', source: './lib-demo/components/open-web-joist.js' },
   { name: 'Beads and Bits', source: './lib-demo/components/beads-bits.js' },
   { name: 'Mesh Panel (3D)', source: './lib-demo/mesh-panel-examples.js' },
+  { name: 'Routed Shapes', source: './lib-demo/components/routed-shapes.js' },
 ]
 
 export const swcadJsComponentSpec = [
