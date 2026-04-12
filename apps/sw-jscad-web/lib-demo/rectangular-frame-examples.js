@@ -25,7 +25,7 @@ const main = () => {
             desc: '..',
             layoutOpts,
         },
-        frameRect.rectangularFrame({
+        frameRect({
             size: [40, 50],
             direction: 'in',
             frameWidth: 10,
@@ -42,7 +42,7 @@ const main = () => {
             desc: '..',
             layoutOpts,
         },
-        frameRect.rectangularFrame({
+        frameRect({
             size: [50, 40],
             direction: 'out',
             frameWidth: 10,
@@ -59,7 +59,7 @@ const main = () => {
             desc: '..',
             layoutOpts,
         },
-        frameRect.rectangularFrame({
+        frameRect({
             size: [40, 50],
             direction: 'both',
             frameWidth: 10,
@@ -80,7 +80,7 @@ const main = () => {
             desc: '..',
             layoutOpts,
         },
-        frameRect.rectangularFrame({
+        frameRect({
             size: [40, 50],
             direction: 'both',
             frameWidth: 10,
@@ -102,7 +102,7 @@ const main = () => {
             desc: '..',
             layoutOpts,
         },
-        frameRect.rectangularFrame({
+        frameRect({
             size: [60, 45],
             direction: 'both',
             frameWidth: 10,

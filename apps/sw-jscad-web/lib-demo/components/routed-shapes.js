@@ -58,15 +58,7 @@ const routedCylinderEllipticOpts = {
         offset3: 3,
         offset4: 2,
     },
-    bottomBit: 'rabbet',
-    bottomBitOpts: {
-        radius1: 6,
-        radius2: 8,
-        offset1: 3,
-        offset2: 2,
-        offset3: 3,
-        offset4: 2,
-    },
+    bottomBit: 'none',
 }
 const routedCylinderEllipticData = routedCylinderElliptic(routedCylinderEllipticOpts)
 const routedCylinderEllipticModel = routedCylinderEllipticData[0]
