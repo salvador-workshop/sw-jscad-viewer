@@ -25,7 +25,7 @@ const main = () => {
             desc: '..',
             layoutOpts,
         },
-        frameRect.rectangularFrame({
+        frameRect({
             size: [40, 50],
             direction: 'in',
             frameWidth: 10,

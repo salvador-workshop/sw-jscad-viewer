@@ -35,19 +35,19 @@ function main() {
   const spaceUnit = math.inchesToMm(2.25)
 
   const openWebJoistOpts1 = {
-    length: 6 * 25.4,
-    width: 1.25 * 25.4,
+    length: math.inchesToMm(6),
+    width: math.inchesToMm(1.25),
   }
 
   const openWebJoistOpts2 = {
-    length: 6.5 * 25.4,
-    width: 1.5 * 25.4,
+    length: math.inchesToMm(6.5),
+    width: math.inchesToMm(1.5),
     reinforcementLevel: 2
   }
 
   const openWebJoistOpts3 = {
-    length: 7 * 25.4,
-    width: 1.75 * 25.4,
+    length: math.inchesToMm(7),
+    width: math.inchesToMm(1.75),
     reinforcementLevel: 3
   }
 
@@ -56,13 +56,8 @@ function main() {
   const openWebJoistData3 = openWebJoist(openWebJoistOpts3)
 
   const openWebJoistModel1 = openWebJoistData1[0]
-  const openWebJoistParts1 = openWebJoistData1[1]
-
   const openWebJoistModel2 = openWebJoistData2[0]
-  const openWebJoistParts2 = openWebJoistData2[1]
-
   const openWebJoistModel3 = openWebJoistData3[0]
-  const openWebJoistParts3 = openWebJoistData3[1]
 
   return [
     translate([spaceUnit * 0, spaceUnit * 0, spaceUnit * 0], colorize(colors.lightGreen, outer)),

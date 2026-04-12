@@ -5,7 +5,6 @@ const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
-    reinforcement,
     connections,
 } = swcadJs.profiles
 
