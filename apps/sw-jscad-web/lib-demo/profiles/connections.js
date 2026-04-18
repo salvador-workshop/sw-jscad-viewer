@@ -13,43 +13,64 @@ const {
 } = swcadJs.utils
 
 const main = () => {
+
+    const connPegboardData = connections.pegboard({})
+    const connPegboardProfiles = connPegboardData[0]
+    const connPegboardMale = connPegboardProfiles[0]
+    const connPegboardFemale = connPegboardProfiles[1]
+
+    const connPolygonData = connections.polygon({})
+    const connPolygonProfiles = connPolygonData[0]
+    const connPolygonMale = connPolygonProfiles[0]
+    const connPolygonFemale = connPolygonProfiles[1]
+
+    const connTabData = connections.tab({})
+    const connTabProfiles = connTabData[0]
+    const connTabMale = connTabProfiles[0]
+    const connTabFemale = connTabProfiles[1]
+
+    const connDovetailData = connections.dovetail({})
+    const connDovetailProfiles = connDovetailData[0]
+    const connDovetailMale = connDovetailProfiles[0]
+    const connDovetailFemale = connDovetailProfiles[1]
+
     const layoutOpts = {
         layoutMargin: 15,
-        layoutSpace: 5,
+        layoutSpace: 15,
     }
 
     const connectionProfiles = [
         {
             name: 'c-pegboard-m',
-            geom: connections.pegboard({ spacing: 25.4, radius: 6.35 }).male,
+            geom: connPegboardMale,
         },
         {
             name: 'c-pegboard-f',
-            geom: connections.pegboard({ spacing: 25.4, radius: 6.35 }).female,
+            geom: connPegboardFemale,
         },
         {
             name: 'c-polygon-m',
-            geom: connections.polygon({ radius: 12.7, segments: 6 }).male,
+            geom: connPolygonMale,
         },
         {
             name: 'c-polygon-f',
-            geom: connections.polygon({ radius: 12.7, segments: 6 }).female,
+            geom: connPolygonFemale,
         },
         {
             name: 'c-tab-m',
-            geom: connections.tab({ width: 30, depth: 10 }).male,
+            geom: connTabMale,
         },
         {
             name: 'c-tab-f',
-            geom: connections.tab({ width: 30, depth: 10 }).female,
+            geom: connTabFemale,
         },
         {
             name: 'c-dovetail-m',
-            geom: connections.dovetail({ width: 30, depth: 10 }).male,
+            geom: connDovetailMale,
         },
         {
             name: 'c-dovetail-f',
-            geom: connections.dovetail({ width: 30, depth: 10 }).female,
+            geom: connDovetailFemale,
         },
     ]
 
