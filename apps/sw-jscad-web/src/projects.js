@@ -29,6 +29,7 @@ export const swcadJsComponents = [
   { name: 'Beads and Bits', source: './lib-demo/components/beads-bits.js' },
   { name: 'Mesh Panel (3D)', source: './lib-demo/mesh-panel-examples.js' },
   { name: 'Routed Shapes', source: './lib-demo/components/routed-shapes.js' },
+  { name: 'Trim Family Frame', source: './lib-demo/components/trim-family-frame.js' },
 ]
 
 export const swcadJsComponentSpec = [
