@@ -10,10 +10,12 @@ const {
 
 const {
     arch: arch3d,
-    column,
-    wall,
     foil: foil3d,
 } = swcadJs.models
+
+const {
+    wall,
+} = swcadJs.models.structure
 
 const {
     shapes,

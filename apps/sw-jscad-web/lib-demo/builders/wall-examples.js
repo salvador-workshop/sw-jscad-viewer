@@ -6,7 +6,7 @@ console.log('swcadJs', swcadJs)
 
 const {
     wall,
-} = swcadJs.models
+} = swcadJs.models.structure
 
 const {
     layout,

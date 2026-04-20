@@ -5,8 +5,8 @@ const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
-    wall,
-} = swcadJs.models
+    wallEntryway,
+} = swcadJs.models.structure
 
 const {
     layout,
@@ -18,7 +18,7 @@ const main = () => {
         layoutSpace: 30,
     }
 
-    const entryway1 = wall.entryway.buildGothicEntryway({
+    const entryway1 = wallEntryway.buildGothicEntryway({
         wallLength: 100,
         wallThickness: 10,
         wallHeight: 100,
@@ -32,7 +32,7 @@ const main = () => {
     });
     layout.addToLayout({ name: 'entryway1', desc: '...', layoutOpts }, entryway1);
 
-    const entryway2 = wall.entryway.buildGothicEntryway({
+    const entryway2 = wallEntryway.buildGothicEntryway({
         wallLength: 100,
         wallThickness: 10,
         wallHeight: 100,
@@ -47,7 +47,7 @@ const main = () => {
     });
     layout.addToLayout({ name: 'entryway2', desc: '...', layoutOpts }, entryway2);
 
-    const entryway3 = wall.entryway.buildGothicEntryway({
+    const entryway3 = wallEntryway.buildGothicEntryway({
         wallLength: 100,
         wallThickness: 10,
         wallHeight: 100,
