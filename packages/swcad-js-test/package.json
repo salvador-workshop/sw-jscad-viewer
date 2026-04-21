@@ -1,0 +1,14 @@
+{
+  "name": "swcad-js-test",
+  "version": "0.0.1",
+  "description": "swcad-js-test",
+  "main": "src/swcad.js",
+  "scripts": {
+    "docs": "jsdoc src -r -d docs -c jsdoc.json --readme readme.md"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "jsdoc": "^4.0.4"
+  }
+}

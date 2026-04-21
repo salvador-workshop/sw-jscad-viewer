@@ -290,6 +290,7 @@ const bundles = {
   'sw-jscad-families': toUrl('./build/bundle.sw-jscad-families.js'),
   'sw-jscad-builders': toUrl('./build/bundle.sw-jscad-builders.js'),
   'swcad-js': toUrl('./build/bundle.swcad-js.js'),
+  'swcad-js-test': toUrl('./build/bundle.swcad-js-test.js'),
 }
 
 await workerApi.jscadInit({ bundles })
