@@ -21,7 +21,7 @@ const main = () => {
 
     console.log(brick)
 
-    Object.entries(brick.northAmerica).forEach(([brickKey, brickVal], idx) => {
+    Object.entries(brick).forEach(([brickKey, brickVal], idx) => {
         layout.addToLayout({
             name: `brick-${idx}`,
             desc: `northAmerica.${brickKey}`,

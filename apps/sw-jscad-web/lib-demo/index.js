@@ -44,7 +44,7 @@ const main = () => {
     const profile1 = shapes.square.cornerCircNotch({ sqLength: 5 });
     const profile3 = shapes.octagon.octFromDiam({ sqLength: 5 });
 
-    const tFamilyBasic = aranea.buildTrimFamily({ unitHeight: 20, unitDepth: 10 });
+    const tFamilyBasic = aranea.trimFamilyAranea({ size: [20, 10] });
     const dadoTrim = [
         tFamilyBasic.dado.small,
         tFamilyBasic.dado.medium,

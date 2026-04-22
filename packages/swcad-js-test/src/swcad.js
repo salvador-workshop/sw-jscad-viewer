@@ -7087,7 +7087,7 @@ var require_trim_family_frame = __commonJS({
               case "aranea":
                 const unitHeight = dims.trimWidth / opts2.ornaments.trimLevels;
                 const unitDepth = dims.trimThickness / opts2.ornaments.trimLevels;
-                const detailDepth = unitDepth / 3;
+                const trimSizeDims = [unitHeight, unitDepth];
                 const trimStyle = "dado";
                 let trimSize = "small";
                 switch (opts2.ornaments.trimLevels) {
@@ -7102,10 +7102,8 @@ var require_trim_family_frame = __commonJS({
                     trimSize = "smallOrn1";
                     break;
                 }
-                const tFamilyAranea = aranea.buildTrimFamily({
-                  unitHeight,
-                  unitDepth,
-                  detailDepth
+                const tFamilyAranea = aranea.trimFamilyAranea({
+                  size: trimSizeDims
                 });
                 let frameProfile = tFamilyAranea[trimStyle][trimSize];
                 let araneaTrim = extrudeLinear({ height: length }, frameProfile);
@@ -8234,7 +8232,7 @@ var require_wall = __commonJS({
         return moulding.cuboidMoulding({ size: [totalLength, totalThickness, profileDims[1]] }, trimProfile);
       };
       const getEntryTrimForDadoUnits = ({ dadoUnits, trimUnitHeight, trimUnitDepth }) => {
-        const tFamilyAranea = aranea.buildTrimFamily({ unitHeight: trimUnitHeight, unitDepth: trimUnitDepth });
+        const tFamilyAranea = aranea.trimFamilyAranea({ size: [trimUnitHeight, trimUnitDepth] });
         let entryTrim = tFamilyAranea.crown.small;
         if (dadoUnits === 1) {
           entryTrim = tFamilyAranea.crown.medium;
@@ -8299,7 +8297,9 @@ var require_wall = __commonJS({
           const baseWall = align({ modes: ["center", "center", "min"] }, cuboid({
             size: [opts.length, opts.thickness, opts.height]
           }));
-          const tFamilyAranea = aranea.buildTrimFamily({ unitHeight: opts.trimUnitHeight, unitDepth: opts.trimUnitDepth });
+          const tFamilyAranea = aranea.trimFamilyAranea({
+            size: [opts.trimUnitHeight, opts.trimUnitDepth]
+          });
           const dadoHt = opts.dadoHeight || opts.height * (1 - PHI_INV);
           const dadoHtAdj = dadoHt - opts.trimUnitHeight * (dadoUnits + 0.5);
           const dadoAdj = dadoUnits * 2 * opts.trimUnitDepth;

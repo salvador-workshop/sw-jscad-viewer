@@ -21,7 +21,7 @@ const main = () => {
 
     console.log(tile)
 
-    Object.entries(tile.northAmerica).forEach(([tKey, tileVal], idx) => {
+    Object.entries(tile).forEach(([tKey, tileVal], idx) => {
         layout.addToLayout({
             name: tKey,
             desc: '...',

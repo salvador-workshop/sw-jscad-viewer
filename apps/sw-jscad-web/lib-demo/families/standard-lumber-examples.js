@@ -21,7 +21,7 @@ const main = () => {
 
     console.log(lumber)
 
-    lumber.northAmerica.dimensional.forEach((lumberProfileData, idx) => {
+    lumber.dimensional.forEach((lumberProfileData, idx) => {
         layout.addToLayout({
             name: `lumber-profile-${idx}`,
             desc: lumberProfileData.id,

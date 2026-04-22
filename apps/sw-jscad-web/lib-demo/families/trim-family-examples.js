@@ -13,7 +13,7 @@ const {
 } = swcadJs.utils
 
 const main = () => {
-    const tFamilyAranea = aranea.buildTrimFamily({ unitHeight: 20, unitDepth: 10 });
+    const tFamilyAranea = aranea.trimFamilyAranea({ size: [20, 10] });
 
     const layoutOpts = {
         // column: true,
