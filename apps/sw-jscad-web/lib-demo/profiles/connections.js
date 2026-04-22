@@ -13,7 +13,6 @@ const {
 } = swcadJs.utils
 
 const main = () => {
-
     const connPegboardData = connections.pegboard({})
     const connPegboardProfiles = connPegboardData[0]
     const connPegboardMale = connPegboardProfiles[0]
@@ -24,6 +23,11 @@ const main = () => {
     const connPolygonMale = connPolygonProfiles[0]
     const connPolygonFemale = connPolygonProfiles[1]
 
+    const connEllipseData = connections.ellipse({ segments: 18 })
+    const connEllipseProfiles = connEllipseData[0]
+    const connEllipseMale = connEllipseProfiles[0]
+    const connEllipseFemale = connEllipseProfiles[1]
+
     const connTabData = connections.tab({})
     const connTabProfiles = connTabData[0]
     const connTabMale = connTabProfiles[0]
@@ -33,6 +37,15 @@ const main = () => {
     const connDovetailProfiles = connDovetailData[0]
     const connDovetailMale = connDovetailProfiles[0]
     const connDovetailFemale = connDovetailProfiles[1]
+
+    const connBoltCircleData = connections.boltCircle({
+        radius: 20,
+        unitRadius: 5,
+        unitSegments: 18,
+    })
+    const connBoltCircleProfiles = connBoltCircleData[0]
+    const connBoltCircleMale = connBoltCircleProfiles[0]
+    const connBoltCircleFemale = connBoltCircleProfiles[1]
 
     const layoutOpts = {
         layoutMargin: 15,
@@ -71,6 +84,22 @@ const main = () => {
         {
             name: 'c-dovetail-f',
             geom: connDovetailFemale,
+        },
+        {
+            name: 'c-ellipse-m',
+            geom: connEllipseMale,
+        },
+        {
+            name: 'c-ellipse-f',
+            geom: connEllipseFemale,
+        },
+        {
+            name: 'c-bolt-circle-m',
+            geom: connBoltCircleMale,
+        },
+        {
+            name: 'c-bolt-circle-f',
+            geom: connBoltCircleFemale,
         },
     ]
 
