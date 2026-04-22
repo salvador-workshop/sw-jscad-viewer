@@ -11,7 +11,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "echo This is a monorepo, that holds jsadui libraries and example apps. && echo If you want to try some apps made with jscadui go to apps folder. && echo Please read README for introduction and list of apps and info how ready or usable each is",
+    "info": "echo This is a monorepo, that holds jsadui libraries and example apps. && echo If you want to try some apps made with jscadui go to apps folder. && echo Please read README for introduction and list of apps and info how ready or usable each is",
+    "start": "npm run start -w sw-jscad-web",
     "dev": " npm run start"
   },
   "repository": {
