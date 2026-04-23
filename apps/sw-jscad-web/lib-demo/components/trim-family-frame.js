@@ -22,7 +22,7 @@ const {
 
 const frameOpts1 = {
     backingType: 'plain',
-    trimType: 'aranea',
+    trimType: 'bibliopoli',
     ornaments: {
         trimLevels: 1
     },
@@ -39,7 +39,7 @@ const frameOpts2 = {
 
 const frameOpts3 = {
     backingType: 'plain',
-    trimType: 'aranea',
+    trimType: 'bibliopoli',
     cornerType: 'none',
     trimJointType: 'none',
     ornaments: {
@@ -48,7 +48,7 @@ const frameOpts3 = {
 }
 
 const frameOpts4 = {
-    trimType: 'aranea',
+    trimType: 'bibliopoli',
     frameForm: 'full',
     ornaments: {
         trimLevels: 1

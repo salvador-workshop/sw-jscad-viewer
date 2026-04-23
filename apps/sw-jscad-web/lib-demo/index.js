@@ -20,11 +20,8 @@ const {
 const {
     shapes,
     structure,
+    trim,
 } = swcadJs.profiles
-
-const {
-    aranea,
-} = swcadJs.profiles.trim
 
 const {
     layout,
@@ -44,7 +41,7 @@ const main = () => {
     const profile1 = shapes.square.cornerCircNotch({ sqLength: 5 });
     const profile3 = shapes.octagon.octFromDiam({ sqLength: 5 });
 
-    const tFamilyBasic = aranea.trimFamilyAranea({ size: [20, 10] });
+    const tFamilyBasic = trim.aranea({ size: [20, 10] });
     const dadoTrim = [
         tFamilyBasic.dado.small,
         tFamilyBasic.dado.medium,

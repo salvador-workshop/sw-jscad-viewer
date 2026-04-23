@@ -16,7 +16,7 @@ export const swcadJsProfiles = [
   { name: 'Connections', source: './lib-demo/profiles/connections.js' },
   { name: 'Mesh Panel (2D)', source: './lib-demo/profiles/mesh-2d.js' },
   { name: 'Rectangular Frame', source: './lib-demo/rectangular-frame-examples.js' },
-  { name: 'Trim family: Aranea', source: './lib-demo/families/trim-family-examples.js' },
+  { name: 'Trim families', source: './lib-demo/families/trim-family-examples.js' },
 ]
 
 export const swcadJsProfileSpec = [
