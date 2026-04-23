@@ -15,6 +15,7 @@ const {
 const main = () => {
     const tFamilyAranea = trim.aranea({ size: [20, 10] });
     const tFamilyBibliopoli = trim.bibliopoli({ size: [20, 10] });
+    const tFamilyCatonis = trim.catonis({ size: [20, 10] });
 
     const layoutOpts = {
         // column: true,
@@ -50,9 +51,11 @@ const main = () => {
 
             const geomAranea = tFamilyAranea[currentCtg][currentSize];
             const geomBibliopoli = tFamilyBibliopoli[currentCtg][currentSize];
+            const geomCatonis = tFamilyCatonis[currentCtg][currentSize];
 
             layout.addToLayout({ name: `ara-${currentCtg}-${sizesAbbrev[sIdx]}`, desc: '.', layoutOpts }, geomAranea);
             layout.addToLayout({ name: `bib-${currentCtg}-${sizesAbbrev[sIdx]}`, desc: '.', layoutOpts }, geomBibliopoli);
+            layout.addToLayout({ name: `cat-${currentCtg}-${sizesAbbrev[sIdx]}`, desc: '.', layoutOpts }, geomCatonis);
         }
     }
 
