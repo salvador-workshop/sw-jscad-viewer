@@ -26,10 +26,10 @@ const main = () => {
     const areaSize = [15, 25]
     const pointClouds = []
 
-    pointClouds.push(geometry.getTriangularPtsInArea(areaSize[0], areaSize[1], 2.5, false));
-    pointClouds.push(geometry.getTriangularPtsInArea(areaSize[0], areaSize[1], 2.5));
-    pointClouds.push(geometry.getSquarePtsInArea(areaSize[0], areaSize[1], 2.5, false));
-    pointClouds.push(geometry.getSquarePtsInArea(areaSize[0], areaSize[1], 2.5));
+    pointClouds.push(geometry.getTriangularPtsInArea(areaSize[0], areaSize[1], 5, false));
+    pointClouds.push(geometry.getTriangularPtsInArea(areaSize[0], areaSize[1], 5));
+    pointClouds.push(geometry.getSquarePtsInArea(areaSize[0], areaSize[1], 5, false));
+    pointClouds.push(geometry.getSquarePtsInArea(areaSize[0], areaSize[1], 5));
 
     console.log(pointClouds)
 

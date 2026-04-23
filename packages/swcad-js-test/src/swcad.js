@@ -720,6 +720,7 @@ var require_geometry = __commonJS({
     };
     var geometryInit = ({ jscad, swcadJs }) => {
       const { math } = swcadJs.calcs;
+      const { constants } = swcadJs.data;
       const angleOfTwoPtLine = (startPt, endPt, mode = "rad") => {
         const diffY = endPt[1] - startPt[1];
         const diffX = endPt[0] - startPt[0];
@@ -757,15 +758,16 @@ var require_geometry = __commonJS({
         }
         return lineData;
       };
-      const getTriangularPtsInArea = (x, y, radius2, centrePoints = true) => {
-        const diam = radius2 * 2;
+      const getTriangularPtsInArea = (x, y, base, centrePoints = true) => {
+        const halfBase = base / 2;
         const allPoints = [];
         const allYCoords = [];
         let yCoordCtr = 0;
         do {
           allYCoords.push(yCoordCtr);
-          yCoordCtr = diam * 0.86603 + yCoordCtr;
-        } while (yCoordCtr <= y);
+          yCoordCtr = base * constants.EQUI_TRIANGLE_HEIGHT_FACTOR + yCoordCtr;
+        } while (yCoordCtr < y);
+        const hasOffsetCollision = false;
         let yIdxCtr = 0;
         do {
           let xCtr = 0;
@@ -773,9 +775,11 @@ var require_geometry = __commonJS({
             if (math.isEven(yIdxCtr)) {
               allPoints.push({ x: xCtr, y: allYCoords[yIdxCtr] });
             } else {
-              allPoints.push({ x: radius2 + xCtr, y: allYCoords[yIdxCtr] });
+              if (halfBase + xCtr <= x) {
+                allPoints.push({ x: halfBase + xCtr, y: allYCoords[yIdxCtr] });
+              }
             }
-            xCtr = xCtr + diam;
+            xCtr = xCtr + base;
           } while (xCtr < x);
           yIdxCtr = yIdxCtr + 1;
         } while (yIdxCtr < allYCoords.length);
@@ -791,8 +795,8 @@ var require_geometry = __commonJS({
           };
         });
       };
-      const getSquarePtsInArea = (x, y, radius2, centrePoints = true) => {
-        const diam = radius2 * 2;
+      const getSquarePtsInArea = (x, y, diam, centrePoints = true) => {
+        const radius2 = diam / 2;
         const allXCoords = [];
         let xCtr = 0;
         do {
@@ -3591,7 +3595,7 @@ var require_mesh_2d = __commonJS({
           logMode: "normal",
           edgeMargin: math.inchesToMm(3 / 16),
           holeRadius: math.inchesToMm(0.125),
-          holeDistance: math.inchesToMm(0.5),
+          holeDistance: math.inchesToMm(1),
           holePattern: "tri"
         };
         return {
@@ -3615,7 +3619,6 @@ var require_mesh_2d = __commonJS({
         } = opts;
         const width = size[0];
         const depth = size[1];
-        const height = size[2];
         const holeDiam = holeRadius * 2;
         const meshAreaSize = [
           size[0] - holeDiam - edgeMargin * 2,
@@ -3635,9 +3638,8 @@ var require_mesh_2d = __commonJS({
           meshAreaSize,
           interfaceThickness,
           fitGap,
-          // width,
-          // depth,
-          // height,
+          width,
+          depth,
           edgeMargin,
           holeRadius,
           holeDiam,
@@ -4887,16 +4889,530 @@ var require_trim_bibliopoli = __commonJS({
   }
 });
 
+// packages/swcad-js-profiles/src/trim/trim-catonis.js
+var require_trim_catonis = __commonJS({
+  "packages/swcad-js-profiles/src/trim/trim-catonis.js"(exports2, module2) {
+    "use strict";
+    var trimCatonis = ({ jscad, swcadJs }) => {
+      const { polygon, square } = jscad.primitives;
+      const { subtract, union } = jscad.booleans;
+      const { rotate, translate, mirror, center } = jscad.transforms;
+      const { constants } = swcadJs.data;
+      const { math } = swcadJs.calcs;
+      const {
+        beadsBits: beadsBitsProfiles
+      } = swcadJs.profiles;
+      const trimCatonisDefaults = () => {
+        const defaultValues = {
+          constants: {
+            numLevels: 3
+          },
+          dims: {
+            size: [
+              math.inchesToMm(1.5),
+              math.inchesToMm(0.75)
+            ],
+            detailDepth: math.inchesToMm(0.75) / 3
+          },
+          points: {
+            centre: [0, 0, 0]
+          },
+          types: {
+            dado: { id: "dado", desc: "Dado Trim" },
+            base: { id: "base", desc: "Base Trim" },
+            crown: { id: "crown", desc: "Crown Trim" }
+          }
+        };
+        const standardOpts = {
+          type: defaultValues.types.dado.id,
+          scale: 1,
+          interfaceThickness: 1.333333,
+          fitGap: math.inchesToMm(1 / 128)
+        };
+        const defaultOpts = {
+          ...standardOpts,
+          size: defaultValues.dims.size,
+          detailDepth: defaultValues.dims.detailDepth
+        };
+        return {
+          opts: defaultOpts,
+          vals: defaultValues
+        };
+      };
+      const trimCatonisOpts = (opts) => {
+        const defaults = trimCatonisDefaults();
+        const {
+          size = defaults.opts.size,
+          detailDepth,
+          type = defaults.opts.type,
+          scale = defaults.opts.scale,
+          interfaceThickness = defaults.opts.interfaceThickness,
+          fitGap = defaults.opts.fitGap
+        } = opts;
+        let dDepth = size[1] / 3;
+        if (detailDepth) {
+          dDepth = detailDepth;
+        }
+        const stdOpts = {
+          type,
+          scale,
+          interfaceThickness,
+          fitGap
+        };
+        const initOpts = {
+          size,
+          detailDepth: dDepth,
+          ...stdOpts
+        };
+        return initOpts;
+      };
+      const trimCatonisProps = (opts) => {
+        const defaults = trimCatonisDefaults();
+        const {
+          size,
+          detailDepth,
+          type,
+          scale,
+          interfaceThickness,
+          fitGap
+        } = opts;
+        const width = size[0];
+        const depth = size[1];
+        const numLevels = defaults.vals.constants.numLevels;
+        const levelPoints = {};
+        const ornamentPoints = {};
+        const thicknessPoints = {};
+        for (let levelIdx = 0; levelIdx <= numLevels; levelIdx++) {
+          levelPoints[`l${levelIdx}`] = width * levelIdx;
+          thicknessPoints[`t${levelIdx}`] = depth * levelIdx;
+          ornamentPoints[`o${levelIdx + 1}`] = width * levelIdx + width * constants.PHI_INV;
+        }
+        levelPoints[`lHalf`] = width / 2;
+        const controlPts = {};
+        const getPointsForLevel = (levelPt) => {
+          const lPoints = {};
+          for (const [tPtName, tPtValue] of Object.entries(thicknessPoints)) {
+            lPoints[tPtName] = [tPtValue, levelPt];
+          }
+          return lPoints;
+        };
+        for (const [ptName, ptValue] of Object.entries(levelPoints)) {
+          controlPts[ptName] = getPointsForLevel(ptValue);
+        }
+        for (const [ptName, ptValue] of Object.entries(ornamentPoints)) {
+          controlPts[ptName] = getPointsForLevel(ptValue);
+        }
+        const modelConstants = {};
+        const modelOpts = {
+          type,
+          scale
+        };
+        const modelDims = {
+          size,
+          detailDepth,
+          interfaceThickness,
+          fitGap,
+          width,
+          depth
+        };
+        const modelPoints = {
+          centre: defaults.vals.points.centre,
+          controlPts
+        };
+        const modelComponents = {};
+        const modelProperties = {
+          metadata: {
+            id: "9999",
+            name: "New Model",
+            project: "New Project",
+            author: "Somebody Somewhere",
+            organization: "Salvador Workshop",
+            client: null
+          },
+          constants: modelConstants,
+          opts: modelOpts,
+          dims: modelDims,
+          points: modelPoints,
+          components: modelComponents
+        };
+        return modelProperties;
+      };
+      const catonis = (opts) => {
+        const defaults = trimCatonisDefaults();
+        const initOpts = trimCatonisOpts(opts);
+        const modelProperties = trimCatonisProps(initOpts);
+        const detailCornerExt = ({ sideLength }) => {
+          const roundOverOpts = {
+            radius1: sideLength,
+            radius2: sideLength
+          };
+          const roundOverData = beadsBitsProfiles.corner.roundOver(roundOverOpts);
+          const roundOverModel = roundOverData[0];
+          return roundOverModel;
+        };
+        const detailCornerInt = ({ sideLength }) => {
+          const roundOverOpts = {
+            radius1: sideLength,
+            radius2: sideLength
+          };
+          const roundOverData = beadsBitsProfiles.corner.roundOver(roundOverOpts);
+          const roundOverModel = roundOverData[0];
+          return roundOverModel;
+        };
+        const detailOrnament = ({ sideLength }) => {
+          const coveOpts = {
+            radius1: sideLength,
+            radius2: sideLength
+          };
+          const coveData = beadsBitsProfiles.corner.cove(coveOpts);
+          const coveModel = coveData[0];
+          return coveModel;
+        };
+        const extraSmall = (mProperties) => {
+          const {
+            size,
+            width,
+            depth,
+            detailDepth
+          } = mProperties.dims;
+          const {
+            type
+          } = mProperties.opts;
+          const {
+            controlPts,
+            levelPts,
+            ornamentPts,
+            thicknessPts
+          } = mProperties.points;
+          const cornerPt1 = controlPts.l0.t1;
+          const cornerPt2 = controlPts.lHalf.t1;
+          const baseShape = polygon({
+            points: [
+              controlPts.l0.t0,
+              cornerPt1,
+              cornerPt2,
+              controlPts.lHalf.t0
+            ]
+          });
+          const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
+          const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
+          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate([...cornerPt2, 0], baseCornerExt);
+          let cutShape = subtract(baseShape, corner1);
+          if (!["crown", "base"].includes(type)) {
+            cutShape = subtract(cutShape, corner2);
+          }
+          return cutShape;
+        };
+        const small = (mProperties) => {
+          const {
+            size,
+            width,
+            depth,
+            detailDepth
+          } = mProperties.dims;
+          const {
+            type
+          } = mProperties.opts;
+          const {
+            controlPts,
+            levelPts,
+            ornamentPts,
+            thicknessPts
+          } = mProperties.points;
+          const cornerPt1 = controlPts.l0.t1;
+          const cornerPt2 = controlPts.l1.t1;
+          const baseShape = polygon({
+            points: [
+              controlPts.l0.t0,
+              cornerPt1,
+              cornerPt2,
+              controlPts.l1.t0
+            ]
+          });
+          const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
+          const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
+          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate([...cornerPt2, 0], baseCornerExt);
+          let cutShape = subtract(baseShape, corner1);
+          if (!["crown", "base"].includes(type)) {
+            cutShape = subtract(cutShape, corner2);
+          }
+          return cutShape;
+        };
+        const smallOrnament1 = (mProperties) => {
+          const {
+            size,
+            width,
+            depth,
+            detailDepth
+          } = mProperties.dims;
+          const {
+            type
+          } = mProperties.opts;
+          const {
+            controlPts,
+            levelPts,
+            ornamentPts,
+            thicknessPts
+          } = mProperties.points;
+          const baseShape = small(mProperties);
+          const oPt = controlPts.o1.t1;
+          const bCorner = detailOrnament({ sideLength: detailDepth / 2 });
+          const oCorner = translate([...oPt, 0], bCorner);
+          return subtract(baseShape, oCorner);
+        };
+        const medium = (mProperties) => {
+          const {
+            size,
+            width,
+            depth,
+            detailDepth
+          } = mProperties.dims;
+          const {
+            type
+          } = mProperties.opts;
+          const {
+            controlPts,
+            levelPts,
+            ornamentPts,
+            thicknessPts
+          } = mProperties.points;
+          const cornerPt1 = controlPts.l0.t1;
+          const cornerPt2 = controlPts.l1.t1;
+          const cornerPt3 = controlPts.l1.t2;
+          const cornerPt4 = controlPts.l2.t2;
+          const baseShape = polygon({
+            points: [
+              controlPts.l0.t0,
+              cornerPt1,
+              cornerPt2,
+              cornerPt3,
+              cornerPt4,
+              controlPts.l2.t0
+            ]
+          });
+          const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
+          const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
+          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate([...cornerPt2, 0], baseCornerInt);
+          const corner3 = translate([...cornerPt3, 0], baseCornerExt);
+          const corner4 = translate([...cornerPt4, 0], baseCornerExt);
+          let cutShape = subtract(baseShape, corner1);
+          cutShape = union(cutShape, corner2);
+          cutShape = subtract(cutShape, corner3);
+          if (!["crown", "base"].includes(type)) {
+            cutShape = subtract(cutShape, corner4);
+          }
+          return cutShape;
+        };
+        const mediumOrnament1 = (mProperties) => {
+          const {
+            size,
+            width,
+            depth,
+            detailDepth
+          } = mProperties.dims;
+          const {
+            type
+          } = mProperties.opts;
+          const {
+            controlPts,
+            levelPts,
+            ornamentPts,
+            thicknessPts
+          } = mProperties.points;
+          const baseShape = medium(mProperties);
+          const oPt1 = controlPts.o2.t2;
+          const oPt2 = controlPts.o1.t1;
+          const bCorner = detailOrnament({ sideLength: detailDepth / 2 });
+          const oCorner1 = translate([...oPt1, 0], bCorner);
+          let oCorner2 = translate([...oPt2, 0], bCorner);
+          oCorner2 = mirror({ origin: [0, controlPts.l1.t1[1] / 2, 0], normal: [0, 1, 0] }, oCorner2);
+          let cutShape = subtract(baseShape, oCorner1);
+          cutShape = subtract(cutShape, oCorner2);
+          return cutShape;
+        };
+        const large = (mProperties) => {
+          const {
+            size,
+            width,
+            depth,
+            detailDepth
+          } = mProperties.dims;
+          const {
+            type
+          } = mProperties.opts;
+          const {
+            controlPts,
+            levelPts,
+            ornamentPts,
+            thicknessPts
+          } = mProperties.points;
+          const cornerPt1 = controlPts.l0.t1;
+          const cornerPt2 = controlPts.l1.t1;
+          const cornerPt3 = controlPts.l1.t2;
+          const cornerPt4 = controlPts.l2.t2;
+          const cornerPt5 = controlPts.l2.t3;
+          const cornerPt6 = controlPts.l3.t3;
+          const baseShape = polygon({
+            points: [
+              controlPts.l0.t0,
+              cornerPt1,
+              cornerPt2,
+              cornerPt3,
+              cornerPt4,
+              cornerPt5,
+              cornerPt6,
+              controlPts.l3.t0
+            ]
+          });
+          const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
+          const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
+          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate([...cornerPt2, 0], baseCornerInt);
+          const corner3 = translate([...cornerPt3, 0], baseCornerExt);
+          const corner4 = translate([...cornerPt4, 0], baseCornerInt);
+          const corner5 = translate([...cornerPt5, 0], baseCornerExt);
+          const corner6 = translate([...cornerPt6, 0], baseCornerExt);
+          let cutShape = subtract(baseShape, corner1);
+          cutShape = union(cutShape, corner2);
+          cutShape = subtract(cutShape, corner3);
+          cutShape = union(cutShape, corner4);
+          cutShape = subtract(cutShape, corner5);
+          if (!["crown", "base"].includes(type)) {
+            cutShape = subtract(cutShape, corner6);
+          }
+          return cutShape;
+        };
+        const largeOrnament1 = (mProperties) => {
+          const {
+            size,
+            width,
+            depth,
+            detailDepth
+          } = mProperties.dims;
+          const {
+            type
+          } = mProperties.opts;
+          const {
+            controlPts,
+            levelPts,
+            ornamentPts,
+            thicknessPts
+          } = mProperties.points;
+          const baseShape = large(mProperties);
+          const oPt1 = controlPts.o3.t3;
+          const oPt2 = controlPts.o1.t1;
+          const bCorner = detailOrnament({ sideLength: detailDepth / 2 });
+          const oCorner1 = translate([...oPt1, 0], bCorner);
+          let oCorner2 = translate([...oPt2, 0], bCorner);
+          oCorner2 = mirror({ origin: [0, controlPts.l1.t1[1] / 2, 0], normal: [0, 1, 0] }, oCorner2);
+          let cutShape = subtract(baseShape, oCorner1);
+          cutShape = subtract(cutShape, oCorner2);
+          return cutShape;
+        };
+        const crownOpts = {
+          ...modelProperties
+        };
+        crownOpts.opts.type = "crown";
+        const crown = {
+          extraSmall: center({}, extraSmall(crownOpts)),
+          small: center({}, small(crownOpts)),
+          medium: center({}, medium(crownOpts)),
+          large: center({}, large(crownOpts)),
+          smallOrn1: center({}, smallOrnament1(crownOpts)),
+          mediumOrn1: center({}, mediumOrnament1(crownOpts)),
+          largeOrn1: center({}, largeOrnament1(crownOpts))
+        };
+        const dadoOpts = {
+          ...modelProperties
+        };
+        dadoOpts.opts.type = "dado";
+        const dado = {
+          extraSmall: center({}, mirror(
+            { normal: [0, 1, 0] },
+            extraSmall(dadoOpts)
+          )),
+          small: center({}, mirror(
+            { normal: [0, 1, 0] },
+            small(dadoOpts)
+          )),
+          smallOrn1: center({}, mirror(
+            { normal: [0, 1, 0] },
+            smallOrnament1(dadoOpts)
+          )),
+          medium: center({}, mirror(
+            { normal: [0, 1, 0] },
+            medium(dadoOpts)
+          )),
+          mediumOrn1: center({}, mirror(
+            { normal: [0, 1, 0] },
+            mediumOrnament1(dadoOpts)
+          )),
+          large: center({}, mirror(
+            { normal: [0, 1, 0] },
+            large(dadoOpts)
+          )),
+          largeOrn1: center({}, mirror(
+            { normal: [0, 1, 0] },
+            largeOrnament1(dadoOpts)
+          ))
+        };
+        const base = {
+          extraSmall: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crown.extraSmall
+          )),
+          small: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crown.small
+          )),
+          smallOrn1: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crown.smallOrn1
+          )),
+          medium: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crown.medium
+          )),
+          mediumOrn1: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crown.mediumOrn1
+          )),
+          large: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crown.large
+          )),
+          largeOrn1: center({}, mirror(
+            { normal: [0, 1, 0] },
+            crown.largeOrn1
+          ))
+        };
+        return {
+          crown,
+          dado,
+          base
+        };
+      };
+      return catonis;
+    };
+    module2.exports = { init: trimCatonis };
+  }
+});
+
 // packages/swcad-js-profiles/src/trim/index.js
 var require_trim = __commonJS({
   "packages/swcad-js-profiles/src/trim/index.js"(exports2, module2) {
     "use strict";
     var araneaModule = require_trim_aranea();
     var bibliopoliModule = require_trim_bibliopoli();
+    var catonisModule = require_trim_catonis();
     var init2 = ({ jscad, swcadJs }) => {
       const trim = {
         aranea: araneaModule.init({ jscad, swcadJs }),
-        bibliopoli: bibliopoliModule.init({ jscad, swcadJs })
+        bibliopoli: bibliopoliModule.init({ jscad, swcadJs }),
+        catonis: catonisModule.init({ jscad, swcadJs })
       };
       return trim;
     };
@@ -7802,6 +8318,27 @@ var require_trim_family_frame = __commonJS({
                 let bibliopoliTrim = extrudeLinear({ height: length }, frameProfileBibliopoli);
                 bibliopoliTrim = rotate([Math.PI / -2, Math.PI / -2, 0], bibliopoliTrim);
                 fTrim = extrudeLinear({ height: length }, bibliopoliTrim);
+                break;
+              case "catonis":
+                switch (opts2.ornaments.trimLevels) {
+                  case 3:
+                    trimSize = "largeOrn1";
+                    break;
+                  case 2:
+                    trimSize = "mediumOrn1";
+                    break;
+                  case 1:
+                  default:
+                    trimSize = "smallOrn1";
+                    break;
+                }
+                const tFamilyCatonis = trim.catonis({
+                  size: trimSizeDims
+                });
+                let frameProfileCatonis = tFamilyCatonis[trimStyle][trimSize];
+                let catonisTrim = extrudeLinear({ height: length }, frameProfileCatonis);
+                catonisTrim = rotate([Math.PI / -2, Math.PI / -2, 0], catonisTrim);
+                fTrim = extrudeLinear({ height: length }, catonisTrim);
                 break;
               case "rounded":
                 fTrim = roundedCuboid({

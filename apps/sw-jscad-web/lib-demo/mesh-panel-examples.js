@@ -32,8 +32,8 @@ const main = () => {
         },
         mesh.meshPanel({
             size: [math.inchesToMm(3), math.inchesToMm(4)],
-            holeRadius: 2.5,
-            holeDistance: math.inchesToMm(3/8),
+            holeRadius: 3,
+            holeDistance: math.inchesToMm(3/4),
         })
     );
 
@@ -46,8 +46,8 @@ const main = () => {
         mesh.meshPanel({
             size: [math.inchesToMm(3), math.inchesToMm(4)],
             thickness: 5,
-            holeRadius: 5,
-            holeDistance: math.inchesToMm(3/8),
+            holeRadius: 4,
+            holeDistance: math.inchesToMm(3/4),
             pattern: 'square'
         })
     );
@@ -60,8 +60,8 @@ const main = () => {
         },
         mesh.meshPanel({
             size: [math.inchesToMm(3), math.inchesToMm(4)],
-            holeRadius: 6,
-            holeDistance: math.inchesToMm(3/8),
+            holeRadius: 5,
+            holeDistance: math.inchesToMm(3/4),
             edgeMargin: 12.7,
         })
     );
