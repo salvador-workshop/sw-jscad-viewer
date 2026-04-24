@@ -48,14 +48,14 @@ const main = () => {
     const connBoltCircleFemale = connBoltCircleProfiles[1]
 
     const connDovetailRowData = connections.dovetailRow({
-        size: [75, 16],
+        size: [100, 33],
     })
     const connDovetailRowProfiles = connDovetailRowData[0]
     const connDovetailRowMale = connDovetailRowProfiles[0]
     const connDovetailRowFemale = connDovetailRowProfiles[1]
 
     const connTabRowData = connections.tabRow({
-        size: [75, 16],
+        size: [100, 33],
     })
     const connTabRowProfiles = connTabRowData[0]
     const connTabRowMale = connTabRowProfiles[0]

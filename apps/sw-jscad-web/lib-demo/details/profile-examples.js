@@ -19,10 +19,10 @@ const main = () => {
         layoutSpace: 5,
     }
 
-    const profile1 = shapes.square.cornerCircNotch({ sqLength: 5 });
+    const profile1 = shapes.square.cornerCircNotch({ sqLength: 25 });
     layout.addToLayout({ name: 'profile1', desc: '...', layoutOpts }, profile1);
 
-    const profile2 = shapes.octagon.octFromDiam({ sqLength: 5 });
+    const profile2 = shapes.octagon.octFromDiam({ sqLength: 25 });
     layout.addToLayout({ name: 'profile2', desc: '...', layoutOpts }, profile2);
 
     const triProfiles = [

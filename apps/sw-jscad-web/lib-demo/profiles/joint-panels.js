@@ -21,24 +21,27 @@ const {
  * ------------------------------------- */
 
 const jointPanelData1 = jointPanel.oneJointRectPanel({
-    size: [60, 80],
+    size: [100, 80],
     jointNumConnectors: 2,
+    // jointMargin: 7,
 })
 const jointPanelProfiles1 = jointPanelData1[0]
 const jointPanelMale1 = jointPanelProfiles1[0]
 const jointPanelFemale1 = jointPanelProfiles1[1]
 
 const jointPanelData2 = jointPanel.oneJointRectPanel({
-    size: [60, 80],
-    axis: 'y'
+    size: [100, 80],
+    axis: 'y',
+    // jointMargin: 7,
 })
 const jointPanelProfiles2 = jointPanelData2[0]
 const jointPanelMale2 = jointPanelProfiles2[0]
 const jointPanelFemale2 = jointPanelProfiles2[1]
 
 const jointPanelData3 = jointPanel.twoJointRectPanel({
-    size: [60, 80],
-    jointNumConnectors: 2,
+    size: [150, 100],
+    jointNumConnectors:[3,3],
+    // jointMargin: 6,
 })
 const jointPanelProfiles3 = jointPanelData3[0]
 

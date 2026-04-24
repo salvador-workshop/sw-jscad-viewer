@@ -31,7 +31,7 @@ const main = () => {
             frameWidth: 10,
             cornerOpts: {
                 style: 'ellipseSixtyThirty',
-                length: 5,
+                depth: 5,
             },
         })
     );
@@ -48,7 +48,7 @@ const main = () => {
             frameWidth: 10,
             outCornerOpts: {
                 style: 'ellipseSilver',
-                length: 5,
+                depth: 5,
             },
         })
     );
@@ -69,7 +69,7 @@ const main = () => {
             },
             outCornerOpts: {
                 style: 'ellipseBronze',
-                length: 5,
+                depth: 5,
             },
         })
     );
@@ -91,7 +91,7 @@ const main = () => {
             },
             outCornerOpts: {
                 style: 'cornerBezSilver',
-                length: 10,
+                depth: 10,
             },
         })
     );
@@ -113,7 +113,7 @@ const main = () => {
             },
             outCornerOpts: {
                 style: 'cornerBezBronze',
-                length: 10,
+                depth: 10,
             },
         })
     );
