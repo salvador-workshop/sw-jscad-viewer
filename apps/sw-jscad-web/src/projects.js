@@ -14,6 +14,7 @@ export const swcadJsCalcs = [
 export const swcadJsProfiles = [
   { name: 'Basic Profiles', source: './lib-demo/details/profile-examples.js' },
   { name: 'Connections', source: './lib-demo/profiles/connections.js' },
+  { name: 'Joint Panels', source: './lib-demo/profiles/joint-panels.js' },
   { name: 'Mesh Panel (2D)', source: './lib-demo/profiles/mesh-2d.js' },
   { name: 'Rectangular Frame', source: './lib-demo/rectangular-frame-examples.js' },
   { name: 'Trim families', source: './lib-demo/families/trim-family-examples.js' },

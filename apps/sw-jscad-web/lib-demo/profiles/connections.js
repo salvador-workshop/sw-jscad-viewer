@@ -47,6 +47,20 @@ const main = () => {
     const connBoltCircleMale = connBoltCircleProfiles[0]
     const connBoltCircleFemale = connBoltCircleProfiles[1]
 
+    const connDovetailRowData = connections.dovetailRow({
+        size: [75, 16],
+    })
+    const connDovetailRowProfiles = connDovetailRowData[0]
+    const connDovetailRowMale = connDovetailRowProfiles[0]
+    const connDovetailRowFemale = connDovetailRowProfiles[1]
+
+    const connTabRowData = connections.tabRow({
+        size: [75, 16],
+    })
+    const connTabRowProfiles = connTabRowData[0]
+    const connTabRowMale = connTabRowProfiles[0]
+    const connTabRowFemale = connTabRowProfiles[1]
+
     const layoutOpts = {
         layoutMargin: 15,
         layoutSpace: 15,
@@ -100,6 +114,22 @@ const main = () => {
         {
             name: 'c-bolt-circle-f',
             geom: connBoltCircleFemale,
+        },
+        {
+            name: 'c-dovetailrow-m',
+            geom: connDovetailRowMale,
+        },
+        {
+            name: 'c-dovetailrow-f',
+            geom: connDovetailRowFemale,
+        },
+        {
+            name: 'c-tabrow-m',
+            geom: connTabRowMale,
+        },
+        {
+            name: 'c-tabrow-f',
+            geom: connTabRowFemale,
         },
     ]
 
