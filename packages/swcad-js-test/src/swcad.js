@@ -3302,7 +3302,7 @@ var require_curve = __commonJS({
 var require_joint_panel = __commonJS({
   "packages/swcad-js-profiles/src/joint-panel/index.js"(exports2, module2) {
     "use strict";
-    var jointPanelsInit = ({ jscad, swcadJs }) => {
+    var jointPanelInit = ({ jscad, swcadJs }) => {
       const {
         cube,
         cylinder,
@@ -3353,7 +3353,7 @@ var require_joint_panel = __commonJS({
       const {
         connections
       } = swcadJs.profiles;
-      const modelDefaults = () => {
+      const jointPanelDefaults = () => {
         const defaultValues = {
           constants: {
             sampleThickness: 1
@@ -3399,8 +3399,8 @@ var require_joint_panel = __commonJS({
           vals: defaultValues
         };
       };
-      const modelOpts = (opts) => {
-        const defaults = modelDefaults();
+      const jointPanelOpts = (opts) => {
+        const defaults = jointPanelDefaults();
         const {
           size = defaults.opts.size,
           jointWidth = defaults.opts.jointWidth,
@@ -3429,7 +3429,7 @@ var require_joint_panel = __commonJS({
         return initOpts;
       };
       const modelProps = (opts) => {
-        const defaults = modelDefaults();
+        const defaults = jointPanelDefaults();
         const {
           size,
           jointWidth,
@@ -3447,15 +3447,15 @@ var require_joint_panel = __commonJS({
           width / 2,
           depth / 2
         ];
-        const totalJointWidth = jointMargin * 2 + jointWidth;
         let jMargin = jointMargin;
         if (typeof jointMargin == "number") {
           jMargin = [jointMargin, jointMargin];
         }
+        const totalJointWidth = jMargin[1] * 2 + jointWidth;
         const modelConstants = {
           sampleThickness: defaults.vals.constants.sampleThickness
         };
-        const modelOpts2 = {
+        const modelOpts = {
           type,
           scale,
           axis,
@@ -3485,7 +3485,7 @@ var require_joint_panel = __commonJS({
             client: null
           },
           constants: modelConstants,
-          opts: modelOpts2,
+          opts: modelOpts,
           dims: modelDims,
           points: modelPoints,
           components: modelComponents
@@ -3493,8 +3493,8 @@ var require_joint_panel = __commonJS({
         return modelProperties;
       };
       const oneJointRectPanel = (opts) => {
-        const defaults = modelDefaults();
-        const initOpts = modelOpts(opts);
+        const defaults = jointPanelDefaults();
+        const initOpts = jointPanelOpts(opts);
         const modelProperties = modelProps(initOpts);
         const {
           sampleThickness
@@ -3560,8 +3560,8 @@ var require_joint_panel = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const twoJointRectPanel = (opts) => {
-        const defaults = modelDefaults();
-        const initOpts = modelOpts(opts);
+        const defaults = jointPanelDefaults();
+        const initOpts = jointPanelOpts(opts);
         const modelProperties = modelProps(initOpts);
         const {
           sampleThickness
@@ -3640,14 +3640,14 @@ var require_joint_panel = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       return {
-        defaults: modelDefaults,
+        defaults: jointPanelDefaults,
         props: modelProps,
         oneJointRectPanel,
         twoJointRectPanel
       };
     };
     module2.exports = {
-      init: jointPanelsInit
+      init: jointPanelInit
     };
   }
 });
@@ -8224,6 +8224,209 @@ var require_open_web_joist = __commonJS({
   }
 });
 
+// packages/swcad-js-components/src/reinforced-rect-panel/index.js
+var require_reinforced_rect_panel = __commonJS({
+  "packages/swcad-js-components/src/reinforced-rect-panel/index.js"(exports2, module2) {
+    "use strict";
+    var reinforcedRectPanelInit = ({ jscad, swcadJs }) => {
+      const {
+        cube,
+        cylinder,
+        sphere,
+        cylinderElliptic,
+        circle,
+        cuboid,
+        roundedCuboid,
+        roundedCylinder,
+        roundedRectangle,
+        rectangle,
+        triangle
+      } = jscad.primitives;
+      const {
+        align,
+        translate,
+        rotate,
+        mirror
+      } = jscad.transforms;
+      const {
+        intersect,
+        subtract,
+        union,
+        scission
+      } = jscad.booleans;
+      const {
+        extrudeLinear,
+        extrudeRotate,
+        project
+      } = jscad.extrusions;
+      const {
+        measureDimensions,
+        measureBoundingBox,
+        measureVolume
+      } = jscad.measurements;
+      const {
+        hull,
+        hullChain
+      } = jscad.hulls;
+      const { vectorText } = jscad.text;
+      const { toOutlines } = jscad.geometries.geom2;
+      const { TAU } = jscad.maths.constants;
+      const { colorize } = jscad.colors;
+      const {
+        math
+      } = swcadJs.calcs;
+      const {
+        shapes
+      } = swcadJs.profiles;
+      const reinforcedRectPanelDefaults = () => {
+        const defaultValues = {
+          constants: {
+            reinforcementPatterns: ["x", "cross", "diamond", "full"]
+          },
+          dims: {
+            size: [
+              math.inchesToMm(3),
+              math.inchesToMm(4),
+              math.inchesToMm(1 / 8)
+            ],
+            reinforcementThickness: [5, 4, 3]
+          },
+          points: {
+            centrePt: [0, 0, 0]
+          },
+          types: {
+            default: { id: "default", desc: "Default" },
+            alt: { id: "alt", desc: "Alternate" }
+          }
+        };
+        const standardOpts = {
+          type: defaultValues.types.default.id,
+          scale: 1,
+          interfaceThickness: 1.333333,
+          fitGap: math.inchesToMm(1 / 128)
+        };
+        const defaultOpts = {
+          ...standardOpts,
+          size: defaultValues.dims.size,
+          reinforcementPattern: defaultValues.constants.reinforcementPatterns[0],
+          reinforcementThickness: defaultValues.dims.reinforcementThickness
+        };
+        return {
+          opts: defaultOpts,
+          vals: defaultValues
+        };
+      };
+      const reinforcedRectPanelOpts = (opts) => {
+        const defaults = reinforcedRectPanelDefaults();
+        console.log("modelOpts() -- opts", opts);
+        const {
+          size = defaults.opts.size,
+          reinforcementPattern = defaults.opts.reinforcementPattern,
+          reinforcementThickness = defaults.opts.reinforcementThickness,
+          type = defaults.opts.type,
+          scale = defaults.opts.scale,
+          interfaceThickness = defaults.opts.interfaceThickness,
+          fitGap = defaults.opts.fitGap
+        } = opts;
+        const stdOpts = {
+          type,
+          scale,
+          interfaceThickness,
+          fitGap
+        };
+        const initOpts = {
+          size,
+          reinforcementPattern,
+          reinforcementThickness,
+          ...stdOpts
+        };
+        console.log("modelOpts() -- initOpts", initOpts);
+        return initOpts;
+      };
+      const reinforcedRectPanelProps = (opts) => {
+        const defaults = reinforcedRectPanelDefaults();
+        console.log("modelProps() -- opts", opts);
+        const {
+          size,
+          reinforcementPattern,
+          reinforcementThickness,
+          type,
+          scale,
+          interfaceThickness,
+          fitGap
+        } = opts;
+        const width = size[0];
+        const depth = size[1];
+        const height = size[2];
+        const modelConstants = {};
+        const modelOpts = {
+          type,
+          scale,
+          reinforcementPattern
+        };
+        const modelDims = {
+          size,
+          width,
+          depth,
+          height,
+          reinforcementThickness,
+          interfaceThickness,
+          fitGap
+        };
+        const modelPoints = {
+          centrePt: defaults.vals.points.centrePt
+        };
+        const modelComponents = {};
+        const modelProperties = {
+          metadata: {
+            id: "9999",
+            name: "New Model",
+            project: "New Project",
+            author: "Somebody Somewhere",
+            organization: "Salvador Workshop",
+            client: null
+          },
+          constants: modelConstants,
+          opts: modelOpts,
+          dims: modelDims,
+          points: modelPoints,
+          components: modelComponents
+        };
+        console.log("modelProps() -- modelProperties", modelProperties);
+        return modelProperties;
+      };
+      const reinforcedRectPanel = (opts) => {
+        const defaults = reinforcedRectPanelDefaults();
+        const initOpts = reinforcedRectPanelOpts(opts);
+        const modelProperties = reinforcedRectPanelProps(initOpts);
+        const {
+          reinforcementPattern
+        } = modelProperties.opts;
+        const {
+          size,
+          reinforcementThickness
+        } = modelProperties.dims;
+        const reinforcedRectOpts = {
+          size: [size[0], size[1]],
+          reinforcementPattern,
+          reinforcementThickness
+        };
+        const reinforcedRect = shapes.rectangle.reinforcedRect(reinforcedRectOpts)[0];
+        const extrudedReinforcedRect = extrudeLinear({ height: size[2] }, reinforcedRect);
+        const mainModel = extrudedReinforcedRect;
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      return reinforcedRectPanel;
+    };
+    module2.exports = {
+      init: reinforcedRectPanelInit
+    };
+  }
+});
+
 // packages/swcad-js-components/src/routed-shapes/index.js
 var require_routed_shapes = __commonJS({
   "packages/swcad-js-components/src/routed-shapes/index.js"(exports2, module2) {
@@ -9862,7 +10065,7 @@ var require_src5 = __commonJS({
     var meshModule = require_mesh();
     var mouldingModule = require_moulding();
     var openWebJoistModule = require_open_web_joist();
-    var reinforcedRectPanelModule = require_open_web_joist();
+    var reinforcedRectPanelModule = require_reinforced_rect_panel();
     var routedShapesModule = require_routed_shapes();
     var sheetMouldModule = require_sheet_mould();
     var textModule = require_text2();

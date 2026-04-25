@@ -14,7 +14,7 @@ const {
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 10,
+        layoutMargin: 15,
         layoutSpace: 10,
     }
 
