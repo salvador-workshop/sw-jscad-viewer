@@ -32,6 +32,7 @@ export const swcadJsComponents = [
   { name: 'Mesh Panel (3D)', source: './lib-demo/mesh-panel-examples.js' },
   { name: 'Routed Shapes', source: './lib-demo/components/routed-shapes.js' },
   { name: 'Trim Family Frame', source: './lib-demo/components/trim-family-frame.js' },
+  { name: 'Reinforced Rect. Panel', source: './lib-demo/components/reinforced-rect-panel.js' },
 ]
 
 export const swcadJsComponentSpec = [

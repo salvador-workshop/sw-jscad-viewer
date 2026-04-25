@@ -1,8 +1,12 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swcadJs = require('swcad-js').init({ jscad });
+const swcadJs = require('swcad-js-test').init({ jscad });
 console.log('swcadJs', swcadJs)
+
+const {
+    math,
+} = swcadJs.calcs
 
 const {
     connections,
@@ -23,7 +27,10 @@ const main = () => {
     const connPolygonMale = connPolygonProfiles[0]
     const connPolygonFemale = connPolygonProfiles[1]
 
-    const connEllipseData = connections.ellipse({ segments: 18 })
+    const connEllipseData = connections.ellipse({
+        segments: 18,
+        interfaceMargin: [math.inchesToMm(3/8), math.inchesToMm(3/16)]
+    })
     const connEllipseProfiles = connEllipseData[0]
     const connEllipseMale = connEllipseProfiles[0]
     const connEllipseFemale = connEllipseProfiles[1]
@@ -33,7 +40,9 @@ const main = () => {
     const connTabMale = connTabProfiles[0]
     const connTabFemale = connTabProfiles[1]
 
-    const connDovetailData = connections.dovetail({})
+    const connDovetailData = connections.dovetail({
+        interfaceMargin: [math.inchesToMm(3/8), math.inchesToMm(3/16)]
+    })
     const connDovetailProfiles = connDovetailData[0]
     const connDovetailMale = connDovetailProfiles[0]
     const connDovetailFemale = connDovetailProfiles[1]
@@ -56,6 +65,7 @@ const main = () => {
 
     const connTabRowData = connections.tabRow({
         size: [100, 33],
+        interfaceMargin: [math.inchesToMm(3/8), math.inchesToMm(3/16)]
     })
     const connTabRowProfiles = connTabRowData[0]
     const connTabRowMale = connTabRowProfiles[0]

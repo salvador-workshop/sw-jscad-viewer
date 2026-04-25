@@ -33,6 +33,7 @@ const jointPanelData2 = jointPanel.oneJointRectPanel({
     size: [100, 80],
     axis: 'y',
     // jointMargin: 7,
+    jointMargin: [math.inchesToMm(3/8), math.inchesToMm(3/16)]
 })
 const jointPanelProfiles2 = jointPanelData2[0]
 const jointPanelMale2 = jointPanelProfiles2[0]
@@ -42,6 +43,7 @@ const jointPanelData3 = jointPanel.twoJointRectPanel({
     size: [150, 100],
     jointNumConnectors:[3,3],
     // jointMargin: 6,
+    jointMargin: [math.inchesToMm(3/16), math.inchesToMm(3/8)]
 })
 const jointPanelProfiles3 = jointPanelData3[0]
 

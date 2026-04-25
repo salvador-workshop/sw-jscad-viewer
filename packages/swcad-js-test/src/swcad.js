@@ -2541,6 +2541,10 @@ var require_connections = __commonJS({
         const depth = size[1];
         const diametre = radius2 * 2;
         const unitDiametre = unitRadius * 2;
+        let interMargin = interfaceMargin;
+        if (typeof interfaceMargin == "number") {
+          interMargin = [interfaceMargin, interfaceMargin];
+        }
         const midPoint = [
           width / 2,
           depth / 2
@@ -2566,7 +2570,7 @@ var require_connections = __commonJS({
           unitRadius,
           diametre,
           unitDiametre,
-          interfaceMargin
+          interfaceMargin: interMargin
         };
         const modelPoints = {
           centrePt: midPoint
@@ -2625,19 +2629,19 @@ var require_connections = __commonJS({
         const {
           sampleThickness
         } = modelProperties.constants;
-        const dovetailWidth = width - interfaceMargin * 2;
-        const dovetailLength = depth - interfaceMargin * 2;
+        const dovetailWidth = width - interfaceMargin[0] * 2;
+        const dovetailLength = depth - interfaceMargin[1] * 2;
         const dovetailEndSize = [
           dovetailLength / 6,
           dovetailLength
         ];
         const widthCoords = [
-          interfaceMargin,
-          interfaceMargin + dovetailWidth
+          interfaceMargin[0],
+          interfaceMargin[0] + dovetailWidth
         ];
         const lengthCoords = [
-          interfaceMargin,
-          interfaceMargin + dovetailLength
+          interfaceMargin[1],
+          interfaceMargin[1] + dovetailLength
         ];
         const baseProfilePanel = cuboid({
           size: [width, depth, sampleThickness],
@@ -2708,19 +2712,19 @@ var require_connections = __commonJS({
         const {
           centrePt
         } = modelProperties.points;
-        const tabWidth = width - interfaceMargin * 2;
-        const tabLength = depth - interfaceMargin * 2;
+        const tabWidth = width - interfaceMargin[0] * 2;
+        const tabLength = depth - interfaceMargin[1] * 2;
         const tabEndSize = [
           tabLength / 6,
           tabLength
         ];
         const widthCoords = [
-          interfaceMargin,
-          interfaceMargin + tabWidth
+          interfaceMargin[0],
+          interfaceMargin[0] + tabWidth
         ];
         const lengthCoords = [
-          interfaceMargin,
-          interfaceMargin + tabLength
+          interfaceMargin[1],
+          interfaceMargin[1] + tabLength
         ];
         const baseProfilePanel = cuboid({
           size: [width, depth, sampleThickness],
@@ -2799,7 +2803,7 @@ var require_connections = __commonJS({
           dowelRadius: -halfGap + radius2,
           holeRadius: halfGap + radius2
         };
-        specs.totalWidth = interfaceMargin * 2 + diametre;
+        specs.totalWidth = interfaceMargin[0] * 2 + diametre;
         const halfWidth = specs.totalWidth / 2;
         specs.cornerPoints = [
           [halfWidth - cornerRadius, halfWidth - cornerRadius, 0],
@@ -2848,8 +2852,8 @@ var require_connections = __commonJS({
         const halfGap = fitGap / 2;
         const cornerRadius = math.inchesToMm(1 / 4);
         const diam = [
-          width - interfaceMargin * 2,
-          (depth - interfaceMargin * 2) * 2
+          width - interfaceMargin[0] * 2,
+          (depth - interfaceMargin[1] * 2) * 2
         ];
         const radius2 = [
           diam[0] / 2,
@@ -2859,13 +2863,13 @@ var require_connections = __commonJS({
           radius2[0] + fitGap / 2,
           radius2[1] + fitGap / 2
         ];
-        const dowelCtr = [0, depth / -2 + interfaceMargin, 0];
+        const dowelCtr = [0, depth / -2 + interfaceMargin[1], 0];
         const dowel = ellipseShape({ radius: radius2, segments, center: dowelCtr });
         const dowelDie = ellipseShape({ radius: holeRadius, segments, center: dowelCtr });
         const mPlate = rectangle({
           size: [
             width,
-            interfaceMargin,
+            interfaceMargin[1],
             0
           ]
         });
@@ -2888,7 +2892,7 @@ var require_connections = __commonJS({
         const fPlate = rectangle({
           size: [
             width,
-            depth - interfaceMargin - fitGap,
+            depth - interfaceMargin[1] - fitGap,
             0
           ]
         });
@@ -2937,7 +2941,7 @@ var require_connections = __commonJS({
           dowelRadius: -halfGap + unitRadius,
           holeRadius: halfGap + unitRadius
         };
-        specs.totalWidth = interfaceMargin * 2 + (unitRadius * 2 + unitSpacing);
+        specs.totalWidth = interfaceMargin[0] * 2 + (unitRadius * 2 + unitSpacing);
         const halfWidth = specs.totalWidth / 2;
         specs.cornerPoints = [
           [halfWidth - cornerRadius, halfWidth - cornerRadius, 0],
@@ -3010,7 +3014,7 @@ var require_connections = __commonJS({
         const dowelDies = holePoints.map((dPt) => {
           return translate(dPt, circle({ radius: holeRadius, segments: unitSegments }));
         });
-        const basePlateRadius = radius2 + unitRadius + interfaceMargin;
+        const basePlateRadius = radius2 + unitRadius + interfaceMargin[0];
         const basePlate = circle({ radius: basePlateRadius });
         const dowelAssembly = union(dowels);
         const male = dowelAssembly;
@@ -3049,9 +3053,9 @@ var require_connections = __commonJS({
           sampleThickness
         } = modelProperties.constants;
         const numMargins = numConnectors + 1;
-        const totalConnectionWidths = width - interfaceMargin * numMargins;
+        const totalConnectionWidths = width - interfaceMargin[0] * numMargins;
         const connectionWidth = totalConnectionWidths / numConnectors;
-        const connectionUnitWidth = 2 * interfaceMargin + connectionWidth;
+        const connectionUnitWidth = 2 * interfaceMargin[0] + connectionWidth;
         const dovetailCutOpts = modelOpts({
           ...opts,
           size: [connectionUnitWidth, depth]
@@ -3063,7 +3067,7 @@ var require_connections = __commonJS({
           center: [centrePt[0], centrePt[1], 0]
         });
         let dovetailRowCut = dovetailCutBase;
-        const translateDistBase = interfaceMargin + connectionWidth;
+        const translateDistBase = interfaceMargin[0] + connectionWidth;
         for (let idx = 1; idx < numConnectors; idx++) {
           const translateDist = translateDistBase * idx;
           dovetailRowCut = union(
@@ -3115,9 +3119,9 @@ var require_connections = __commonJS({
           sampleThickness
         } = modelProperties.constants;
         const numMargins = numConnectors + 1;
-        const totalConnectionWidths = width - interfaceMargin * numMargins;
+        const totalConnectionWidths = width - interfaceMargin[0] * numMargins;
         const connectionWidth = totalConnectionWidths / numConnectors;
-        const connectionUnitWidth = 2 * interfaceMargin + connectionWidth;
+        const connectionUnitWidth = 2 * interfaceMargin[0] + connectionWidth;
         const tabCutOpts = modelOpts({
           ...opts,
           size: [connectionUnitWidth, depth]
@@ -3129,7 +3133,7 @@ var require_connections = __commonJS({
           center: [centrePt[0], centrePt[1], 0]
         });
         let tabRowCut = tabCutBase;
-        const translateDistBase = interfaceMargin + connectionWidth;
+        const translateDistBase = interfaceMargin[0] + connectionWidth;
         for (let idx = 1; idx < numConnectors; idx++) {
           const translateDist = translateDistBase * idx;
           tabRowCut = union(
@@ -3444,6 +3448,10 @@ var require_joint_panel = __commonJS({
           depth / 2
         ];
         const totalJointWidth = jointMargin * 2 + jointWidth;
+        let jMargin = jointMargin;
+        if (typeof jointMargin == "number") {
+          jMargin = [jointMargin, jointMargin];
+        }
         const modelConstants = {
           sampleThickness: defaults.vals.constants.sampleThickness
         };
@@ -3458,7 +3466,7 @@ var require_joint_panel = __commonJS({
           width,
           depth,
           jointWidth,
-          jointMargin,
+          jointMargin: jMargin,
           totalJointWidth,
           interfaceThickness,
           fitGap
@@ -3917,8 +3925,8 @@ var require_reinforced_rect = __commonJS({
           size,
           width,
           depth,
-          interfaceThickness,
           reinforcementThickness: rThickness,
+          interfaceThickness,
           fitGap
         };
         const modelPoints = {
@@ -9854,6 +9862,7 @@ var require_src5 = __commonJS({
     var meshModule = require_mesh();
     var mouldingModule = require_moulding();
     var openWebJoistModule = require_open_web_joist();
+    var reinforcedRectPanelModule = require_open_web_joist();
     var routedShapesModule = require_routed_shapes();
     var sheetMouldModule = require_sheet_mould();
     var textModule = require_text2();
@@ -9882,6 +9891,7 @@ var require_src5 = __commonJS({
         componentLine,
         moulding: mouldingModule.init({ jscad, swcadJs: preLib }),
         openWebJoist: openWebJoistModule.init({ jscad, swcadJs: preLib }),
+        reinforcedRectPanel: reinforcedRectPanelModule.init({ jscad, swcadJs: preLib }),
         sheetMould: sheetMouldModule.init({ jscad, swcadJs: preLib }),
         text: textModule.init({ jscad, swcadJs: preLib }),
         trimFamilyFrame: trimFamilyFrameModule.init({ jscad, swcadJs: preLib })
