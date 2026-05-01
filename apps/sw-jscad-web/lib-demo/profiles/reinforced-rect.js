@@ -19,11 +19,11 @@ const main = () => {
         layoutSpace: 10,
     }
 
-    const reinfRectData1 = shapes.rectangle.reinforcedRect({ size: [40, 30] })
+    const reinfRectData1 = shapes.rectangle.reinforcedRect({ size: [40, 45] })
 
-    const reinfRectData2 = shapes.rectangle.reinforcedRect({ size: [40, 30], reinforcementPattern: 'cross' })
+    const reinfRectData2 = shapes.rectangle.reinforcedRect({ size: [40, 45], reinforcementPattern: 'cross' })
 
-    const reinfRectData3 = shapes.rectangle.reinforcedRect({ size: [40, 30], reinforcementPattern: 'full' })
+    const reinfRectData3 = shapes.rectangle.reinforcedRect({ size: [40, 45], reinforcementPattern: 'full' })
 
     const rectProfiles = [
         {

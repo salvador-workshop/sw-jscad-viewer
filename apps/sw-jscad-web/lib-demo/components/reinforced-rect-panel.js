@@ -18,11 +18,11 @@ const main = () => {
         layoutSpace: 10,
     }
 
-    const reinfRectData1 = reinforcedRectPanel({ size: [40, 30, 3] })
+    const reinfRectData1 = reinforcedRectPanel({ size: [40, 45, 3] })
 
-    const reinfRectData2 = reinforcedRectPanel({ size: [40, 30, 3], reinforcementPattern: 'cross' })
+    const reinfRectData2 = reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'cross' })
 
-    const reinfRectData3 = reinforcedRectPanel({ size: [40, 30, 3], reinforcementPattern: 'full' })
+    const reinfRectData3 = reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'full' })
 
     const rectProfiles = [
         {
