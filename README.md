@@ -4,6 +4,20 @@ JSCAD viewer leveraging `jscad` and `swcad-js` for parametric 2D/3D CAD designs 
 
 Online viewer: [https://sw-jscad-viewer.netlify.app/](https://sw-jscad-viewer.netlify.app/)
 
+## usage
+
+### npm run dev / npm run start
+
+Both do the same thing, running the `start` script in the `sw-jscad-web` workspace.
+
+### npm run build
+
+Runs the `build` script in the `sw-jscad-web` workspace.
+
+### npm run serve
+
+Runs the `serve` script in the `sw-jscad-web` workspace.
+
 ## swcad-js
 
 API Docs: [https://salvador-workshop.github.io/swcad-js/](https://salvador-workshop.github.io/swcad-js/)  

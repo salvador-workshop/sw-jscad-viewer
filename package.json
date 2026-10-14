@@ -1,6 +1,6 @@
 {
   "name": "sw-jscad-viewer",
-  "version": "0.1.4",
+  "version": "0.1.9-alpha.0",
   "description": "JSCAD viewer leveraging swcad-js",
   "main": "index.js",
   "workspaces": [
@@ -13,7 +13,9 @@
   "scripts": {
     "info": "echo This is a monorepo, that holds jsadui libraries and example apps. && echo If you want to try some apps made with jscadui go to apps folder. && echo Please read README for introduction and list of apps and info how ready or usable each is",
     "start": "npm run start -w sw-jscad-web",
-    "dev": " npm run start"
+    "dev": " npm run start",
+    "build": "npm run build -w sw-jscad-web",
+    "serve": "npm run serve -w sw-jscad-web"
   },
   "repository": {
     "type": "git",
