@@ -37,26 +37,61 @@ var require_constants = __commonJS({
        */
       EQUI_TRIANGLE_HEIGHT_FACTOR: eqTriHeightFactor,
       /**
-       * ...
+       * Tri_45_Factor
        * @memberof data.constants
        * @constant {number}
        */
       TRI_45_FACTOR: tri45Factor,
       /**
-       * ...
+       * Tri_30_Factor
        * @memberof data.constants
        * @constant {number}
        */
       TRI_30_FACTOR: tri30Factor,
+      /**
+       * Plastic_Ratio
+       * @memberof data.constants
+       * @constant {number}
+       */
       PLASTIC_RATIO: 1.3247179572,
+      /**
+       * Supergolden_Ratio
+       * @memberof data.constants
+       * @constant {number}
+       */
       SUPERGOLDEN_RATIO: 1.4655712319,
+      /**
+       * Golden_Ratio
+       * @memberof data.constants
+       * @constant {number}
+       */
       GOLDEN_RATIO: phi,
+      /**
+       * Silver_Ratio
+       * @memberof data.constants
+       * @constant {number}
+       */
       SILVER_RATIO: 1 + tri45Factor,
       // 2.4142
+      /**
+       * Bronze_Ratio
+       * @memberof data.constants
+       * @constant {number}
+       */
       BRONZE_RATIO: 3 + Math.sqrt(13) / 2,
       // 3.3028
+      /**
+       * Copper_Ratio
+       * @memberof data.constants
+       * @constant {number}
+       */
       COPPER_RATIO: 2 + Math.sqrt(5),
       // 4.2361
+      /**
+       * Nickel_Ratio
+       * @memberof data.constants
+       * @constant {number}
+       */
       NICKEL_RATIO: 5 + Math.sqrt(29)
       // 5.1925
     };
@@ -167,10 +202,35 @@ var require_std_crafts = __commonJS({
     "use strict";
     var craftStd = ({ jscad }) => {
       return {
+        /**
+         * Diam_Toothpick
+         * @memberof data.standards.crafts
+         * @constant {number}
+         */
         DIAM_TOOTHPICK: 2.3,
+        /**
+         * Diam_Bbq_Skewer
+         * @memberof data.standards.crafts
+         * @constant {number}
+         */
         DIAM_BBQ_SKEWER: 3.25,
+        /**
+         * Popsicle_Stick_Width
+         * @memberof data.standards.crafts
+         * @constant {number}
+         */
         POPSICLE_STICK_WIDTH: 10,
+        /**
+         * Popsicle_Stick_Thickness
+         * @memberof data.standards.crafts
+         * @constant {number}
+         */
         POPSICLE_STICK_THICKNESS: 2,
+        /**
+         * Popsicle_Stick_Length
+         * @memberof data.standards.crafts
+         * @constant {number}
+         */
         POPSICLE_STICK_LENGTH: 114
       };
     };
@@ -291,59 +351,136 @@ var require_std_masonry = __commonJS({
     "use strict";
     var inchesToMm = (numIn) => numIn * 25.4;
     var masonryStd = ({ jscad }) => {
-      const masonry = {
+      const masonryCore = {
         MORTAR_JOINT: inchesToMm(3 / 8),
         MORTAR_JOINT_LG: inchesToMm(1 / 2)
       };
       const brick = {
+        /**
+         * Us_Brick_Length_Nom
+         * @memberof data.standards.masonry.brick
+         */
         US_BRICK_LENGTH_NOM: inchesToMm(8),
+        /**
+         * Us_Brick_Width_Nom
+         * @memberof data.standards.masonry.brick
+         */
         US_BRICK_WIDTH_NOM: inchesToMm(4),
+        /**
+         * Us_Brick_Height_Nom
+         * @memberof data.standards.masonry.brick
+         */
         US_BRICK_HEIGHT_NOM: inchesToMm(2 + 2 / 3),
+        /**
+         * Uk_Brick_Length_Nom
+         * @memberof data.standards.masonry.brick
+         */
         UK_BRICK_LENGTH_NOM: 215,
+        /**
+         * Uk_Brick_Width_Nom
+         * @memberof data.standards.masonry.brick
+         */
         UK_BRICK_WIDTH_NOM: 102.5,
+        /**
+         * Uk_Brick_Height_Nom
+         * @memberof data.standards.masonry.brick
+         */
         UK_BRICK_HEIGHT_NOM: 65
       };
-      brick["US_BRICK_LENGTH"] = brick.US_BRICK_LENGTH_NOM - masonry.MORTAR_JOINT;
-      brick["US_BRICK_WIDTH"] = brick.US_BRICK_WIDTH_NOM - masonry.MORTAR_JOINT;
-      brick["US_BRICK_HEIGHT"] = brick.US_BRICK_HEIGHT_NOM - masonry.MORTAR_JOINT;
-      brick["US_BRICK_LENGTH_LG_JOINT"] = brick.US_BRICK_LENGTH_NOM - masonry.MORTAR_JOINT_LG;
-      brick["US_BRICK_WIDTH_LG_JOINT"] = brick.US_BRICK_WIDTH_NOM - masonry.MORTAR_JOINT_LG;
-      brick["US_BRICK_HEIGHT_LG_JOINT"] = brick.US_BRICK_HEIGHT_NOM - masonry.MORTAR_JOINT_LG;
+      brick["US_BRICK_LENGTH"] = brick.US_BRICK_LENGTH_NOM - masonryCore.MORTAR_JOINT;
+      brick["US_BRICK_WIDTH"] = brick.US_BRICK_WIDTH_NOM - masonryCore.MORTAR_JOINT;
+      brick["US_BRICK_HEIGHT"] = brick.US_BRICK_HEIGHT_NOM - masonryCore.MORTAR_JOINT;
+      brick["US_BRICK_LENGTH_LG_JOINT"] = brick.US_BRICK_LENGTH_NOM - masonryCore.MORTAR_JOINT_LG;
+      brick["US_BRICK_WIDTH_LG_JOINT"] = brick.US_BRICK_WIDTH_NOM - masonryCore.MORTAR_JOINT_LG;
+      brick["US_BRICK_HEIGHT_LG_JOINT"] = brick.US_BRICK_HEIGHT_NOM - masonryCore.MORTAR_JOINT_LG;
       const concrete = {
+        /**
+         * Cmu_Face_Thickness
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_FACE_THICKNESS: 36,
+        /**
+         * Cmu_Web_Thickness
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_WEB_THICKNESS: 32,
+        /**
+         * Cmu_Web_Thickness_Sm
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_WEB_THICKNESS_SM: 26,
+        /**
+         * Cmu_4_Nom
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_4_NOM: [inchesToMm(16), inchesToMm(4), inchesToMm(8)],
+        /**
+         * Cmu_6_Nom
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_6_NOM: [inchesToMm(16), inchesToMm(6), inchesToMm(8)],
+        /**
+         * Cmu_8_Nom
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_8_NOM: [inchesToMm(16), inchesToMm(8), inchesToMm(8)],
+        /**
+         * Cmu_10_Nom
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_10_NOM: [inchesToMm(16), inchesToMm(10), inchesToMm(8)],
+        /**
+         * Cmu_12_Nom
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_12_NOM: [inchesToMm(16), inchesToMm(12), inchesToMm(8)],
+        /**
+         * Cmu_4half_Nom
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_4HALF_NOM: [inchesToMm(8), inchesToMm(4), inchesToMm(8)],
+        /**
+         * Cmu_6half_Nom
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_6HALF_NOM: [inchesToMm(8), inchesToMm(6), inchesToMm(8)],
+        /**
+         * Cmu_8half_Nom
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_8HALF_NOM: [inchesToMm(8), inchesToMm(8), inchesToMm(8)],
+        /**
+         * Cmu_10half_Nom
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_10HALF_NOM: [inchesToMm(8), inchesToMm(10), inchesToMm(8)],
+        /**
+         * Cmu_12half_Nom
+         * @memberof data.standards.masonry.concrete
+         */
         CMU_12HALF_NOM: [inchesToMm(8), inchesToMm(12), inchesToMm(8)]
       };
       Object.entries(concrete).forEach(([concKey, concVal]) => {
         if (concKey.includes("_NOM")) {
           const newKey = concKey.replace("_NOM", "");
           concrete[newKey] = [
-            concVal[0] - masonry.MORTAR_JOINT,
-            concVal[1] - masonry.MORTAR_JOINT,
-            concVal[2] - masonry.MORTAR_JOINT
+            concVal[0] - masonryCore.MORTAR_JOINT,
+            concVal[1] - masonryCore.MORTAR_JOINT,
+            concVal[2] - masonryCore.MORTAR_JOINT
           ];
           concrete[`${newKey}_LG_JOINT`] = [
-            concVal[0] - masonry.MORTAR_JOINT_LG,
-            concVal[1] - masonry.MORTAR_JOINT_LG,
-            concVal[2] - masonry.MORTAR_JOINT_LG
+            concVal[0] - masonryCore.MORTAR_JOINT_LG,
+            concVal[1] - masonryCore.MORTAR_JOINT_LG,
+            concVal[2] - masonryCore.MORTAR_JOINT_LG
           ];
         }
       });
-      return {
-        ...masonry,
+      const masonry = {
+        ...masonryCore,
         brick,
         concrete
       };
+      return masonry;
     };
     module2.exports = { init: masonryStd };
   }
@@ -356,101 +493,397 @@ var require_std_paper = __commonJS({
     var inchesToMm = (numIn) => numIn * 25.4;
     var paperStd = ({ jscad }) => {
       const metric = {
+        /**
+         * A0 sheet
+         * @memberof data.standards.paper.metric
+         */
         A0: [841, 1189],
+        /**
+         * A1 sheet
+         * @memberof data.standards.paper.metric
+         */
         A1: [594, 841],
+        /**
+         * A2 sheet
+         * @memberof data.standards.paper.metric
+         */
         A2: [420, 594],
+        /**
+         * A3 sheet
+         * @memberof data.standards.paper.metric
+         */
         A3: [297, 420],
+        /**
+         * A4 sheet
+         * @memberof data.standards.paper.metric
+         */
         A4: [210, 297],
+        /**
+         * A5 sheet
+         * @memberof data.standards.paper.metric
+         */
         A5: [148, 210],
+        /**
+         * A6 sheet
+         * @memberof data.standards.paper.metric
+         */
         A6: [105, 148],
+        /**
+         * A7 sheet
+         * @memberof data.standards.paper.metric
+         */
         A7: [74, 105],
+        /**
+         * A8 sheet
+         * @memberof data.standards.paper.metric
+         */
         A8: [52, 74],
+        /**
+         * A9 sheet
+         * @memberof data.standards.paper.metric
+         */
         A9: [37, 52],
+        /**
+         * A10 sheet
+         * @memberof data.standards.paper.metric
+         */
         A10: [26, 37],
+        /**
+         * B0 sheet
+         * @memberof data.standards.paper.metric
+         */
         B0: [1e3, 1414],
+        /**
+         * B1 sheet
+         * @memberof data.standards.paper.metric
+         */
         B1: [707, 1e3],
+        /**
+         * B2 sheet
+         * @memberof data.standards.paper.metric
+         */
         B2: [500, 707],
+        /**
+         * B3 sheet
+         * @memberof data.standards.paper.metric
+         */
         B3: [353, 500],
+        /**
+         * B4 sheet
+         * @memberof data.standards.paper.metric
+         */
         B4: [250, 353],
+        /**
+         * B5 sheet
+         * @memberof data.standards.paper.metric
+         */
         B5: [167, 250],
+        /**
+         * B6 sheet
+         * @memberof data.standards.paper.metric
+         */
         B6: [125, 176],
+        /**
+         * B7 sheet
+         * @memberof data.standards.paper.metric
+         */
         B7: [88, 125],
+        /**
+         * B8 sheet
+         * @memberof data.standards.paper.metric
+         */
         B8: [62, 88],
+        /**
+         * B9 sheet
+         * @memberof data.standards.paper.metric
+         */
         B9: [44, 62],
+        /**
+         * B10 sheet
+         * @memberof data.standards.paper.metric
+         */
         B10: [31, 44],
+        /**
+         * C0 sheet
+         * @memberof data.standards.paper.metric
+         */
         C0: [917, 1297],
+        /**
+         * C1 sheet
+         * @memberof data.standards.paper.metric
+         */
         C1: [648, 917],
+        /**
+         * C2 sheet
+         * @memberof data.standards.paper.metric
+         */
         C2: [458, 648],
+        /**
+         * C3 sheet
+         * @memberof data.standards.paper.metric
+         */
         C3: [324, 458],
+        /**
+         * C4 sheet
+         * @memberof data.standards.paper.metric
+         */
         C4: [229, 324],
+        /**
+         * C5 sheet
+         * @memberof data.standards.paper.metric
+         */
         C5: [162, 229],
+        /**
+         * C6 sheet
+         * @memberof data.standards.paper.metric
+         */
         C6: [114, 162],
+        /**
+         * C7 sheet
+         * @memberof data.standards.paper.metric
+         */
         C7: [81, 114],
+        /**
+         * C8 sheet
+         * @memberof data.standards.paper.metric
+         */
         C8: [57, 81],
+        /**
+         * C9 sheet
+         * @memberof data.standards.paper.metric
+         */
         C9: [40, 57],
+        /**
+         * C10 sheet
+         * @memberof data.standards.paper.metric
+         */
         C10: [28, 40]
       };
-      const naAnsi = {
+      const imperialAnsi = {
+        /**
+         * Ansi_A sheet
+         * @memberof data.standards.paper.imperialAnsi
+         */
         ANSI_A: [inchesToMm(8.5), inchesToMm(11)],
+        /**
+         * Ansi_B sheet
+         * @memberof data.standards.paper.imperialAnsi
+         */
         ANSI_B: [inchesToMm(11), inchesToMm(17)],
+        /**
+         * Ansi_C sheet
+         * @memberof data.standards.paper.imperialAnsi
+         */
         ANSI_C: [inchesToMm(17), inchesToMm(22)],
+        /**
+         * Ansi_D sheet
+         * @memberof data.standards.paper.imperialAnsi
+         */
         ANSI_D: [inchesToMm(22), inchesToMm(34)],
+        /**
+         * Ansi_E sheet
+         * @memberof data.standards.paper.imperialAnsi
+         */
         ANSI_E: [inchesToMm(34), inchesToMm(44)]
       };
-      const naArch = {
+      const imperialArch = {
+        /**
+         * Arch_A sheet
+         * @memberof data.standards.paper.imperialArch
+         */
         ARCH_A: [inchesToMm(9), inchesToMm(12)],
+        /**
+         * Arch_B sheet
+         * @memberof data.standards.paper.imperialArch
+         */
         ARCH_B: [inchesToMm(12), inchesToMm(18)],
+        /**
+         * Arch_C sheet
+         * @memberof data.standards.paper.imperialArch
+         */
         ARCH_C: [inchesToMm(18), inchesToMm(24)],
+        /**
+         * Arch_D sheet
+         * @memberof data.standards.paper.imperialArch
+         */
         ARCH_D: [inchesToMm(24), inchesToMm(36)],
+        /**
+         * Arch_E1 sheet
+         * @memberof data.standards.paper.imperialArch
+         */
         ARCH_E1: [inchesToMm(30), inchesToMm(42)],
+        /**
+         * Arch_E sheet
+         * @memberof data.standards.paper.imperialArch
+         */
         ARCH_E: [inchesToMm(36), inchesToMm(48)]
       };
       const imperial = {
-        ansi: naAnsi,
-        arch: naArch,
-        LETTER: naAnsi.ANSI_A,
+        /**
+         * Letter sheet
+         * @memberof data.standards.paper.imperial
+         */
+        LETTER: imperialAnsi.ANSI_A,
+        /**
+         * Legal sheet
+         * @memberof data.standards.paper.imperial
+         */
         LEGAL: [inchesToMm(8.5), inchesToMm(14)],
-        TABLOID: naAnsi.ANSI_B,
+        /**
+         * Tabloid sheet
+         * @memberof data.standards.paper.imperial
+         */
+        TABLOID: imperialAnsi.ANSI_B,
+        /**
+         * Ledger sheet
+         * @memberof data.standards.paper.imperial
+         */
         LEDGER: [inchesToMm(17), inchesToMm(11)]
       };
       const cards = {
+        /**
+         * Business_Card sheet
+         * @memberof data.standards.paper.cards
+         */
         BUSINESS_CARD: [inchesToMm(3.5), inchesToMm(2)],
+        /**
+         * Business_Card_Sq sheet
+         * @memberof data.standards.paper.cards
+         */
         BUSINESS_CARD_SQ: [inchesToMm(2.5), inchesToMm(2.5)],
+        /**
+         * Credit_Card sheet
+         * @memberof data.standards.paper.cards
+         */
         CREDIT_CARD: [85.6, 53.98],
+        /**
+         * Devotional sheet
+         * @memberof data.standards.paper.cards
+         */
         DEVOTIONAL: [inchesToMm(2.5), inchesToMm(4.5)],
+        /**
+         * Index_Sm sheet
+         * @memberof data.standards.paper.cards
+         */
         INDEX_SM: [inchesToMm(5), inchesToMm(3)],
+        /**
+         * Index_Md sheet
+         * @memberof data.standards.paper.cards
+         */
         INDEX_MD: [inchesToMm(6), inchesToMm(4)],
+        /**
+         * Index_Lg sheet
+         * @memberof data.standards.paper.cards
+         */
         INDEX_LG: [inchesToMm(8), inchesToMm(5)],
+        /**
+         * Index_Xl sheet
+         * @memberof data.standards.paper.cards
+         */
         INDEX_XL: [inchesToMm(9), inchesToMm(6)],
+        /**
+         * Postcard sheet
+         * @memberof data.standards.paper.cards
+         */
         POSTCARD: [inchesToMm(6), inchesToMm(4)]
       };
       const bookmarks = {
+        /**
+         * Bookmark_Sm sheet
+         * @memberof data.standards.paper.bookmarks
+         */
         BOOKMARK_SM: [inchesToMm(1.5), inchesToMm(4.5)],
+        /**
+         * Bookmark_Md sheet
+         * @memberof data.standards.paper.bookmarks
+         */
         BOOKMARK_MD: [inchesToMm(2), inchesToMm(6.5)],
+        /**
+         * Bookmark_Lg sheet
+         * @memberof data.standards.paper.bookmarks
+         */
         BOOKMARK_LG: [inchesToMm(2.25), inchesToMm(8.5)]
       };
       const poster = {
+        /**
+         * Posterjam sheet
+         * @memberof data.standards.paper.poster
+         */
         POSTERJAM: metric.B2,
+        /**
+         * Album_Cover sheet
+         * @memberof data.standards.paper.poster
+         */
         ALBUM_COVER: [inchesToMm(12 + 3 / 8), inchesToMm(12 + 3 / 8)]
       };
       const photos = {
+        /**
+         * Passport_Can photo
+         * @memberof data.standards.paper.photos
+         */
         PASSPORT_CAN: [50, 70],
+        /**
+         * Passport_Us photo
+         * @memberof data.standards.paper.photos
+         */
         PASSPORT_US: [inchesToMm(2), inchesToMm(2)],
+        /**
+         * Wallet photo
+         * @memberof data.standards.paper.photos
+         */
         WALLET: [inchesToMm(2), inchesToMm(3)],
+        /**
+         * R2 photo
+         * @memberof data.standards.paper.photos
+         */
         R2: [inchesToMm(2.5), inchesToMm(3.5)],
+        /**
+         * R3 photo
+         * @memberof data.standards.paper.photos
+         */
         R3: [inchesToMm(3.5), inchesToMm(5)],
+        /**
+         * R4 photo
+         * @memberof data.standards.paper.photos
+         */
         R4: [inchesToMm(5.04), inchesToMm(6)],
+        /**
+         * R5 photo
+         * @memberof data.standards.paper.photos
+         */
         R5: [inchesToMm(5), inchesToMm(7)],
+        /**
+         * R6 photo
+         * @memberof data.standards.paper.photos
+         */
         R6: [inchesToMm(6), inchesToMm(8)],
+        /**
+         * R8 photo
+         * @memberof data.standards.paper.photos
+         */
         R8: [inchesToMm(8), inchesToMm(10)],
+        /**
+         * R10 photo
+         * @memberof data.standards.paper.photos
+         */
         R10: [inchesToMm(10), inchesToMm(12)],
+        /**
+         * R11 photo
+         * @memberof data.standards.paper.photos
+         */
         R11: [inchesToMm(11), inchesToMm(14)],
+        /**
+         * R12 photo
+         * @memberof data.standards.paper.photos
+         */
         R12: [inchesToMm(12), inchesToMm(15)]
       };
       return {
         cards,
         metric,
         imperial,
+        imperialAnsi,
+        imperialArch,
         bookmarks,
         poster,
         photos
@@ -483,29 +916,162 @@ var require_standards = __commonJS({
     var inchesToMm = (numIn) => numIn * 25.4;
     var standards = ({ jscad }) => {
       const pegboard = {
+        /**
+         * Pegboard_Spacing
+         * @memberof data.standards.pegboard
+         */
         PEGBOARD_SPACING: inchesToMm(1),
+        /**
+         * Pegboard_Hole_Diam
+         * @memberof data.standards.pegboard
+         */
         PEGBOARD_HOLE_DIAM: inchesToMm(7 / 32),
+        /**
+         * Micro_Pegboard_Spacing
+         * @memberof data.standards.pegboard
+         */
         MICRO_PEGBOARD_SPACING: inchesToMm(1 / 2),
+        /**
+         * Micro_Pegboard_Hole_Diam
+         * @memberof data.standards.pegboard
+         */
         MICRO_PEGBOARD_HOLE_DIAM: inchesToMm(1 / 8)
       };
       const gridfinity = {
+        /**
+         * Gridfinity_Spacing
+         * @memberof data.standards.gridfinity
+         */
         GRIDFINITY_SPACING: 42,
+        /**
+         * Gridfinity_Rail_Width
+         * @memberof data.standards.gridfinity
+         */
         GRIDFINITY_RAIL_WIDTH: 7
       };
+      const types = {
+        /**
+         * Type_Default
+         * @memberof data.standards.types
+         */
+        TYPE_DEFAULT: { id: "default", desc: "Default" },
+        /**
+         * Type_Alt
+         * @memberof data.standards.types
+         */
+        TYPE_ALT: { id: "alt", desc: "Alternate" }
+      };
+      const interfaceThickness = 1.333333;
+      const fitGap = inchesToMm(1 / 128);
+      const panelThicknessXs = interfaceThickness * 0.5;
+      const panelThicknessSm = interfaceThickness * 0.75;
+      const panelThicknessMd = interfaceThickness;
+      const panelThicknessLg = interfaceThickness * 1.25;
+      const panelThicknessXl = interfaceThickness * 1.5;
+      const smProfileBeadWidth = interfaceThickness * 1.125;
+      const mdProfileBeadWidth = interfaceThickness * 1.5;
+      const lgProfileBeadWidth = interfaceThickness * 1.75;
+      const xsReinforcementWidth = 2;
+      const smReinforcementWidth = 3;
+      const mdReinforcementWidth = 4;
+      const lgReinforcementWidth = 5;
       const swDefaults = {
-        PANEL_THICKNESS_XS: inchesToMm(2 / 64),
-        // 1/32"
-        PANEL_THICKNESS_SM: inchesToMm(3 / 64),
-        PANEL_THICKNESS_MD: inchesToMm(4 / 64),
-        // 1/16"
-        PANEL_THICKNESS_LG: inchesToMm(5 / 64),
-        PANEL_THICKNESS_XL: inchesToMm(6 / 64)
-        // 3/32"
+        /**
+         * Interface thickness
+         * @memberof data.standards
+         */
+        INTERFACE_THICKNESS: interfaceThickness,
+        /**
+         * Fit_Gap
+         * @memberof data.standards
+         */
+        FIT_GAP: fitGap,
+        /**
+         * Panel_Thickness_Xs
+         * @memberof data.standards
+         */
+        PANEL_THICKNESS_XS: panelThicknessXs,
+        /**
+         * Panel_Thickness_Sm
+         * @memberof data.standards
+         */
+        PANEL_THICKNESS_SM: panelThicknessSm,
+        /**
+         * Panel_Thickness_Md
+         * @memberof data.standards
+         */
+        PANEL_THICKNESS_MD: panelThicknessMd,
+        /**
+         * Panel_Thickness_Lg
+         * @memberof data.standards
+         */
+        PANEL_THICKNESS_LG: panelThicknessLg,
+        /**
+         * Panel_Thickness_Xl
+         * @memberof data.standards
+         */
+        PANEL_THICKNESS_XL: panelThicknessXl,
+        /**
+         * Sm_Profile_Bead_Width
+         * @memberof data.standards
+         */
+        SM_PROFILE_BEAD_WIDTH: smProfileBeadWidth,
+        /**
+         * Md_Profile_Bead_Width
+         * @memberof data.standards
+         */
+        MD_PROFILE_BEAD_WIDTH: mdProfileBeadWidth,
+        /**
+         * Lg_Profile_Bead_Width
+         * @memberof data.standards
+         */
+        LG_PROFILE_BEAD_WIDTH: lgProfileBeadWidth,
+        /**
+         * Xs_Reinforcement_Width
+         * @memberof data.standards
+         */
+        XS_REINFORCEMENT_WIDTH: xsReinforcementWidth,
+        /**
+         * Sm_Reinforcement_Width
+         * @memberof data.standards
+         */
+        SM_REINFORCEMENT_WIDTH: smReinforcementWidth,
+        /**
+         * Md_Reinforcement_Width
+         * @memberof data.standards
+         */
+        MD_REINFORCEMENT_WIDTH: mdReinforcementWidth,
+        /**
+         * Lg_Reinforcement_Width
+         * @memberof data.standards
+         */
+        LG_REINFORCEMENT_WIDTH: lgReinforcementWidth
+      };
+      const params = {
+        /**
+         * Obj_2d_Size
+         * @memberof data.standards.params
+         */
+        OBJ_2D_SIZE: [
+          inchesToMm(2),
+          inchesToMm(4)
+        ],
+        /**
+         * Obj_3d_Size
+         * @memberof data.standards.params
+         */
+        OBJ_3D_SIZE: [
+          inchesToMm(2),
+          inchesToMm(4),
+          inchesToMm(1)
+        ]
       };
       return {
+        ...swDefaults,
         pegboard,
         gridfinity,
-        swDefaults,
+        types,
+        params,
         crafts: craftStd.init({ jscad }),
         lumber: lumberStd.init({ jscad }),
         masonry: masonryStd.init({ jscad }),
@@ -696,51 +1262,11 @@ var require_reinforcement = __commonJS({
     "use strict";
     var profReinforcementsInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
-      } = jscad.primitives;
-      const {
-        align,
-        translate,
-        rotate,
-        mirror
-      } = jscad.transforms;
-      const {
-        intersect,
-        subtract,
-        union,
-        scission
-      } = jscad.booleans;
-      const {
-        extrudeLinear,
-        extrudeRotate,
-        project
-      } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
-      const {
         math
       } = swcadJs.calcs;
+      const {
+        standards
+      } = swcadJs.data;
       const modelDefaults = () => {
         const defaultValues = {
           dims: {
@@ -754,15 +1280,15 @@ var require_reinforcement = __commonJS({
             centre: [0, 0, 0]
           },
           types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
           }
         };
         const standardOpts = {
           type: defaultValues.types.default.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -776,7 +1302,7 @@ var require_reinforcement = __commonJS({
       const rectangleDefaults = () => {
         const defaultValues = {
           opts: {
-            reinforcementPatterns: ["x", "cross", "diamond", "full"]
+            reinforcementPatterns: ["x", "cross", "diamond", "full", "full-double"]
           },
           dims: {
             size: [40, 50]
@@ -785,15 +1311,15 @@ var require_reinforcement = __commonJS({
             centre: [0, 0]
           },
           typeDetails: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
           }
         };
         const defaultOpts = {
           size: defaultValues.dims.size,
           reinforcementPattern: defaultValues.opts.reinforcementPatterns[0],
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128),
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP,
           type: "default",
           scale: 1
         };
@@ -905,20 +1431,34 @@ var require_reinforcement = __commonJS({
         } = opts;
         const width = size[0];
         const length = size[1];
+        const qtrX = width / 4;
         const midX = width / 2;
+        const threeQtrX = qtrX + midX;
+        const qtrY = length / 4;
         const midY = length / 2;
-        const midpoint = [midX, midY];
+        const threeQtrY = qtrY + midY;
+        const midPoint = [midX, midY];
         const corners = [
           [0, 0],
           [width, 0],
           [width, length],
           [0, length]
         ];
-        const midpoints = [
+        const midPoints = [
           [midX, 0],
           [width, midY],
           [midX, length],
           [0, midY]
+        ];
+        const qtrPoints = [
+          [qtrX, 0],
+          [threeQtrX, 0],
+          [0, qtrY],
+          [0, threeQtrY],
+          [qtrX, length],
+          [threeQtrX, length],
+          [width, qtrY],
+          [width, threeQtrY]
         ];
         const outline = [
           [
@@ -944,40 +1484,58 @@ var require_reinforcement = __commonJS({
             corners[2]
           ],
           [
-            midpoint,
+            midPoint,
             corners[1]
           ],
           [
-            midpoint,
+            midPoint,
             corners[3]
           ]
         ];
         const crossBraces = [
           [
-            midpoints[0],
-            midpoints[2]
+            midPoints[0],
+            midPoints[2]
           ],
           [
-            midpoints[1],
-            midpoints[3]
+            midPoints[1],
+            midPoints[3]
           ]
         ];
         const midBraces = [
           [
-            midpoints[0],
-            midpoints[1]
+            midPoints[0],
+            midPoints[1]
           ],
           [
-            midpoints[1],
-            midpoints[2]
+            midPoints[1],
+            midPoints[2]
           ],
           [
-            midpoints[2],
-            midpoints[3]
+            midPoints[2],
+            midPoints[3]
           ],
           [
-            midpoints[3],
-            midpoints[0]
+            midPoints[3],
+            midPoints[0]
+          ]
+        ];
+        const doubleFullBraces = [
+          [
+            qtrPoints[0],
+            qtrPoints[4]
+          ],
+          [
+            qtrPoints[1],
+            qtrPoints[5]
+          ],
+          [
+            qtrPoints[2],
+            qtrPoints[6]
+          ],
+          [
+            qtrPoints[3],
+            qtrPoints[7]
           ]
         ];
         let dots = [];
@@ -985,6 +1543,20 @@ var require_reinforcement = __commonJS({
         let primaryLines = [];
         let secondaryLines = [];
         switch (reinforcementPattern) {
+          case "full-double":
+            primaryLines = [
+              ...crossBraces
+            ];
+            secondaryLines = [
+              ...midBraces,
+              ...diagBraces,
+              ...doubleFullBraces
+            ];
+            lines = [
+              ...primaryLines,
+              ...secondaryLines
+            ];
+            break;
           case "full":
             primaryLines = [
               ...crossBraces
@@ -1047,13 +1619,14 @@ var require_reinforcement = __commonJS({
           lines,
           primaryLines,
           secondaryLines,
-          centre: midpoint,
+          centre: midPoint,
           outline,
-          midpoints,
+          midpoints: midPoints,
           braces: {
             cross: crossBraces,
             diagonal: diagBraces,
-            mid: midBraces
+            mid: midBraces,
+            doubleFull: doubleFullBraces
           }
         };
         const modelProperties = {
@@ -1568,7 +2141,6 @@ var require_pos_triangle = __commonJS({
   "packages/swcad-js-calcs/src/position/pos-triangle.js"(exports2, module2) {
     "use strict";
     var geoTriangle = ({ jscad, swcadJs }) => {
-      const { measureDimensions, measureBoundingBox, measureCenter } = jscad.measurements;
       const { TAU } = jscad.maths.constants;
       const getTriangleCtrlPoints = (points) => {
         return null;
@@ -1776,7 +2348,7 @@ var require_transform = __commonJS({
   "packages/swcad-js-calcs/src/transform/index.js"(exports2, module2) {
     "use strict";
     var transformUtils = ({ jscad, swcadJs }) => {
-      const { subtract, union } = jscad.booleans;
+      const { subtract, union: union2 } = jscad.booleans;
       const { measureDimensions } = jscad.measurements;
       const { cuboid, rectangle } = jscad.primitives;
       const { align, mirror, rotate } = jscad.transforms;
@@ -1788,7 +2360,7 @@ var require_transform = __commonJS({
         let stackHeight = 0;
         const geomList = reverse ? geoms.reverse() : geoms;
         return geomList.map((geom) => {
-          const alignedGeom = align({ modes: ["center", "center", "min"], relativeTo: [0, 0, stackHeight] }, geom);
+          const alignedGeom = position.ctrMin(geom, [0, 0, stackHeight]);
           stackHeight = stackHeight + measureDimensions(geom)[2];
           return alignedGeom;
         });
@@ -1820,12 +2392,12 @@ var require_transform = __commonJS({
       };
       const cloneQuadrant = (inShape) => {
         const firstMirror = mirror({ normal: [0, 1, 0] }, inShape);
-        const firstHalf = union(
+        const firstHalf = union2(
           inShape,
           firstMirror
         );
         const otherHalf = mirror({ normal: [1, 0, 0] }, firstHalf);
-        return union(
+        return union2(
           firstHalf,
           otherHalf
         );
@@ -1865,11 +2437,11 @@ var require_transform = __commonJS({
               alignedCutBox = align({ modes: ["center", "max", "center"] }, baseCutBox);
               break;
             case "-z":
-              alignedCutBox = align({ modes: ["center", "center", "min"] }, baseCutBox);
+              alignedCutBox = position.ctrMin(baseCutBox);
               break;
             case "z":
             default:
-              alignedCutBox = align({ modes: ["center", "center", "max"] }, baseCutBox);
+              alignedCutBox = position.ctrMax(baseCutBox);
           }
           return subtract(
             geom,
@@ -1950,55 +2522,25 @@ var require_beads_bits = __commonJS({
     "use strict";
     var beadsBitsInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
         rectangle,
-        triangle,
         polygon,
         ellipse
       } = jscad.primitives;
       const {
         align,
-        translate,
-        rotate,
-        mirror
+        translate: translate2
       } = jscad.transforms;
       const {
-        intersect,
         subtract,
-        union,
-        scission
+        union: union2
       } = jscad.booleans;
       const {
-        extrudeLinear,
-        extrudeRotate,
-        project
-      } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
-      const {
         math,
-        position,
         transform
       } = swcadJs.calcs;
+      const {
+        standards
+      } = swcadJs.data;
       const modelDefaults = () => {
         const defaultValues = {
           dims: {
@@ -2012,15 +2554,15 @@ var require_beads_bits = __commonJS({
             centre: [0, 0, 0]
           },
           types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
           }
         };
         const standardOpts = {
           type: defaultValues.types.default.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -2081,9 +2623,6 @@ var require_beads_bits = __commonJS({
           interfaceThickness,
           fitGap
         } = opts;
-        const lgProfileBeadWidth = interfaceThickness * 1.75;
-        const mdProfileBeadWidth = interfaceThickness * 1.5;
-        const smProfileBeadWidth = interfaceThickness * 1.125;
         const modelConstants = {
           type,
           scale
@@ -2151,7 +2690,7 @@ var require_beads_bits = __commonJS({
             { modes: ["min", "max", "center"] },
             offsetRectX
           );
-          offsetShape = union(
+          offsetShape = union2(
             offsetShape,
             offsetRectX
           );
@@ -2166,8 +2705,8 @@ var require_beads_bits = __commonJS({
             { modes: ["max", "min", "center"] },
             offsetRectY
           );
-          offsetRectY = translate([0, nudgeDist, 0], offsetRectY);
-          offsetShape = union(
+          offsetRectY = translate2([0, nudgeDist, 0], offsetRectY);
+          offsetShape = union2(
             offsetShape,
             offsetRectY
           );
@@ -2215,7 +2754,7 @@ var require_beads_bits = __commonJS({
             { modes: ["min", "max", "center"] },
             offsetRectX
           );
-          offsetShape = union(
+          offsetShape = union2(
             offsetShape,
             offsetRectX
           );
@@ -2228,8 +2767,8 @@ var require_beads_bits = __commonJS({
             { modes: ["max", "min", "center"] },
             offsetRectY
           );
-          offsetRectY = translate([0, -offset1, 0], offsetRectY);
-          offsetShape = union(
+          offsetRectY = translate2([0, -offset1, 0], offsetRectY);
+          offsetShape = union2(
             offsetShape,
             offsetRectY
           );
@@ -2277,7 +2816,7 @@ var require_beads_bits = __commonJS({
             { modes: ["min", "max", "center"] },
             offsetRectX
           );
-          offsetShape = union(
+          offsetShape = union2(
             offsetShape,
             offsetRectX
           );
@@ -2290,8 +2829,8 @@ var require_beads_bits = __commonJS({
             { modes: ["max", "min", "center"] },
             offsetRectY
           );
-          offsetRectY = translate([0, -offset1, 0], offsetRectY);
-          offsetShape = union(
+          offsetRectY = translate2([0, -offset1, 0], offsetRectY);
+          offsetShape = union2(
             offsetShape,
             offsetRectY
           );
@@ -2333,7 +2872,7 @@ var require_beads_bits = __commonJS({
             { modes: ["min", "max", "center"] },
             offsetRectX
           );
-          offsetShape = union(
+          offsetShape = union2(
             offsetShape,
             offsetRectX
           );
@@ -2348,8 +2887,8 @@ var require_beads_bits = __commonJS({
             { modes: ["max", "min", "center"] },
             offsetRectY
           );
-          offsetRectY = translate([0, nudgeDist, 0], offsetRectY);
-          offsetShape = union(
+          offsetRectY = translate2([0, nudgeDist, 0], offsetRectY);
+          offsetShape = union2(
             offsetShape,
             offsetRectY
           );
@@ -2381,59 +2920,248 @@ var require_beads_bits = __commonJS({
   }
 });
 
+// packages/swcad-js-profiles/src/box-curve/index.js
+var require_box_curve = __commonJS({
+  "packages/swcad-js-profiles/src/box-curve/index.js"(exports2, module2) {
+    "use strict";
+    var boxCurveInit = ({ jscad, swcadJs }) => {
+      const {
+        ellipse,
+        rectangle
+      } = jscad.primitives;
+      const {
+        align
+      } = jscad.transforms;
+      const {
+        subtract
+      } = jscad.booleans;
+      const {
+        standards
+      } = swcadJs.data;
+      const {
+        math,
+        position
+      } = swcadJs.calcs;
+      const boxCurveDefaults = () => {
+        const defaultValues = {
+          dims: {
+            size: [
+              math.inchesToMm(2),
+              math.inchesToMm(4),
+              math.inchesToMm(1)
+            ],
+            margin: [
+              standards.INTERFACE_THICKNESS,
+              standards.INTERFACE_THICKNESS,
+              standards.INTERFACE_THICKNESS
+            ]
+          },
+          points: {
+            centrePt: [0, 0, 0]
+          },
+          types: {
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
+          }
+        };
+        const standardOpts = {
+          type: defaultValues.types.default.id,
+          scale: 1,
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
+        };
+        const defaultOpts = {
+          ...standardOpts,
+          size: defaultValues.dims.size,
+          margin: defaultValues.dims.margin
+        };
+        return {
+          opts: defaultOpts,
+          vals: defaultValues
+        };
+      };
+      const boxCurveOpts = (opts) => {
+        const defaults = boxCurveDefaults();
+        const {
+          size = defaults.opts.size,
+          margin = defaults.opts.margin,
+          type = defaults.opts.type,
+          scale = defaults.opts.scale,
+          interfaceThickness = defaults.opts.interfaceThickness,
+          fitGap = defaults.opts.fitGap
+        } = opts;
+        const stdOpts = {
+          type,
+          scale,
+          interfaceThickness,
+          fitGap
+        };
+        const initOpts = {
+          size,
+          margin,
+          ...stdOpts
+        };
+        return initOpts;
+      };
+      const boxCurveProps = (opts) => {
+        const defaults = boxCurveDefaults();
+        const {
+          size,
+          margin,
+          type,
+          scale,
+          interfaceThickness,
+          fitGap
+        } = opts;
+        const width = size[0];
+        const depth = size[1];
+        const height = size[2];
+        const marginWidth = margin[0];
+        const marginDepth = margin[1];
+        const marginHeight = margin[2];
+        const ellipseRadiusQtr = [
+          size[0] - marginWidth,
+          size[1] - marginDepth
+        ];
+        const ellipseRadiusHalf = [
+          size[0] / 2 - marginWidth,
+          size[1] - marginDepth
+        ];
+        const modelConstants = {};
+        const modelOpts = {
+          type,
+          scale
+        };
+        const modelDims = {
+          size,
+          margin,
+          width,
+          depth,
+          height,
+          marginWidth,
+          marginDepth,
+          marginHeight,
+          ellipseRadiusQtr,
+          ellipseRadiusHalf,
+          interfaceThickness,
+          fitGap
+        };
+        const modelPoints = {
+          centrePt: defaults.vals.points.centrePt
+        };
+        const modelComponents = {};
+        const modelProperties = {
+          metadata: {
+            id: "9999",
+            name: "New Model",
+            project: "New Project",
+            author: "Somebody Somewhere",
+            organization: "Salvador Workshop",
+            client: null
+          },
+          constants: modelConstants,
+          opts: modelOpts,
+          dims: modelDims,
+          points: modelPoints,
+          components: modelComponents
+        };
+        return modelProperties;
+      };
+      const boxCurveQuarter = (opts) => {
+        const defaults = boxCurveDefaults();
+        const initOpts = boxCurveOpts(opts);
+        const modelProperties = boxCurveProps(initOpts);
+        const {
+          size,
+          margin,
+          ellipseRadiusQtr
+        } = modelProperties.dims;
+        const blank = rectangle({ size });
+        const cutaway = ellipse({ radius: ellipseRadiusQtr });
+        const mainModel = subtract(
+          align({
+            modes: ["max", "max", "center"]
+          }, blank),
+          position.ctr(cutaway)
+        );
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const boxCurveHalf = (opts) => {
+        const defaults = boxCurveDefaults();
+        const initOpts = boxCurveOpts(opts);
+        const modelProperties = boxCurveProps(initOpts);
+        const {
+          size,
+          margin,
+          ellipseRadiusHalf
+        } = modelProperties.dims;
+        const blank = rectangle({ size });
+        const cutaway = ellipse({ radius: ellipseRadiusHalf });
+        const mainModel = subtract(
+          align({
+            modes: ["center", "max", "center"]
+          }, blank),
+          position.ctr(cutaway)
+        );
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      return {
+        defaults: boxCurveDefaults,
+        props: boxCurveProps,
+        boxCurveQuarter,
+        boxCurveHalf
+      };
+    };
+    module2.exports = {
+      init: boxCurveInit
+    };
+  }
+});
+
 // packages/swcad-js-profiles/src/connections/index.js
 var require_connections = __commonJS({
   "packages/swcad-js-profiles/src/connections/index.js"(exports2, module2) {
     "use strict";
     var connectionProfilesInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
         cylinder,
-        sphere,
-        cylinderElliptic,
         circle,
         ellipse: ellipseShape,
         cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
         rectangle,
         triangle
       } = jscad.primitives;
       const {
         align,
-        translate,
-        rotate,
+        translate: translate2,
         mirror
       } = jscad.transforms;
       const {
-        intersect,
         subtract,
-        union,
+        union: union2,
         scission
       } = jscad.booleans;
       const {
-        extrudeLinear,
-        extrudeRotate,
         project
       } = jscad.extrusions;
       const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
         hull,
-        hullChain
+        hullChain: hullChain2
       } = jscad.hulls;
-      const { vectorText } = jscad.text;
       const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
         math,
         position
       } = swcadJs.calcs;
+      const {
+        standards
+      } = swcadJs.data;
       const modelDefaults = () => {
         const defaultValues = {
           constants: {
@@ -2460,15 +3188,15 @@ var require_connections = __commonJS({
             centre: [0, 0, 0]
           },
           types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
           }
         };
         const standardOpts = {
           type: defaultValues.types.default.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -2671,15 +3399,15 @@ var require_connections = __commonJS({
             center: [dtPt[0], dtPt[1], 0]
           });
         });
-        const dovetailCut = hullChain(dovetailCutPoints);
+        const dovetailCut = hullChain2(dovetailCutPoints);
         const cutPanel = subtract(
           baseProfilePanel,
           dovetailCut
         );
         const cutParts = scission(cutPanel);
         const dTailProfiles = [
-          align({ modes: ["center", "center", "center"] }, cutParts[1]),
-          align({ modes: ["center", "center", "center"] }, cutParts[0])
+          position.ctr(cutParts[1]),
+          position.ctr(cutParts[0])
         ];
         const dovetailProfiles = [
           project({}, dTailProfiles[0]),
@@ -2754,15 +3482,15 @@ var require_connections = __commonJS({
             center: [dtPt[0], dtPt[1], 0]
           });
         });
-        const tabCut = hullChain(tabCutPoints);
+        const tabCut = hullChain2(tabCutPoints);
         const cutPanel = subtract(
           baseProfilePanel,
           tabCut
         );
         const cutParts = scission(cutPanel);
         const dTailProfiles = [
-          align({ modes: ["center", "center", "center"] }, cutParts[1]),
-          align({ modes: ["center", "center", "center"] }, cutParts[0])
+          position.ctr(cutParts[1]),
+          position.ctr(cutParts[0])
         ];
         const tabProfiles = [
           project({}, dTailProfiles[0]),
@@ -2814,7 +3542,7 @@ var require_connections = __commonJS({
         const dowel = circle({ radius: specs.dowelRadius, segments });
         const dowelDie = circle({ radius: specs.holeRadius, segments });
         const corners = specs.cornerPoints.map((cPt) => {
-          return translate(cPt, circle({ radius: cornerRadius }));
+          return translate2(cPt, circle({ radius: cornerRadius }));
         });
         const basePlate = hull(corners);
         const male = dowel;
@@ -2878,9 +3606,7 @@ var require_connections = __commonJS({
           relativeTo: [0, depth / -2, 0]
         }, mPlate);
         let cutDowel = subtract(
-          align({
-            modes: ["center", "center", "center"]
-          }, dowel),
+          position.ctr(dowel),
           align({
             modes: ["center", "max", "center"]
           }, rectangle({ size: [holeRadius[0] * 2, holeRadius[1] * 2] }))
@@ -2900,7 +3626,7 @@ var require_connections = __commonJS({
           modes: ["center", "max", "center"],
           relativeTo: [0, depth / 2, 0]
         }, fPlate);
-        const male = union(cutDowel, malePlate);
+        const male = union2(cutDowel, malePlate);
         const female = subtract(femalePlate, dowelDie);
         const ellipseProfiles = [
           female,
@@ -2957,16 +3683,16 @@ var require_connections = __commonJS({
           [halfUnit, -halfUnit, 0]
         ];
         const corners = specs.cornerPoints.map((cPt) => {
-          return translate(cPt, circle({ radius: cornerRadius }));
+          return translate2(cPt, circle({ radius: cornerRadius }));
         });
         const dowels = specs.dowelPoints.map((dPt) => {
-          return translate(dPt, circle({ radius: specs.dowelRadius, segments: unitSegments }));
+          return translate2(dPt, circle({ radius: specs.dowelRadius, segments: unitSegments }));
         });
         const dowelDies = specs.dowelPoints.map((dPt) => {
-          return translate(dPt, circle({ radius: specs.holeRadius, segments: unitSegments }));
+          return translate2(dPt, circle({ radius: specs.holeRadius, segments: unitSegments }));
         });
         const basePlate = hull(corners);
-        const dowelAssembly = union(dowels);
+        const dowelAssembly = union2(dowels);
         const male = dowelAssembly;
         const female = subtract(basePlate, dowelDies);
         const pegboardProfiles = [
@@ -3009,14 +3735,14 @@ var require_connections = __commonJS({
         const holePoints = toOutlines(inCircle)[0];
         const basePunch = circle({ radius: unitRadius });
         const dowels = holePoints.map((dPt) => {
-          return translate(dPt, circle({ radius: unitRadius, segments: unitSegments }));
+          return translate2(dPt, circle({ radius: unitRadius, segments: unitSegments }));
         });
         const dowelDies = holePoints.map((dPt) => {
-          return translate(dPt, circle({ radius: holeRadius, segments: unitSegments }));
+          return translate2(dPt, circle({ radius: holeRadius, segments: unitSegments }));
         });
         const basePlateRadius = radius2 + unitRadius + interfaceMargin[0];
         const basePlate = circle({ radius: basePlateRadius });
-        const dowelAssembly = union(dowels);
+        const dowelAssembly = union2(dowels);
         const male = dowelAssembly;
         const female = subtract(basePlate, dowelDies);
         const pegboardProfiles = [
@@ -3070,9 +3796,9 @@ var require_connections = __commonJS({
         const translateDistBase = interfaceMargin[0] + connectionWidth;
         for (let idx = 1; idx < numConnectors; idx++) {
           const translateDist = translateDistBase * idx;
-          dovetailRowCut = union(
+          dovetailRowCut = union2(
             dovetailRowCut,
-            translate([translateDist, 0, 0], dovetailCutBase)
+            translate2([translateDist, 0, 0], dovetailCutBase)
           );
         }
         const cutPanel = subtract(
@@ -3081,8 +3807,8 @@ var require_connections = __commonJS({
         );
         const cutParts = scission(cutPanel);
         const dTailProfiles = [
-          align({ modes: ["center", "center", "center"] }, cutParts[1]),
-          align({ modes: ["center", "center", "center"] }, cutParts[0])
+          position.ctr(cutParts[1]),
+          position.ctr(cutParts[0])
         ];
         const dovetailProfiles = [
           project({}, dTailProfiles[0]),
@@ -3136,9 +3862,9 @@ var require_connections = __commonJS({
         const translateDistBase = interfaceMargin[0] + connectionWidth;
         for (let idx = 1; idx < numConnectors; idx++) {
           const translateDist = translateDistBase * idx;
-          tabRowCut = union(
+          tabRowCut = union2(
             tabRowCut,
-            translate([translateDist, 0, 0], tabCutBase)
+            translate2([translateDist, 0, 0], tabCutBase)
           );
         }
         const cutPanel = subtract(
@@ -3147,8 +3873,8 @@ var require_connections = __commonJS({
         );
         const cutParts = scission(cutPanel);
         const tProfiles = [
-          align({ modes: ["center", "center", "center"] }, cutParts[1]),
-          align({ modes: ["center", "center", "center"] }, cutParts[0])
+          position.ctr(cutParts[1]),
+          position.ctr(cutParts[0])
         ];
         const tabProfiles = [
           project({}, tProfiles[0]),
@@ -3190,7 +3916,7 @@ var require_curve = __commonJS({
     "use strict";
     var curveBuilder = ({ jscad, swcadJs }) => {
       const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
-      const { intersect, union, subtract } = jscad.booleans;
+      const { intersect, union: union2, subtract } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { bezier } = jscad.curves;
       const { geom2, path2 } = jscad.geometries;
@@ -3222,7 +3948,7 @@ var require_curve = __commonJS({
         const segments = 12;
         const bezPts = getBezierPts(bez, segments);
         const bezPath = path2.fromPoints({ closed: true }, [[0, validSize[1]], ...bezPts]);
-        const bezGeom = align({ modes: ["center", "center", "center"] }, geom2.fromPoints(path2.toPoints(bezPath)));
+        const bezGeom = position.ctr(geom2.fromPoints(path2.toPoints(bezPath)));
         return subtract(container, bezGeom);
       };
       const curves = {
@@ -3304,52 +4030,28 @@ var require_joint_panel = __commonJS({
     "use strict";
     var jointPanelInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
+        cuboid
       } = jscad.primitives;
       const {
         align,
-        translate,
-        rotate,
-        mirror
+        rotate
       } = jscad.transforms;
       const {
-        intersect,
         subtract,
-        union,
+        union: union2,
         scission
       } = jscad.booleans;
       const {
-        extrudeLinear,
-        extrudeRotate,
         project
       } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
       const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
         math,
         position
       } = swcadJs.calcs;
+      const {
+        standards
+      } = swcadJs.data;
       const {
         connections
       } = swcadJs.profiles;
@@ -3383,8 +4085,8 @@ var require_joint_panel = __commonJS({
         const standardOpts = {
           type: defaultValues.types.tab.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -3541,8 +4243,8 @@ var require_joint_panel = __commonJS({
         );
         const cutParts = scission(cutPanel);
         const oProfiles = [
-          align({ modes: ["center", "center", "center"] }, cutParts[1]),
-          align({ modes: ["center", "center", "center"] }, cutParts[0])
+          position.ctr(cutParts[1]),
+          position.ctr(cutParts[0])
         ];
         const outProfiles = [
           project({}, oProfiles[0]),
@@ -3611,7 +4313,7 @@ var require_joint_panel = __commonJS({
           jointDataY = connections.dovetailRow(jointOptsY);
         }
         const jointCutY = rotate([0, 0, TAU / 4], position.ctr(jointDataY[1].cut));
-        const comboCut = union(jointCutX, jointCutY);
+        const comboCut = union2(jointCutX, jointCutY);
         const twoJointRectBasePanel = cuboid({
           size: [width, depth, sampleThickness]
         });
@@ -3621,10 +4323,10 @@ var require_joint_panel = __commonJS({
         );
         const cutParts = scission(cutPanel);
         const oProfiles = [
-          align({ modes: ["center", "center", "center"] }, cutParts[0]),
-          align({ modes: ["center", "center", "center"] }, cutParts[1]),
-          align({ modes: ["center", "center", "center"] }, cutParts[2]),
-          align({ modes: ["center", "center", "center"] }, cutParts[3])
+          position.ctr(cutParts[0]),
+          position.ctr(cutParts[1]),
+          position.ctr(cutParts[2]),
+          position.ctr(cutParts[3])
         ];
         const outProfiles = [
           project({}, oProfiles[0]),
@@ -3658,7 +4360,7 @@ var require_ellipse = __commonJS({
     "use strict";
     var ellipseInit = ({ jscad, swcadJs }) => {
       const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
-      const { intersect, union, subtract } = jscad.booleans;
+      const { intersect, union: union2, subtract } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { geom2, path2 } = jscad.geometries;
       const { constants } = swcadJs.data;
@@ -3747,80 +4449,57 @@ var require_reinforced_rect = __commonJS({
     "use strict";
     var reinforcedRectInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
         square,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
+        circle
       } = jscad.primitives;
       const {
-        align,
-        translate,
-        rotate,
-        mirror
+        translate: translate2
       } = jscad.transforms;
       const {
-        intersect,
-        subtract,
-        union,
-        scission
+        union: union2
       } = jscad.booleans;
       const {
-        extrudeLinear,
-        extrudeRotate,
-        project
-      } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
         hull,
-        hullChain
+        hullChain: hullChain2
       } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
         math
       } = swcadJs.calcs;
+      const {
+        standards
+      } = swcadJs.data;
       const {
         reinforcement
       } = swcadJs.calcs.geometry;
       const reinforcedRectDefaults = () => {
         const defaultValues = {
           constants: {
-            reinforcementPatterns: ["x", "cross", "diamond", "full"]
+            reinforcementPatterns: ["x", "cross", "diamond", "full", "full-double"]
           },
           dims: {
             size: [
               math.inchesToMm(3),
               math.inchesToMm(4)
             ],
-            reinforcementThickness: [5, 4, 3]
+            reinforcementThickness: [
+              standards.LG_REINFORCEMENT_WIDTH,
+              standards.MD_REINFORCEMENT_WIDTH,
+              standards.SM_REINFORCEMENT_WIDTH
+            ]
           },
           points: {
             centrePt: [0, 0, 0]
           },
           types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
           }
         };
         const standardOpts = {
           type: defaultValues.types.default.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -3835,7 +4514,6 @@ var require_reinforced_rect = __commonJS({
       };
       const reinforcedRectOpts = (opts) => {
         const defaults = reinforcedRectDefaults();
-        console.log("modelOpts() -- opts", opts);
         const {
           size = defaults.opts.size,
           reinforcementPattern = defaults.opts.reinforcementPattern,
@@ -3857,12 +4535,10 @@ var require_reinforced_rect = __commonJS({
           reinforcementThickness,
           ...stdOpts
         };
-        console.log("modelOpts() -- initOpts", initOpts);
         return initOpts;
       };
       const reinforcedRectProps = (opts) => {
         const defaults = reinforcedRectDefaults();
-        console.log("modelProps() -- opts", opts);
         const {
           size,
           reinforcementPattern,
@@ -3906,7 +4582,7 @@ var require_reinforced_rect = __commonJS({
           size[1] - reinforcementThickness[0]
         ];
         const reinforcementData = reinforcement.reinforcedRectangle({
-          reinforcementDataSize,
+          size: reinforcementDataSize,
           reinforcementPattern
         });
         const reinforcementNodes = [
@@ -3952,7 +4628,6 @@ var require_reinforced_rect = __commonJS({
           points: modelPoints,
           components: modelComponents
         };
-        console.log("modelProps() -- modelProperties", modelProperties);
         return modelProperties;
       };
       const reinforcedRect = (opts) => {
@@ -3969,9 +4644,9 @@ var require_reinforced_rect = __commonJS({
           const hullPts = corners;
           hullPts.push(hullPts[0]);
           const hullNodes = hullPts.map((hullPt) => {
-            return translate([hullPt[0], hullPt[1], 0], cornerNode);
+            return translate2([hullPt[0], hullPt[1], 0], cornerNode);
           });
-          return hullChain(hullNodes);
+          return hullChain2(hullNodes);
         };
         const rectPrimaryBracing = (modelProps) => {
           const {
@@ -3984,12 +4659,12 @@ var require_reinforced_rect = __commonJS({
           const braceLines = primaryLines.map((pLine) => {
             const lineStartPt = pLine[0];
             const lineEndPt = pLine[1];
-            const nodeStart = translate(lineStartPt, reinforcementNodes[1]);
-            const nodeEnd = translate(lineEndPt, reinforcementNodes[1]);
+            const nodeStart = translate2(lineStartPt, reinforcementNodes[1]);
+            const nodeEnd = translate2(lineEndPt, reinforcementNodes[1]);
             return hull(nodeStart, nodeEnd);
           });
           if (braceLines.length > 0) {
-            returnBracing = union(...braceLines);
+            returnBracing = union2(...braceLines);
           }
           return braceLines;
         };
@@ -4004,12 +4679,12 @@ var require_reinforced_rect = __commonJS({
           const braceLines = secondaryLines.map((pLine) => {
             const lineStartPt = pLine[0];
             const lineEndPt = pLine[1];
-            const nodeStart = translate(lineStartPt, reinforcementNodes[2]);
-            const nodeEnd = translate(lineEndPt, reinforcementNodes[2]);
+            const nodeStart = translate2(lineStartPt, reinforcementNodes[2]);
+            const nodeEnd = translate2(lineEndPt, reinforcementNodes[2]);
             return hull(nodeStart, nodeEnd);
           });
           if (braceLines.length > 0) {
-            returnBracing = union(...braceLines);
+            returnBracing = union2(...braceLines);
           }
           return braceLines;
         };
@@ -4019,10 +4694,10 @@ var require_reinforced_rect = __commonJS({
           const rectSecondaryBracingInst2 = rectSecondaryBracing(modelProperties);
           let finalShape = rectOutlineInst2;
           if (rectPrimaryBracingInst2) {
-            finalShape = union(finalShape, rectPrimaryBracingInst2);
+            finalShape = union2(finalShape, rectPrimaryBracingInst2);
           }
           if (rectSecondaryBracingInst2) {
-            finalShape = union(finalShape, rectSecondaryBracingInst2);
+            finalShape = union2(finalShape, rectSecondaryBracingInst2);
           }
           return finalShape;
         };
@@ -4052,7 +4727,7 @@ var require_rectangle = __commonJS({
     var reinforcedRectModule = require_reinforced_rect();
     var rectangleInit = ({ jscad, swcadJs }) => {
       const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
-      const { intersect, union, subtract } = jscad.booleans;
+      const { intersect, union: union2, subtract } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { geom2, path2 } = jscad.geometries;
       const { constants } = swcadJs.data;
@@ -4146,7 +4821,7 @@ var require_square = __commonJS({
     "use strict";
     var squareInit = ({ jscad, swcadJs }) => {
       const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
-      const { intersect, union, subtract } = jscad.booleans;
+      const { intersect, union: union2, subtract } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { geom2, path2 } = jscad.geometries;
       const { constants } = swcadJs.data;
@@ -4171,7 +4846,7 @@ var require_square = __commonJS({
             [-halfUnit, -halfUnit]
           ];
           const baseSquare = square({ size: sqLen });
-          const cornerCircles = union(centrePoints.map((cPt) => {
+          const cornerCircles = union2(centrePoints.map((cPt) => {
             return circle({ radius: cornerRad, center: cPt });
           }));
           return subtract(baseSquare, cornerCircles);
@@ -4196,10 +4871,10 @@ var require_square = __commonJS({
             [-halfUnit, -halfUnit]
           ];
           const baseSquare = square({ size: baseSqLen });
-          const cornerCircles = union(centrePoints.map((cPt) => {
+          const cornerCircles = union2(centrePoints.map((cPt) => {
             return circle({ radius: cornerRad, center: cPt });
           }));
-          return union(baseSquare, cornerCircles);
+          return union2(baseSquare, cornerCircles);
         }
       };
       return squares;
@@ -4214,7 +4889,7 @@ var require_triangle = __commonJS({
     "use strict";
     var triangleInit = ({ jscad, swcadJs }) => {
       const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
-      const { intersect, union, subtract } = jscad.booleans;
+      const { intersect, union: union2, subtract } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { geom2, path2 } = jscad.geometries;
       const { constants } = swcadJs.data;
@@ -4309,7 +4984,7 @@ var require_shapes = __commonJS({
     var triangleModule = require_triangle();
     var profileBuilder = ({ jscad, swcadJs }) => {
       const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
-      const { intersect, union, subtract } = jscad.booleans;
+      const { intersect, union: union2, subtract } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { geom2, path2 } = jscad.geometries;
       const { constants } = swcadJs.data;
@@ -4353,7 +5028,7 @@ var require_frame_rect = __commonJS({
     var rectangularFrameInit = ({ jscad, swcadJs }) => {
       const { circle, rectangle } = jscad.primitives;
       const { rotate, align, mirror } = jscad.transforms;
-      const { subtract, union } = jscad.booleans;
+      const { subtract, union: union2 } = jscad.booleans;
       const { measureDimensions } = jscad.measurements;
       const { TAU } = jscad.maths.constants;
       const { shapes, curve } = swcadJs.profiles;
@@ -4566,7 +5241,7 @@ var require_frame_rect = __commonJS({
           }
           Object.entries(outRectCorners).forEach(([cName, cPt]) => {
             let inPieceRotation = null;
-            let inPieceAlign = ["center", "center", "center"];
+            let inPieceAlign = position.alignModes.ctr;
             let inPieceMirror = null;
             if (cornerOpts.longAxis == "y") {
               if (styleType == "tri") {
@@ -4639,7 +5314,7 @@ var require_frame_rect = __commonJS({
             cornerPieces.push(newCornerPiece);
           });
           outRect = subtract(outRect, ...notches);
-          outRect = union(outRect, ...cornerPieces);
+          outRect = union2(outRect, ...cornerPieces);
         }
         return outRect;
       };
@@ -4690,7 +5365,7 @@ var require_foils_2d = __commonJS({
   "packages/swcad-js-profiles/src/structure/foils-2d.js"(exports2, module2) {
     "use strict";
     var foilBuilder = ({ jscad, swcadJs }) => {
-      const { union } = jscad.booleans;
+      const { union: union2 } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { circle } = jscad.primitives;
       const buildFoil2d = (opts) => {
@@ -4723,7 +5398,7 @@ var require_foils_2d = __commonJS({
         const rotatedLobes = rotationAngles.map((angle) => {
           return rotate([0, 0, angle], alignedLobeCircle);
         });
-        return union(centreCircle, alignedLobeCircle, ...rotatedLobes);
+        return union2(centreCircle, alignedLobeCircle, ...rotatedLobes);
       };
       return {
         buildFoil2d,
@@ -4803,55 +5478,18 @@ var require_mesh_2d = __commonJS({
   "packages/swcad-js-profiles/src/structure/mesh-2d.js"(exports2, module2) {
     var mesh2dInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
         circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
+        rectangle
       } = jscad.primitives;
       const {
-        align,
-        translate,
-        rotate,
-        mirror
-      } = jscad.transforms;
-      const {
-        intersect,
-        subtract,
-        union,
-        scission
+        subtract
       } = jscad.booleans;
       const {
-        extrudeLinear,
-        extrudeRotate,
-        project
-      } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
-      const {
         math,
-        position,
         geometry
       } = swcadJs.calcs;
       const {
-        constants
+        standards
       } = swcadJs.data;
       const meshPanelDefaults = () => {
         const defaultValues = {
@@ -4865,16 +5503,16 @@ var require_mesh_2d = __commonJS({
             centre: [0, 0, 0]
           },
           typeDetails: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
           }
         };
         const defaultOpts = {
           size: defaultValues.dims.size,
           type: "default",
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128),
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP,
           logMode: "normal",
           edgeMargin: math.inchesToMm(3 / 16),
           holeRadius: math.inchesToMm(0.125),
@@ -5026,19 +5664,19 @@ var require_mesh_2d = __commonJS({
           return baseRect;
         };
         const finalAssembly = (modelProps) => {
-          let subComp12 = meshPanelProfile(modelProps);
-          let subComp22 = meshPanelCutProfile(modelProps);
+          let subComp1 = meshPanelProfile(modelProps);
+          let subComp2 = meshPanelCutProfile(modelProps);
           return subtract(
-            subComp12,
-            subComp22
+            subComp1,
+            subComp2
           );
         };
-        let subComp1 = meshPanelCutProfile(modelProperties);
-        let subComp2 = meshPanelProfile(modelProperties);
+        let meshPanelCutProfileInst = meshPanelCutProfile(modelProperties);
+        let meshPanelProfileInst = meshPanelProfile(modelProperties);
         let mainModel = finalAssembly(modelProperties);
         let modelParts = {
-          meshPanelCutProfile: subComp1,
-          meshPanelProfile: subComp2
+          meshPanelCutProfile: meshPanelCutProfileInst,
+          meshPanelProfile: meshPanelProfileInst
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -5058,8 +5696,8 @@ var require_arch_2d = __commonJS({
       const { path2, geom2 } = jscad.geometries;
       const { extrudeRotate } = jscad.extrusions;
       const { arc, cuboid } = jscad.primitives;
-      const { translate, mirror, rotate, align } = jscad.transforms;
-      const { union, subtract, intersect } = jscad.booleans;
+      const { translate: translate2, mirror, rotate, align } = jscad.transforms;
+      const { union: union2, subtract, intersect } = jscad.booleans;
       const { measureDimensions } = jscad.measurements;
       return {
         /**
@@ -5124,21 +5762,21 @@ var require_text = __commonJS({
   "packages/swcad-js-profiles/src/text/index.js"(exports2, module2) {
     "use strict";
     var textUtils = ({ jscad, swcadJs }) => {
-      const { union } = jscad.booleans;
+      const { union: union2 } = jscad.booleans;
       const { circle } = jscad.primitives;
-      const { translate } = jscad.transforms;
-      const { vectorText } = jscad.text;
-      const { hullChain } = jscad.hulls;
+      const { translate: translate2 } = jscad.transforms;
+      const { vectorText: vectorText2 } = jscad.text;
+      const { hullChain: hullChain2 } = jscad.hulls;
       const basicText = (opts) => {
         const lineRadius = opts.charLineWidth / 2;
         const lineCorner = circle({ radius: lineRadius });
-        const lineSegmentPointArrays = vectorText({ x: 0, y: 0, input: opts.message, height: opts.fontSize });
+        const lineSegmentPointArrays = vectorText2({ x: 0, y: 0, input: opts.message, height: opts.fontSize });
         const lineSegments = [];
         lineSegmentPointArrays.forEach((segmentPoints) => {
-          const corners = segmentPoints.map((point) => translate(point, lineCorner));
-          lineSegments.push(hullChain(corners));
+          const corners = segmentPoints.map((point) => translate2(point, lineCorner));
+          lineSegments.push(hullChain2(corners));
         });
-        return union(lineSegments);
+        return union2(lineSegments);
       };
       return {
         basicText
@@ -5153,10 +5791,10 @@ var require_trim_aranea = __commonJS({
   "packages/swcad-js-profiles/src/trim/trim-aranea.js"(exports2, module2) {
     "use strict";
     var trimAranea = ({ jscad, swcadJs }) => {
-      const { polygon, square } = jscad.primitives;
-      const { subtract, union } = jscad.booleans;
-      const { rotate, translate, mirror, center } = jscad.transforms;
-      const { constants } = swcadJs.data;
+      const { polygon } = jscad.primitives;
+      const { subtract, union: union2 } = jscad.booleans;
+      const { translate: translate2, mirror, center } = jscad.transforms;
+      const { constants, standards } = swcadJs.data;
       const { math } = swcadJs.calcs;
       const {
         beadsBits: beadsBitsProfiles
@@ -5185,8 +5823,8 @@ var require_trim_aranea = __commonJS({
         const standardOpts = {
           type: defaultValues.types.dado.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -5355,8 +5993,8 @@ var require_trim_aranea = __commonJS({
           });
           const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
           const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
-          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
-          const corner2 = translate([...cornerPt2, 0], baseCornerExt);
+          const corner1 = translate2([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate2([...cornerPt2, 0], baseCornerExt);
           let cutShape = subtract(baseShape, corner1);
           if (!["crown", "base"].includes(type)) {
             cutShape = subtract(cutShape, corner2);
@@ -5391,8 +6029,8 @@ var require_trim_aranea = __commonJS({
           });
           const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
           const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
-          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
-          const corner2 = translate([...cornerPt2, 0], baseCornerExt);
+          const corner1 = translate2([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate2([...cornerPt2, 0], baseCornerExt);
           let cutShape = subtract(baseShape, corner1);
           if (!["crown", "base"].includes(type)) {
             cutShape = subtract(cutShape, corner2);
@@ -5418,7 +6056,7 @@ var require_trim_aranea = __commonJS({
           const baseShape = small(mProperties);
           const oPt = controlPts.o1.t1;
           const bCorner = detailOrnament({ sideLength: detailDepth / 2 });
-          const oCorner = translate([...oPt, 0], bCorner);
+          const oCorner = translate2([...oPt, 0], bCorner);
           return subtract(baseShape, oCorner);
         };
         const medium = (mProperties) => {
@@ -5453,12 +6091,12 @@ var require_trim_aranea = __commonJS({
           });
           const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
           const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
-          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
-          const corner2 = translate([...cornerPt2, 0], baseCornerInt);
-          const corner3 = translate([...cornerPt3, 0], baseCornerExt);
-          const corner4 = translate([...cornerPt4, 0], baseCornerExt);
+          const corner1 = translate2([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate2([...cornerPt2, 0], baseCornerInt);
+          const corner3 = translate2([...cornerPt3, 0], baseCornerExt);
+          const corner4 = translate2([...cornerPt4, 0], baseCornerExt);
           let cutShape = subtract(baseShape, corner1);
-          cutShape = union(cutShape, corner2);
+          cutShape = union2(cutShape, corner2);
           cutShape = subtract(cutShape, corner3);
           if (!["crown", "base"].includes(type)) {
             cutShape = subtract(cutShape, corner4);
@@ -5485,8 +6123,8 @@ var require_trim_aranea = __commonJS({
           const oPt1 = controlPts.o2.t2;
           const oPt2 = controlPts.o1.t1;
           const bCorner = detailOrnament({ sideLength: detailDepth / 2 });
-          const oCorner1 = translate([...oPt1, 0], bCorner);
-          let oCorner2 = translate([...oPt2, 0], bCorner);
+          const oCorner1 = translate2([...oPt1, 0], bCorner);
+          let oCorner2 = translate2([...oPt2, 0], bCorner);
           oCorner2 = mirror({ origin: [0, controlPts.l1.t1[1] / 2, 0], normal: [0, 1, 0] }, oCorner2);
           let cutShape = subtract(baseShape, oCorner1);
           cutShape = subtract(cutShape, oCorner2);
@@ -5528,16 +6166,16 @@ var require_trim_aranea = __commonJS({
           });
           const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
           const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
-          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
-          const corner2 = translate([...cornerPt2, 0], baseCornerInt);
-          const corner3 = translate([...cornerPt3, 0], baseCornerExt);
-          const corner4 = translate([...cornerPt4, 0], baseCornerInt);
-          const corner5 = translate([...cornerPt5, 0], baseCornerExt);
-          const corner6 = translate([...cornerPt6, 0], baseCornerExt);
+          const corner1 = translate2([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate2([...cornerPt2, 0], baseCornerInt);
+          const corner3 = translate2([...cornerPt3, 0], baseCornerExt);
+          const corner4 = translate2([...cornerPt4, 0], baseCornerInt);
+          const corner5 = translate2([...cornerPt5, 0], baseCornerExt);
+          const corner6 = translate2([...cornerPt6, 0], baseCornerExt);
           let cutShape = subtract(baseShape, corner1);
-          cutShape = union(cutShape, corner2);
+          cutShape = union2(cutShape, corner2);
           cutShape = subtract(cutShape, corner3);
-          cutShape = union(cutShape, corner4);
+          cutShape = union2(cutShape, corner4);
           cutShape = subtract(cutShape, corner5);
           if (!["crown", "base"].includes(type)) {
             cutShape = subtract(cutShape, corner6);
@@ -5564,8 +6202,8 @@ var require_trim_aranea = __commonJS({
           const oPt1 = controlPts.o3.t3;
           const oPt2 = controlPts.o1.t1;
           const bCorner = detailOrnament({ sideLength: detailDepth / 2 });
-          const oCorner1 = translate([...oPt1, 0], bCorner);
-          let oCorner2 = translate([...oPt2, 0], bCorner);
+          const oCorner1 = translate2([...oPt1, 0], bCorner);
+          let oCorner2 = translate2([...oPt2, 0], bCorner);
           oCorner2 = mirror({ origin: [0, controlPts.l1.t1[1] / 2, 0], normal: [0, 1, 0] }, oCorner2);
           let cutShape = subtract(baseShape, oCorner1);
           cutShape = subtract(cutShape, oCorner2);
@@ -5665,10 +6303,10 @@ var require_trim_bibliopoli = __commonJS({
   "packages/swcad-js-profiles/src/trim/trim-bibliopoli.js"(exports2, module2) {
     "use strict";
     var trimBibliopoli = ({ jscad, swcadJs }) => {
-      const { polygon, square } = jscad.primitives;
-      const { subtract, union } = jscad.booleans;
-      const { rotate, translate, mirror, center } = jscad.transforms;
-      const { constants } = swcadJs.data;
+      const { polygon } = jscad.primitives;
+      const { subtract, union: union2 } = jscad.booleans;
+      const { translate: translate2, mirror, center } = jscad.transforms;
+      const { constants, standards } = swcadJs.data;
       const { math } = swcadJs.calcs;
       const {
         beadsBits: beadsBitsProfiles
@@ -5697,8 +6335,8 @@ var require_trim_bibliopoli = __commonJS({
         const standardOpts = {
           type: defaultValues.types.dado.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -5867,8 +6505,8 @@ var require_trim_bibliopoli = __commonJS({
           });
           const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
           const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
-          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
-          const corner2 = translate([...cornerPt2, 0], baseCornerExt);
+          const corner1 = translate2([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate2([...cornerPt2, 0], baseCornerExt);
           let cutShape = subtract(baseShape, corner1);
           if (!["crown", "base"].includes(type)) {
             cutShape = subtract(cutShape, corner2);
@@ -5903,8 +6541,8 @@ var require_trim_bibliopoli = __commonJS({
           });
           const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
           const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
-          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
-          const corner2 = translate([...cornerPt2, 0], baseCornerExt);
+          const corner1 = translate2([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate2([...cornerPt2, 0], baseCornerExt);
           let cutShape = subtract(baseShape, corner1);
           if (!["crown", "base"].includes(type)) {
             cutShape = subtract(cutShape, corner2);
@@ -5930,7 +6568,7 @@ var require_trim_bibliopoli = __commonJS({
           const baseShape = small(mProperties);
           const oPt = controlPts.o1.t1;
           const bCorner = detailOrnament({ sideLength: detailDepth / 2 });
-          const oCorner = translate([...oPt, 0], bCorner);
+          const oCorner = translate2([...oPt, 0], bCorner);
           return subtract(baseShape, oCorner);
         };
         const medium = (mProperties) => {
@@ -5965,12 +6603,12 @@ var require_trim_bibliopoli = __commonJS({
           });
           const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
           const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
-          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
-          const corner2 = translate([...cornerPt2, 0], baseCornerInt);
-          const corner3 = translate([...cornerPt3, 0], baseCornerExt);
-          const corner4 = translate([...cornerPt4, 0], baseCornerExt);
+          const corner1 = translate2([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate2([...cornerPt2, 0], baseCornerInt);
+          const corner3 = translate2([...cornerPt3, 0], baseCornerExt);
+          const corner4 = translate2([...cornerPt4, 0], baseCornerExt);
           let cutShape = subtract(baseShape, corner1);
-          cutShape = union(cutShape, corner2);
+          cutShape = union2(cutShape, corner2);
           cutShape = subtract(cutShape, corner3);
           if (!["crown", "base"].includes(type)) {
             cutShape = subtract(cutShape, corner4);
@@ -5997,8 +6635,8 @@ var require_trim_bibliopoli = __commonJS({
           const oPt1 = controlPts.o2.t2;
           const oPt2 = controlPts.o1.t1;
           const bCorner = detailOrnament({ sideLength: detailDepth / 2 });
-          const oCorner1 = translate([...oPt1, 0], bCorner);
-          let oCorner2 = translate([...oPt2, 0], bCorner);
+          const oCorner1 = translate2([...oPt1, 0], bCorner);
+          let oCorner2 = translate2([...oPt2, 0], bCorner);
           oCorner2 = mirror({ origin: [0, controlPts.l1.t1[1] / 2, 0], normal: [0, 1, 0] }, oCorner2);
           let cutShape = subtract(baseShape, oCorner1);
           cutShape = subtract(cutShape, oCorner2);
@@ -6040,16 +6678,16 @@ var require_trim_bibliopoli = __commonJS({
           });
           const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
           const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
-          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
-          const corner2 = translate([...cornerPt2, 0], baseCornerInt);
-          const corner3 = translate([...cornerPt3, 0], baseCornerExt);
-          const corner4 = translate([...cornerPt4, 0], baseCornerInt);
-          const corner5 = translate([...cornerPt5, 0], baseCornerExt);
-          const corner6 = translate([...cornerPt6, 0], baseCornerExt);
+          const corner1 = translate2([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate2([...cornerPt2, 0], baseCornerInt);
+          const corner3 = translate2([...cornerPt3, 0], baseCornerExt);
+          const corner4 = translate2([...cornerPt4, 0], baseCornerInt);
+          const corner5 = translate2([...cornerPt5, 0], baseCornerExt);
+          const corner6 = translate2([...cornerPt6, 0], baseCornerExt);
           let cutShape = subtract(baseShape, corner1);
-          cutShape = union(cutShape, corner2);
+          cutShape = union2(cutShape, corner2);
           cutShape = subtract(cutShape, corner3);
-          cutShape = union(cutShape, corner4);
+          cutShape = union2(cutShape, corner4);
           cutShape = subtract(cutShape, corner5);
           if (!["crown", "base"].includes(type)) {
             cutShape = subtract(cutShape, corner6);
@@ -6076,8 +6714,8 @@ var require_trim_bibliopoli = __commonJS({
           const oPt1 = controlPts.o3.t3;
           const oPt2 = controlPts.o1.t1;
           const bCorner = detailOrnament({ sideLength: detailDepth / 2 });
-          const oCorner1 = translate([...oPt1, 0], bCorner);
-          let oCorner2 = translate([...oPt2, 0], bCorner);
+          const oCorner1 = translate2([...oPt1, 0], bCorner);
+          let oCorner2 = translate2([...oPt2, 0], bCorner);
           oCorner2 = mirror({ origin: [0, controlPts.l1.t1[1] / 2, 0], normal: [0, 1, 0] }, oCorner2);
           let cutShape = subtract(baseShape, oCorner1);
           cutShape = subtract(cutShape, oCorner2);
@@ -6177,10 +6815,10 @@ var require_trim_catonis = __commonJS({
   "packages/swcad-js-profiles/src/trim/trim-catonis.js"(exports2, module2) {
     "use strict";
     var trimCatonis = ({ jscad, swcadJs }) => {
-      const { polygon, square } = jscad.primitives;
-      const { subtract, union } = jscad.booleans;
-      const { rotate, translate, mirror, center } = jscad.transforms;
-      const { constants } = swcadJs.data;
+      const { polygon } = jscad.primitives;
+      const { subtract, union: union2 } = jscad.booleans;
+      const { translate: translate2, mirror, center } = jscad.transforms;
+      const { constants, standards } = swcadJs.data;
       const { math } = swcadJs.calcs;
       const {
         beadsBits: beadsBitsProfiles
@@ -6209,8 +6847,8 @@ var require_trim_catonis = __commonJS({
         const standardOpts = {
           type: defaultValues.types.dado.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -6379,8 +7017,8 @@ var require_trim_catonis = __commonJS({
           });
           const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
           const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
-          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
-          const corner2 = translate([...cornerPt2, 0], baseCornerExt);
+          const corner1 = translate2([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate2([...cornerPt2, 0], baseCornerExt);
           let cutShape = subtract(baseShape, corner1);
           if (!["crown", "base"].includes(type)) {
             cutShape = subtract(cutShape, corner2);
@@ -6415,8 +7053,8 @@ var require_trim_catonis = __commonJS({
           });
           const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
           const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
-          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
-          const corner2 = translate([...cornerPt2, 0], baseCornerExt);
+          const corner1 = translate2([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate2([...cornerPt2, 0], baseCornerExt);
           let cutShape = subtract(baseShape, corner1);
           if (!["crown", "base"].includes(type)) {
             cutShape = subtract(cutShape, corner2);
@@ -6442,7 +7080,7 @@ var require_trim_catonis = __commonJS({
           const baseShape = small(mProperties);
           const oPt = controlPts.o1.t1;
           const bCorner = detailOrnament({ sideLength: detailDepth / 2 });
-          const oCorner = translate([...oPt, 0], bCorner);
+          const oCorner = translate2([...oPt, 0], bCorner);
           return subtract(baseShape, oCorner);
         };
         const medium = (mProperties) => {
@@ -6477,12 +7115,12 @@ var require_trim_catonis = __commonJS({
           });
           const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
           const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
-          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
-          const corner2 = translate([...cornerPt2, 0], baseCornerInt);
-          const corner3 = translate([...cornerPt3, 0], baseCornerExt);
-          const corner4 = translate([...cornerPt4, 0], baseCornerExt);
+          const corner1 = translate2([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate2([...cornerPt2, 0], baseCornerInt);
+          const corner3 = translate2([...cornerPt3, 0], baseCornerExt);
+          const corner4 = translate2([...cornerPt4, 0], baseCornerExt);
           let cutShape = subtract(baseShape, corner1);
-          cutShape = union(cutShape, corner2);
+          cutShape = union2(cutShape, corner2);
           cutShape = subtract(cutShape, corner3);
           if (!["crown", "base"].includes(type)) {
             cutShape = subtract(cutShape, corner4);
@@ -6509,8 +7147,8 @@ var require_trim_catonis = __commonJS({
           const oPt1 = controlPts.o2.t2;
           const oPt2 = controlPts.o1.t1;
           const bCorner = detailOrnament({ sideLength: detailDepth / 2 });
-          const oCorner1 = translate([...oPt1, 0], bCorner);
-          let oCorner2 = translate([...oPt2, 0], bCorner);
+          const oCorner1 = translate2([...oPt1, 0], bCorner);
+          let oCorner2 = translate2([...oPt2, 0], bCorner);
           oCorner2 = mirror({ origin: [0, controlPts.l1.t1[1] / 2, 0], normal: [0, 1, 0] }, oCorner2);
           let cutShape = subtract(baseShape, oCorner1);
           cutShape = subtract(cutShape, oCorner2);
@@ -6552,16 +7190,16 @@ var require_trim_catonis = __commonJS({
           });
           const baseCornerExt = detailCornerExt({ sideLength: detailDepth });
           const baseCornerInt = detailCornerInt({ sideLength: detailDepth });
-          const corner1 = translate([...cornerPt1, 0], baseCornerExt);
-          const corner2 = translate([...cornerPt2, 0], baseCornerInt);
-          const corner3 = translate([...cornerPt3, 0], baseCornerExt);
-          const corner4 = translate([...cornerPt4, 0], baseCornerInt);
-          const corner5 = translate([...cornerPt5, 0], baseCornerExt);
-          const corner6 = translate([...cornerPt6, 0], baseCornerExt);
+          const corner1 = translate2([...cornerPt1, 0], baseCornerExt);
+          const corner2 = translate2([...cornerPt2, 0], baseCornerInt);
+          const corner3 = translate2([...cornerPt3, 0], baseCornerExt);
+          const corner4 = translate2([...cornerPt4, 0], baseCornerInt);
+          const corner5 = translate2([...cornerPt5, 0], baseCornerExt);
+          const corner6 = translate2([...cornerPt6, 0], baseCornerExt);
           let cutShape = subtract(baseShape, corner1);
-          cutShape = union(cutShape, corner2);
+          cutShape = union2(cutShape, corner2);
           cutShape = subtract(cutShape, corner3);
-          cutShape = union(cutShape, corner4);
+          cutShape = union2(cutShape, corner4);
           cutShape = subtract(cutShape, corner5);
           if (!["crown", "base"].includes(type)) {
             cutShape = subtract(cutShape, corner6);
@@ -6588,8 +7226,8 @@ var require_trim_catonis = __commonJS({
           const oPt1 = controlPts.o3.t3;
           const oPt2 = controlPts.o1.t1;
           const bCorner = detailOrnament({ sideLength: detailDepth / 2 });
-          const oCorner1 = translate([...oPt1, 0], bCorner);
-          let oCorner2 = translate([...oPt2, 0], bCorner);
+          const oCorner1 = translate2([...oPt1, 0], bCorner);
+          let oCorner2 = translate2([...oPt2, 0], bCorner);
           oCorner2 = mirror({ origin: [0, controlPts.l1.t1[1] / 2, 0], normal: [0, 1, 0] }, oCorner2);
           let cutShape = subtract(baseShape, oCorner1);
           cutShape = subtract(cutShape, oCorner2);
@@ -6708,6 +7346,7 @@ var require_src3 = __commonJS({
   "packages/swcad-js-profiles/src/index.js"(exports2, module2) {
     "use strict";
     var beadsBitsModule = require_beads_bits();
+    var boxCurveModule = require_box_curve();
     var connectionsModule = require_connections();
     var curveModule = require_curve();
     var jointPanelModule = require_joint_panel();
@@ -6748,6 +7387,7 @@ var require_src3 = __commonJS({
       return {
         shapes,
         beadsBits,
+        boxCurve: boxCurveModule.init({ jscad, swcadJs: preLib }),
         connections,
         curve,
         structure: structureModule.init({ jscad, swcadJs: preLib }),
@@ -6883,54 +7523,17 @@ var require_beads_bits2 = __commonJS({
     "use strict";
     var beadsBitsInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
+        cylinderElliptic: cylinderElliptic2
       } = jscad.primitives;
       const {
-        align,
-        translate,
-        rotate,
-        mirror
-      } = jscad.transforms;
-      const {
-        intersect,
-        subtract,
-        union,
-        scission
-      } = jscad.booleans;
-      const {
-        extrudeLinear,
-        extrudeRotate,
-        project
+        extrudeRotate
       } = jscad.extrusions;
       const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
-      const {
-        constants
+        constants,
+        standards
       } = swcadJs.data;
       const {
-        math,
-        position
+        math
       } = swcadJs.calcs;
       const {
         beadsBits
@@ -6948,15 +7551,15 @@ var require_beads_bits2 = __commonJS({
             centre: [0, 0, 0]
           },
           types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
           }
         };
         const standardOpts = {
           type: defaultValues.types.default.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -7017,9 +7620,6 @@ var require_beads_bits2 = __commonJS({
           interfaceThickness,
           fitGap
         } = opts;
-        const lgProfileBeadWidth = interfaceThickness * 1.75;
-        const mdProfileBeadWidth = interfaceThickness * 1.5;
-        const smProfileBeadWidth = interfaceThickness * 1.125;
         const modelConstants = {
           type,
           scale
@@ -7118,17 +7718,17 @@ var require_beads_bits2 = __commonJS({
         const lgTopWidth = lgWidth - edgeOffset * 2;
         const mdTopWidth = mdWidth - edgeOffset * 2;
         const smTopWidth = smWidth - edgeOffset * 2;
-        const lgProfile = cylinderElliptic({
+        const lgProfile = cylinderElliptic2({
           height: baseThickness,
           startRadius: [lgWidth / 2, lgWidth / 2],
           endRadius: [lgTopWidth / 2, lgTopWidth / 2]
         });
-        const mdProfile = cylinderElliptic({
+        const mdProfile = cylinderElliptic2({
           height: baseThickness,
           startRadius: [mdWidth / 2, mdWidth / 2],
           endRadius: [mdTopWidth / 2, mdTopWidth / 2]
         });
-        const smProfile = cylinderElliptic({
+        const smProfile = cylinderElliptic2({
           height: baseThickness,
           startRadius: [smWidth / 2, smWidth / 2],
           endRadius: [smTopWidth / 2, smTopWidth / 2]
@@ -7150,56 +7750,237 @@ var require_beads_bits2 = __commonJS({
   }
 });
 
+// packages/swcad-js-components/src/box-support/index.js
+var require_box_support = __commonJS({
+  "packages/swcad-js-components/src/box-support/index.js"(exports2, module2) {
+    "use strict";
+    var boxSupportInit = ({ jscad, swcadJs }) => {
+      const {
+        ellipse,
+        rectangle
+      } = jscad.primitives;
+      const {
+        align
+      } = jscad.transforms;
+      const {
+        subtract
+      } = jscad.booleans;
+      const { extrudeLinear } = jscad.extrusions;
+      const {
+        standards
+      } = swcadJs.data;
+      const {
+        math
+      } = swcadJs.calcs;
+      const {
+        boxCurve
+      } = swcadJs.profiles;
+      const boxSupportDefaults = () => {
+        const defaultValues = {
+          dims: {
+            size: [
+              math.inchesToMm(2),
+              math.inchesToMm(4),
+              math.inchesToMm(1)
+            ],
+            margin: [
+              standards.INTERFACE_THICKNESS,
+              standards.INTERFACE_THICKNESS,
+              standards.INTERFACE_THICKNESS
+            ]
+          },
+          points: {
+            centrePt: [0, 0, 0]
+          },
+          types: {
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
+          }
+        };
+        const standardOpts = {
+          type: defaultValues.types.default.id,
+          scale: 1,
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
+        };
+        const defaultOpts = {
+          ...standardOpts,
+          size: defaultValues.dims.size,
+          margin: defaultValues.dims.margin
+        };
+        return {
+          opts: defaultOpts,
+          vals: defaultValues
+        };
+      };
+      const boxSupportOpts = (opts) => {
+        const defaults = boxSupportDefaults();
+        const {
+          size = defaults.opts.size,
+          margin = defaults.opts.margin,
+          type = defaults.opts.type,
+          scale = defaults.opts.scale,
+          interfaceThickness = defaults.opts.interfaceThickness,
+          fitGap = defaults.opts.fitGap
+        } = opts;
+        const stdOpts = {
+          type,
+          scale,
+          interfaceThickness,
+          fitGap
+        };
+        const initOpts = {
+          size,
+          margin,
+          ...stdOpts
+        };
+        return initOpts;
+      };
+      const boxSupportProps = (opts) => {
+        const defaults = boxSupportDefaults();
+        const {
+          size,
+          margin,
+          type,
+          scale,
+          interfaceThickness,
+          fitGap
+        } = opts;
+        const width = size[0];
+        const depth = size[1];
+        const height = size[2];
+        const marginWidth = margin[0];
+        const marginDepth = margin[1];
+        const marginHeight = margin[2];
+        const ellipseRadiusQtr = [
+          size[0] - marginWidth,
+          size[1] - marginDepth
+        ];
+        const ellipseRadiusHalf = [
+          marginWidth * -2 + size[0] / 2,
+          size[1] - marginDepth
+        ];
+        const modelConstants = {};
+        const modelOpts = {
+          type,
+          scale
+        };
+        const modelDims = {
+          size,
+          margin,
+          width,
+          depth,
+          height,
+          marginWidth,
+          marginDepth,
+          marginHeight,
+          ellipseRadiusQtr,
+          ellipseRadiusHalf,
+          interfaceThickness,
+          fitGap
+        };
+        const modelPoints = {
+          centrePt: defaults.vals.points.centrePt
+        };
+        const modelComponents = {};
+        const modelProperties = {
+          metadata: {
+            id: "9999",
+            name: "New Model",
+            project: "New Project",
+            author: "Somebody Somewhere",
+            organization: "Salvador Workshop",
+            client: null
+          },
+          constants: modelConstants,
+          opts: modelOpts,
+          dims: modelDims,
+          points: modelPoints,
+          components: modelComponents
+        };
+        return modelProperties;
+      };
+      const boxSupportQuarter = (opts) => {
+        const defaults = boxSupportDefaults();
+        const initOpts = boxSupportOpts(opts);
+        const modelProperties = boxSupportProps(initOpts);
+        const {
+          size,
+          margin,
+          marginHeight
+        } = modelProperties.dims;
+        const boxCurvesQtrData = boxCurve.boxCurveQuarter({
+          size,
+          margin
+        });
+        const boxCurvesQtrModel = boxCurvesQtrData[0];
+        const mainModel = extrudeLinear({ height: marginHeight }, boxCurvesQtrModel);
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const boxSupportHalf = (opts) => {
+        const defaults = boxSupportDefaults();
+        const initOpts = boxSupportOpts(opts);
+        const modelProperties = boxSupportProps(initOpts);
+        const {
+          size,
+          margin,
+          marginHeight
+        } = modelProperties.dims;
+        const boxCurvesHalfData = boxCurve.boxCurveHalf({
+          size,
+          margin
+        });
+        const boxCurvesHalfModel = boxCurvesHalfData[0];
+        const mainModel = extrudeLinear({ height: marginHeight }, boxCurvesHalfModel);
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      return {
+        defaults: boxSupportDefaults,
+        props: boxSupportProps,
+        boxSupportQuarter,
+        boxSupportHalf
+      };
+    };
+    module2.exports = {
+      init: boxSupportInit
+    };
+  }
+});
+
 // packages/swcad-js-components/src/component-line/index.js
 var require_component_line = __commonJS({
   "packages/swcad-js-components/src/component-line/index.js"(exports2, module2) {
     "use strict";
     var moduleInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
+        cylinderElliptic: cylinderElliptic2,
+        cuboid
       } = jscad.primitives;
       const {
-        align,
-        translate,
-        rotate,
-        mirror
+        translate: translate2,
+        rotate
       } = jscad.transforms;
       const {
         intersect,
-        subtract,
-        union,
-        scission
+        union: union2
       } = jscad.booleans;
       const {
-        extrudeLinear,
-        extrudeRotate,
-        project
-      } = jscad.extrusions;
-      const {
         measureDimensions,
-        measureBoundingBox,
-        measureVolume
+        measureBoundingBox
       } = jscad.measurements;
       const {
-        hull,
-        hullChain
+        hull
       } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
       const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
-        constants
+        constants,
+        standards
       } = swcadJs.data;
       const {
         math,
@@ -7224,8 +8005,8 @@ var require_component_line = __commonJS({
             endPt: [math.inchesToMm(3), math.inchesToMm(4)]
           },
           types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
           },
           component: cuboid({
             size: [
@@ -7238,8 +8019,8 @@ var require_component_line = __commonJS({
         const standardOpts = {
           type: defaultValues.types.default.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -7317,9 +8098,9 @@ var require_component_line = __commonJS({
         const componentLineLength = offsetLineLength - componentDims[0];
         const componentUnitLength = componentLineLength / numSubLengths;
         const compLineAngle = geometry.angleOfTwoPtLine(startPt, endPt);
-        const lgProfileBeadWidth = interfaceThickness * 1.75;
-        const mdProfileBeadWidth = interfaceThickness * 1.5;
-        const smProfileBeadWidth = interfaceThickness * 1.125;
+        const lgProfileBeadWidth = standards.LG_PROFILE_BEAD_WIDTH;
+        const mdProfileBeadWidth = standards.MD_PROFILE_BEAD_WIDTH;
+        const smProfileBeadWidth = standards.SM_PROFILE_BEAD_WIDTH;
         const modelConstants = {
           type,
           scale
@@ -7396,17 +8177,17 @@ var require_component_line = __commonJS({
           const lgTopWidth = lgProfileBeadWidth - edgeOffset * 2;
           const mdTopWidth = mdProfileBeadWidth - edgeOffset * 2;
           const smTopWidth = smProfileBeadWidth - edgeOffset * 2;
-          const lgProfile = cylinderElliptic({
+          const lgProfile = cylinderElliptic2({
             height: interfaceThickness,
             startRadius: [lgProfileBeadWidth / 2, lgProfileBeadWidth / 2],
             endRadius: [lgTopWidth / 2, lgTopWidth / 2]
           });
-          const mdProfile = cylinderElliptic({
+          const mdProfile = cylinderElliptic2({
             height: interfaceThickness,
             startRadius: [mdProfileBeadWidth / 2, mdProfileBeadWidth / 2],
             endRadius: [mdTopWidth / 2, mdTopWidth / 2]
           });
-          const smProfile = cylinderElliptic({
+          const smProfile = cylinderElliptic2({
             height: interfaceThickness,
             startRadius: [smProfileBeadWidth / 2, smProfileBeadWidth / 2],
             endRadius: [smTopWidth / 2, smTopWidth / 2]
@@ -7424,8 +8205,8 @@ var require_component_line = __commonJS({
           } = modelProps2.points;
           const beadProfile = interfaceProfileBeads(modelProps2).md;
           return hull(
-            translate([startPt[0], startPt[1], 0], beadProfile),
-            translate([endPt[0], endPt[1], 0], beadProfile)
+            translate2([startPt[0], startPt[1], 0], beadProfile),
+            translate2([endPt[0], endPt[1], 0], beadProfile)
           );
         };
         const componentSet = (modelProps2) => {
@@ -7446,12 +8227,12 @@ var require_component_line = __commonJS({
           } = modelProps2.dims;
           const lineComponents = [];
           for (let idx = 0; idx < componentUnits; idx++) {
-            lineComponents.push(translate(
+            lineComponents.push(translate2(
               [idx * componentUnitLength, 0, 0],
               position.ctr(component)
             ));
           }
-          const cSet = position.ctr(union(...lineComponents));
+          const cSet = position.ctr(union2(...lineComponents));
           return cSet;
         };
         const cutBox = (modelProps2) => {
@@ -7495,7 +8276,7 @@ var require_component_line = __commonJS({
             [0, 0, compLineAngle],
             cSet
           );
-          const shiftedCompLine = translate(
+          const shiftedCompLine = translate2(
             midPoint,
             rotatedCompLine
           );
@@ -7505,7 +8286,7 @@ var require_component_line = __commonJS({
             midPoint[0] + lineMidPointAdj[0],
             midPoint[1] + lineMidPointAdj[1]
           ];
-          const combinedAssembly = union(
+          const combinedAssembly = union2(
             position.ctrMin(bLine, lineMidPoint),
             position.ctrMin(shiftedCompLine, midPoint)
           );
@@ -7543,15 +8324,18 @@ var require_mesh = __commonJS({
   "packages/swcad-js-components/src/mesh/index.js"(exports2, module2) {
     "use strict";
     var mesh3dInit = ({ jscad, swcadJs }) => {
-      const { cuboid, cylinder, triangle, rectangle } = jscad.primitives;
-      const { translate, rotate, align, mirror } = jscad.transforms;
-      const { subtract, union } = jscad.booleans;
-      const { measureBoundingBox } = jscad.measurements;
+      const { cylinder, triangle, rectangle } = jscad.primitives;
+      const { translate: translate2, rotate, align, mirror } = jscad.transforms;
+      const { subtract, union: union2 } = jscad.booleans;
       const { extrudeRotate, extrudeLinear } = jscad.extrusions;
       const { TAU } = jscad.maths.constants;
       const {
-        math
+        math,
+        position
       } = swcadJs.calcs;
+      const {
+        standards
+      } = swcadJs.data;
       const {
         mesh: mesh2d
       } = swcadJs.profiles.structure;
@@ -7593,15 +8377,15 @@ var require_mesh = __commonJS({
           bearingSurfaceAlignOpts,
           rectangle({ size: [width, thickness] })
         );
-        let finalShape = union(bearingSurface, triangleSection);
+        let finalShape = union2(bearingSurface, triangleSection);
         if (mirrorOpts != null) {
           finalShape = mirror(mirrorOpts, finalShape);
         }
-        return align({ modes: ["center", "center", "center"] }, finalShape);
+        return position.ctr(finalShape);
       };
       const meshPanel = ({
         size,
-        thickness = 1.333333,
+        thickness = standards.INTERFACE_THICKNESS,
         edgeMargin = math.inchesToMm(1 / 8),
         holeRadius,
         holeDistance,
@@ -7634,10 +8418,7 @@ var require_mesh = __commonJS({
         };
         const baseCylinder = cylinder({ radius: radius2, height, segments });
         const cutCylinder = cylinder({ radius: radius2 - thickness, height: height + radius2, segments });
-        const baseShape = align(
-          { modes: ["center", "center", "min"] },
-          subtract(baseCylinder, cutCylinder)
-        );
+        const baseShape = position.ctrMin(subtract(baseCylinder, cutCylinder));
         const circumference = TAU * radius2;
         let numPunches = 1;
         let circCtr = numPunches * meshRadius;
@@ -7669,9 +8450,9 @@ var require_mesh = __commonJS({
             remainingHt -= discHeightInterval;
           }
         }
-        const completePunch = align(
-          { modes: ["center", "center", "min"], relativeTo: [0, 0, (specs.edgeMargin + remainingHt) / 2 * 0.86603] },
-          union(...punches)
+        const completePunch = position.ctrMin(
+          union2(...punches),
+          [0, 0, (specs.edgeMargin + remainingHt) / 2 * 0.86603]
         );
         let reinforcedTube = baseShape;
         const hasInset = edgeInsets.some((insetVal) => insetVal > 0);
@@ -7687,11 +8468,11 @@ var require_mesh = __commonJS({
             const flipOpts = [];
             if (isTop) {
               sectionAlignOpts = { modes: ["min", "min", "max"], relativeTo: [0, 0, height] };
-              ringAlignOpts = { modes: ["center", "center", "max"], relativeTo: [0, 0, height] };
+              ringAlignOpts = { modes: position.alignModes.ctrMax, relativeTo: [0, 0, height] };
               flipOpts.push("vertical");
             } else {
               sectionAlignOpts = { modes: ["min", "min", "min"], relativeTo: [0, 0, 0] };
-              ringAlignOpts = { modes: ["center", "center", "min"], relativeTo: [0, 0, 0] };
+              ringAlignOpts = { modes: position.alignModes.ctrMin, relativeTo: [0, 0, 0] };
             }
             const insetSection = align(
               sectionAlignOpts,
@@ -7699,9 +8480,9 @@ var require_mesh = __commonJS({
             );
             const insetRing = align(
               ringAlignOpts,
-              extrudeRotate({ segments }, translate([radius2 - thickness - insetWidth, 0, 0], insetSection))
+              extrudeRotate({ segments }, translate2([radius2 - thickness - insetWidth, 0, 0], insetSection))
             );
-            reinforcedTube = union(reinforcedTube, insetRing);
+            reinforcedTube = union2(reinforcedTube, insetRing);
           });
         }
         if (hasOffset) {
@@ -7715,11 +8496,11 @@ var require_mesh = __commonJS({
             const flipOpts = [];
             if (isTop) {
               sectionAlignOpts = { modes: ["min", "min", "max"], relativeTo: [0, 0, height] };
-              ringAlignOpts = { modes: ["center", "center", "max"], relativeTo: [0, 0, height] };
+              ringAlignOpts = { modes: position.alignModes.ctrMax, relativeTo: [0, 0, height] };
               flipOpts.push("vertical");
             } else {
               sectionAlignOpts = { modes: ["min", "min", "min"], relativeTo: [0, 0, 0] };
-              ringAlignOpts = { modes: ["center", "center", "min"], relativeTo: [0, 0, 0] };
+              ringAlignOpts = { modes: position.alignModes.ctrMin, relativeTo: [0, 0, 0] };
             }
             const offsetSection = align(
               sectionAlignOpts,
@@ -7727,9 +8508,9 @@ var require_mesh = __commonJS({
             );
             const offsetRing = align(
               ringAlignOpts,
-              extrudeRotate({ segments }, translate([radius2, 0, 0], offsetSection))
+              extrudeRotate({ segments }, translate2([radius2, 0, 0], offsetSection))
             );
-            reinforcedTube = union(reinforcedTube, offsetRing);
+            reinforcedTube = union2(reinforcedTube, offsetRing);
           });
         }
         let punchedTube = subtract(reinforcedTube, completePunch);
@@ -7741,7 +8522,7 @@ var require_mesh = __commonJS({
           }
           punchedTube = subtract(
             punchedTube,
-            translate(
+            translate2(
               [0, 0, zOffset],
               rotate(discRotation, completePunch)
             )
@@ -7765,8 +8546,8 @@ var require_moulding = __commonJS({
     var mouldBuilder = ({ jscad, swLib }) => {
       const { measureBoundingBox } = jscad.measurements;
       const { extrudeLinear, extrudeRotate } = jscad.extrusions;
-      const { union, intersect } = jscad.booleans;
-      const { rotate, align, translate, mirror } = jscad.transforms;
+      const { union: union2, intersect } = jscad.booleans;
+      const { rotate, align, translate: translate2, mirror } = jscad.transforms;
       const { cuboid, cylinder } = jscad.primitives;
       const cuboidMouldingOneEdge = (opts, geomProfile) => {
         const profileBbox = measureBoundingBox(geomProfile);
@@ -7795,7 +8576,7 @@ var require_moulding = __commonJS({
         }, edgeBlock);
         return align(
           { modes: ["center", "center", "none"] },
-          union(baseBlock, alignedEdgeBlock)
+          union2(baseBlock, alignedEdgeBlock)
         );
       };
       const cuboidMouldingTwoEdges = (opts, geomProfile) => {
@@ -7811,7 +8592,7 @@ var require_moulding = __commonJS({
               )
             );
             const yHalfBlockAdj = align({ modes: ["center", "max", "none"] }, yHalfBlock);
-            const yBlock = union(
+            const yBlock = union2(
               yHalfBlockAdj,
               mirror({ normal: [0, 1, 0] }, yHalfBlockAdj)
             );
@@ -7824,32 +8605,21 @@ var require_moulding = __commonJS({
               { modes: ["min", "center", "none"] },
               cuboidMouldingOneEdge({ size: xHalfSize }, geomProfile)
             );
-            const xBlock = union(xHalfBlock, mirror({ normal: [1, 0, 0] }, xHalfBlock));
+            const xBlock = union2(xHalfBlock, mirror({ normal: [1, 0, 0] }, xHalfBlock));
             returnBlock = xBlock;
             break;
         }
         return returnBlock;
       };
       const cuboidMoulding = (opts, geomProfile) => {
-        const xHalfSize = [opts.size[0] / 2, opts.size[1], opts.size[2]];
-        const xHalfBlock = align(
-          { modes: ["min", "center", "none"] },
-          cuboidMouldingOneEdge({ size: xHalfSize }, geomProfile)
-        );
-        const xBlock = union(xHalfBlock, mirror({ normal: [1, 0, 0] }, xHalfBlock));
-        const yHalfSize = [opts.size[1] / 2, opts.size[0], opts.size[2]];
-        const yHalfBlock = rotate(
-          [0, 0, Math.PI / -2],
-          cuboidMouldingOneEdge(
-            { size: yHalfSize },
-            geomProfile
-          )
-        );
-        const yHalfBlockAdj = align({ modes: ["center", "max", "none"] }, yHalfBlock);
-        const yBlock = union(
-          yHalfBlockAdj,
-          mirror({ normal: [0, 1, 0] }, yHalfBlockAdj)
-        );
+        const xBlock = cuboidMouldingTwoEdges({
+          size: opts.size,
+          axis: "x"
+        }, geomProfile);
+        const yBlock = cuboidMouldingTwoEdges({
+          size: opts.size,
+          axis: "y"
+        }, geomProfile);
         return intersect(xBlock, yBlock);
       };
       const circularMoulding = (opts, geomProfile) => {
@@ -7863,9 +8633,9 @@ var require_moulding = __commonJS({
           radius: baseCylRad + 0.05,
           height: opts.height
         });
-        const adjProfile = translate([baseCylRad + profileSize[0] / 2], geomProfile);
+        const adjProfile = translate2([baseCylRad + profileSize[0] / 2], geomProfile);
         const edgeMoulding = extrudeRotate({ segments: opts.segments || 48 }, adjProfile);
-        return union(baseCyl, edgeMoulding);
+        return union2(baseCyl, edgeMoulding);
       };
       return {
         cuboidMouldingOneEdge,
@@ -7884,52 +8654,26 @@ var require_open_web_joist = __commonJS({
     "use strict";
     var openWebJoistInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
+        cuboid
       } = jscad.primitives;
       const {
         align,
-        translate,
-        rotate,
-        mirror
+        translate: translate2
       } = jscad.transforms;
       const {
         intersect,
-        subtract,
-        union,
-        scission
+        union: union2
       } = jscad.booleans;
       const {
-        extrudeLinear,
-        extrudeRotate,
-        project
-      } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
+        hull
       } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
         math,
         position
       } = swcadJs.calcs;
+      const {
+        standards
+      } = swcadJs.data;
       const {
         beadsBits
       } = swcadJs.components;
@@ -7946,8 +8690,8 @@ var require_open_web_joist = __commonJS({
             centre: [0, 0, 0]
           },
           typeDetails: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
           },
           width: math.inchesToMm(1.125),
           length: math.inchesToMm(5.5),
@@ -7955,8 +8699,8 @@ var require_open_web_joist = __commonJS({
           reinforcementLevel: 1,
           unitLength: math.inchesToMm(1),
           dowelHolderLength: math.inchesToMm(5 / 16),
-          interfaceThickness: 1.333,
-          fitGap: math.inchesToMm(1 / 128),
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP,
           ratioDiamToHolderHeight: 1.666667,
           ratioDiamToChannelDepth: 0.866667,
           ratioDiamToSideChannelWidth: 1,
@@ -7965,8 +8709,8 @@ var require_open_web_joist = __commonJS({
         const defaultOpts = {
           type: "default",
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128),
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP,
           logMode: "normal",
           width: defaultValues.width,
           length: defaultValues.length,
@@ -7993,9 +8737,9 @@ var require_open_web_joist = __commonJS({
           unitLength,
           dowelHolderLength
         } = opts;
-        const lgProfileBeadWidth = interfaceThickness * 1.75;
-        const mdProfileBeadWidth = interfaceThickness * 1.5;
-        const smProfileBeadWidth = interfaceThickness * 1.125;
+        const lgProfileBeadWidth = standards.LG_PROFILE_BEAD_WIDTH;
+        const mdProfileBeadWidth = standards.MD_PROFILE_BEAD_WIDTH;
+        const smProfileBeadWidth = standards.SM_PROFILE_BEAD_WIDTH;
         const lengthUnits = Math.ceil(length / unitLength);
         const edgeWidth = lgProfileBeadWidth;
         const supportWidth = mdProfileBeadWidth;
@@ -8124,13 +8868,13 @@ var require_open_web_joist = __commonJS({
             [0, braceUnitSize[1], 0]
           ];
           const supportPts = braceUnitPts.map((buPt) => {
-            return translate(buPt, interfaceProfileBeads.md);
+            return translate2(buPt, interfaceProfileBeads.md);
           });
           const supportLine1 = hull(supportPts[0], supportPts[1]);
           const supportLine2 = hull(supportPts[2], supportPts[3]);
           let diagonalSupports = supportLine1;
           if (reinforcementLevel2 > 1) {
-            diagonalSupports = union(supportLine1, supportLine2);
+            diagonalSupports = union2(supportLine1, supportLine2);
           }
           const lightSupportPts = [
             [0, 0, 0],
@@ -8141,29 +8885,29 @@ var require_open_web_joist = __commonJS({
             [braceUnitSize[0], braceUnitMidpoint[1], 0]
           ];
           let lightSupportProfilePts = lightSupportPts.map((lsPts) => {
-            return translate(lsPts, interfaceProfileBeads.sm);
+            return translate2(lsPts, interfaceProfileBeads.sm);
           });
           const lightSupportLine1 = hull(lightSupportProfilePts[0], lightSupportProfilePts[1]);
           const lightSupportLine2 = hull(lightSupportProfilePts[2], lightSupportProfilePts[3]);
           const lightSupportLine3 = hull(lightSupportProfilePts[4], lightSupportProfilePts[5]);
-          let lightSupports = union(
+          let lightSupports = union2(
             lightSupportLine1,
             lightSupportLine2
           );
           if (reinforcementLevel2 > 2) {
-            lightSupports = union(
+            lightSupports = union2(
               lightSupports,
               lightSupportLine3
             );
           }
-          const braceUnit = union(
+          const braceUnit = union2(
             diagonalSupports,
             lightSupports
           );
           let braceUnits = braceUnitCentrePoints.map((bucPt) => {
-            return align({ modes: ["center", "center", "center"], relativeTo: bucPt }, braceUnit);
+            return position.ctr(braceUnit, bucPt);
           });
-          braceUnits = union(...braceUnits);
+          braceUnits = union2(...braceUnits);
           const edgePts = [
             [0, 0, 0],
             [0, length2, 0],
@@ -8171,14 +8915,11 @@ var require_open_web_joist = __commonJS({
             [braceUnitSize[0], length2, 0]
           ];
           const edgeProfilePts = edgePts.map((edgePt) => {
-            return align({
-              modes: ["center", "center", "center"],
-              relativeTo: edgePt
-            }, interfaceProfileBeads.lg);
+            return position.ctr(interfaceProfileBeads.lg, edgePt);
           });
           const edge1 = hull(edgeProfilePts[0], edgeProfilePts[1]);
           const edge2 = hull(edgeProfilePts[2], edgeProfilePts[3]);
-          const joistEdges = union(
+          const joistEdges = union2(
             edge1,
             edge2
           );
@@ -8187,11 +8928,11 @@ var require_open_web_joist = __commonJS({
             modes: ["min", "min", "center"],
             relativeTo: [edgeWidth / -2, 0, 0]
           }, endCap);
-          const endCaps = union(
+          const endCaps = union2(
             endCap,
-            translate([0, length2 - edgeWidth, 0], endCap)
+            translate2([0, length2 - edgeWidth, 0], endCap)
           );
-          const joistWebs = union(
+          const joistWebs = union2(
             position.ctr(joistEdges),
             position.ctr(braceUnits),
             position.ctr(endCaps)
@@ -8230,58 +8971,21 @@ var require_reinforced_rect_panel = __commonJS({
     "use strict";
     var reinforcedRectPanelInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
-      } = jscad.primitives;
-      const {
-        align,
-        translate,
-        rotate,
-        mirror
-      } = jscad.transforms;
-      const {
-        intersect,
-        subtract,
-        union,
-        scission
-      } = jscad.booleans;
-      const {
-        extrudeLinear,
-        extrudeRotate,
-        project
+        extrudeLinear
       } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
         math
       } = swcadJs.calcs;
+      const {
+        standards
+      } = swcadJs.data;
       const {
         shapes
       } = swcadJs.profiles;
       const reinforcedRectPanelDefaults = () => {
         const defaultValues = {
           constants: {
-            reinforcementPatterns: ["x", "cross", "diamond", "full"]
+            reinforcementPatterns: ["x", "cross", "diamond", "full", "full-double"]
           },
           dims: {
             size: [
@@ -8295,15 +8999,15 @@ var require_reinforced_rect_panel = __commonJS({
             centrePt: [0, 0, 0]
           },
           types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
           }
         };
         const standardOpts = {
           type: defaultValues.types.default.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -8318,7 +9022,6 @@ var require_reinforced_rect_panel = __commonJS({
       };
       const reinforcedRectPanelOpts = (opts) => {
         const defaults = reinforcedRectPanelDefaults();
-        console.log("modelOpts() -- opts", opts);
         const {
           size = defaults.opts.size,
           reinforcementPattern = defaults.opts.reinforcementPattern,
@@ -8340,12 +9043,10 @@ var require_reinforced_rect_panel = __commonJS({
           reinforcementThickness,
           ...stdOpts
         };
-        console.log("modelOpts() -- initOpts", initOpts);
         return initOpts;
       };
       const reinforcedRectPanelProps = (opts) => {
         const defaults = reinforcedRectPanelDefaults();
-        console.log("modelProps() -- opts", opts);
         const {
           size,
           reinforcementPattern,
@@ -8392,7 +9093,6 @@ var require_reinforced_rect_panel = __commonJS({
           points: modelPoints,
           components: modelComponents
         };
-        console.log("modelProps() -- modelProperties", modelProperties);
         return modelProperties;
       };
       const reinforcedRectPanel = (opts) => {
@@ -8433,53 +9133,31 @@ var require_routed_shapes = __commonJS({
     "use strict";
     var routedShapesInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
+        cylinderElliptic: cylinderElliptic2,
+        cuboid
       } = jscad.primitives;
       const {
-        align,
-        translate,
-        rotate,
-        mirror
+        translate: translate2,
+        rotate
       } = jscad.transforms;
       const {
-        intersect,
         subtract,
-        union,
-        scission
+        union: union2
       } = jscad.booleans;
       const {
         extrudeLinear,
-        extrudeRotate,
         project
       } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
       const { toOutlines } = jscad.geometries.geom2;
       const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
         math,
         geometry,
         position
       } = swcadJs.calcs;
+      const {
+        standards
+      } = swcadJs.data;
       const {
         beadsBits: beadsBits2d
       } = swcadJs.profiles;
@@ -8501,8 +9179,8 @@ var require_routed_shapes = __commonJS({
             centre: [0, 0, 0]
           },
           types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
           },
           topBit: {
             type: "chamfer",
@@ -8526,8 +9204,8 @@ var require_routed_shapes = __commonJS({
         const standardOpts = {
           type: defaultValues.types.default.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -8619,9 +9297,6 @@ var require_routed_shapes = __commonJS({
           interfaceThickness,
           fitGap
         } = opts;
-        const lgProfileBeadWidth = interfaceThickness * 1.75;
-        const mdProfileBeadWidth = interfaceThickness * 1.5;
-        const smProfileBeadWidth = interfaceThickness * 1.125;
         const modelConstants = {
           type,
           scale
@@ -8668,7 +9343,7 @@ var require_routed_shapes = __commonJS({
           outlinePts[0]
         ];
         const cutPoints = outlinePts.map((outlinePt) => {
-          return translate(
+          return translate2(
             [
               outlinePt[0],
               outlinePt[1],
@@ -8686,7 +9361,7 @@ var require_routed_shapes = __commonJS({
           );
           lineModel = position.ctr(lineModel);
           let adjLineModel = rotate([0, 0, lData.angle], lineModel);
-          adjLineModel = translate([
+          adjLineModel = translate2([
             lData.mid[0],
             lData.mid[1],
             0
@@ -8694,7 +9369,7 @@ var require_routed_shapes = __commonJS({
           return adjLineModel;
         });
         const cutLines = lineModels;
-        const cutPath = union(
+        const cutPath = union2(
           ...cutPoints,
           ...cutLines
         );
@@ -8753,13 +9428,13 @@ var require_routed_shapes = __commonJS({
         if (hasTop) {
           cutShape = subtract(
             cutShape,
-            translate([0, 0, size[2] / 2], cutPathTop)
+            translate2([0, 0, size[2] / 2], cutPathTop)
           );
         }
         if (hasBottom) {
           cutShape = subtract(
             cutShape,
-            translate([0, 0, size[2] / -2], cutPathBottom)
+            translate2([0, 0, size[2] / -2], cutPathBottom)
           );
         }
         const mainModel = cutShape;
@@ -8784,7 +9459,7 @@ var require_routed_shapes = __commonJS({
           topBit,
           bottomBit
         } = modelProperties.dims;
-        const baseShape = cylinderElliptic({
+        const baseShape = cylinderElliptic2({
           height,
           startRadius: radius2,
           endRadius: radius2
@@ -8799,13 +9474,13 @@ var require_routed_shapes = __commonJS({
         if (hasTop) {
           cutShape = subtract(
             cutShape,
-            translate([0, 0, height / 2], cutPathTop)
+            translate2([0, 0, height / 2], cutPathTop)
           );
         }
         if (hasBottom) {
           cutShape = subtract(
             cutShape,
-            translate([0, 0, height / -2], cutPathBottom)
+            translate2([0, 0, height / -2], cutPathBottom)
           );
         }
         const mainModel = cutShape;
@@ -8832,62 +9507,36 @@ var require_sheet_mould = __commonJS({
     "use strict";
     var moduleInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
         cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
+        cylinderElliptic: cylinderElliptic2,
+        cuboid
       } = jscad.primitives;
       const {
-        align,
-        translate,
-        rotate,
-        mirror
+        align
       } = jscad.transforms;
       const {
-        intersect,
-        subtract,
-        union,
-        scission
+        union: union2
       } = jscad.booleans;
       const {
-        extrudeLinear,
-        extrudeRotate,
-        project
-      } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
+        hullChain: hullChain2
       } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
         math,
         position
       } = swcadJs.calcs;
       const {
+        standards
+      } = swcadJs.data;
+      const {
         beadsBits,
         mesh: meshLib
       } = swcadJs.components;
       const modelDefaults = () => {
-        const interfaceThickness = 1.333333;
+        const interfaceThickness = standards.INTERFACE_THICKNESS;
         const edgeMargin = math.inchesToMm(1 / 4);
         const modelTypes = {
-          default: { id: "default", desc: "Default" },
-          alt: { id: "alt", desc: "Alternate" }
+          default: standards.types.TYPE_DEFAULT,
+          alt: standards.types.TYPE_ALT
         };
         const defaultValues = {
           opts: {
@@ -8902,7 +9551,7 @@ var require_sheet_mould = __commonJS({
           },
           dims: {
             interfaceThickness,
-            fitGap: math.inchesToMm(1 / 128),
+            fitGap: standards.FIT_GAP,
             edgeMargin,
             bead: {
               radius: math.inchesToMm(1 / 16),
@@ -8961,8 +9610,8 @@ var require_sheet_mould = __commonJS({
         const standardOpts = {
           type: defaultValues.opts.type,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -9031,9 +9680,9 @@ var require_sheet_mould = __commonJS({
           dots,
           lines
         } = opts;
-        const lgProfileBeadWidth = interfaceThickness * 1.75;
-        const mdProfileBeadWidth = interfaceThickness * 1.5;
-        const smProfileBeadWidth = interfaceThickness * 1.125;
+        const lgProfileBeadWidth = standards.LG_PROFILE_BEAD_WIDTH;
+        const mdProfileBeadWidth = standards.MD_PROFILE_BEAD_WIDTH;
+        const smProfileBeadWidth = standards.SM_PROFILE_BEAD_WIDTH;
         let width = null;
         let depth = null;
         let minX = Number.MAX_VALUE;
@@ -9183,7 +9832,7 @@ var require_sheet_mould = __commonJS({
               dims.interfaceThickness
             ]
           });
-          let holeMouldSupport = union(edgeMouldSupport, mouldSupportFlange);
+          let holeMouldSupport = union2(edgeMouldSupport, mouldSupportFlange);
           return holeMouldSupport;
         };
         const mouldPoint = (modelProps2) => {
@@ -9193,7 +9842,7 @@ var require_sheet_mould = __commonJS({
             dims,
             points
           } = modelProps2;
-          const holeMouldPoint = cylinderElliptic({
+          const holeMouldPoint = cylinderElliptic2({
             height: dims.bead.height,
             startRadius: [dims.bead.radius, dims.bead.radius],
             endRadius: [0, 0]
@@ -9208,7 +9857,7 @@ var require_sheet_mould = __commonJS({
             points
           } = modelProps2;
           const hMouldPoint = mouldPoint(modelProps2);
-          const holeMould = union(
+          const holeMould = union2(
             position.ctrMax(mouldPtSupportCore(modelProps2)),
             position.ctrMin(hMouldPoint)
           );
@@ -9222,7 +9871,7 @@ var require_sheet_mould = __commonJS({
             points
           } = modelProps2;
           const hMouldPoint = mouldPoint(modelProps2);
-          const holeMould = union(
+          const holeMould = union2(
             position.ctrMax(mouldPointSupport(modelProps2)),
             position.ctrMin(hMouldPoint)
           );
@@ -9238,18 +9887,15 @@ var require_sheet_mould = __commonJS({
           let holeMoulds = [];
           points.dots.forEach((pt) => {
             holeMoulds.push(
-              align(
-                {
-                  modes: ["center", "center", "min"],
-                  relativeTo: [pt[0], pt[1], 0]
-                },
-                mouldPtFlangedAssembly(modelProps2)
+              position.ctrMin(
+                mouldPtFlangedAssembly(modelProps2),
+                [pt[0], pt[1], 0]
               )
             );
           });
           let holeMouldSet = null;
           if (holeMoulds.length > 0) {
-            holeMouldSet = union(...holeMoulds);
+            holeMouldSet = union2(...holeMoulds);
           }
           return holeMouldSet;
         };
@@ -9263,17 +9909,14 @@ var require_sheet_mould = __commonJS({
           const lineMouldPoints = [];
           points.lines.forEach((linePoints) => {
             const lineSet = linePoints.map((linePt) => {
-              return align(
-                {
-                  modes: ["center", "center", "min"],
-                  relativeTo: [linePt[0], linePt[1], 0]
-                },
-                mouldPtAssembly(modelProps2)
+              return position.ctrMin(
+                mouldPtAssembly(modelProps2),
+                [linePt[0], linePt[1], 0]
               );
             });
-            lineMouldPoints.push(hullChain(...lineSet));
+            lineMouldPoints.push(hullChain2(...lineSet));
           });
-          const lineMouldAssemblies = union(...lineMouldPoints);
+          const lineMouldAssemblies = union2(...lineMouldPoints);
           return lineMouldAssemblies;
         };
         const finalAssembly = (modelProps2) => {
@@ -9290,13 +9933,13 @@ var require_sheet_mould = __commonJS({
           const dMould = dotMoulds(modelProps2);
           const lMould = lineMoulds(modelProps2);
           if (dMould) {
-            mainPart = union(
+            mainPart = union2(
               mainPart,
               dMould
             );
           }
           if (lMould) {
-            mainPart = union(
+            mainPart = union2(
               mainPart,
               lMould
             );
@@ -9336,6 +9979,12 @@ var require_text2 = __commonJS({
       const { extrudeLinear } = jscad.extrusions;
       const { measureDimensions } = jscad.measurements;
       const { text: text2d } = swcadJs.profiles;
+      const {
+        standards
+      } = swcadJs.data;
+      const {
+        position
+      } = swcadJs.calcs;
       const flatText = (opts) => {
         if (opts.message === void 0 || opts.message.length === 0) return [];
         const message2D = text2d.basicText({
@@ -9344,39 +9993,53 @@ var require_text2 = __commonJS({
           charLineWidth: opts.charLineWidth
         });
         const message3D = extrudeLinear({ height: opts.extrudeHeight || DEFAULT_EXTRUDE_HEIGHT }, message2D);
-        return align({ modes: ["center", "center", "center"] }, message3D);
+        return position.ctr(message3D);
       };
-      return {
+      const engravedText = (opts) => {
+        const inverted = opts.inverted || false;
+        const interThickness = opts.interfaceThickness || standards.INTERFACE_THICKNESS;
+        const engrDepth = opts.engravingDepth || interThickness * 0.37;
+        const lineRadius = engrDepth / 2;
+        const lineCorner = cylinderElliptic({
+          height: 0.4,
+          startRadius: inverted ? [lineRadius, lineRadius] : [0, 0],
+          endRadius: inverted ? [0, 0] : [lineRadius, lineRadius]
+        });
+        const lineSegmentPointArrays = vectorText({ x: 0, y: 0, input: opts.message, height: opts.fontSize });
+        const lineSegments = [];
+        lineSegmentPointArrays.forEach((segmentPoints) => {
+          const corners = segmentPoints.map((point) => translate(point, lineCorner));
+          lineSegments.push(hullChain(corners));
+        });
+        return union(lineSegments);
+      };
+      const textPanel = (opts) => {
+        const extrudeHt = opts.extrudeHeight || DEFAULT_EXTRUDE_HEIGHT;
+        const textModel = flatText({
+          ...opts,
+          extrudeHeight: extrudeHt
+        });
+        const textModelDims = measureDimensions(textModel);
+        const panelOffset = opts.panelOffset || 2;
+        const textPanel2 = cuboid({
+          size: [
+            textModelDims[0] + panelOffset,
+            textModelDims[1] + panelOffset,
+            opts.panelThickness || extrudeHt * 2
+          ]
+        });
+        const embossedPanel = subtract(
+          position.ctrMax(textPanel2),
+          position.ctrMax(textModel)
+        );
+        return position.ctr(embossedPanel);
+      };
+      const text = {
         flatText,
-        /**
-         * Creates a rectangular panel with engraved text
-         * @memberof components.text
-         * @instance
-         * @param {*} opts 
-         * @returns ...
-         */
-        textPanel: (opts) => {
-          const extrudeHt = opts.extrudeHeight || DEFAULT_EXTRUDE_HEIGHT;
-          const textModel = flatText({
-            ...opts,
-            extrudeHeight: extrudeHt
-          });
-          const textModelDims = measureDimensions(textModel);
-          const panelOffset = opts.panelOffset || 2;
-          const textPanel = cuboid({
-            size: [
-              textModelDims[0] + panelOffset,
-              textModelDims[1] + panelOffset,
-              opts.panelThickness || extrudeHt * 2
-            ]
-          });
-          const embossedPanel = subtract(
-            align({ modes: ["center", "center", "max"] }, textPanel),
-            align({ modes: ["center", "center", "max"] }, textModel)
-          );
-          return align({ modes: ["center", "center", "center"] }, embossedPanel);
-        }
+        engravedText,
+        textPanel
       };
+      return text;
     };
     module2.exports = { init: textUtils };
   }
@@ -9388,52 +10051,35 @@ var require_trim_family_frame = __commonJS({
     "use strict";
     var trimFamilyFrameInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
         cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
         cuboid,
         roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
         triangle
       } = jscad.primitives;
       const {
         align,
-        translate,
-        rotate,
-        mirror
+        translate: translate2,
+        rotate
       } = jscad.transforms;
       const {
         intersect,
         subtract,
-        union,
-        scission
+        union: union2
       } = jscad.booleans;
       const {
         extrudeLinear,
-        extrudeRotate,
         project
       } = jscad.extrusions;
       const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
+        measureBoundingBox
       } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
         math,
         position
       } = swcadJs.calcs;
+      const {
+        standards
+      } = swcadJs.data;
       const {
         trim
       } = swcadJs.profiles;
@@ -9452,9 +10098,9 @@ var require_trim_family_frame = __commonJS({
           },
           dims: {
             size: [math.inchesToMm(2.5), math.inchesToMm(3)],
-            interfaceThickness: 1.333,
-            fitGap: math.inchesToMm(1 / 128),
-            backingThickness: 1.333,
+            interfaceThickness: standards.INTERFACE_THICKNESS,
+            fitGap: standards.FIT_GAP,
+            backingThickness: standards.INTERFACE_THICKNESS,
             trimWidth: math.inchesToMm(3 / 8),
             trimThickness: math.inchesToMm(3 / 16),
             trimJointWidth: math.inchesToMm(1 / 2),
@@ -9470,15 +10116,15 @@ var require_trim_family_frame = __commonJS({
             centre: [0, 0, 0]
           },
           types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
           }
         };
         const standardOpts = {
           type: defaultValues.types.default.id,
           scale: 1,
-          interfaceThickness: 1.333333,
-          fitGap: math.inchesToMm(1 / 128)
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
           ...standardOpts,
@@ -9775,10 +10421,10 @@ var require_trim_family_frame = __commonJS({
           }, cornerJoint);
           let cornerAssembly = corner;
           if (jointX) {
-            cornerAssembly = union(cornerAssembly, jointX);
+            cornerAssembly = union2(cornerAssembly, jointX);
           }
           if (jointY) {
-            cornerAssembly = union(cornerAssembly, jointY);
+            cornerAssembly = union2(cornerAssembly, jointY);
           }
           return cornerAssembly;
         };
@@ -9802,7 +10448,7 @@ var require_trim_family_frame = __commonJS({
             });
             mitredTrimProfile = rotate([0, 0, Math.PI / 2], mitredTrimProfile);
             let mitredTrimArea = extrudeLinear({ height: dims.trimThickness * 2 }, mitredTrimProfile);
-            mitredTrimArea = translate([dims.trimWidth / 2, 0, -dims.trimThickness], mitredTrimArea);
+            mitredTrimArea = translate2([dims.trimWidth / 2, 0, -dims.trimThickness], mitredTrimArea);
             const unitHeight = dims.trimWidth / opts2.ornaments.trimLevels;
             const unitDepth = dims.trimThickness / opts2.ornaments.trimLevels;
             const trimSizeDims = [unitHeight, unitDepth];
@@ -9918,7 +10564,7 @@ var require_trim_family_frame = __commonJS({
               relativeTo: points.trimEdges[3]
             }, trimY)
           ];
-          let aTrim = union(...trimLengths);
+          let aTrim = union2(...trimLengths);
           return aTrim;
         };
         const assembledFrame = (modelProps2) => {
@@ -9978,11 +10624,11 @@ var require_trim_family_frame = __commonJS({
                 relativeTo: cornerPt.point
               }, rotate(cornerPt.rotation, corner));
             });
-            corners = union(...cornerAssemblies);
-            aFrame = union(aFrame, corners);
+            corners = union2(...cornerAssemblies);
+            aFrame = union2(aFrame, corners);
           }
           let backing = null;
-          aFrame = align({ modes: ["center", "center", "min"] }, aFrame);
+          aFrame = position.ctrMin(aFrame);
           if (opts2.backingType && opts2.backingType != "none") {
             backing = cuboid({
               size: [
@@ -9991,8 +10637,8 @@ var require_trim_family_frame = __commonJS({
                 dims.backingThickness
               ]
             });
-            backing = align({ modes: ["center", "center", "min"] }, backing);
-            aFrame = union(aFrame, backing);
+            backing = position.ctrMin(backing);
+            aFrame = union2(aFrame, backing);
           }
           return aFrame;
         };
@@ -10021,12 +10667,12 @@ var require_trim_family_frame = __commonJS({
           if (modelProps2.opts.frameForm == "full") {
             const aFrameBackOutline = project(
               {},
-              align({ modes: ["center", "center", "min"] }, aFrame)
+              position.ctrMin(aFrame)
             );
             const fBack = fullFrameBack(modelProps2, aFrameBackOutline);
-            mainPart = union(
-              align({ modes: ["center", "center", "min"] }, mainPart),
-              align({ modes: ["center", "center", "max"] }, fBack)
+            mainPart = union2(
+              position.ctrMin(mainPart),
+              position.ctrMax(fBack)
             );
           }
           return mainPart;
@@ -10061,6 +10707,7 @@ var require_src5 = __commonJS({
   "packages/swcad-js-components/src/index.js"(exports2, module2) {
     "use strict";
     var beadsBitsModule = require_beads_bits2();
+    var boxSupportModule = require_box_support();
     var componentLineModule = require_component_line();
     var meshModule = require_mesh();
     var mouldingModule = require_moulding();
@@ -10089,6 +10736,7 @@ var require_src5 = __commonJS({
       };
       const components = {
         beadsBits,
+        boxSupport: boxSupportModule.init({ jscad, swcadJs: preLib }),
         routedShapes,
         mesh,
         componentLine,
@@ -10149,9 +10797,9 @@ var require_crafts = __commonJS({
   "packages/swcad-js-component-spec/src/crafts/index.js"(exports2, module2) {
     "use strict";
     var init2 = ({ jscad, swcadJs }) => {
-      const { rectangle, cuboid, triangle, circle, cylinder, roundedRectangle } = jscad.primitives;
-      const { union, subtract } = jscad.booleans;
-      const { translate, align, mirror, rotate } = jscad.transforms;
+      const { rectangle, triangle, roundedRectangle } = jscad.primitives;
+      const { union: union2 } = jscad.booleans;
+      const { align, rotate } = jscad.transforms;
       const { hull } = jscad.hulls;
       const { extrudeLinear, extrudeRotate } = jscad.extrusions;
       const { TAU } = jscad.maths.constants;
@@ -10191,7 +10839,7 @@ var require_crafts = __commonJS({
           { modes: ["min", "center", "center"], relativeTo: [core2dCoords.right, 0, 0] },
           rotate([0, 0, TAU / -4], pointTriangle)
         );
-        const baseShape = rotate([0, 0, TAU / 4], union(core2d, point2d1, point2d2));
+        const baseShape = rotate([0, 0, TAU / 4], union2(core2d, point2d1, point2d2));
         return baseShape;
       };
       const toothpick = ({
@@ -10216,7 +10864,7 @@ var require_crafts = __commonJS({
           { modes: ["min", "center", "center"], relativeTo: [core2dCoords.right, 0, 0] },
           rotate([0, 0, TAU / -4], pointTriangle)
         );
-        const baseShape = rotate([0, 0, TAU / 4], union(core2d, point2d));
+        const baseShape = rotate([0, 0, TAU / 4], union2(core2d, point2d));
         return baseShape;
       };
       const bbqSkewer = ({
@@ -10410,12 +11058,12 @@ var require_layout = __commonJS({
     "use strict";
     var layoutUtils = ({ jscad, swcadJs }) => {
       const { cuboid, rectangle } = jscad.primitives;
-      const { union, subtract } = jscad.booleans;
-      const { translate, align } = jscad.transforms;
+      const { union: union2, subtract } = jscad.booleans;
+      const { translate: translate2, align } = jscad.transforms;
       const { measureDimensions } = jscad.measurements;
       const isGeom2 = jscad.geometries.geom2.isA;
       const isPath2 = jscad.geometries.path2.isA;
-      const { math } = swcadJs.calcs;
+      const { math, position } = swcadJs.calcs;
       const { text: text2d } = swcadJs.profiles;
       const { text: text3d } = swcadJs.components;
       const layoutElements = /* @__PURE__ */ new Map();
@@ -10516,8 +11164,8 @@ var require_layout = __commonJS({
               ]
             })
           );
-          return union(
-            align({ modes: ["center", "center", "min"] }, basicFrame2),
+          return union2(
+            position.ctrMin(basicFrame2),
             align(alignmentSlots.topLeft, data1Text2),
             align(alignmentSlots.topRight, data2Text2),
             align(alignmentSlots.bottomLeft, titleText2),
@@ -10556,8 +11204,8 @@ var require_layout = __commonJS({
           cuboid({ size: [layoutDims[0], layoutDims[1], frameWidth] }),
           cuboid({ size: [layoutDims[0] - frameWidth * 2, layoutDims[1] - frameWidth * 2, 3] })
         );
-        return union(
-          align({ modes: ["center", "center", "min"] }, basicFrame),
+        return union2(
+          position.ctrMin(basicFrame),
           align(alignmentSlots.topLeft, data1Text),
           align(alignmentSlots.topRight, data2Text),
           align(alignmentSlots.bottomLeft, titleText),
@@ -10590,12 +11238,12 @@ var require_layout = __commonJS({
             ];
           }
           const nextLayoutGeoms = [
-            translate(layoutPosition, val.geom)
+            translate2(layoutPosition, val.geom)
           ];
           const skipFrame = layoutOpts.noFrame || val.tags.includes("noFrame");
           const is2D = val.tags.includes("is2D");
           if (!skipFrame) {
-            const frameGeom = translate(layoutPosition, layoutFrame({
+            const frameGeom = translate2(layoutPosition, layoutFrame({
               title: val.name,
               subtitle: val.desc,
               objectDims: val.objectDims,
@@ -10635,12 +11283,12 @@ var require_layout = __commonJS({
             offsets.z
           ];
           const nextLayoutGeoms = [
-            translate(layoutPosition, val.geom)
+            translate2(layoutPosition, val.geom)
           ];
           const skipFrame = layoutOpts.noFrame || val.tags.includes("noFrame");
           const is2D = val.tags.includes("is2D");
           if (!skipFrame) {
-            const frameGeom = translate(layoutPosition, layoutFrame({
+            const frameGeom = translate2(layoutPosition, layoutFrame({
               title: val.name,
               subtitle: val.desc,
               objectDims: val.objectDims,
@@ -10689,7 +11337,7 @@ var require_layout = __commonJS({
             name,
             desc,
             tags: [...tags, ...extraTags],
-            geom: align({ modes: ["center", "center", "min"] }, geom),
+            geom: position.ctrMin(geom),
             objectDims,
             layoutDims
           };
@@ -10780,9 +11428,10 @@ var require_arch = __commonJS({
       const { path2, geom2 } = jscad.geometries;
       const { extrudeRotate } = jscad.extrusions;
       const { arc, cuboid } = jscad.primitives;
-      const { translate, mirror, rotate, align } = jscad.transforms;
-      const { union, subtract, intersect } = jscad.booleans;
+      const { translate: translate2, mirror, rotate, align } = jscad.transforms;
+      const { union: union2, subtract, intersect } = jscad.booleans;
       const { measureDimensions } = jscad.measurements;
+      const { position } = swcadJs.calcs;
       return {
         /**
          * Builds a one-centre (semicircular) arch.
@@ -10794,9 +11443,9 @@ var require_arch = __commonJS({
          */
         onePtArch: (opts, geomProfile) => {
           const arcRad = opts.arcRadius;
-          const profile = translate([arcRad, 0, 0], geomProfile);
+          const profile = translate2([arcRad, 0, 0], geomProfile);
           const baseArch = extrudeRotate({ segments: 48, angle: Math.PI }, profile);
-          return align({ modes: ["center", "center", "min"] }, rotate([Math.PI / 2, 0, 0], baseArch));
+          return position.ctrMin(rotate([Math.PI / 2, 0, 0], baseArch));
         },
         /**
          * Builds a two-centre pointed arch.
@@ -10811,12 +11460,12 @@ var require_arch = __commonJS({
           const arcRad = opts.arcRadius;
           const archWth = opts.archWidth;
           const profileSpecs = measureDimensions(geomProfile);
-          const profile = translate([profileSpecs[0] / 2 + arcRad, 0, 0], geomProfile);
+          const profile = translate2([profileSpecs[0] / 2 + arcRad, 0, 0], geomProfile);
           const baseArch = extrudeRotate({ segments: 48, angle: Math.PI }, profile);
           const cutawaySize = Math.max(archWth, arcRad) * 2;
           const mirrorAxis = arcRad - archWth / 2;
           const cutawayOffset = cutawaySize / -2 + mirrorAxis;
-          const archCutaway = translate([cutawayOffset, cutawaySize / 2, 0], cuboid(
+          const archCutaway = translate2([cutawayOffset, cutawaySize / 2, 0], cuboid(
             {
               size: [cutawaySize, cutawaySize, profileSpecs[1] * 1.25],
               center: [0, 0, 0]
@@ -10824,7 +11473,9 @@ var require_arch = __commonJS({
           ));
           const cutArch = subtract(baseArch, archCutaway);
           const reflectedArch = mirror({ normal: [1, 0, 0], origin: [mirrorAxis, 0, 0] }, cutArch);
-          return align({ modes: ["center", "center", "min"] }, rotate([Math.PI / 2, 0, 0], union(cutArch, reflectedArch)));
+          return position.ctrMin(
+            rotate([Math.PI / 2, 0, 0], union2(cutArch, reflectedArch))
+          );
         },
         threePt: (opts, geomProfile) => {
           return null;
@@ -10843,8 +11494,8 @@ var require_foil = __commonJS({
   "packages/swcad-js-models/src/foil/index.js"(exports2, module2) {
     "use strict";
     var foilBuilder = ({ jscad, swcadJs }) => {
-      const { union, subtract, scission } = jscad.booleans;
-      const { rotate, align, translate, mirror } = jscad.transforms;
+      const { union: union2, subtract, scission } = jscad.booleans;
+      const { rotate, align, translate: translate2, mirror } = jscad.transforms;
       const { cuboid, rectangle } = jscad.primitives;
       const { measureBoundingBox } = jscad.measurements;
       const { extrudeRotate } = jscad.extrusions;
@@ -10862,28 +11513,28 @@ var require_foil = __commonJS({
         } else if (lobeRadType === "halfRadius") {
           lobeRadius = opts.radius / 2;
         }
-        const translatedProfile = translate([lobeRadius, 0, 0], geomProfile);
+        const translatedProfile = translate2([lobeRadius, 0, 0], geomProfile);
         const lobeCircle = extrudeRotate({ segments: 48 }, translatedProfile);
-        const alignedLobeCircle = translate([0, -(opts.radius - lobeRadius), 0], lobeCircle);
+        const alignedLobeCircle = translate2([0, -(opts.radius - lobeRadius), 0], lobeCircle);
         const lobeCircleBbox = measureBoundingBox(alignedLobeCircle);
         const cutBlockThickness = (lobeCircleBbox[1][2] - lobeCircleBbox[0][2]) * 2;
         const cutBlock1 = rotate([0, 0, centralAngle / 2], align({ modes: ["min", "center", "none"] }, cuboid({ size: [lobeRadius, opts.radius * 2, cutBlockThickness] })));
         const cutBlock2 = mirror({ normal: [1, 0, 0] }, cutBlock1);
-        const cutBlock = union(cutBlock1, cutBlock2);
+        const cutBlock = union2(cutBlock1, cutBlock2);
         let cutLobe = subtract(alignedLobeCircle, cutBlock);
         const profileBbox = measureBoundingBox(geomProfile);
         const profileSize = [profileBbox[1][0] - profileBbox[0][0], profileBbox[1][1] - profileBbox[0][1]];
         const negProfile = subtract(rectangle({ size: [profileSize[0] + 1, profileSize[1] + 1] }), geomProfile);
-        const negProfileCut = subtract(negProfile, translate([(profileSize[0] + 2) / 2, 0, 0], rectangle({ size: [profileSize[0] + 2, profileSize[1] + 2] })));
-        const negProfileAdj = translate([profileSize[0] / 2, 0, 0], negProfileCut);
-        let centreCircle = extrudeRotate({ segments: 48 }, translate([lobeRadius, 0, 0], negProfileAdj));
+        const negProfileCut = subtract(negProfile, translate2([(profileSize[0] + 2) / 2, 0, 0], rectangle({ size: [profileSize[0] + 2, profileSize[1] + 2] })));
+        const negProfileAdj = translate2([profileSize[0] / 2, 0, 0], negProfileCut);
+        let centreCircle = extrudeRotate({ segments: 48 }, translate2([lobeRadius, 0, 0], negProfileAdj));
         if (opts.numLobes === 3) {
           if (lobeRadType === "mean") {
-            centreCircle = extrudeRotate({ segments: 48 }, translate([opts.radius * 0.435, 0, 0], negProfileCut));
+            centreCircle = extrudeRotate({ segments: 48 }, translate2([opts.radius * 0.435, 0, 0], negProfileCut));
           } else if (lobeRadType === "inSlice") {
-            centreCircle = extrudeRotate({ segments: 48 }, translate([opts.radius * 0.3, 0, 0], negProfileCut));
+            centreCircle = extrudeRotate({ segments: 48 }, translate2([opts.radius * 0.3, 0, 0], negProfileCut));
           } else if (lobeRadType === "halfRadius") {
-            centreCircle = extrudeRotate({ segments: 48 }, translate([opts.radius * 0.5, 0, 0], negProfileCut));
+            centreCircle = extrudeRotate({ segments: 48 }, translate2([opts.radius * 0.5, 0, 0], negProfileCut));
           }
         }
         if (isCentreCut) {
@@ -10896,7 +11547,7 @@ var require_foil = __commonJS({
         const rotatedLobes = rotationAngles.map((angle) => {
           return rotate([0, 0, angle], cutLobe);
         });
-        return union(cutLobe, ...rotatedLobes);
+        return union2(cutLobe, ...rotatedLobes);
       };
       return {
         buildFoil3d,
@@ -10976,10 +11627,11 @@ var require_wall = __commonJS({
   "packages/swcad-js-models/src/structure/wall/index.js"(exports2, module2) {
     "use strict";
     var wallBuilder = ({ jscad, swcadJs }) => {
-      const { union, subtract } = jscad.booleans;
+      const { union: union2, subtract } = jscad.booleans;
       const { align } = jscad.transforms;
       const { cuboid } = jscad.primitives;
       const { measureDimensions } = jscad.measurements;
+      const { position } = swcadJs.calcs;
       const { moulding } = swcadJs.components;
       const { trim } = swcadJs.profiles;
       const { PHI_INV } = swcadJs.data.constants;
@@ -11058,7 +11710,7 @@ var require_wall = __commonJS({
             dadoUnits: opts.dadoUnits,
             crownUnits: opts.crownUnits
           });
-          const baseWall = align({ modes: ["center", "center", "min"] }, cuboid({
+          const baseWall = position.ctrMin(cuboid({
             size: [opts.length, opts.thickness, opts.height]
           }));
           const tFamilyAranea = trim.aranea({
@@ -11068,7 +11720,7 @@ var require_wall = __commonJS({
           const dadoHtAdj = dadoHt - opts.trimUnitHeight * (dadoUnits + 0.5);
           const dadoAdj = dadoUnits * 2 * opts.trimUnitDepth;
           const dadoWallSpecs = [dadoAdj + opts.length, dadoAdj + opts.thickness];
-          const dadoWall = align({ modes: ["center", "center", "min"] }, cuboid({
+          const dadoWall = position.ctrMin(cuboid({
             size: [dadoWallSpecs[0], dadoWallSpecs[1], dadoHtAdj]
           }));
           let wallWithTrim = baseWall;
@@ -11081,15 +11733,15 @@ var require_wall = __commonJS({
             }
             const baseAdj = (dadoUnits + baseUnits + 1) * 2 * opts.trimUnitDepth;
             const baseTrimSpecs = [baseAdj + opts.length, baseAdj + opts.thickness];
-            const bTrim = align({ modes: ["center", "center", "min"] }, baseTrim({
+            const bTrim = position.ctrMin(baseTrim({
               totalLength: baseTrimSpecs[0],
               totalThickness: baseTrimSpecs[1],
               trimProfile: baseProfile
             }));
-            wallWithTrim = union(wallWithTrim, bTrim);
+            wallWithTrim = union2(wallWithTrim, bTrim);
           }
           if (opts.trimOpts.includes("dado") && opts.half != "upper") {
-            wallWithTrim = union(wallWithTrim, dadoWall);
+            wallWithTrim = union2(wallWithTrim, dadoWall);
             let dadoProfile = tFamilyAranea.dado.small;
             if (dadoUnits === 1) {
               dadoProfile = tFamilyAranea.dado.medium;
@@ -11097,12 +11749,15 @@ var require_wall = __commonJS({
               dadoProfile = tFamilyAranea.dado.large;
             }
             const dadoTrimSpecs = [dadoWallSpecs[0] + opts.trimUnitDepth, dadoWallSpecs[1] + opts.trimUnitDepth];
-            const dTrim = align({ modes: ["center", "center", "max"], relativeTo: [0, 0, dadoHt] }, dadoTrim({
-              totalLength: dadoTrimSpecs[0],
-              totalThickness: dadoTrimSpecs[1],
-              trimProfile: dadoProfile
-            }));
-            wallWithTrim = union(wallWithTrim, dTrim);
+            const dTrim = position.ctrMax(
+              dadoTrim({
+                totalLength: dadoTrimSpecs[0],
+                totalThickness: dadoTrimSpecs[1],
+                trimProfile: dadoProfile
+              }),
+              [0, 0, dadoHt]
+            );
+            wallWithTrim = union2(wallWithTrim, dTrim);
           }
           if (opts.trimOpts.includes("crown") && opts.half != "lower") {
             let crownProfile = tFamilyAranea.crown.small;
@@ -11113,20 +11768,29 @@ var require_wall = __commonJS({
             }
             const crownAdj = (crownUnits + 1) * 2 * opts.trimUnitDepth;
             const crownTrimSpecs = [crownAdj + opts.length, crownAdj + opts.thickness];
-            const cTrim = align({ modes: ["center", "center", "max"], relativeTo: [0, 0, opts.height] }, crownTrim({
-              totalLength: crownTrimSpecs[0],
-              totalThickness: crownTrimSpecs[1],
-              trimProfile: crownProfile
-            }));
-            wallWithTrim = union(wallWithTrim, cTrim);
+            const cTrim = position.ctrMax(
+              crownTrim({
+                totalLength: crownTrimSpecs[0],
+                totalThickness: crownTrimSpecs[1],
+                trimProfile: crownProfile
+              }),
+              [0, 0, opts.height]
+            );
+            wallWithTrim = union2(wallWithTrim, cTrim);
           }
           const wallDim = measureDimensions(baseWall);
           const cutBoxSpecs = [wallDim[0] * 2, wallDim[1] * 2, wallDim[2] * 1.25];
           if (opts.half === "upper") {
-            const cutBox = align({ modes: ["center", "center", "max"], relativeTo: [0, 0, dadoHt] }, cuboid({ size: cutBoxSpecs }));
+            const cutBox = position.ctrMax(
+              cuboid({ size: cutBoxSpecs }),
+              [0, 0, dadoHt]
+            );
             wallWithTrim = subtract(wallWithTrim, cutBox);
           } else if (opts.half === "lower") {
-            const cutBox = align({ modes: ["center", "center", "min"], relativeTo: [0, 0, dadoHt] }, cuboid({ size: cutBoxSpecs }));
+            const cutBox = position.ctrMin(
+              cuboid({ size: cutBoxSpecs }),
+              [0, 0, dadoHt]
+            );
             wallWithTrim = subtract(wallWithTrim, cutBox);
           }
           return wallWithTrim;
@@ -11142,8 +11806,8 @@ var require_wall_entryway = __commonJS({
   "packages/swcad-js-models/src/structure/wall-entryway/index.js"(exports2, module2) {
     "use strict";
     var entrywayBuilder = ({ jscad, swcadJs }) => {
-      const { union, subtract, intersect } = jscad.booleans;
-      const { translate, rotate, mirror } = jscad.transforms;
+      const { union: union2, subtract, intersect } = jscad.booleans;
+      const { translate: translate2, rotate, mirror } = jscad.transforms;
       const { cuboid } = jscad.primitives;
       const { measureDimensions } = jscad.measurements;
       const { extrudeLinear } = jscad.extrusions;
@@ -11242,25 +11906,25 @@ var require_wall_entryway = __commonJS({
           const archRadFactor = opts.archRadFactor || 0.75;
           const thinWallThickness = opts.wallThickness - archTrimProfileSpecs[1] * 2;
           const trimArch = arch.twoPtArch({ arcRadius: opts.entryLength * archRadFactor, archWidth: opts.entryLength, profileWidth: 5 }, archTrimProfile);
-          const adjTrimArch = translate([0, (thinWallThickness + archTrimProfileSpecs[1]) / 2, wall1Dims[2]], trimArch);
+          const adjTrimArch = translate2([0, (thinWallThickness + archTrimProfileSpecs[1]) / 2, wall1Dims[2]], trimArch);
           const adjTrimArchOpp = mirror({ normal: [0, 1, 0] }, adjTrimArch);
           const trimArchDims = measureDimensions(trimArch);
           const innerOpeningSpecs = [opts.entryLength, 5 * opts.wallThickness, null];
           const innerOpeningProfile = arch2d.twoPtArch({ arcRadius: innerOpeningSpecs[0] * archRadFactor, archWidth: innerOpeningSpecs[0] });
           const innerOpening = rotate([Math.PI / 2, 0, 0], extrudeLinear({ height: innerOpeningSpecs[1] }, innerOpeningProfile));
-          const adjInnerOpening = translate([0, innerOpeningSpecs[1] / 2, wall1Dims[2]], innerOpening);
+          const adjInnerOpening = translate2([0, innerOpeningSpecs[1] / 2, wall1Dims[2]], innerOpening);
           const trimOpeningSpecs = [
             archTrimProfileSpecs[0] * 2 + opts.entryLength,
             4 * opts.wallThickness,
             wall1Dims[2] + trimArchDims[2]
           ];
           const trimOpening = hull([
-            translate([0, trimOpeningSpecs[1] / -2, 0], adjTrimArch),
-            translate([0, trimOpeningSpecs[1] / 2, 0], adjTrimArch)
+            translate2([0, trimOpeningSpecs[1] / -2, 0], adjTrimArch),
+            translate2([0, trimOpeningSpecs[1] / 2, 0], adjTrimArch)
           ]);
-          const adjTrimOpening = translate([0, 0, 0], trimOpening);
+          const adjTrimOpening = translate2([0, 0, 0], trimOpening);
           const thinWall = intersect(
-            translate([0, 0, opts.wallHeight / 2], cuboid({
+            translate2([0, 0, opts.wallHeight / 2], cuboid({
               size: [
                 opts.wallLength,
                 thinWallThickness,
@@ -11272,20 +11936,20 @@ var require_wall_entryway = __commonJS({
           let punchedTopWall = subtract(topWall, adjInnerOpening);
           if (opts.trimOpts.includes("dado")) {
             punchedTopWall = subtract(punchedTopWall, adjTrimOpening);
-            punchedTopWall = union(punchedTopWall, thinWall);
+            punchedTopWall = union2(punchedTopWall, thinWall);
             punchedTopWall = subtract(punchedTopWall, adjInnerOpening);
           }
           const wallAdj = wallSpace / 4 + opts.entryLength / 2;
-          const trimArches = union(
+          const trimArches = union2(
             adjTrimArch,
             adjTrimArchOpp
           );
-          const entryway = union(
-            translate([-wallAdj, 0, 0], wall1),
-            translate([wallAdj, 0, 0], wall2),
-            translate([0, 0, 0], punchedTopWall)
+          const entryway = union2(
+            translate2([-wallAdj, 0, 0], wall1),
+            translate2([wallAdj, 0, 0], wall2),
+            translate2([0, 0, 0], punchedTopWall)
           );
-          return union(entryway, trimArches);
+          return union2(entryway, trimArches);
         }
       };
     };
@@ -11387,7 +12051,6 @@ var require_src9 = __commonJS({
         utils: swcadJsAssembly.utils,
         models: swcadJsAssembly.models
       };
-      console.log("swcadJs initialized", swcadJs);
       return swcadJs;
     };
     module2.exports = {
