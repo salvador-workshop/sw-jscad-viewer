@@ -28,11 +28,10 @@ export const swcadJsProfileSpec = [
 
 export const swcadJsComponents = [
   { name: 'Component Line', source: './lib-demo/components/component-line.js' },
-  { name: 'Open Web Joist', source: './lib-demo/components/open-web-joist.js' },
+  { name: 'Box Support', source: './lib-demo/components/box-support.js' },
   { name: 'Beads and Bits', source: './lib-demo/components/beads-bits.js' },
   { name: 'Mesh Panel (3D)', source: './lib-demo/mesh-panel-examples.js' },
   { name: 'Routed Shapes', source: './lib-demo/components/routed-shapes.js' },
-  { name: 'Trim Family Frame', source: './lib-demo/components/trim-family-frame.js' },
   { name: 'Reinforced Rect. Panel', source: './lib-demo/components/reinforced-rect-panel.js' },
 ]
 

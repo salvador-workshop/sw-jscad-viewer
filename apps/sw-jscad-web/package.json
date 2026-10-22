@@ -1,6 +1,6 @@
 {
   "name": "sw-jscad-web",
-  "version": "0.1.10-alpha.0",
+  "version": "0.1.10-alpha.1",
   "type": "module",
   "scripts": {
     "start": "node build.js --dev --skipDocs",

@@ -1112,57 +1112,70 @@ var require_geo_reg_poly = __commonJS({
     var geoRegPoly = ({ jscad, swcadJs }) => {
       return {
         /**
-         * ...
+         * Calculates side length from apothem and # of sides
          * @memberof calcs.geometry.regPoly
-         * @returns ...
+         * @param {number} apothem - distance from center to the midpoint of one side
+         * @param {number} numSides - number of polygon sides
+         * @returns side length
          */
         sideLengthFromApothem: (apothem, numSides) => {
           return apothem * 2 * Math.tan(Math.PI / numSides);
         },
         /**
-         * ...
+         * Calculates side length from circumradius and # of sides
          * @memberof calcs.geometry.regPoly
-         * @returns ...
+         * @param {number} circumradius - distance from center to vertex
+         * @param {number} numSides - number of polygon sides
+         * @returns side length
          */
         sideLengthFromCircumRadius: (circumradius, numSides) => {
           return circumradius * 2 * Math.sin(Math.PI / numSides);
         },
         /**
-         * ...
+         * Calculates apothem from circumradius and # of sides
          * @memberof calcs.geometry.regPoly
-         * @returns ...
+         * @param {number} circumradius - distance from center to vertex
+         * @param {number} numSides - number of polygon sides
+         * @returns apothem
          */
         apothemFromCircumradius: (circumradius, numSides) => {
           return circumradius * Math.cos(Math.PI / numSides);
         },
         /**
-         * ...
+         * Calculates apothem from side length and # of sides
          * @memberof calcs.geometry.regPoly
-         * @returns ...
+         * @param {number} sideLength - side length
+         * @param {number} numSides - number of polygon sides
+         * @returns apothem
          */
         apothemFromSideLength: (sideLength, numSides) => {
           return sideLength / 2 * Math.tan(Math.PI / numSides);
         },
         /**
-         * ...
+         * Calculates circumradius from apothem and # of sides
          * @memberof calcs.geometry.regPoly
-         * @returns ...
+         * @param {number} apothem - distance from center to the midpoint of one side
+         * @param {number} numSides - number of polygon sides
+         * @returns circumradius
          */
         circumradiusFromApothem: (apothem, numSides) => {
           return apothem / Math.cos(Math.PI / numSides);
         },
         /**
-         * ...
+         * Calculates circumradius from side length and # of sides
          * @memberof calcs.geometry.regPoly
-         * @returns ...
+         * @param {number} sideLength - side length
+         * @param {number} numSides - number of polygon sides
+         * @returns circumradius
          */
         circumradiusFromSideLength: (sideLength, numSides) => {
           return sideLength / 2 * Math.sin(Math.PI / numSides);
         },
         /**
-         * ...
+         * Calculates interior angle from # of sides
          * @memberof calcs.geometry.regPoly
-         * @returns ...
+         * @param {number} numSides - number of polygon sides
+         * @returns interior angle
          */
         interiorAngle: (numSides) => {
           return 2 * Math.PI / numSides;
@@ -1772,36 +1785,36 @@ var require_math = __commonJS({
       } = swcadJs.data.constants;
       return {
         /**
-         * ...
-         * @param {*} n 
-         * @returns ...
+         * Checks if a given integer is even
+         * @param {number} n - an integer
+         * @returns true if even, false if not
          * @memberof calcs.math
          */
         isEven: (n) => {
           return n % 2 == 0;
         },
         /**
-         * ...
+         * Checks if a given integer is odd
          * @memberof calcs.math
-         * @param {*} n 
-         * @returns ...
+         * @param {number} n - an integer
+         * @returns true if odd, false if not
          */
         isOdd: (n) => {
           return Math.abs(n % 2) == 1;
         },
         arrayCartesianProduct,
         /**
-         * ...
+         * Converts distance in inches to mm
          * @memberof calcs.math
          * @param {*} numInches 
-         * @returns ...
+         * @returns distance in mm
          */
         inchesToMm: (numInches) => numInches * INCHES_MM_FACTOR,
         /**
-         * ...
+         * Converts distance in mm to inches
          * @memberof calcs.math
-         * @param {*} numInches 
-         * @returns ...
+         * @param {number} numInches 
+         * @returns distance in inches
          */
         mmToInches: (numMils) => numMils / INCHES_MM_FACTOR,
         /**
@@ -1827,155 +1840,6 @@ var require_math = __commonJS({
       };
     };
     module2.exports = { init: mathUtils };
-  }
-});
-
-// packages/swcad-js-calcs/src/position/pos-cuboid.js
-var require_pos_cuboid = __commonJS({
-  "packages/swcad-js-calcs/src/position/pos-cuboid.js"(exports2, module2) {
-    "use strict";
-    var geoCuboid = ({ jscad, swcadJs }) => {
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureCenter
-      } = jscad.measurements;
-      const { position } = swcadJs.calcs;
-      const getCuboidCoords = (cuboidGeom) => {
-        return position.getGeomCoords(cuboidGeom);
-      };
-      const getCuboidCorners = (cuboidGeom) => {
-        const bBox = measureBoundingBox(cuboidGeom);
-        const coords = getCuboidCoords(cuboidGeom);
-        return {
-          c1: bBox[1],
-          c2: [coords.left, coords.back, coords.top],
-          c3: [coords.right, coords.front, coords.top],
-          c4: [coords.left, coords.front, coords.top],
-          c5: [coords.right, coords.back, coords.bottom],
-          c6: [coords.left, coords.back, coords.bottom],
-          c7: [coords.right, coords.front, coords.bottom],
-          c8: bBox[0]
-        };
-      };
-      const getCuboidCentre = (cuboidGeom) => {
-        return measureCenter(cuboidGeom);
-      };
-      const getCuboidCtrlPoints = (cuboidGeom) => {
-        const bBox = measureBoundingBox(cuboidGeom);
-        const dims = measureDimensions(cuboidGeom);
-        const coords = getCuboidCoords(cuboidGeom);
-        const corners = getCuboidCorners(cuboidGeom);
-        const centre = getCuboidCentre(cuboidGeom);
-        const edgeMidpoints = {
-          e1: [coords.right, centre[1], coords.bottom],
-          // midpoint of edge (Y axis, +Y, +Z)
-          e2: [centre[0], coords.back, coords.bottom],
-          // midpoint of edge (X axis, +Y, +Z)
-          e3: [coords.left, centre[1], coords.bottom],
-          // midpoint of edge (Y axis, -Y, -Z)
-          e4: [centre[0], coords.front, coords.bottom],
-          // midpoint of edge (X axis, -Y, -Z)
-          e5: [centre[0], centre[1], centre[2]],
-          // midpoint of edge (Z axis, +X, +Z)
-          e6: [centre[0], centre[1], centre[2]],
-          // midpoint of edge (Z axis, -X, +Z)
-          e7: [centre[0], centre[1], centre[2]],
-          // midpoint of edge (Z axis, -X, -Z)
-          e8: [centre[0], centre[1], centre[2]],
-          // midpoint of edge (Z axis, +X, -Z)
-          e9: [coords.right, centre[1], coords.top],
-          // midpoint of edge (Y axis, +X, +Y)
-          e10: [centre[0], coords.back, coords.top],
-          // midpoint of edge (X axis, +X, +Y)
-          e11: [coords.left, centre[1], coords.top],
-          // midpoint of edge (Y axis, -X, -Y)
-          e12: [centre[0], coords.front, coords.top]
-          // midpoint of edge (X axis, -X, -Y)
-        };
-        const faceMidpoints = {
-          f1: [coords.right, centre[1], centre[2]],
-          // right (+X)
-          f2: [coords.left, centre[1], centre[2]],
-          // left (-X)
-          f3: [centre[0], coords.back, centre[2]],
-          // back (+Y)
-          f4: [centre[0], coords.front, centre[2]],
-          // front (-Y)
-          f5: [centre[0], centre[1], coords.top],
-          // top (+Z)
-          f6: [centre[0], centre[1], coords.bottom]
-          // bottom (-Z)
-        };
-        const qtrCuboidDims = [dims[0] / 4, dims[1] / 4, dims[2] / 4];
-        const internal = {
-          i0: centre,
-          i1: [
-            centre[0] + qtrCuboidDims[0],
-            // octant I (+X, +Y, +Z)
-            centre[1] + qtrCuboidDims[1],
-            centre[2] + qtrCuboidDims[2]
-          ],
-          i2: [
-            centre[0] - qtrCuboidDims[0],
-            // octant II (-X, +Y, +Z)
-            centre[1] + qtrCuboidDims[1],
-            centre[2] + qtrCuboidDims[2]
-          ],
-          i3: [
-            centre[0] + qtrCuboidDims[0],
-            // octant III (+X, -Y, +Z)
-            centre[1] - qtrCuboidDims[1],
-            centre[2] + qtrCuboidDims[2]
-          ],
-          i4: [
-            centre[0] - qtrCuboidDims[0],
-            // octant VI (-X, -Y, +Z)
-            centre[1] - qtrCuboidDims[1],
-            centre[2] + qtrCuboidDims[2]
-          ],
-          i5: [
-            centre[0] + qtrCuboidDims[0],
-            // octant V (+X, +Y, -Z)
-            centre[1] + qtrCuboidDims[1],
-            centre[2] - qtrCuboidDims[2]
-          ],
-          i6: [
-            centre[0] - qtrCuboidDims[0],
-            // octant VI (-X, +Y, -Z)
-            centre[1] + qtrCuboidDims[1],
-            centre[2] - qtrCuboidDims[2]
-          ],
-          i7: [
-            centre[0] + qtrCuboidDims[0],
-            // octant VII (+X, -Y, -Z)
-            centre[1] - qtrCuboidDims[1],
-            centre[2] - qtrCuboidDims[2]
-          ],
-          i8: [
-            centre[0] - qtrCuboidDims[0],
-            // octant VIII (-X, -Y, -Z)
-            centre[1] - qtrCuboidDims[1],
-            centre[2] - qtrCuboidDims[2]
-          ]
-        };
-        return {
-          ...internal,
-          ...corners,
-          ...edgeMidpoints,
-          ...faceMidpoints
-        };
-      };
-      return {
-        getCuboidCoords,
-        getCuboidCorners,
-        getCuboidCentre,
-        getCuboidCtrlPoints
-      };
-    };
-    module2.exports = {
-      init: geoCuboid
-    };
   }
 });
 
@@ -2007,48 +1871,8 @@ var require_pos_rectangle = __commonJS({
           // (-X, -Y)
         };
       };
-      const getRectangleCentre = (rectGeom) => {
-        return measureCenter(rectGeom);
-      };
-      const getRectangleCtrlPoints = (rectGeom) => {
-        const bBox = measureBoundingBox(rectGeom);
-        const dims = measureDimensions(rectGeom);
-        const coords = getRectangleCoords(rectGeom);
-        const corners = getRectangleCorners(rectGeom);
-        const centre = getRectangleCentre(rectGeom);
-        const edgeMidpoints = {
-          e1: [coords.right, centre[1], centre[2]],
-          // midpoint of edge (Y axis, +X,)
-          e2: [centre[0], coords.back, centre[2]],
-          // midpoint of edge (X axis, +Y,)
-          e3: [coords.left, centre[1], centre[2]],
-          // midpoint of edge (Y axis, -X,)
-          e4: [centre[0], coords.front, centre[2]]
-          // midpoint of edge (X axis, -Y,)
-        };
-        const qtrRectDims = [dims[0] / 4, dims[1] / 4, 0];
-        const internal = {
-          i0: centre,
-          i1: [centre[0] + qtrRectDims[0], centre[1] + qtrRectDims[1], centre[2]],
-          // quadrant I (+X, +Y)
-          i2: [centre[0] - qtrRectDims[0], centre[1] + qtrRectDims[1], centre[2]],
-          // quadrant II (-X, +Y)
-          i3: [centre[0] - qtrRectDims[0], centre[1] - qtrRectDims[1], centre[2]],
-          // quadrant III (-X, -Y)
-          i4: [centre[0] + qtrRectDims[0], centre[1] - qtrRectDims[1], centre[2]]
-          // quadrant VI (+X, -Y)
-        };
-        return {
-          ...internal,
-          ...corners,
-          ...edgeMidpoints
-        };
-      };
       return {
-        getRectangleCoords,
-        getRectangleCorners,
-        getRectangleCentre,
-        getRectangleCtrlPoints
+        getRectangleCorners
       };
     };
     module2.exports = { init: geoRectangle };
@@ -2061,30 +1885,6 @@ var require_pos_triangle = __commonJS({
     "use strict";
     var geoTriangle = ({ jscad, swcadJs }) => {
       const { TAU } = jscad.maths.constants;
-      const getTriangleCtrlPoints = (points) => {
-        return null;
-      };
-      const centroid = (points) => {
-        return null;
-      };
-      const orthocentre = (points) => {
-        return null;
-      };
-      const circumcentre = (points) => {
-        return null;
-      };
-      const circumradius = (points) => {
-        return null;
-      };
-      const incentre = (points) => {
-        return null;
-      };
-      const incircleRadius = (points) => {
-        return null;
-      };
-      const eulerLine = (points) => {
-        return null;
-      };
       const rightTriangleOpts = ({
         hypot,
         long,
@@ -2138,14 +1938,6 @@ var require_pos_triangle = __commonJS({
         };
       };
       return {
-        getTriangleCtrlPoints,
-        centroid,
-        orthocentre,
-        circumcentre,
-        circumradius,
-        incentre,
-        incircleRadius,
-        eulerLine,
         rightTriangleOpts
       };
     };
@@ -2157,7 +1949,6 @@ var require_pos_triangle = __commonJS({
 var require_position = __commonJS({
   "packages/swcad-js-calcs/src/position/position.js"(exports2, module2) {
     "use strict";
-    var posCuboid = require_pos_cuboid();
     var posRectangle = require_pos_rectangle();
     var posTriangle = require_pos_triangle();
     var positionUtils = ({ jscad, swcadJs }) => {
@@ -2242,7 +2033,6 @@ var require_position = __commonJS({
       };
       return {
         ...positionCore,
-        cuboid: posCuboid.init({ jscad, swcadJs: preLib }),
         rectangle: posRectangle.init({ jscad, swcadJs: preLib }),
         triangle: posTriangle.init({ jscad, swcadJs: preLib })
       };
@@ -3137,7 +2927,7 @@ var require_connections = __commonJS({
         const defaults = modelDefaults();
         const {
           size = defaults.opts.size,
-          radius: radius2 = defaults.opts.radius,
+          radius = defaults.opts.radius,
           unitSpacing = defaults.opts.unitSpacing,
           unitRadius = defaults.opts.unitRadius,
           unitSegments = defaults.opts.unitSegments,
@@ -3158,7 +2948,7 @@ var require_connections = __commonJS({
         const initOpts = {
           ...stdOpts,
           size,
-          radius: radius2,
+          radius,
           unitSpacing,
           unitRadius,
           segments,
@@ -3172,7 +2962,7 @@ var require_connections = __commonJS({
         const defaults = modelDefaults();
         const {
           size,
-          radius: radius2,
+          radius,
           unitSpacing,
           unitRadius,
           segments,
@@ -3186,7 +2976,7 @@ var require_connections = __commonJS({
         } = opts;
         const width = size[0];
         const depth = size[1];
-        const diametre = radius2 * 2;
+        const diametre = radius * 2;
         const unitDiametre = unitRadius * 2;
         let interMargin = interfaceMargin;
         if (typeof interfaceMargin == "number") {
@@ -3212,7 +3002,7 @@ var require_connections = __commonJS({
           fitGap,
           width,
           depth,
-          radius: radius2,
+          radius,
           unitSpacing,
           unitRadius,
           diametre,
@@ -3239,26 +3029,6 @@ var require_connections = __commonJS({
           components: modelComponents
         };
         return modelProperties;
-      };
-      const connectionTrapezoid = ({ depth, width, angle, reverse = false }) => {
-        const baseRect = rectangle({ size: [depth, width] });
-        const baseRectCoords = position.getGeomCoords(baseRect);
-        const triOpts = position.triangle.rightTriangleOpts({ long: depth, longAngle: angle });
-        const triangleEnds = [
-          align(
-            { modes: ["center", "max", "center"], relativeTo: [0, baseRectCoords.back, 0] },
-            mirror({ normal: [0, 1, 0] }, triangle(triOpts))
-          ),
-          align(
-            { modes: ["center", "min", "center"], relativeTo: [0, baseRectCoords.front, 0] },
-            triangle(triOpts)
-          )
-        ];
-        const outShape = subtract(baseRect, triangleEnds);
-        if (reverse) {
-          return mirror({ normal: [1, 0, 0] }, outShape);
-        }
-        return outShape;
       };
       const dovetail = (opts) => {
         const defaults = modelDefaults();
@@ -3436,7 +3206,7 @@ var require_connections = __commonJS({
         const {
           width,
           depth,
-          radius: radius2,
+          radius,
           fitGap,
           diametre,
           interfaceMargin
@@ -3447,8 +3217,8 @@ var require_connections = __commonJS({
         const halfGap = fitGap / 2;
         const cornerRadius = math.inchesToMm(1 / 4);
         const specs = {
-          dowelRadius: -halfGap + radius2,
-          holeRadius: halfGap + radius2
+          dowelRadius: -halfGap + radius,
+          holeRadius: halfGap + radius
         };
         specs.totalWidth = interfaceMargin[0] * 2 + diametre;
         const halfWidth = specs.totalWidth / 2;
@@ -3502,16 +3272,16 @@ var require_connections = __commonJS({
           width - interfaceMargin[0] * 2,
           (depth - interfaceMargin[1] * 2) * 2
         ];
-        const radius2 = [
+        const radius = [
           diam[0] / 2,
           diam[1] / 2
         ];
         const holeRadius = [
-          radius2[0] + fitGap / 2,
-          radius2[1] + fitGap / 2
+          radius[0] + fitGap / 2,
+          radius[1] + fitGap / 2
         ];
         const dowelCtr = [0, depth / -2 + interfaceMargin[1], 0];
-        const dowel = ellipseShape({ radius: radius2, segments, center: dowelCtr });
+        const dowel = ellipseShape({ radius, segments, center: dowelCtr });
         const dowelDie = ellipseShape({ radius: holeRadius, segments, center: dowelCtr });
         const mPlate = rectangle({
           size: [
@@ -3637,7 +3407,7 @@ var require_connections = __commonJS({
           unitSegments
         } = modelProperties.opts;
         const {
-          radius: radius2,
+          radius,
           diametre,
           unitRadius,
           unitSpacing,
@@ -3650,7 +3420,7 @@ var require_connections = __commonJS({
         } = modelProperties.constants;
         const halfGap = fitGap / 2;
         const holeRadius = unitRadius + halfGap;
-        const inCircle = circle({ radius: radius2, segments });
+        const inCircle = circle({ radius, segments });
         const holePoints = toOutlines(inCircle)[0];
         const basePunch = circle({ radius: unitRadius });
         const dowels = holePoints.map((dPt) => {
@@ -3659,7 +3429,7 @@ var require_connections = __commonJS({
         const dowelDies = holePoints.map((dPt) => {
           return translate2(dPt, circle({ radius: holeRadius, segments: unitSegments }));
         });
-        const basePlateRadius = radius2 + unitRadius + interfaceMargin[0];
+        const basePlateRadius = radius + unitRadius + interfaceMargin[0];
         const basePlate = circle({ radius: basePlateRadius });
         const dowelAssembly = union2(dowels);
         const male = dowelAssembly;
@@ -4963,8 +4733,8 @@ var require_frame_rect = __commonJS({
           id: "round",
           ...cStyleDefault,
           ...cStRound,
-          func: ({ radius: radius2 }) => {
-            return circle({ radius: radius2 });
+          func: ({ radius }) => {
+            return circle({ radius });
           }
         }
       };
@@ -8291,7 +8061,7 @@ var require_mesh = __commonJS({
         return mPanel;
       };
       const meshCylinder = ({
-        radius: radius2,
+        radius,
         height,
         segments = 16,
         thickness = 2,
@@ -8305,10 +8075,10 @@ var require_mesh = __commonJS({
         const specs = {
           edgeMargin: edgeMargin || meshMinWidth
         };
-        const baseCylinder = cylinder({ radius: radius2, height, segments });
-        const cutCylinder = cylinder({ radius: radius2 - thickness, height: height + radius2, segments });
+        const baseCylinder = cylinder({ radius, height, segments });
+        const cutCylinder = cylinder({ radius: radius - thickness, height: height + radius, segments });
         const baseShape = position.ctrMin(subtract(baseCylinder, cutCylinder));
-        const circumference = TAU * radius2;
+        const circumference = TAU * radius;
         let numPunches = 1;
         let circCtr = numPunches * meshRadius;
         while (circCtr < circumference) {
@@ -8324,7 +8094,7 @@ var require_mesh = __commonJS({
             { modes: ["min", "center", "center"] },
             rotate(
               [0, Math.PI / 2, 0],
-              cylinder({ radius: meshRadius, height: radius2 * 2, segments: meshSegments })
+              cylinder({ radius: meshRadius, height: radius * 2, segments: meshSegments })
             )
           )));
         }
@@ -8369,7 +8139,7 @@ var require_mesh = __commonJS({
             );
             const insetRing = align(
               ringAlignOpts,
-              extrudeRotate({ segments }, translate2([radius2 - thickness - insetWidth, 0, 0], insetSection))
+              extrudeRotate({ segments }, translate2([radius - thickness - insetWidth, 0, 0], insetSection))
             );
             reinforcedTube = union2(reinforcedTube, insetRing);
           });
@@ -8397,7 +8167,7 @@ var require_mesh = __commonJS({
             );
             const offsetRing = align(
               ringAlignOpts,
-              extrudeRotate({ segments }, translate2([radius2, 0, 0], offsetSection))
+              extrudeRotate({ segments }, translate2([radius, 0, 0], offsetSection))
             );
             reinforcedTube = union2(reinforcedTube, offsetRing);
           });
@@ -8534,323 +8304,6 @@ var require_moulding = __commonJS({
       };
     };
     module2.exports = { init: mouldBuilder };
-  }
-});
-
-// packages/swcad-js-components/src/open-web-joist/index.js
-var require_open_web_joist = __commonJS({
-  "packages/swcad-js-components/src/open-web-joist/index.js"(exports2, module2) {
-    "use strict";
-    var openWebJoistInit = ({ jscad, swcadJs }) => {
-      const {
-        cuboid
-      } = jscad.primitives;
-      const {
-        align,
-        translate: translate2
-      } = jscad.transforms;
-      const {
-        intersect,
-        union: union2
-      } = jscad.booleans;
-      const {
-        hull
-      } = jscad.hulls;
-      const {
-        math,
-        position
-      } = swcadJs.calcs;
-      const {
-        standards
-      } = swcadJs.data;
-      const {
-        beadsBits
-      } = swcadJs.components;
-      const modelDefaults = () => {
-        const defaultValues = {
-          dims: {
-            size: [
-              math.inchesToMm(2),
-              math.inchesToMm(4),
-              math.inchesToMm(1)
-            ]
-          },
-          points: {
-            centre: [0, 0, 0]
-          },
-          typeDetails: {
-            default: standards.types.TYPE_DEFAULT,
-            alt: standards.types.TYPE_ALT
-          },
-          width: math.inchesToMm(1.125),
-          length: math.inchesToMm(5.5),
-          type: "default",
-          reinforcementLevel: 1,
-          unitLength: math.inchesToMm(1),
-          dowelHolderLength: math.inchesToMm(5 / 16),
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP,
-          ratioDiamToHolderHeight: 1.666667,
-          ratioDiamToChannelDepth: 0.866667,
-          ratioDiamToSideChannelWidth: 1,
-          ratioDiamToDowelDepth: 0.333333
-        };
-        const defaultOpts = {
-          type: "default",
-          scale: 1,
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP,
-          logMode: "normal",
-          width: defaultValues.width,
-          length: defaultValues.length,
-          reinforcementLevel: defaultValues.reinforcementLevel,
-          unitLength: defaultValues.unitLength,
-          dowelHolderLength: defaultValues.dowelHolderLength
-        };
-        return {
-          opts: defaultOpts,
-          vals: defaultValues
-        };
-      };
-      const modelProps = (opts) => {
-        const defaults = modelDefaults();
-        const {
-          type,
-          scale,
-          interfaceThickness,
-          fitGap,
-          logMode,
-          width,
-          length,
-          reinforcementLevel,
-          unitLength,
-          dowelHolderLength
-        } = opts;
-        const lgProfileBeadWidth = standards.LG_PROFILE_BEAD_WIDTH;
-        const mdProfileBeadWidth = standards.MD_PROFILE_BEAD_WIDTH;
-        const smProfileBeadWidth = standards.SM_PROFILE_BEAD_WIDTH;
-        const lengthUnits = Math.ceil(length / unitLength);
-        const edgeWidth = lgProfileBeadWidth;
-        const supportWidth = mdProfileBeadWidth;
-        const lightSupportWidth = smProfileBeadWidth;
-        const modelConstants = {
-          ratioDiamToHolderHeight: defaults.vals.ratioDiamToHolderHeight,
-          ratioDiamToChannelDepth: defaults.vals.ratioDiamToChannelDepth,
-          ratioDiamToSideChannelWidth: defaults.vals.ratioDiamToSideChannelWidth,
-          ratioDiamToDowelDepth: defaults.vals.ratioDiamToDowelDepth
-        };
-        const modelOpts = {
-          type,
-          scale,
-          reinforcementLevel
-        };
-        const modelDims = {
-          width,
-          length,
-          unitLength,
-          lengthUnits,
-          dowelHolderLength,
-          interfaceThickness,
-          fitGap,
-          edgeWidth,
-          supportWidth,
-          lightSupportWidth
-        };
-        const modelPoints = {
-          centre: defaults.vals.points.centre
-        };
-        const modelComponents = {
-          interfaceProfileBeads: beadsBits.interface30DegProfileBeads(
-            interfaceThickness,
-            smProfileBeadWidth,
-            mdProfileBeadWidth,
-            lgProfileBeadWidth
-          )
-        };
-        const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
-          constants: modelConstants,
-          opts: modelOpts,
-          dims: modelDims,
-          points: modelPoints,
-          components: modelComponents
-        };
-        return modelProperties;
-      };
-      const openWebJoist = (opts) => {
-        const defaults = modelDefaults();
-        const {
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap,
-          logMode = defaults.opts.logMode,
-          width = defaults.opts.width,
-          length = defaults.opts.length,
-          // // dowelRadius = defaults.opts.dowelRadius,
-          // // dovetailOpt = defaults.opts.dovetailOpt,
-          reinforcementLevel = defaults.opts.reinforcementLevel,
-          unitLength = defaults.opts.unitLength,
-          dowelHolderLength = defaults.opts.dowelHolderLength
-        } = opts;
-        const inOpts = {
-          type,
-          scale,
-          interfaceThickness,
-          fitGap,
-          logMode,
-          width,
-          length,
-          // dovetailOpt,
-          reinforcementLevel,
-          unitLength,
-          dowelHolderLength
-        };
-        const modelProperties = modelProps(inOpts);
-        const framePanelWebs = (modelProps2) => {
-          const {
-            reinforcementLevel: reinforcementLevel2
-          } = modelProps2.opts;
-          const {
-            size,
-            lengthUnits,
-            unitLength: unitLength2,
-            length: length2,
-            interfaceThickness: interfaceThickness2,
-            fitGap: fitGap2,
-            width: width2,
-            edgeWidth,
-            supportWidth,
-            lightSupportWidth
-          } = modelProps2.dims;
-          const {
-            interfaceProfileBeads
-          } = modelProps2.components;
-          const panelPtsWidth = width2 - edgeWidth;
-          const braceUnitSize = [
-            panelPtsWidth,
-            unitLength2
-          ];
-          const braceUnitMidpoint = [
-            braceUnitSize[0] / 2,
-            braceUnitSize[1] / 2
-          ];
-          const braceUnitCentrePoints = [];
-          for (let idx = 0; idx < lengthUnits; idx++) {
-            braceUnitCentrePoints.push([
-              braceUnitMidpoint[0],
-              unitLength2 * idx + braceUnitMidpoint[1],
-              0
-            ]);
-          }
-          let braceUnitPts = [
-            [0, 0, 0],
-            [braceUnitSize[0], braceUnitSize[1], 0],
-            [braceUnitSize[0], 0, 0],
-            [0, braceUnitSize[1], 0]
-          ];
-          const supportPts = braceUnitPts.map((buPt) => {
-            return translate2(buPt, interfaceProfileBeads.md);
-          });
-          const supportLine1 = hull(supportPts[0], supportPts[1]);
-          const supportLine2 = hull(supportPts[2], supportPts[3]);
-          let diagonalSupports = supportLine1;
-          if (reinforcementLevel2 > 1) {
-            diagonalSupports = union2(supportLine1, supportLine2);
-          }
-          const lightSupportPts = [
-            [0, 0, 0],
-            [braceUnitSize[0], 0, 0],
-            [0, braceUnitSize[1], 0],
-            [braceUnitSize[0], braceUnitSize[1], 0],
-            [0, braceUnitMidpoint[1], 0],
-            [braceUnitSize[0], braceUnitMidpoint[1], 0]
-          ];
-          let lightSupportProfilePts = lightSupportPts.map((lsPts) => {
-            return translate2(lsPts, interfaceProfileBeads.sm);
-          });
-          const lightSupportLine1 = hull(lightSupportProfilePts[0], lightSupportProfilePts[1]);
-          const lightSupportLine2 = hull(lightSupportProfilePts[2], lightSupportProfilePts[3]);
-          const lightSupportLine3 = hull(lightSupportProfilePts[4], lightSupportProfilePts[5]);
-          let lightSupports = union2(
-            lightSupportLine1,
-            lightSupportLine2
-          );
-          if (reinforcementLevel2 > 2) {
-            lightSupports = union2(
-              lightSupports,
-              lightSupportLine3
-            );
-          }
-          const braceUnit = union2(
-            diagonalSupports,
-            lightSupports
-          );
-          let braceUnits = braceUnitCentrePoints.map((bucPt) => {
-            return position.ctr(braceUnit, bucPt);
-          });
-          braceUnits = union2(...braceUnits);
-          const edgePts = [
-            [0, 0, 0],
-            [0, length2, 0],
-            [braceUnitSize[0], 0, 0],
-            [braceUnitSize[0], length2, 0]
-          ];
-          const edgeProfilePts = edgePts.map((edgePt) => {
-            return position.ctr(interfaceProfileBeads.lg, edgePt);
-          });
-          const edge1 = hull(edgeProfilePts[0], edgeProfilePts[1]);
-          const edge2 = hull(edgeProfilePts[2], edgeProfilePts[3]);
-          const joistEdges = union2(
-            edge1,
-            edge2
-          );
-          let endCap = cuboid({ size: [width2, edgeWidth, interfaceThickness2] });
-          endCap = align({
-            modes: ["min", "min", "center"],
-            relativeTo: [edgeWidth / -2, 0, 0]
-          }, endCap);
-          const endCaps = union2(
-            endCap,
-            translate2([0, length2 - edgeWidth, 0], endCap)
-          );
-          const joistWebs = union2(
-            position.ctr(joistEdges),
-            position.ctr(braceUnits),
-            position.ctr(endCaps)
-          );
-          const keepArea = cuboid({
-            size: [
-              width2,
-              length2,
-              interfaceThickness2 * 2
-            ]
-          });
-          return intersect(joistWebs, keepArea);
-        };
-        const finalAssembly = (modelProps2) => {
-          fPanelWebs = framePanelWebs(modelProps2);
-          return fPanelWebs;
-        };
-        let fPanelWebs = framePanelWebs(modelProperties);
-        let mainModel = finalAssembly(modelProperties);
-        let modelParts = {
-          framePanelWebs: fPanelWebs
-        };
-        return [mainModel, modelParts, modelProperties];
-      };
-      return openWebJoist;
-    };
-    module2.exports = {
-      init: openWebJoistInit
-    };
   }
 });
 
@@ -9144,7 +8597,7 @@ var require_routed_shapes = __commonJS({
         const defaults = modelDefaults();
         const {
           height = defaults.opts.height,
-          radius: radius2 = defaults.opts.radius,
+          radius = defaults.opts.radius,
           topBit = defaults.opts.topBit,
           topBitOpts = defaults.opts.topBitOpts,
           bottomBit = defaults.opts.bottomBit,
@@ -9162,7 +8615,7 @@ var require_routed_shapes = __commonJS({
         };
         const initOpts = {
           height,
-          radius: radius2,
+          radius,
           topBit,
           topBitOpts,
           bottomBit,
@@ -9176,7 +8629,7 @@ var require_routed_shapes = __commonJS({
         const {
           size,
           height,
-          radius: radius2,
+          radius,
           topBit,
           topBitOpts,
           bottomBit,
@@ -9199,7 +8652,7 @@ var require_routed_shapes = __commonJS({
         const modelDims = {
           size,
           height,
-          radius: radius2,
+          radius,
           topBit: topBitOpts,
           bottomBit: bottomBitOpts,
           interfaceThickness,
@@ -9344,14 +8797,14 @@ var require_routed_shapes = __commonJS({
         } = modelProperties.opts;
         const {
           height,
-          radius: radius2,
+          radius,
           topBit,
           bottomBit
         } = modelProperties.dims;
         const baseShape = cylinderElliptic2({
           height,
-          startRadius: radius2,
-          endRadius: radius2
+          startRadius: radius,
+          endRadius: radius
         });
         const baseShapeProfile = project({}, baseShape);
         const baseShapeProfileOutlinePts = toOutlines(baseShapeProfile)[0];
@@ -9386,472 +8839,6 @@ var require_routed_shapes = __commonJS({
     };
     module2.exports = {
       init: routedShapesInit
-    };
-  }
-});
-
-// packages/swcad-js-components/src/sheet-mould/index.js
-var require_sheet_mould = __commonJS({
-  "packages/swcad-js-components/src/sheet-mould/index.js"(exports2, module2) {
-    "use strict";
-    var moduleInit = ({ jscad, swcadJs }) => {
-      const {
-        cylinder,
-        cylinderElliptic: cylinderElliptic2,
-        cuboid
-      } = jscad.primitives;
-      const {
-        align
-      } = jscad.transforms;
-      const {
-        union: union2
-      } = jscad.booleans;
-      const {
-        hullChain: hullChain2
-      } = jscad.hulls;
-      const {
-        math,
-        position
-      } = swcadJs.calcs;
-      const {
-        standards
-      } = swcadJs.data;
-      const {
-        beadsBits,
-        mesh: meshLib
-      } = swcadJs.components;
-      const modelDefaults = () => {
-        const interfaceThickness = standards.INTERFACE_THICKNESS;
-        const edgeMargin = math.inchesToMm(1 / 4);
-        const modelTypes = {
-          default: standards.types.TYPE_DEFAULT,
-          alt: standards.types.TYPE_ALT
-        };
-        const defaultValues = {
-          opts: {
-            type: modelTypes.default.id,
-            scale: 1,
-            bead: {
-              type: "cone"
-            },
-            mesh: {
-              segments: 8
-            }
-          },
-          dims: {
-            interfaceThickness,
-            fitGap: standards.FIT_GAP,
-            edgeMargin,
-            bead: {
-              radius: math.inchesToMm(1 / 16),
-              height: math.inchesToMm(1 / 16)
-            },
-            mesh: {
-              radius: math.inchesToMm(3 / 32),
-              distance: interfaceThickness * 0.75 + math.inchesToMm(3 / 32),
-              thickness: interfaceThickness,
-              margin: edgeMargin
-            }
-          },
-          points: {
-            dots: [
-              [
-                math.inchesToMm(2),
-                math.inchesToMm(2)
-              ],
-              [
-                math.inchesToMm(-2),
-                math.inchesToMm(2)
-              ],
-              [
-                math.inchesToMm(2),
-                math.inchesToMm(-2)
-              ],
-              [
-                math.inchesToMm(-2),
-                math.inchesToMm(-2)
-              ]
-            ],
-            lines: [
-              [
-                [
-                  math.inchesToMm(1.5),
-                  math.inchesToMm(-1.5)
-                ],
-                [
-                  math.inchesToMm(1.5),
-                  math.inchesToMm(1.5)
-                ]
-              ],
-              [
-                [
-                  math.inchesToMm(-1.5),
-                  math.inchesToMm(-1.5)
-                ],
-                [
-                  math.inchesToMm(-1.5),
-                  math.inchesToMm(1.5)
-                ]
-              ]
-            ]
-          }
-        };
-        const standardOpts = {
-          type: defaultValues.opts.type,
-          scale: 1,
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
-        };
-        const defaultOpts = {
-          ...standardOpts,
-          bead: {
-            type: defaultValues.opts.bead.type,
-            radius: defaultValues.dims.bead.radius,
-            height: defaultValues.dims.bead.height
-          },
-          mesh: {
-            segments: defaultValues.opts.mesh.segments,
-            radius: defaultValues.dims.mesh.radius,
-            distance: defaultValues.dims.mesh.distance,
-            thickness: defaultValues.dims.mesh.thickness,
-            margin: defaultValues.dims.mesh.margin
-          },
-          edgeMargin: defaultValues.dims.edgeMargin,
-          dots: defaultValues.points.dots,
-          lines: defaultValues.points.lines
-        };
-        return {
-          opts: defaultOpts,
-          vals: defaultValues
-        };
-      };
-      const modelOpts = (opts) => {
-        const defaults = modelDefaults();
-        const {
-          size = defaults.opts.size,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap,
-          bead = defaults.opts.bead,
-          mesh = defaults.opts.mesh,
-          edgeMargin = defaults.opts.edgeMargin,
-          dots = defaults.opts.dots,
-          lines = defaults.opts.lines
-        } = opts;
-        const stdOpts = {
-          type,
-          scale,
-          interfaceThickness,
-          fitGap
-        };
-        const initOpts = {
-          bead,
-          mesh,
-          edgeMargin,
-          dots,
-          lines,
-          ...stdOpts
-        };
-        return initOpts;
-      };
-      const modelProps = (opts) => {
-        const defaults = modelDefaults();
-        const {
-          size,
-          type,
-          scale,
-          interfaceThickness,
-          fitGap,
-          bead,
-          mesh,
-          edgeMargin,
-          dots,
-          lines
-        } = opts;
-        const lgProfileBeadWidth = standards.LG_PROFILE_BEAD_WIDTH;
-        const mdProfileBeadWidth = standards.MD_PROFILE_BEAD_WIDTH;
-        const smProfileBeadWidth = standards.SM_PROFILE_BEAD_WIDTH;
-        let width = null;
-        let depth = null;
-        let minX = Number.MAX_VALUE;
-        let minY = Number.MAX_VALUE;
-        let maxX = Number.MIN_VALUE;
-        let maxY = Number.MIN_VALUE;
-        const checkPt = (pt) => {
-          const currentX = pt[0];
-          const currentY = pt[1];
-          if (currentX < minX) {
-            minX = currentX;
-          } else if (currentX > maxX) {
-            maxX = currentX;
-          }
-          if (currentY < minY) {
-            minY = currentY;
-          } else if (currentY > maxY) {
-            maxY = currentY;
-          }
-        };
-        dots.forEach((dot) => {
-          checkPt(dot);
-        });
-        lines.forEach((line) => {
-          line.forEach((linePt) => {
-            checkPt(linePt);
-          });
-        });
-        const distX = maxX - minX;
-        const distY = maxY - minY;
-        const distHalfX = distX / 2;
-        const distHalfY = distY / 2;
-        let ctrX = minX + distHalfX;
-        let ctrY = minY + distHalfY;
-        let ctrOffsetX = 0;
-        let ctrOffsetY = 0;
-        if (size) {
-          width = size[0];
-          depth = size[1];
-        } else {
-          width = edgeMargin * 2 + distX;
-          depth = edgeMargin * 2 + distY;
-        }
-        const modelConstants = {};
-        const modelOpts2 = {
-          type,
-          scale,
-          bead: {
-            type: bead.type
-          },
-          mesh: {
-            segments: mesh.segments
-          }
-        };
-        const modelDims = {
-          interfaceThickness,
-          fitGap,
-          width,
-          depth,
-          bead: {
-            radius: bead.radius,
-            height: bead.height
-          },
-          mesh: {
-            radius: mesh.radius,
-            distance: mesh.distance,
-            margin: mesh.margin,
-            thickness: mesh.thickness
-          }
-        };
-        const modelPoints = {
-          centre: [ctrX, ctrY, 0],
-          dots,
-          lines
-        };
-        const modelComponents = {
-          interface: {
-            profileBeads: beadsBits.interface30DegProfileBeads(
-              interfaceThickness,
-              smProfileBeadWidth,
-              mdProfileBeadWidth,
-              lgProfileBeadWidth
-            )
-          }
-        };
-        const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
-          constants: modelConstants,
-          opts: modelOpts2,
-          dims: modelDims,
-          points: modelPoints,
-          components: modelComponents
-        };
-        return modelProperties;
-      };
-      const sheetMould = (opts) => {
-        const defaults = modelDefaults();
-        const initOpts = modelOpts(opts);
-        const modelProperties = modelProps(initOpts);
-        const mouldBase = (modelProps2) => {
-          const {
-            metadata,
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          const meshTextureSlab = meshLib.meshPanel({
-            size: [dims.width, dims.depth, dims.interfaceThickness],
-            holeRadius: dims.mesh.radius,
-            holeDistance: dims.mesh.distance,
-            edgeMargin: dims.mesh.margin
-          });
-          return meshTextureSlab;
-        };
-        const mouldPtSupportCore = (modelProps2) => {
-          const {
-            metadata,
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          const edgeMouldSupport = cylinder({
-            height: dims.interfaceThickness,
-            radius: dims.bead.radius
-          });
-          return edgeMouldSupport;
-        };
-        const mouldPointSupport = (modelProps2) => {
-          const {
-            metadata,
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          const edgeMouldSupport = mouldPtSupportCore(modelProps2);
-          const mouldSupportFlange = cuboid({
-            size: [
-              dims.mesh.radius * 2.125,
-              dims.interfaceThickness,
-              dims.interfaceThickness
-            ]
-          });
-          let holeMouldSupport = union2(edgeMouldSupport, mouldSupportFlange);
-          return holeMouldSupport;
-        };
-        const mouldPoint = (modelProps2) => {
-          const {
-            metadata,
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          const holeMouldPoint = cylinderElliptic2({
-            height: dims.bead.height,
-            startRadius: [dims.bead.radius, dims.bead.radius],
-            endRadius: [0, 0]
-          });
-          return holeMouldPoint;
-        };
-        const mouldPtAssembly = (modelProps2) => {
-          const {
-            metadata,
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          const hMouldPoint = mouldPoint(modelProps2);
-          const holeMould = union2(
-            position.ctrMax(mouldPtSupportCore(modelProps2)),
-            position.ctrMin(hMouldPoint)
-          );
-          return holeMould;
-        };
-        const mouldPtFlangedAssembly = (modelProps2) => {
-          const {
-            metadata,
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          const hMouldPoint = mouldPoint(modelProps2);
-          const holeMould = union2(
-            position.ctrMax(mouldPointSupport(modelProps2)),
-            position.ctrMin(hMouldPoint)
-          );
-          return holeMould;
-        };
-        const dotMoulds = (modelProps2) => {
-          const {
-            metadata,
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          let holeMoulds = [];
-          points.dots.forEach((pt) => {
-            holeMoulds.push(
-              position.ctrMin(
-                mouldPtFlangedAssembly(modelProps2),
-                [pt[0], pt[1], 0]
-              )
-            );
-          });
-          let holeMouldSet = null;
-          if (holeMoulds.length > 0) {
-            holeMouldSet = union2(...holeMoulds);
-          }
-          return holeMouldSet;
-        };
-        const lineMoulds = (modelProps2) => {
-          const {
-            metadata,
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          const lineMouldPoints = [];
-          points.lines.forEach((linePoints) => {
-            const lineSet = linePoints.map((linePt) => {
-              return position.ctrMin(
-                mouldPtAssembly(modelProps2),
-                [linePt[0], linePt[1], 0]
-              );
-            });
-            lineMouldPoints.push(hullChain2(...lineSet));
-          });
-          const lineMouldAssemblies = union2(...lineMouldPoints);
-          return lineMouldAssemblies;
-        };
-        const finalAssembly = (modelProps2) => {
-          const {
-            metadata,
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          let mainPart = position.ctrMin(
-            mouldBase(modelProps2),
-            [points.centre[0], points.centre[1], 0]
-          );
-          const dMould = dotMoulds(modelProps2);
-          const lMould = lineMoulds(modelProps2);
-          if (dMould) {
-            mainPart = union2(
-              mainPart,
-              dMould
-            );
-          }
-          if (lMould) {
-            mainPart = union2(
-              mainPart,
-              lMould
-            );
-          }
-          return mainPart;
-        };
-        let mouldPointInst = mouldPoint(modelProperties);
-        let mouldPointSupportInst = mouldPointSupport(modelProperties);
-        let dotMouldsInst = dotMoulds(modelProperties);
-        let lineMouldsInst = lineMoulds(modelProperties);
-        let mainModel = finalAssembly(modelProperties);
-        let modelParts = {
-          mouldPoint: mouldPointInst,
-          mouldPointSupport: mouldPointSupportInst,
-          dotMoulds: dotMouldsInst,
-          lineMoulds: lineMouldsInst
-        };
-        return [mainModel, modelParts, modelProperties];
-      };
-      return sheetMould;
-    };
-    module2.exports = {
-      init: moduleInit
     };
   }
 });
@@ -9934,663 +8921,6 @@ var require_text2 = __commonJS({
   }
 });
 
-// packages/swcad-js-components/src/trim-family-frame/index.js
-var require_trim_family_frame = __commonJS({
-  "packages/swcad-js-components/src/trim-family-frame/index.js"(exports2, module2) {
-    "use strict";
-    var trimFamilyFrameInit = ({ jscad, swcadJs }) => {
-      const {
-        cylinder,
-        cuboid,
-        roundedCuboid,
-        triangle
-      } = jscad.primitives;
-      const {
-        align,
-        translate: translate2,
-        rotate
-      } = jscad.transforms;
-      const {
-        intersect,
-        subtract,
-        union: union2
-      } = jscad.booleans;
-      const {
-        extrudeLinear,
-        project
-      } = jscad.extrusions;
-      const {
-        measureBoundingBox
-      } = jscad.measurements;
-      const {
-        math,
-        position
-      } = swcadJs.calcs;
-      const {
-        standards
-      } = swcadJs.data;
-      const {
-        trim
-      } = swcadJs.profiles;
-      const modelDefaults = () => {
-        const cornerThickness = math.inchesToMm(1 / 4);
-        const defaultValues = {
-          opts: {
-            trimType: "plain",
-            frameForm: "half",
-            trimJointType: "plain",
-            cornerType: "plain",
-            backingType: "none",
-            ornaments: {
-              trimLevels: 1
-            }
-          },
-          dims: {
-            size: [math.inchesToMm(2.5), math.inchesToMm(3)],
-            interfaceThickness: standards.INTERFACE_THICKNESS,
-            fitGap: standards.FIT_GAP,
-            backingThickness: standards.INTERFACE_THICKNESS,
-            trimWidth: math.inchesToMm(3 / 8),
-            trimThickness: math.inchesToMm(3 / 16),
-            trimJointWidth: math.inchesToMm(1 / 2),
-            trimJointThickness: math.inchesToMm(7 / 32),
-            trimJointLength: math.inchesToMm(1 / 4),
-            cornerWidth: math.inchesToMm(5 / 8),
-            cornerThickness,
-            cornerRadius: cornerThickness / 2,
-            rabbetWidth: math.inchesToMm(1 / 8),
-            rabbetDepth: math.inchesToMm(1 / 8)
-          },
-          points: {
-            centre: [0, 0, 0]
-          },
-          types: {
-            default: standards.types.TYPE_DEFAULT,
-            alt: standards.types.TYPE_ALT
-          }
-        };
-        const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
-        };
-        const defaultOpts = {
-          ...standardOpts,
-          size: defaultValues.dims.size,
-          trimType: defaultValues.opts.trimType,
-          frameForm: defaultValues.opts.frameForm,
-          trimJointType: defaultValues.opts.trimJointType,
-          cornerType: defaultValues.opts.cornerType,
-          backingType: defaultValues.opts.backingType,
-          backingThickness: defaultValues.dims.backingThickness,
-          ornaments: defaultValues.opts.ornaments,
-          trimWidth: defaultValues.dims.trimWidth,
-          trimThickness: defaultValues.dims.trimThickness,
-          cornerWidth: defaultValues.dims.cornerWidth,
-          cornerThickness: defaultValues.dims.cornerThickness,
-          cornerRadius: defaultValues.dims.cornerRadius,
-          trimJointWidth: defaultValues.dims.trimJointWidth,
-          trimJointThickness: defaultValues.dims.trimJointThickness,
-          trimJointLength: defaultValues.dims.trimJointLength,
-          rabbetWidth: defaultValues.dims.rabbetWidth,
-          rabbetDepth: defaultValues.dims.rabbetDepth
-        };
-        return {
-          opts: defaultOpts,
-          vals: defaultValues
-        };
-      };
-      const modelOpts = (opts) => {
-        const defaults = modelDefaults();
-        const {
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap,
-          size = defaults.opts.size,
-          trimType = defaults.opts.trimType,
-          frameForm = defaults.opts.frameForm,
-          trimJointType = defaults.opts.trimJointType,
-          cornerType = defaults.opts.cornerType,
-          backingType = defaults.opts.backingType,
-          backingThickness = defaults.opts.backingThickness,
-          ornaments = defaults.opts.ornaments,
-          trimWidth = defaults.opts.trimWidth,
-          trimThickness = defaults.opts.trimThickness,
-          cornerWidth = defaults.opts.cornerWidth,
-          cornerThickness = defaults.opts.cornerThickness,
-          cornerRadius = defaults.opts.cornerRadius,
-          trimJointWidth = defaults.opts.trimJointWidth,
-          trimJointThickness = defaults.opts.trimJointThickness,
-          trimJointLength = defaults.opts.trimJointLength,
-          rabbetWidth = defaults.opts.rabbetWidth,
-          rabbetDepth = defaults.opts.rabbetDepth
-        } = opts;
-        const stdOpts = {
-          type,
-          scale,
-          interfaceThickness,
-          fitGap
-        };
-        const initOpts = {
-          size,
-          trimType,
-          frameForm,
-          trimJointType,
-          cornerType,
-          backingType,
-          backingThickness,
-          ornaments,
-          trimWidth,
-          trimThickness,
-          cornerWidth,
-          cornerThickness,
-          cornerRadius,
-          trimJointWidth,
-          trimJointThickness,
-          trimJointLength,
-          rabbetWidth,
-          rabbetDepth,
-          ...stdOpts
-        };
-        return initOpts;
-      };
-      const modelProps = (opts) => {
-        const defaults = modelDefaults();
-        const {
-          size,
-          type,
-          scale,
-          interfaceThickness,
-          fitGap,
-          trimType,
-          frameForm,
-          trimJointType,
-          cornerType,
-          backingType,
-          backingThickness,
-          ornaments,
-          trimWidth,
-          trimThickness,
-          cornerWidth,
-          cornerThickness,
-          cornerRadius,
-          trimJointWidth,
-          trimJointThickness,
-          trimJointLength,
-          rabbetWidth,
-          rabbetDepth
-        } = opts;
-        const width = size[0];
-        const depth = size[1];
-        const hasCorner = cornerType && cornerType != "none";
-        const hasCornerJoint = trimJointType && trimJointType != "none";
-        const cWidth = hasCorner ? cornerWidth : 0;
-        const cThickness = hasCorner ? cornerThickness : 0;
-        const cRadius = hasCorner ? cornerRadius : 0;
-        const cornerDiff = cWidth - trimWidth;
-        const tJointWidth = hasCorner && hasCornerJoint ? trimJointWidth : 0;
-        const tJointThickness = hasCorner && hasCornerJoint ? trimJointThickness : 0;
-        const tJointLength = hasCorner && hasCornerJoint ? trimJointLength : 0;
-        const cornerWidthOffset = hasCorner ? cWidth * 2 : 0;
-        const trimJointOffset = hasCorner && hasCornerJoint ? trimJointLength * 2 : 0;
-        let trimOffset = 0;
-        let trimCentreOffset = trimWidth / 2;
-        if (cornerDiff > 0) {
-          trimOffset = cornerDiff / 2;
-          trimCentreOffset = trimOffset + trimWidth / 2;
-        }
-        const trimLengthX = width - trimOffset * 2;
-        const trimLengthY = depth - trimOffset * 2;
-        const backingWidth = width - trimCentreOffset * 2;
-        const backingHeight = depth - trimCentreOffset * 2;
-        const frameInnerWidth = trimLengthX - trimWidth * 2;
-        const frameInnerHeight = trimLengthY - trimWidth * 2;
-        const cornerPoints = [
-          [0, 0, 0],
-          [width, 0, 0],
-          [0, depth, 0],
-          [width, depth, 0]
-        ];
-        const centrePoint = [width / 2, depth / 2, 0];
-        const trimPoints = [
-          [centrePoint[0], trimOffset, 0],
-          [centrePoint[0], depth - trimOffset, 0],
-          [trimOffset, centrePoint[1], 0],
-          [width - trimOffset, centrePoint[1], 0]
-        ];
-        const modelConstants = {};
-        const modelOpts2 = {
-          type,
-          scale,
-          trimType,
-          frameForm,
-          trimJointType,
-          cornerType,
-          backingType,
-          ornaments
-        };
-        const modelDims = {
-          size,
-          width,
-          depth,
-          interfaceThickness,
-          fitGap,
-          trimWidth,
-          trimThickness,
-          frameInnerWidth,
-          frameInnerHeight,
-          trimJointWidth: tJointWidth,
-          trimJointThickness: tJointThickness,
-          trimJointLength: tJointLength,
-          cornerWidth: cWidth,
-          cornerThickness: cThickness,
-          cornerRadius: cRadius,
-          backingThickness,
-          cornerWidthOffset,
-          trimJointOffset,
-          trimLengthX,
-          trimLengthY,
-          trimOffset,
-          trimCentreOffset,
-          backingWidth,
-          backingHeight,
-          rabbetWidth,
-          rabbetDepth
-        };
-        const modelPoints = {
-          centre: centrePoint,
-          corners: cornerPoints,
-          trimEdges: trimPoints
-        };
-        const modelComponents = {};
-        const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
-          constants: modelConstants,
-          opts: modelOpts2,
-          dims: modelDims,
-          points: modelPoints,
-          components: modelComponents
-        };
-        return modelProperties;
-      };
-      const trimFamilyFrame = (opts) => {
-        const defaults = modelDefaults();
-        const initOpts = modelOpts(opts);
-        const modelProperties = modelProps(initOpts);
-        const frameCorner = (modelProps2) => {
-          const {
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          let fCorner = null;
-          if (!opts2.cornerType || opts2.cornerType == "none") {
-            return fCorner;
-          } else {
-            switch (opts2.cornerType) {
-              case "rounded":
-                fCorner = cylinder({
-                  height: dims.cornerThickness,
-                  radius: dims.cornerRadius || 0.5
-                });
-                break;
-              case "plain":
-              default:
-                fCorner = cuboid({
-                  size: [dims.cornerWidth, dims.cornerWidth, dims.cornerThickness]
-                });
-                break;
-            }
-          }
-          return fCorner;
-        };
-        const frameCornerJoint = (modelProps2) => {
-          const {
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          let fCornerJoint = null;
-          if (!opts2.trimJointType || opts2.trimJointType == "none") {
-            return fCornerJoint;
-          } else {
-            switch (opts2.trimJointType) {
-              case "rounded":
-                fCornerJoint = roundedCuboid({
-                  size: [dims.trimJointWidth, dims.trimJointLength, dims.trimJointThickness],
-                  radius: radius || 0.5
-                });
-                break;
-              case "plain":
-              default:
-                fCornerJoint = cuboid({
-                  size: [dims.trimJointWidth, dims.trimJointLength, dims.trimJointThickness]
-                });
-                break;
-            }
-          }
-          return fCornerJoint;
-        };
-        const cornerFrameAssembly = (modelProps2) => {
-          const {
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          if ((!opts2.cornerType || opts2.cornerType == "none") && (!opts2.trimJointType || opts2.trimJointType == "none")) {
-            return null;
-          }
-          let corner = frameCorner(modelProps2);
-          const cornerBbox = measureBoundingBox(corner);
-          const cornerJoint = frameCornerJoint(modelProps2);
-          const jointX = align({
-            modes: ["min", "center", "min"],
-            relativeTo: [
-              cornerBbox[1][0],
-              0,
-              cornerBbox[0][2]
-            ]
-          }, rotate([0, 0, Math.PI / 2], cornerJoint));
-          const jointY = align({
-            modes: ["center", "min", "min"],
-            relativeTo: [
-              0,
-              cornerBbox[1][1],
-              cornerBbox[0][2]
-            ]
-          }, cornerJoint);
-          let cornerAssembly = corner;
-          if (jointX) {
-            cornerAssembly = union2(cornerAssembly, jointX);
-          }
-          if (jointY) {
-            cornerAssembly = union2(cornerAssembly, jointY);
-          }
-          return cornerAssembly;
-        };
-        const frameTrim = (modelProps2, length) => {
-          const {
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          let fTrim = null;
-          if (!opts2.trimType || opts2.trimType == "none") {
-            return fTrim;
-          } else {
-            let mitredTrimProfile = triangle({
-              type: "ASA",
-              values: [
-                Math.PI / 4,
-                length,
-                Math.PI / 4
-              ]
-            });
-            mitredTrimProfile = rotate([0, 0, Math.PI / 2], mitredTrimProfile);
-            let mitredTrimArea = extrudeLinear({ height: dims.trimThickness * 2 }, mitredTrimProfile);
-            mitredTrimArea = translate2([dims.trimWidth / 2, 0, -dims.trimThickness], mitredTrimArea);
-            const unitHeight = dims.trimWidth / opts2.ornaments.trimLevels;
-            const unitDepth = dims.trimThickness / opts2.ornaments.trimLevels;
-            const trimSizeDims = [unitHeight, unitDepth];
-            const trimStyle = "dado";
-            let trimSize = "small";
-            switch (opts2.trimType) {
-              case "aranea":
-                switch (opts2.ornaments.trimLevels) {
-                  case 3:
-                    trimSize = "largeOrn1";
-                    break;
-                  case 2:
-                    trimSize = "mediumOrn1";
-                    break;
-                  case 1:
-                  default:
-                    trimSize = "smallOrn1";
-                    break;
-                }
-                const tFamilyAranea = trim.aranea({
-                  size: trimSizeDims
-                });
-                let frameProfileAranea = tFamilyAranea[trimStyle][trimSize];
-                let araneaTrim = extrudeLinear({ height: length }, frameProfileAranea);
-                araneaTrim = rotate([Math.PI / -2, Math.PI / -2, 0], araneaTrim);
-                fTrim = extrudeLinear({ height: length }, araneaTrim);
-                break;
-              case "bibliopoli":
-                switch (opts2.ornaments.trimLevels) {
-                  case 3:
-                    trimSize = "largeOrn1";
-                    break;
-                  case 2:
-                    trimSize = "mediumOrn1";
-                    break;
-                  case 1:
-                  default:
-                    trimSize = "smallOrn1";
-                    break;
-                }
-                const tFamilyBibliopoli = trim.bibliopoli({
-                  size: trimSizeDims
-                });
-                let frameProfileBibliopoli = tFamilyBibliopoli[trimStyle][trimSize];
-                let bibliopoliTrim = extrudeLinear({ height: length }, frameProfileBibliopoli);
-                bibliopoliTrim = rotate([Math.PI / -2, Math.PI / -2, 0], bibliopoliTrim);
-                fTrim = extrudeLinear({ height: length }, bibliopoliTrim);
-                break;
-              case "catonis":
-                switch (opts2.ornaments.trimLevels) {
-                  case 3:
-                    trimSize = "largeOrn1";
-                    break;
-                  case 2:
-                    trimSize = "mediumOrn1";
-                    break;
-                  case 1:
-                  default:
-                    trimSize = "smallOrn1";
-                    break;
-                }
-                const tFamilyCatonis = trim.catonis({
-                  size: trimSizeDims
-                });
-                let frameProfileCatonis = tFamilyCatonis[trimStyle][trimSize];
-                let catonisTrim = extrudeLinear({ height: length }, frameProfileCatonis);
-                catonisTrim = rotate([Math.PI / -2, Math.PI / -2, 0], catonisTrim);
-                fTrim = extrudeLinear({ height: length }, catonisTrim);
-                break;
-              case "rounded":
-                fTrim = roundedCuboid({
-                  size: [dims.trimWidth, length, dims.trimThickness],
-                  radius: dims.interfaceThickness
-                });
-                break;
-              case "plain":
-              default:
-                fTrim = cuboid({
-                  size: [dims.trimWidth, length, dims.trimThickness]
-                });
-                break;
-            }
-            fTrim = intersect(
-              fTrim,
-              mitredTrimArea
-            );
-          }
-          return fTrim;
-        };
-        const assembledTrim = (modelProps2) => {
-          const {
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          const trimX = frameTrim(modelProps2, dims.trimLengthX);
-          const trimY = frameTrim(modelProps2, dims.trimLengthY);
-          const trimLengths = [
-            align({
-              modes: ["center", "min", "min"],
-              relativeTo: points.trimEdges[0]
-            }, rotate([0, 0, Math.PI / -2], trimX)),
-            align({
-              modes: ["center", "max", "min"],
-              relativeTo: points.trimEdges[1]
-            }, rotate([0, 0, Math.PI / 2], trimX)),
-            align({
-              modes: ["min", "center", "min"],
-              relativeTo: points.trimEdges[2]
-            }, rotate([0, 0, Math.PI], trimY)),
-            align({
-              modes: ["max", "center", "min"],
-              relativeTo: points.trimEdges[3]
-            }, trimY)
-          ];
-          let aTrim = union2(...trimLengths);
-          return aTrim;
-        };
-        const assembledFrame = (modelProps2) => {
-          const {
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          let aFrame = assembledTrim(modelProps2);
-          let corners = null;
-          if (!opts2.cornerType || opts2.cornerType == "none") {
-            corners = null;
-          } else {
-            const cornerOffset = dims.trimThickness / 2;
-            const cornerPts = [
-              {
-                point: [
-                  points.corners[0][0],
-                  points.corners[0][1],
-                  points.corners[0][2]
-                ],
-                rotation: [0, 0, 0],
-                alignmentMode: ["min", "min", "min"]
-              },
-              {
-                point: [
-                  points.corners[1][0],
-                  points.corners[1][1],
-                  points.corners[1][2]
-                ],
-                rotation: [0, 0, Math.PI / 2],
-                alignmentMode: ["max", "min", "min"]
-              },
-              {
-                point: [
-                  points.corners[2][0],
-                  points.corners[2][1],
-                  points.corners[2][2]
-                ],
-                rotation: [0, 0, Math.PI / -2],
-                alignmentMode: ["min", "max", "min"]
-              },
-              {
-                point: [
-                  points.corners[3][0],
-                  points.corners[3][1],
-                  points.corners[3][2]
-                ],
-                rotation: [0, 0, Math.PI],
-                alignmentMode: ["max", "max", "min"]
-              }
-            ];
-            const cornerAssemblies = cornerPts.map((cornerPt, idx) => {
-              const corner = cornerFrameAssembly(modelProps2);
-              return align({
-                modes: cornerPt.alignmentMode,
-                relativeTo: cornerPt.point
-              }, rotate(cornerPt.rotation, corner));
-            });
-            corners = union2(...cornerAssemblies);
-            aFrame = union2(aFrame, corners);
-          }
-          let backing = null;
-          aFrame = position.ctrMin(aFrame);
-          if (opts2.backingType && opts2.backingType != "none") {
-            backing = cuboid({
-              size: [
-                dims.backingWidth,
-                dims.backingHeight,
-                dims.backingThickness
-              ]
-            });
-            backing = position.ctrMin(backing);
-            aFrame = union2(aFrame, backing);
-          }
-          return aFrame;
-        };
-        const fullFrameBack = (modelProps2, backOutline) => {
-          const {
-            opts: opts2,
-            dims,
-            points
-          } = modelProps2;
-          const extBox = extrudeLinear({ height: dims.rabbetDepth }, backOutline);
-          const intBox = cuboid({
-            size: [
-              dims.frameInnerWidth + dims.rabbetWidth * 2,
-              dims.frameInnerHeight + dims.rabbetWidth * 2,
-              dims.rabbetDepth
-            ]
-          });
-          return subtract(
-            position.ctr(extBox),
-            position.ctr(intBox)
-          );
-        };
-        const finalAssembly = (modelProps2) => {
-          const aFrame = assembledFrame(modelProps2);
-          let mainPart = aFrame;
-          if (modelProps2.opts.frameForm == "full") {
-            const aFrameBackOutline = project(
-              {},
-              position.ctrMin(aFrame)
-            );
-            const fBack = fullFrameBack(modelProps2, aFrameBackOutline);
-            mainPart = union2(
-              position.ctrMin(mainPart),
-              position.ctrMax(fBack)
-            );
-          }
-          return mainPart;
-        };
-        const frameCornerInst = frameCorner(modelProperties);
-        const frameCornerJointInst = frameCornerJoint(modelProperties);
-        const cornerFrameAssemblyInst = cornerFrameAssembly(modelProperties);
-        const frameTrimInst = frameTrim(modelProperties, 25.4);
-        const assembledTrimInst = assembledTrim(modelProperties);
-        const assembledFrameInst = assembledFrame(modelProperties);
-        let mainModel = finalAssembly(modelProperties);
-        let modelParts = {
-          frameCorner: frameCornerInst,
-          frameCornerJoint: frameCornerJointInst,
-          cornerFrameAssembly: cornerFrameAssemblyInst,
-          frameTrim: frameTrimInst,
-          assembledTrim: assembledTrimInst,
-          assembledFrame: assembledFrameInst
-        };
-        return [mainModel, modelParts, modelProperties];
-      };
-      return trimFamilyFrame;
-    };
-    module2.exports = {
-      init: trimFamilyFrameInit
-    };
-  }
-});
-
 // packages/swcad-js-components/src/index.js
 var require_src5 = __commonJS({
   "packages/swcad-js-components/src/index.js"(exports2, module2) {
@@ -10600,12 +8930,9 @@ var require_src5 = __commonJS({
     var componentLineModule = require_component_line();
     var meshModule = require_mesh();
     var mouldingModule = require_moulding();
-    var openWebJoistModule = require_open_web_joist();
     var reinforcedRectPanelModule = require_reinforced_rect_panel();
     var routedShapesModule = require_routed_shapes();
-    var sheetMouldModule = require_sheet_mould();
     var textModule = require_text2();
-    var trimFamilyFrameModule = require_trim_family_frame();
     var componentsInit = ({ jscad, swcadJs }) => {
       const beadsBits = beadsBitsModule.init({ jscad, swcadJs });
       const preLib = {
@@ -10630,11 +8957,8 @@ var require_src5 = __commonJS({
         mesh,
         componentLine,
         moulding: mouldingModule.init({ jscad, swcadJs: preLib }),
-        openWebJoist: openWebJoistModule.init({ jscad, swcadJs: preLib }),
         reinforcedRectPanel: reinforcedRectPanelModule.init({ jscad, swcadJs: preLib }),
-        sheetMould: sheetMouldModule.init({ jscad, swcadJs: preLib }),
-        text: textModule.init({ jscad, swcadJs: preLib }),
-        trimFamilyFrame: trimFamilyFrameModule.init({ jscad, swcadJs: preLib })
+        text: textModule.init({ jscad, swcadJs: preLib })
       };
       return components;
     };
@@ -10711,15 +9035,15 @@ var require_crafts = __commonJS({
         endRadius: standards.crafts.POPSICLE_STICK_WIDTH / 2
       };
       const toothpickProfile = ({
-        radius: radius2 = toothpickSpecs.radius,
+        radius = toothpickSpecs.radius,
         length = toothpickSpecs.length,
         pointLength = toothpickSpecs.pointLength
       }) => {
-        const core2d = rectangle({ size: [pointLength * -2 + length, radius2 * 2] });
+        const core2d = rectangle({ size: [pointLength * -2 + length, radius * 2] });
         const core2dCoords = position.getGeomCoords(core2d);
-        const pointTriangleSide = Math.hypot(radius2, pointLength);
-        const pointAngle = Math.atan(radius2 / pointLength) * 2;
-        const pointTriangle = triangle({ type: "SSA", values: [radius2 * 2, pointTriangleSide, pointAngle] });
+        const pointTriangleSide = Math.hypot(radius, pointLength);
+        const pointAngle = Math.atan(radius / pointLength) * 2;
+        const pointTriangle = triangle({ type: "SSA", values: [radius * 2, pointTriangleSide, pointAngle] });
         const point2d1 = align(
           { modes: ["max", "center", "center"], relativeTo: [core2dCoords.left, 0, 0] },
           rotate([0, 0, TAU / 4], pointTriangle)
@@ -10732,23 +9056,23 @@ var require_crafts = __commonJS({
         return baseShape;
       };
       const toothpick = ({
-        radius: radius2 = toothpickSpecs.radius,
+        radius = toothpickSpecs.radius,
         length = toothpickSpecs.length,
         pointLength = toothpickSpecs.pointLength
       }) => {
-        const baseShape = toothpickProfile({ radius: radius2, length, pointLength });
+        const baseShape = toothpickProfile({ radius, length, pointLength });
         return extrudeRotate({ segments: 12 }, baseShape);
       };
       const bbqSkewerProfile = ({
-        radius: radius2 = bbqSkewerSpecs.radius,
+        radius = bbqSkewerSpecs.radius,
         length = bbqSkewerSpecs.length,
         pointLength = bbqSkewerSpecs.pointLength
       }) => {
-        const core2d = rectangle({ size: [length - pointLength, radius2 * 2] });
+        const core2d = rectangle({ size: [length - pointLength, radius * 2] });
         const core2dCoords = position.getGeomCoords(core2d);
-        const pointTriangleSide = Math.hypot(radius2, pointLength);
-        const pointAngle = Math.atan(radius2 / pointLength) * 2;
-        const pointTriangle = triangle({ type: "SSA", values: [radius2 * 2, pointTriangleSide, pointAngle] });
+        const pointTriangleSide = Math.hypot(radius, pointLength);
+        const pointAngle = Math.atan(radius / pointLength) * 2;
+        const pointTriangle = triangle({ type: "SSA", values: [radius * 2, pointTriangleSide, pointAngle] });
         const point2d = align(
           { modes: ["min", "center", "center"], relativeTo: [core2dCoords.right, 0, 0] },
           rotate([0, 0, TAU / -4], pointTriangle)
@@ -10757,11 +9081,11 @@ var require_crafts = __commonJS({
         return baseShape;
       };
       const bbqSkewer = ({
-        radius: radius2 = bbqSkewerSpecs.radius,
+        radius = bbqSkewerSpecs.radius,
         length = bbqSkewerSpecs.length,
         pointLength = bbqSkewerSpecs.pointLength
       }) => {
-        const baseShape = bbqSkewerProfile({ radius: radius2, length, pointLength });
+        const baseShape = bbqSkewerProfile({ radius, length, pointLength });
         return extrudeRotate({ segments: 12 }, baseShape);
       };
       const popsicleStickProfile = ({
