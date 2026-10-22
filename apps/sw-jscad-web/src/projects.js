@@ -22,7 +22,7 @@ export const swcadJsComponents = [
   { name: 'Mesh Panel (3D)', source: './lib-demo/components/mesh-panel-examples.js' },
   { name: 'Reinforced Rect. Panel', source: './lib-demo/components/reinforced-rect-panel.js' },
   { name: 'Routed Shapes', source: './lib-demo/components/routed-shapes.js' },
-  { name: 'Text (3D)', source: './lib-demo/components/text.js' },
+  { name: 'Text (3D)', source: './lib-demo/components/text-3d.js' },
 ]
 
 export const swcadJsModels = [
@@ -43,7 +43,7 @@ export const swcadJsProfiles = [
   { name: 'Mesh Panel (2D)', source: './lib-demo/profiles/mesh-2d.js' },
   { name: 'Rectangular Frame', source: './lib-demo/profiles/rectangular-frame-examples.js' },
   { name: 'Reinforced Rectangle', source: './lib-demo/profiles/reinforced-rect.js' },
-  { name: 'Text (2D)', source: './lib-demo/profiles/text.js' },
+  { name: 'Text (2D)', source: './lib-demo/profiles/text-2d.js' },
   { name: 'Trim Families', source: './lib-demo/profiles/trim-family-examples.js' },
 ]
 
