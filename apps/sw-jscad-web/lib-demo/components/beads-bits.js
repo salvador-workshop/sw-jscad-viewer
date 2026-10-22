@@ -3,7 +3,7 @@ const jscad = require('@jscad/modeling')
 
 const { translate } = jscad.transforms
 
-const swcadJs = require('swcad-js').init({ jscad });
+const swcadJs = require('swcad-js-test').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
@@ -24,7 +24,7 @@ const lgProfileBeadWidth = interfaceThickness * 1.75
 const mdProfileBeadWidth = interfaceThickness * 1.5
 const smProfileBeadWidth = interfaceThickness * 1.125
 
-const interfaceBeads = beadsBits.profileBeads(
+const interfaceBeads = beadsBits.interface30DegProfileBeads(
     interfaceThickness,
     smProfileBeadWidth,
     mdProfileBeadWidth,
