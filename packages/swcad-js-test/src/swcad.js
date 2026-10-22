@@ -117,85 +117,6 @@ var require_functions = __commonJS({
   }
 });
 
-// packages/swcad-js-data/src/specifications/index.js
-var require_specifications = __commonJS({
-  "packages/swcad-js-data/src/specifications/index.js"(exports2, module2) {
-    "use strict";
-    var planes = {
-      xy: { id: 0, desc: "XY plane" },
-      xz: { id: 1, desc: "XZ plane" },
-      yz: { id: 2, desc: "YZ plane" }
-    };
-    var axes = {
-      x: { id: 0, desc: "X axis" },
-      y: { id: 1, desc: "Y axis" },
-      z: { id: 2, desc: "Z axis" }
-    };
-    var axialDirections = {
-      posX: { id: 0, desc: "towards +X" },
-      negX: { id: 1, desc: "towards -X" },
-      posY: { id: 2, desc: "towards +Y" },
-      negY: { id: 3, desc: "towards -Y" },
-      posZ: { id: 4, desc: "towards +Z" },
-      negZ: { id: 5, desc: "towards -Z" }
-    };
-    var quadrants = {
-      i: { id: 0, desc: "+X, +Y" },
-      ii: { id: 1, desc: "-X, +Y" },
-      iii: { id: 2, desc: "-X, -Y" },
-      iv: { id: 3, desc: "+X, -Y" }
-    };
-    var octants = {
-      i: { id: 0, desc: "+X, +Y, +Z" },
-      ii: { id: 1, desc: "-X, +Y, +Z" },
-      iii: { id: 2, desc: "+X, -Y, +Z" },
-      iv: { id: 3, desc: "-X, -Y, +Z" },
-      v: { id: 4, desc: "+X, +Y, -Z" },
-      vi: { id: 5, desc: "-X, +Y, -Z" },
-      vii: { id: 6, desc: "+X, -Y, -Z" },
-      viii: { id: 7, desc: "-X, -Y, -Z" }
-    };
-    var boxKeypoints = {
-      internal0: { id: 26, desc: "centre" },
-      corner1: { id: 0, desc: "corner (+X, +Y, +Z)" },
-      corner2: { id: 1, desc: "corner (+X, -Y, +Z)" },
-      corner3: { id: 2, desc: "corner (-X, -Y, +Z)" },
-      corner4: { id: 3, desc: "corner (-X, +Y, +Z)" },
-      corner5: { id: 4, desc: "corner (+X, +Y, -Z)" },
-      corner6: { id: 5, desc: "corner (+X, -Y, -Z)" },
-      corner7: { id: 6, desc: "corner (-X, -Y, -Z)" },
-      corner8: { id: 7, desc: "corner (-X, +Y, -Z)" },
-      edge1: { id: 8, desc: "midpoint of edge (X axis, +Y, +Z)" },
-      edge2: { id: 9, desc: "midpoint of edge (X axis, -Y, +Z)" },
-      edge3: { id: 10, desc: "midpoint of edge (X axis, -Y, -Z)" },
-      edge4: { id: 11, desc: "midpoint of edge (X axis, +Y, -Z)" },
-      edge5: { id: 12, desc: "midpoint of edge (Y axis, +X, +Z)" },
-      edge6: { id: 13, desc: "midpoint of edge (Y axis, -X, +Z)" },
-      edge7: { id: 14, desc: "midpoint of edge (Y axis, -X, -Z)" },
-      edge8: { id: 15, desc: "midpoint of edge (Y axis, +X, -Z)" },
-      edge9: { id: 16, desc: "midpoint of edge (Z axis, +X, +Y)" },
-      edge10: { id: 17, desc: "midpoint of edge (Z axis, +X, -Y)" },
-      edge11: { id: 18, desc: "midpoint of edge (Z axis, -X, -Y)" },
-      edge12: { id: 19, desc: "midpoint of edge (Z axis, -X, +Y)" },
-      face1: { id: 20, desc: `centre of face (${axialDirections.posX.desc})` },
-      face3: { id: 21, desc: `centre of face (${axialDirections.negX.desc})` },
-      face2: { id: 22, desc: `centre of face (${axialDirections.posY.desc})` },
-      face4: { id: 23, desc: `centre of face (${axialDirections.negY.desc})` },
-      face5: { id: 24, desc: `centre of face (${axialDirections.posZ.desc})` },
-      face6: { id: 25, desc: `centre of face (${axialDirections.negZ.desc})` }
-    };
-    var specifications = {
-      planes,
-      axes,
-      axialDirections,
-      boxKeypoints,
-      quadrants,
-      octants
-    };
-    module2.exports = specifications;
-  }
-});
-
 // packages/swcad-js-data/src/standards/std-crafts.js
 var require_std_crafts = __commonJS({
   "packages/swcad-js-data/src/standards/std-crafts.js"(exports2, module2) {
@@ -1165,7 +1086,6 @@ var require_src = __commonJS({
     "use strict";
     var constants = require_constants();
     var functions = require_functions();
-    var specifications = require_specifications();
     var standards = require_standards();
     var errors = require_errors();
     var internals = require_internals();
@@ -1173,7 +1093,6 @@ var require_src = __commonJS({
       const data = {
         constants,
         functions,
-        specifications,
         standards: standards.init({ jscad }),
         errors,
         internals: internals.init({ jscad })
@@ -7713,34 +7632,35 @@ var require_beads_bits2 = __commonJS({
         roundOver,
         cove
       };
-      const profileBeads = (baseThickness, smWidth, mdWidth, lgWidth) => {
+      const basic30DegBead = (baseThickness, width) => {
         const edgeOffset = baseThickness / constants.TRI_30_FACTOR / 2;
-        const lgTopWidth = lgWidth - edgeOffset * 2;
-        const mdTopWidth = mdWidth - edgeOffset * 2;
-        const smTopWidth = smWidth - edgeOffset * 2;
-        const lgProfile = cylinderElliptic2({
+        const topWidth = width - edgeOffset * 2;
+        const basic30DegBeadProfile = cylinderElliptic2({
           height: baseThickness,
-          startRadius: [lgWidth / 2, lgWidth / 2],
-          endRadius: [lgTopWidth / 2, lgTopWidth / 2]
+          startRadius: [width / 2, width / 2],
+          endRadius: [topWidth / 2, topWidth / 2]
         });
-        const mdProfile = cylinderElliptic2({
+        return basic30DegBeadProfile;
+      };
+      const basic45DegBead = (baseThickness, width) => {
+        const edgeOffset = baseThickness / constants.TRI_45_FACTOR / 2;
+        const topWidth = width - edgeOffset * 2;
+        const basic45DegBeadProfile = cylinderElliptic2({
           height: baseThickness,
-          startRadius: [mdWidth / 2, mdWidth / 2],
-          endRadius: [mdTopWidth / 2, mdTopWidth / 2]
+          startRadius: [width / 2, width / 2],
+          endRadius: [topWidth / 2, topWidth / 2]
         });
-        const smProfile = cylinderElliptic2({
-          height: baseThickness,
-          startRadius: [smWidth / 2, smWidth / 2],
-          endRadius: [smTopWidth / 2, smTopWidth / 2]
-        });
+        return basic45DegBeadProfile;
+      };
+      const interface30DegProfileBeads = (baseThickness, smWidth, mdWidth, lgWidth) => {
         return {
-          lg: lgProfile,
-          md: mdProfile,
-          sm: smProfile
+          lg: basic30DegBead(baseThickness, lgWidth),
+          md: basic30DegBead(baseThickness, mdWidth),
+          sm: basic30DegBead(baseThickness, smWidth)
         };
       };
       return {
-        profileBeads,
+        interface30DegProfileBeads,
         corner
       };
     };
@@ -8137,7 +8057,7 @@ var require_component_line = __commonJS({
         const modelComponents = {
           component,
           interface: {
-            profileBeads: beadsBits.profileBeads(
+            profileBeads: beadsBits.interface30DegProfileBeads(
               interfaceThickness,
               smProfileBeadWidth,
               mdProfileBeadWidth,
@@ -8166,44 +8086,13 @@ var require_component_line = __commonJS({
         const defaults = modelDefaults();
         const initOpts = modelOpts(opts);
         const modelProperties = modelProps(initOpts);
-        const interfaceProfileBeads = (modelProps2) => {
-          const {
-            interfaceThickness,
-            lgProfileBeadWidth,
-            mdProfileBeadWidth,
-            smProfileBeadWidth
-          } = modelProps2.dims;
-          const edgeOffset = interfaceThickness / constants.TRI_30_FACTOR / 2;
-          const lgTopWidth = lgProfileBeadWidth - edgeOffset * 2;
-          const mdTopWidth = mdProfileBeadWidth - edgeOffset * 2;
-          const smTopWidth = smProfileBeadWidth - edgeOffset * 2;
-          const lgProfile = cylinderElliptic2({
-            height: interfaceThickness,
-            startRadius: [lgProfileBeadWidth / 2, lgProfileBeadWidth / 2],
-            endRadius: [lgTopWidth / 2, lgTopWidth / 2]
-          });
-          const mdProfile = cylinderElliptic2({
-            height: interfaceThickness,
-            startRadius: [mdProfileBeadWidth / 2, mdProfileBeadWidth / 2],
-            endRadius: [mdTopWidth / 2, mdTopWidth / 2]
-          });
-          const smProfile = cylinderElliptic2({
-            height: interfaceThickness,
-            startRadius: [smProfileBeadWidth / 2, smProfileBeadWidth / 2],
-            endRadius: [smTopWidth / 2, smTopWidth / 2]
-          });
-          return {
-            lg: lgProfile,
-            md: mdProfile,
-            sm: smProfile
-          };
-        };
         const baseLine = (modelProps2) => {
           const {
             startPt,
             endPt
           } = modelProps2.points;
-          const beadProfile = interfaceProfileBeads(modelProps2).md;
+          const interfProfileBeads = modelProperties.components.interface.profileBeads;
+          const beadProfile = interfProfileBeads.md;
           return hull(
             translate2([startPt[0], startPt[1], 0], beadProfile),
             translate2([endPt[0], endPt[1], 0], beadProfile)
@@ -8771,7 +8660,7 @@ var require_open_web_joist = __commonJS({
           centre: defaults.vals.points.centre
         };
         const modelComponents = {
-          interfaceProfileBeads: beadsBits.profileBeads(
+          interfaceProfileBeads: beadsBits.interface30DegProfileBeads(
             interfaceThickness,
             smProfileBeadWidth,
             mdProfileBeadWidth,
@@ -9760,7 +9649,7 @@ var require_sheet_mould = __commonJS({
         };
         const modelComponents = {
           interface: {
-            profileBeads: beadsBits.profileBeads(
+            profileBeads: beadsBits.interface30DegProfileBeads(
               interfaceThickness,
               smProfileBeadWidth,
               mdProfileBeadWidth,
@@ -11622,374 +11511,12 @@ var require_foil = __commonJS({
   }
 });
 
-// packages/swcad-js-models/src/structure/wall/index.js
-var require_wall = __commonJS({
-  "packages/swcad-js-models/src/structure/wall/index.js"(exports2, module2) {
-    "use strict";
-    var wallBuilder = ({ jscad, swcadJs }) => {
-      const { union: union2, subtract } = jscad.booleans;
-      const { align } = jscad.transforms;
-      const { cuboid } = jscad.primitives;
-      const { measureDimensions } = jscad.measurements;
-      const { position } = swcadJs.calcs;
-      const { moulding } = swcadJs.components;
-      const { trim } = swcadJs.profiles;
-      const { PHI_INV } = swcadJs.data.constants;
-      const crownTrim = ({ totalThickness, totalLength, trimProfile }) => {
-        const profileDims = measureDimensions(trimProfile);
-        return moulding.cuboidMoulding({ size: [totalLength, totalThickness, profileDims[1]] }, trimProfile);
-      };
-      const dadoTrim = ({ totalThickness, totalLength, trimProfile }) => {
-        const profileDims = measureDimensions(trimProfile);
-        return moulding.cuboidMoulding({ size: [totalLength, totalThickness, profileDims[1]] }, trimProfile);
-      };
-      const baseTrim = ({ totalThickness, totalLength, trimProfile }) => {
-        const profileDims = measureDimensions(trimProfile);
-        return moulding.cuboidMoulding({ size: [totalLength, totalThickness, profileDims[1]] }, trimProfile);
-      };
-      const getEntryTrimForDadoUnits = ({ dadoUnits, trimUnitHeight, trimUnitDepth }) => {
-        const tFamilyAranea = trim.aranea({ size: [trimUnitHeight, trimUnitDepth] });
-        let entryTrim = tFamilyAranea.crown.small;
-        if (dadoUnits === 1) {
-          entryTrim = tFamilyAranea.crown.medium;
-        } else if (dadoUnits === 2) {
-          entryTrim = tFamilyAranea.crown.large;
-        }
-        return entryTrim;
-      };
-      const verifyTrimUnits = ({ trimOpts, baseUnits, dadoUnits, crownUnits }) => {
-        let bUnits = baseUnits || 0;
-        let dUnits = dadoUnits || 0;
-        let cUnits = crownUnits || 0;
-        if (!trimOpts.includes("base")) {
-          bUnits = 0;
-        }
-        if (!trimOpts.includes("dado")) {
-          dUnits = 0;
-        }
-        if (!trimOpts.includes("crown")) {
-          cUnits = 0;
-        }
-        return {
-          baseUnits: bUnits,
-          dadoUnits: dUnits,
-          crownUnits: cUnits
-        };
-      };
-      return {
-        getEntryTrimForDadoUnits,
-        verifyTrimUnits,
-        /**
-         * Builds a wall.
-         * @memberof models.structure.wall
-         * @instance
-         * @param {Object} opts 
-         * @param {number} opts.length
-         * @param {number} opts.thickness
-         * @param {number} opts.height
-         * @param {string[]} opts.trimOpts - ['base', 'dado', 'crown']
-         * @param {string} opts.half  - 'upper' or 'lower'
-         * @param {number} opts.crownUnits - Style level of crow trim. Expects integer between 0 to 2
-         * @param {number} opts.dadoHeight - height of dado rail
-         * @param {number} opts.dadoUnits - Style level of dado wall and trim. Expects integer between 0 to 2
-         * @param {number} opts.baseUnits - Style level of base trim. Expects integer between 0 to 2
-         * @param {number} opts.trimUnitHeight
-         * @param {number} opts.trimUnitDepth
-         * @param {string[]} opts.wallOpts 
-         * @param {number} opts.trimSides - sides where trim is present. Expects integer between 1 to 4
-         * @returns Wall geometry
-        */
-        buildWall: (opts) => {
-          const {
-            baseUnits,
-            dadoUnits,
-            crownUnits
-          } = verifyTrimUnits({
-            trimOpts: opts.trimOpts,
-            baseUnits: opts.baseUnits,
-            dadoUnits: opts.dadoUnits,
-            crownUnits: opts.crownUnits
-          });
-          const baseWall = position.ctrMin(cuboid({
-            size: [opts.length, opts.thickness, opts.height]
-          }));
-          const tFamilyAranea = trim.aranea({
-            size: [opts.trimUnitHeight, opts.trimUnitDepth]
-          });
-          const dadoHt = opts.dadoHeight || opts.height * (1 - PHI_INV);
-          const dadoHtAdj = dadoHt - opts.trimUnitHeight * (dadoUnits + 0.5);
-          const dadoAdj = dadoUnits * 2 * opts.trimUnitDepth;
-          const dadoWallSpecs = [dadoAdj + opts.length, dadoAdj + opts.thickness];
-          const dadoWall = position.ctrMin(cuboid({
-            size: [dadoWallSpecs[0], dadoWallSpecs[1], dadoHtAdj]
-          }));
-          let wallWithTrim = baseWall;
-          if (opts.trimOpts.includes("base") && opts.half != "upper") {
-            let baseProfile = tFamilyAranea.base.small;
-            if (baseUnits === 1) {
-              baseProfile = tFamilyAranea.base.medium;
-            } else if (baseUnits === 2) {
-              baseProfile = tFamilyAranea.base.large;
-            }
-            const baseAdj = (dadoUnits + baseUnits + 1) * 2 * opts.trimUnitDepth;
-            const baseTrimSpecs = [baseAdj + opts.length, baseAdj + opts.thickness];
-            const bTrim = position.ctrMin(baseTrim({
-              totalLength: baseTrimSpecs[0],
-              totalThickness: baseTrimSpecs[1],
-              trimProfile: baseProfile
-            }));
-            wallWithTrim = union2(wallWithTrim, bTrim);
-          }
-          if (opts.trimOpts.includes("dado") && opts.half != "upper") {
-            wallWithTrim = union2(wallWithTrim, dadoWall);
-            let dadoProfile = tFamilyAranea.dado.small;
-            if (dadoUnits === 1) {
-              dadoProfile = tFamilyAranea.dado.medium;
-            } else if (dadoUnits === 2) {
-              dadoProfile = tFamilyAranea.dado.large;
-            }
-            const dadoTrimSpecs = [dadoWallSpecs[0] + opts.trimUnitDepth, dadoWallSpecs[1] + opts.trimUnitDepth];
-            const dTrim = position.ctrMax(
-              dadoTrim({
-                totalLength: dadoTrimSpecs[0],
-                totalThickness: dadoTrimSpecs[1],
-                trimProfile: dadoProfile
-              }),
-              [0, 0, dadoHt]
-            );
-            wallWithTrim = union2(wallWithTrim, dTrim);
-          }
-          if (opts.trimOpts.includes("crown") && opts.half != "lower") {
-            let crownProfile = tFamilyAranea.crown.small;
-            if (crownUnits === 1) {
-              crownProfile = tFamilyAranea.crown.medium;
-            } else if (crownUnits === 2) {
-              crownProfile = tFamilyAranea.crown.large;
-            }
-            const crownAdj = (crownUnits + 1) * 2 * opts.trimUnitDepth;
-            const crownTrimSpecs = [crownAdj + opts.length, crownAdj + opts.thickness];
-            const cTrim = position.ctrMax(
-              crownTrim({
-                totalLength: crownTrimSpecs[0],
-                totalThickness: crownTrimSpecs[1],
-                trimProfile: crownProfile
-              }),
-              [0, 0, opts.height]
-            );
-            wallWithTrim = union2(wallWithTrim, cTrim);
-          }
-          const wallDim = measureDimensions(baseWall);
-          const cutBoxSpecs = [wallDim[0] * 2, wallDim[1] * 2, wallDim[2] * 1.25];
-          if (opts.half === "upper") {
-            const cutBox = position.ctrMax(
-              cuboid({ size: cutBoxSpecs }),
-              [0, 0, dadoHt]
-            );
-            wallWithTrim = subtract(wallWithTrim, cutBox);
-          } else if (opts.half === "lower") {
-            const cutBox = position.ctrMin(
-              cuboid({ size: cutBoxSpecs }),
-              [0, 0, dadoHt]
-            );
-            wallWithTrim = subtract(wallWithTrim, cutBox);
-          }
-          return wallWithTrim;
-        }
-      };
-    };
-    module2.exports = { init: wallBuilder };
-  }
-});
-
-// packages/swcad-js-models/src/structure/wall-entryway/index.js
-var require_wall_entryway = __commonJS({
-  "packages/swcad-js-models/src/structure/wall-entryway/index.js"(exports2, module2) {
-    "use strict";
-    var entrywayBuilder = ({ jscad, swcadJs }) => {
-      const { union: union2, subtract, intersect } = jscad.booleans;
-      const { translate: translate2, rotate, mirror } = jscad.transforms;
-      const { cuboid } = jscad.primitives;
-      const { measureDimensions } = jscad.measurements;
-      const { extrudeLinear } = jscad.extrusions;
-      const { hull } = jscad.hulls;
-      const {
-        arch
-      } = swcadJs.models;
-      const {
-        wall
-      } = swcadJs.models.structure;
-      const {
-        arch: arch2d
-      } = swcadJs.profiles.structure;
-      return {
-        /**
-         * Builds a gothic entryway.
-         * @memberof models.structure.wallEntryway
-         * @instance
-         * @param {Object} opts 
-         * @param {number} opts.wallLength
-         * @param {number} opts.wallThickness
-         * @param {number} opts.wallHeight
-         * @param {number} opts.entryLength
-         * @param {number} opts.trimUnitHeight
-         * @param {number} opts.trimUnitDepth
-         * @param {number} opts.crownUnits
-         * @param {number} opts.dadoHeight
-         * @param {number} opts.dadoUnits
-         * @param {number} opts.baseUnits
-         * @param {number} opts.wallOpts
-         * @param {number} opts.trimSides
-         * @param {string[]} opts.trimOpts - ['base', 'dado', 'crown']
-         * @param {string[]} opts.entryOpts 
-         * @param {number} opts.archRadFactor - arch radius factor
-         * @returns Entryway geometry
-         */
-        buildGothicEntryway: (opts) => {
-          const wallSpace = opts.wallLength - opts.entryLength;
-          const wall1Specs = [wallSpace / 2, opts.wallThickness, opts.wallHeight];
-          const wall2Specs = [wallSpace / 2, opts.wallThickness, opts.wallHeight];
-          const topWallSpecs = [opts.wallLength, opts.wallThickness, opts.wallHeight];
-          const trimUnits = wall.verifyTrimUnits({
-            trimOpts: opts.trimOpts,
-            baseUnits: opts.baseUnits,
-            dadoUnits: opts.dadoUnits,
-            crownUnits: opts.crownUnits
-          });
-          const wall1 = wall.buildWall({
-            height: wall1Specs[2],
-            thickness: wall1Specs[1],
-            length: wall1Specs[0],
-            // wallOpts: 0,
-            half: "lower",
-            trimOpts: opts.trimOpts,
-            baseUnits: trimUnits.baseUnits,
-            dadoUnits: trimUnits.dadoUnits,
-            crownUnits: trimUnits.crownUnits,
-            dadoHeight: opts.dadoHeight,
-            trimUnitHeight: opts.trimUnitHeight,
-            trimUnitDepth: opts.trimUnitDepth
-          });
-          const wall1Dims = measureDimensions(wall1);
-          const wall2 = wall.buildWall({
-            height: wall2Specs[2],
-            thickness: wall2Specs[1],
-            length: wall2Specs[0],
-            half: "lower",
-            trimOpts: opts.trimOpts,
-            baseUnits: trimUnits.baseUnits,
-            dadoUnits: trimUnits.dadoUnits,
-            crownUnits: trimUnits.crownUnits,
-            dadoHeight: opts.dadoHeight,
-            trimUnitHeight: opts.trimUnitHeight,
-            trimUnitDepth: opts.trimUnitDepth
-          });
-          const topWall = wall.buildWall({
-            height: topWallSpecs[2],
-            thickness: topWallSpecs[1],
-            length: topWallSpecs[0],
-            half: "upper",
-            trimOpts: opts.trimOpts,
-            baseUnits: trimUnits.baseUnits,
-            dadoUnits: trimUnits.dadoUnits,
-            crownUnits: trimUnits.crownUnits,
-            dadoHeight: opts.dadoHeight,
-            trimUnitHeight: opts.trimUnitHeight,
-            trimUnitDepth: opts.trimUnitDepth
-          });
-          let archTrimProfile = wall.getEntryTrimForDadoUnits({
-            dadoUnits: trimUnits.dadoUnits,
-            trimUnitHeight: opts.trimUnitHeight,
-            trimUnitDepth: opts.trimUnitDepth
-          });
-          archTrimProfile = rotate([0, 0, Math.PI * 1.5], archTrimProfile);
-          const archTrimProfileSpecs = measureDimensions(archTrimProfile);
-          const archRadFactor = opts.archRadFactor || 0.75;
-          const thinWallThickness = opts.wallThickness - archTrimProfileSpecs[1] * 2;
-          const trimArch = arch.twoPtArch({ arcRadius: opts.entryLength * archRadFactor, archWidth: opts.entryLength, profileWidth: 5 }, archTrimProfile);
-          const adjTrimArch = translate2([0, (thinWallThickness + archTrimProfileSpecs[1]) / 2, wall1Dims[2]], trimArch);
-          const adjTrimArchOpp = mirror({ normal: [0, 1, 0] }, adjTrimArch);
-          const trimArchDims = measureDimensions(trimArch);
-          const innerOpeningSpecs = [opts.entryLength, 5 * opts.wallThickness, null];
-          const innerOpeningProfile = arch2d.twoPtArch({ arcRadius: innerOpeningSpecs[0] * archRadFactor, archWidth: innerOpeningSpecs[0] });
-          const innerOpening = rotate([Math.PI / 2, 0, 0], extrudeLinear({ height: innerOpeningSpecs[1] }, innerOpeningProfile));
-          const adjInnerOpening = translate2([0, innerOpeningSpecs[1] / 2, wall1Dims[2]], innerOpening);
-          const trimOpeningSpecs = [
-            archTrimProfileSpecs[0] * 2 + opts.entryLength,
-            4 * opts.wallThickness,
-            wall1Dims[2] + trimArchDims[2]
-          ];
-          const trimOpening = hull([
-            translate2([0, trimOpeningSpecs[1] / -2, 0], adjTrimArch),
-            translate2([0, trimOpeningSpecs[1] / 2, 0], adjTrimArch)
-          ]);
-          const adjTrimOpening = translate2([0, 0, 0], trimOpening);
-          const thinWall = intersect(
-            translate2([0, 0, opts.wallHeight / 2], cuboid({
-              size: [
-                opts.wallLength,
-                thinWallThickness,
-                opts.wallHeight
-              ]
-            })),
-            topWall
-          );
-          let punchedTopWall = subtract(topWall, adjInnerOpening);
-          if (opts.trimOpts.includes("dado")) {
-            punchedTopWall = subtract(punchedTopWall, adjTrimOpening);
-            punchedTopWall = union2(punchedTopWall, thinWall);
-            punchedTopWall = subtract(punchedTopWall, adjInnerOpening);
-          }
-          const wallAdj = wallSpace / 4 + opts.entryLength / 2;
-          const trimArches = union2(
-            adjTrimArch,
-            adjTrimArchOpp
-          );
-          const entryway = union2(
-            translate2([-wallAdj, 0, 0], wall1),
-            translate2([wallAdj, 0, 0], wall2),
-            translate2([0, 0, 0], punchedTopWall)
-          );
-          return union2(entryway, trimArches);
-        }
-      };
-    };
-    module2.exports = { init: entrywayBuilder };
-  }
-});
-
-// packages/swcad-js-models/src/structure/index.js
-var require_structure2 = __commonJS({
-  "packages/swcad-js-models/src/structure/index.js"(exports2, module2) {
-    "use strict";
-    var wallModule = require_wall();
-    var wallEntrywayModule = require_wall_entryway();
-    var structureInit = ({ jscad, swcadJs }) => {
-      const wall = wallModule.init({ jscad, swcadJs });
-      const preLib = {
-        ...swcadJs
-      };
-      preLib.models.structure = {
-        wall
-      };
-      const structure = {
-        wall: wallModule.init({ jscad, swcadJs }),
-        wallEntryway: wallEntrywayModule.init({ jscad, swcadJs })
-      };
-      return structure;
-    };
-    module2.exports = {
-      init: structureInit
-    };
-  }
-});
-
 // packages/swcad-js-models/src/index.js
 var require_src8 = __commonJS({
   "packages/swcad-js-models/src/index.js"(exports2, module2) {
     "use strict";
     var archModule = require_arch();
     var foilModule = require_foil();
-    var structureModule = require_structure2();
     var modelsInit = ({ jscad, swcadJs }) => {
       const arch = archModule.init({ jscad, swcadJs });
       const preLib = {
@@ -12000,8 +11527,7 @@ var require_src8 = __commonJS({
       };
       const models = {
         arch,
-        foil: foilModule.init({ jscad, swcadJs: preLib }),
-        structure: structureModule.init({ jscad, swcadJs: preLib })
+        foil: foilModule.init({ jscad, swcadJs: preLib })
       };
       return models;
     };
