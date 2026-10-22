@@ -5,48 +5,48 @@ export const baseDemos = [
 ]
 
 export const swcadJsCalcs = [
-  { name: 'Area Points', source: './lib-demo/area-point-examples.js' },
-  { name: 'Centroid', source: './lib-demo/centroid-examples.js' },
-  // { name: 'Control Points', source: './lib-demo/control-points-examples.js' },
-  { name: 'Transforms', source: './lib-demo/transform-examples.js' },
-]
-
-export const swcadJsProfiles = [
-  { name: 'Basic Profiles', source: './lib-demo/details/profile-examples.js' },
-  { name: 'Connections', source: './lib-demo/profiles/connections.js' },
-  { name: 'Joint Panels', source: './lib-demo/profiles/joint-panels.js' },
-  { name: 'Reinforced Rectangle', source: './lib-demo/profiles/reinforced-rect.js' },
-  { name: 'Mesh Panel (2D)', source: './lib-demo/profiles/mesh-2d.js' },
-  { name: 'Rectangular Frame', source: './lib-demo/rectangular-frame-examples.js' },
-  { name: 'Trim families', source: './lib-demo/families/trim-family-examples.js' },
-]
-
-export const swcadJsProfileSpec = [
-  { name: 'Lumber', source: './lib-demo/families/standard-lumber-examples.js' },
-  { name: 'Paper', source: './lib-demo/families/standard-paper-examples.js' },
-]
-
-export const swcadJsComponents = [
-  { name: 'Open Web Joist', source: './lib-demo/components/open-web-joist.js' },
-  { name: 'Beads and Bits', source: './lib-demo/components/beads-bits.js' },
-  { name: 'Mesh Panel (3D)', source: './lib-demo/mesh-panel-examples.js' },
-  { name: 'Routed Shapes', source: './lib-demo/components/routed-shapes.js' },
-  { name: 'Trim Family Frame', source: './lib-demo/components/trim-family-frame.js' },
-  { name: 'Reinforced Rect. Panel', source: './lib-demo/components/reinforced-rect-panel.js' },
+  { name: 'Area Points', source: './lib-demo/calcs/area-point-examples.js' },
+  { name: 'Centroid', source: './lib-demo/calcs/centroid-examples.js' },
+  { name: 'Transforms', source: './lib-demo/calcs/transform-examples.js' },
 ]
 
 export const swcadJsComponentSpec = [
-  { name: 'Brick', source: './lib-demo/families/standard-masonry-examples.js' },
-  { name: 'Tile', source: './lib-demo/families/standard-tile-examples.js' },
+  { name: 'Brick', source: './lib-demo/component-spec/standard-masonry-examples.js' },
+  { name: 'Tile', source: './lib-demo/component-spec/standard-tile-examples.js' },
+]
+
+export const swcadJsComponents = [
+  { name: 'Beads and Bits', source: './lib-demo/components/beads-bits.js' },
+  { name: 'Box Support', source: './lib-demo/components/box-support.js' },
+  { name: 'Component Line', source: './lib-demo/components/component-line.js' },
+  { name: 'Mesh Panel (3D)', source: './lib-demo/components/mesh-panel-examples.js' },
+  { name: 'Reinforced Rect. Panel', source: './lib-demo/components/reinforced-rect-panel.js' },
+  { name: 'Routed Shapes', source: './lib-demo/components/routed-shapes.js' },
+  { name: 'Text (3D)', source: './lib-demo/components/text-3d.js' },
 ]
 
 export const swcadJsModels = [
-  { name: 'Foil', source: './lib-demo/details/foil-examples.js' },
-  { name: 'Arch', source: './lib-demo/builders/arch-examples.js' },
-  { name: 'Wall', source: './lib-demo/builders/wall-examples.js' },
-  { name: 'Wall Entryway', source: './lib-demo/builders/entryway-examples.js' },
+  { name: 'Arch', source: './lib-demo/models/arch-examples.js' },
+  { name: 'Foil', source: './lib-demo/models/foil-examples.js' },
+]
+
+export const swcadJsProfileSpec = [
+  { name: 'Lumber', source: './lib-demo/profile-spec/standard-lumber-examples.js' },
+  { name: 'Paper', source: './lib-demo/profile-spec/standard-paper-examples.js' },
+]
+
+export const swcadJsProfiles = [
+  { name: 'Basic Profiles', source: './lib-demo/profiles/profile-examples.js' },
+  { name: 'Box Curves', source: './lib-demo/profiles/box-curve.js' },
+  { name: 'Connections', source: './lib-demo/profiles/connections.js' },
+  { name: 'Joint Panels', source: './lib-demo/profiles/joint-panels.js' },
+  { name: 'Mesh Panel (2D)', source: './lib-demo/profiles/mesh-2d.js' },
+  { name: 'Rectangular Frame', source: './lib-demo/profiles/rectangular-frame-examples.js' },
+  { name: 'Reinforced Rectangle', source: './lib-demo/profiles/reinforced-rect.js' },
+  { name: 'Text (2D)', source: './lib-demo/profiles/text-2d.js' },
+  { name: 'Trim Families', source: './lib-demo/profiles/trim-family-examples.js' },
 ]
 
 export const swcadJsUtils = [
-
+  { name: 'Layouts', source: './lib-demo/utils/layout-examples.js' },
 ]

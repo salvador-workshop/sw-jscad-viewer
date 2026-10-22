@@ -14,10 +14,6 @@ const {
 } = swcadJs.models
 
 const {
-    wall,
-} = swcadJs.models.structure
-
-const {
     shapes,
     structure,
     trim,
@@ -86,36 +82,6 @@ const main = () => {
     const arch2 = structure.arch.twoPtArch({ arcRadius: 30, archWidth: 35 });
     layout.addToLayout({ name: 'arch2', desc: '...', layoutOpts }, arch2);
 
-
-    //-----------
-    // Walls
-
-    const wall2 = wall.buildWall({
-        height: 100,
-        thickness: 10,
-        length: 80,
-        // wallOpts: 0,
-        trimOpts: ['base', 'crown'],
-        crownUnits: 1,
-        baseUnits: 2,
-        trimUnitHeight: 4,
-        trimUnitDepth: 1.25,
-        trimSides: 4,
-    });
-    layout.addToLayout({ name: 'Wall (2)', desc: '...', layoutOpts }, wall2);
-
-    const wallDado1 = wall.buildWall({
-        height: 100,
-        thickness: 10,
-        length: 70,
-        // wallOpts: 0,
-        trimOpts: ['base', 'dado', 'crown'],
-        dadoUnits: 1,
-        trimUnitHeight: 4,
-        trimUnitDepth: 1.25,
-        trimSides: 4,
-    });
-    layout.addToLayout({ name: 'Dado Wall (1)', desc: '...', layoutOpts }, wallDado1)
 
     const layoutContent = layout.gridLayout({ layoutOpts });
     return layoutContent;

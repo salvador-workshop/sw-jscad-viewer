@@ -22,10 +22,6 @@ const {
 } = swcadJs.utils
 
 const {
-  openWebJoist,
-} = swcadJs.components
-
-const {
   routedCuboid,
 } = swcadJs.components.routedShapes
 
@@ -110,25 +106,6 @@ const top = topData[0]
 
 const introPlinth = transform.stack({}, [base, mid, top])
 
-// OPEN WEB JOIST
-
-const openWebJoistOpts1 = {
-  length: math.inchesToMm(6),
-  width: math.inchesToMm(1.25),
-}
-
-const openWebJoistOpts2 = {
-  length: math.inchesToMm(6.5),
-  width: math.inchesToMm(1.5),
-  reinforcementLevel: 2
-}
-
-const openWebJoistData1 = openWebJoist(openWebJoistOpts1)
-const openWebJoistData2 = openWebJoist(openWebJoistOpts2)
-
-const openWebJoistModel1 = openWebJoistData1[0]
-const openWebJoistModel2 = openWebJoistData2[0]
-
 
 //==============================================================================
 
@@ -143,8 +120,6 @@ function main() {
 
   return [
     translate([spaceUnit * 0, spaceUnit * 0, spaceUnit * 0], introPlinth),
-    translate([spaceUnit * 1, spaceUnit * 0, spaceUnit * 0], openWebJoistModel1),
-    translate([spaceUnit * 2, spaceUnit * 0, spaceUnit * 0], openWebJoistModel2),
   ]
 }
 
