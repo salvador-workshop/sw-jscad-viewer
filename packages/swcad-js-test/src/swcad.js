@@ -1362,24 +1362,24 @@ var require_reinforcement = __commonJS({
           scale
         } = opts;
         const width = size[0];
-        const length2 = size[1];
+        const length = size[1];
         const qtrX = width / 4;
         const midX = width / 2;
         const threeQtrX = qtrX + midX;
-        const qtrY = length2 / 4;
-        const midY = length2 / 2;
+        const qtrY = length / 4;
+        const midY = length / 2;
         const threeQtrY = qtrY + midY;
         const midPoint = [midX, midY];
         const corners = [
           [0, 0],
           [width, 0],
-          [width, length2],
-          [0, length2]
+          [width, length],
+          [0, length]
         ];
         const midPoints = [
           [midX, 0],
           [width, midY],
-          [midX, length2],
+          [midX, length],
           [0, midY]
         ];
         const qtrPoints = [
@@ -1387,8 +1387,8 @@ var require_reinforcement = __commonJS({
           [threeQtrX, 0],
           [0, qtrY],
           [0, threeQtrY],
-          [qtrX, length2],
-          [threeQtrX, length2],
+          [qtrX, length],
+          [threeQtrX, length],
           [width, qtrY],
           [width, threeQtrY]
         ];
@@ -1544,7 +1544,7 @@ var require_reinforcement = __commonJS({
         const modelDims = {
           size,
           width,
-          length: length2
+          length
         };
         const modelPoints = {
           corners,
@@ -8001,7 +8001,8 @@ var require_round_fitting = __commonJS({
         extrudeLinear
       } = jscad.extrusions;
       const {
-        math
+        math,
+        position
       } = swcadJs.calcs;
       const roundFittingDefaults = () => {
         const defaultValues = {
@@ -8038,7 +8039,7 @@ var require_round_fitting = __commonJS({
         console.log("roundFittingOpts() -- opts", opts);
         const {
           dowelRadius = defaults.opts.dowelRadius,
-          length: length2 = defaults.opts.length,
+          length = defaults.opts.length,
           type = defaults.opts.type,
           scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
@@ -8052,7 +8053,7 @@ var require_round_fitting = __commonJS({
         };
         const initOpts = {
           dowelRadius,
-          length: length2,
+          length,
           ...stdOpts
         };
         console.log("roundFittingOpts() -- initOpts", initOpts);
@@ -8063,7 +8064,7 @@ var require_round_fitting = __commonJS({
         console.log("roundFittingProps() -- opts", opts);
         const {
           dowelRadius,
-          length: length2,
+          length,
           type,
           scale,
           interfaceThickness,
@@ -8071,7 +8072,7 @@ var require_round_fitting = __commonJS({
         } = opts;
         const dowelDiam = dowelRadius * 2;
         const width = interfaceThickness * 2 + dowelDiam;
-        const simpleHeight = interfaceThickness + dowelRadius;
+        const simpleHeight = dowelDiam / 3 + interfaceThickness;
         const types = ["default", "alt"];
         const modelOpts = {
           type,
@@ -8083,7 +8084,7 @@ var require_round_fitting = __commonJS({
           dowelDiam,
           width,
           simpleHeight,
-          length: length2,
+          length,
           interfaceThickness,
           fitGap
         };
@@ -8124,6 +8125,7 @@ var require_round_fitting = __commonJS({
           dowelDiam,
           interfaceThickness,
           fitGap,
+          length,
           width,
           simpleHeight
         } = modelProperties.dims;
@@ -8132,12 +8134,15 @@ var require_round_fitting = __commonJS({
         });
         const topCutaway = circle({ radius: fitGap / 2 + dowelRadius });
         const dHolderSection = subtract(
-          align({ modes: ["center", "max", "center"] }, baseRect),
-          translate([0, dowelRadius / 3, 0], topCutaway)
+          align({
+            modes: ["center", "min", "center"],
+            relativeTo: [0, -interfaceThickness, 0]
+          }, baseRect),
+          align({ modes: ["center", "min", "center"] }, topCutaway)
         );
         let dHolder = extrudeLinear({ height: length }, dHolderSection);
         dHolder = rotate([Math.PI / 2, 0, 0], dHolder);
-        const mainModel = align({ modes: ["center", "center", "center"] }, dHolder);
+        const mainModel = position.ctr(dHolder);
         const modelParts = {
           mainModel
         };
@@ -8202,16 +8207,16 @@ var require_round_fitting = __commonJS({
             align({ modes: ["max", "center", "center"] }, dHolderSection),
             align({ modes: ["max", "center", "center"] }, sideCutaway2)
           );
-          return align({ modes: ["center", "center", "center"] }, dHolderSection);
+          return position.ctr(dHolderSection);
         };
         const finalAssembly = (modelProps) => {
           const {
-            length: length2
+            length
           } = modelProps.dims;
           const dHolderSection = roundFittingSection(modelProps);
-          let dHolder = extrudeLinear({ height: length2 }, dHolderSection);
+          let dHolder = extrudeLinear({ height: length }, dHolderSection);
           dHolder = rotate([Math.PI / 2, 0, 0], dHolder);
-          return align({ modes: ["center", "center", "center"] }, dHolder);
+          return position.ctr(dHolder);
         };
         const roundFittingSectionInst = roundFittingSection(modelProperties);
         const mainModel = finalAssembly(modelProperties);
@@ -8285,16 +8290,17 @@ var require_rectangular_fitting = __commonJS({
         standards
       } = swcadJs.data;
       const {
-        math
+        math,
+        position
       } = swcadJs.calcs;
       const rectangularFittingDefaults = () => {
         const defaultValues = {
           dims: {
-            size: [
-              math.inchesToMm(2),
-              math.inchesToMm(4),
-              math.inchesToMm(1)
-            ]
+            subjectSize: [
+              standards.crafts.POPSICLE_STICK_WIDTH,
+              standards.crafts.POPSICLE_STICK_THICKNESS
+            ],
+            length: math.inchesToMm(1 / 4)
           },
           points: {
             centrePt: [0, 0, 0]
@@ -8312,7 +8318,8 @@ var require_rectangular_fitting = __commonJS({
         };
         const defaultOpts = {
           ...standardOpts,
-          size: defaultValues.dims.size
+          subjectSize: defaultValues.dims.subjectSize,
+          length: defaultValues.dims.length
         };
         return {
           opts: defaultOpts,
@@ -8323,7 +8330,8 @@ var require_rectangular_fitting = __commonJS({
         const defaults = rectangularFittingDefaults();
         console.log("rectangularFittingOpts() -- opts", opts);
         const {
-          size = defaults.opts.size,
+          subjectSize = defaults.opts.subjectSize,
+          length = defaults.opts.length,
           type = defaults.opts.type,
           scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
@@ -8336,7 +8344,8 @@ var require_rectangular_fitting = __commonJS({
           fitGap
         };
         const initOpts = {
-          size,
+          subjectSize,
+          length,
           ...stdOpts
         };
         console.log("rectangularFittingOpts() -- initOpts", initOpts);
@@ -8346,24 +8355,28 @@ var require_rectangular_fitting = __commonJS({
         const defaults = rectangularFittingDefaults();
         console.log("rectangularFittingProps() -- opts", opts);
         const {
-          size,
+          subjectSize,
+          length,
           type,
           scale,
           interfaceThickness,
           fitGap
         } = opts;
-        const width = size[0];
-        const depth = size[1];
-        const height = size[2];
+        const subjectWidth = subjectSize[0];
+        const subjectHeight = subjectSize[1];
+        const width = subjectWidth + interfaceThickness * 2;
+        const height = subjectHeight / 3 + interfaceThickness;
         const modelConstants = {};
         const modelOpts = {
           type,
           scale
         };
         const modelDims = {
-          size,
+          subjectSize,
+          subjectWidth,
+          subjectHeight,
+          length,
           width,
-          depth,
           height,
           interfaceThickness,
           fitGap
@@ -8394,7 +8407,35 @@ var require_rectangular_fitting = __commonJS({
         const defaults = rectangularFittingDefaults();
         const initOpts = rectangularFittingOpts(opts);
         const modelProperties = rectangularFittingProps(initOpts);
-        const mainModel = cuboid();
+        const {
+          subjectSize,
+          subjectWidth,
+          subjectHeight,
+          length,
+          width,
+          height,
+          interfaceThickness,
+          fitGap
+        } = modelProperties.dims;
+        const baseRect = rectangle({
+          size: [width, height]
+        });
+        const topCutaway = rectangle({
+          size: [
+            subjectWidth + fitGap,
+            subjectHeight + fitGap
+          ]
+        });
+        const dHolderSection = subtract(
+          align({
+            modes: ["center", "min", "center"],
+            relativeTo: [0, -interfaceThickness, 0]
+          }, baseRect),
+          align({ modes: ["center", "min", "center"] }, topCutaway)
+        );
+        let dHolder = extrudeLinear({ height: length }, dHolderSection);
+        dHolder = rotate([Math.PI / 2, 0, 0], dHolder);
+        const mainModel = position.ctr(dHolder);
         const modelParts = {
           mainModel
         };
@@ -9492,10 +9533,10 @@ var require_crafts = __commonJS({
       };
       const toothpickProfile = ({
         radius = toothpickSpecs.radius,
-        length: length2 = toothpickSpecs.length,
+        length = toothpickSpecs.length,
         pointLength = toothpickSpecs.pointLength
       }) => {
-        const core2d = rectangle({ size: [pointLength * -2 + length2, radius * 2] });
+        const core2d = rectangle({ size: [pointLength * -2 + length, radius * 2] });
         const core2dCoords = position.getGeomCoords(core2d);
         const pointTriangleSide = Math.hypot(radius, pointLength);
         const pointAngle = Math.atan(radius / pointLength) * 2;
@@ -9513,18 +9554,18 @@ var require_crafts = __commonJS({
       };
       const toothpick = ({
         radius = toothpickSpecs.radius,
-        length: length2 = toothpickSpecs.length,
+        length = toothpickSpecs.length,
         pointLength = toothpickSpecs.pointLength
       }) => {
-        const baseShape = toothpickProfile({ radius, length: length2, pointLength });
+        const baseShape = toothpickProfile({ radius, length, pointLength });
         return extrudeRotate({ segments: 12 }, baseShape);
       };
       const bbqSkewerProfile = ({
         radius = bbqSkewerSpecs.radius,
-        length: length2 = bbqSkewerSpecs.length,
+        length = bbqSkewerSpecs.length,
         pointLength = bbqSkewerSpecs.pointLength
       }) => {
-        const core2d = rectangle({ size: [length2 - pointLength, radius * 2] });
+        const core2d = rectangle({ size: [length - pointLength, radius * 2] });
         const core2dCoords = position.getGeomCoords(core2d);
         const pointTriangleSide = Math.hypot(radius, pointLength);
         const pointAngle = Math.atan(radius / pointLength) * 2;
@@ -9538,24 +9579,24 @@ var require_crafts = __commonJS({
       };
       const bbqSkewer = ({
         radius = bbqSkewerSpecs.radius,
-        length: length2 = bbqSkewerSpecs.length,
+        length = bbqSkewerSpecs.length,
         pointLength = bbqSkewerSpecs.pointLength
       }) => {
-        const baseShape = bbqSkewerProfile({ radius, length: length2, pointLength });
+        const baseShape = bbqSkewerProfile({ radius, length, pointLength });
         return extrudeRotate({ segments: 12 }, baseShape);
       };
       const popsicleStickProfile = ({
         width = popsicleStickSpecs.width,
-        length: length2 = popsicleStickSpecs.length,
+        length = popsicleStickSpecs.length,
         endRadius = popsicleStickSpecs.endRadius
       }) => {
         const ends = [
           align(
-            { modes: ["min", "center", "center"], relativeTo: [length2 / -2, 0, 0] },
+            { modes: ["min", "center", "center"], relativeTo: [length / -2, 0, 0] },
             roundedRectangle({ size: [width, width], roundRadius: endRadius - 0.01 })
           ),
           align(
-            { modes: ["max", "center", "center"], relativeTo: [length2 / 2, 0, 0] },
+            { modes: ["max", "center", "center"], relativeTo: [length / 2, 0, 0] },
             roundedRectangle({ size: [width, width], roundRadius: endRadius - 0.01 })
           )
         ];
@@ -9565,10 +9606,10 @@ var require_crafts = __commonJS({
       const popsicleStick = ({
         width = popsicleStickSpecs.width,
         thickness = popsicleStickSpecs.thickness,
-        length: length2 = popsicleStickSpecs.length,
+        length = popsicleStickSpecs.length,
         endRadius = popsicleStickSpecs.endRadius
       }) => {
-        const baseShape = popsicleStickProfile({ width, length: length2, endRadius });
+        const baseShape = popsicleStickProfile({ width, length, endRadius });
         return extrudeLinear({ height: thickness }, baseShape);
       };
       const crafts = {

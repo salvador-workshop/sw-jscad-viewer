@@ -20,13 +20,16 @@ function main() {
 
     const simpleDowelHolder = fittings.simpleRoundFitting({
         dowelRadius: 3.25 / 2,
-    })
+        length: math.inchesToMm(5 / 16),
+    })[0]
     const doubleDowelHolder = fittings.roundFitting({
         dowelRadius: 3.25 / 2,
-    })
+        length: math.inchesToMm(5 / 16),
+    })[0]
     const flatStickHolder = fittings.rectangularFitting({
-        dowelRadius: 3.25 / 2,
-    })
+        subjectSize: [math.inchesToMm(1 / 4), math.inchesToMm(1 / 8)],
+        length: math.inchesToMm(5 / 16),
+    })[0]
 
     return [
         translate([spaceUnit * 0, spaceUnit * 0, spaceUnit * 0], simpleDowelHolder),
