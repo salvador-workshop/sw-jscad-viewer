@@ -1362,24 +1362,24 @@ var require_reinforcement = __commonJS({
           scale
         } = opts;
         const width = size[0];
-        const length = size[1];
+        const length2 = size[1];
         const qtrX = width / 4;
         const midX = width / 2;
         const threeQtrX = qtrX + midX;
-        const qtrY = length / 4;
-        const midY = length / 2;
+        const qtrY = length2 / 4;
+        const midY = length2 / 2;
         const threeQtrY = qtrY + midY;
         const midPoint = [midX, midY];
         const corners = [
           [0, 0],
           [width, 0],
-          [width, length],
-          [0, length]
+          [width, length2],
+          [0, length2]
         ];
         const midPoints = [
           [midX, 0],
           [width, midY],
-          [midX, length],
+          [midX, length2],
           [0, midY]
         ];
         const qtrPoints = [
@@ -1387,8 +1387,8 @@ var require_reinforcement = __commonJS({
           [threeQtrX, 0],
           [0, qtrY],
           [0, threeQtrY],
-          [qtrX, length],
-          [threeQtrX, length],
+          [qtrX, length2],
+          [threeQtrX, length2],
           [width, qtrY],
           [width, threeQtrY]
         ];
@@ -1544,7 +1544,7 @@ var require_reinforcement = __commonJS({
         const modelDims = {
           size,
           width,
-          length
+          length: length2
         };
         const modelPoints = {
           corners,
@@ -7978,6 +7978,458 @@ var require_component_line = __commonJS({
   }
 });
 
+// packages/swcad-js-components/src/fittings/round-fitting.js
+var require_round_fitting = __commonJS({
+  "packages/swcad-js-components/src/fittings/round-fitting.js"(exports2, module2) {
+    "use strict";
+    var roundFittingInit = ({ jscad, swcadJs }) => {
+      const {
+        circle,
+        rectangle,
+        triangle
+      } = jscad.primitives;
+      const {
+        align,
+        translate,
+        rotate,
+        mirror
+      } = jscad.transforms;
+      const {
+        subtract
+      } = jscad.booleans;
+      const {
+        extrudeLinear
+      } = jscad.extrusions;
+      const {
+        math
+      } = swcadJs.calcs;
+      const roundFittingDefaults = () => {
+        const defaultValues = {
+          dims: {
+            dowelRadius: 3.25 / 2,
+            length: math.inchesToMm(1 / 4)
+          },
+          points: {
+            centre: [0, 0, 0]
+          },
+          types: {
+            default: { id: "default", desc: "Default" },
+            alt: { id: "alt", desc: "Alternate" }
+          }
+        };
+        const standardOpts = {
+          type: defaultValues.types.default.id,
+          scale: 1,
+          interfaceThickness: 1.333333,
+          fitGap: math.inchesToMm(1 / 128)
+        };
+        const defaultOpts = {
+          ...standardOpts,
+          dowelRadius: defaultValues.dims.dowelRadius,
+          length: defaultValues.dims.length
+        };
+        return {
+          opts: defaultOpts,
+          vals: defaultValues
+        };
+      };
+      const roundFittingOpts = (opts) => {
+        const defaults = roundFittingDefaults();
+        console.log("roundFittingOpts() -- opts", opts);
+        const {
+          dowelRadius = defaults.opts.dowelRadius,
+          length: length2 = defaults.opts.length,
+          type = defaults.opts.type,
+          scale = defaults.opts.scale,
+          interfaceThickness = defaults.opts.interfaceThickness,
+          fitGap = defaults.opts.fitGap
+        } = opts;
+        const stdOpts = {
+          type,
+          scale,
+          interfaceThickness,
+          fitGap
+        };
+        const initOpts = {
+          dowelRadius,
+          length: length2,
+          ...stdOpts
+        };
+        console.log("roundFittingOpts() -- initOpts", initOpts);
+        return initOpts;
+      };
+      const roundFittingProps = (opts) => {
+        const defaults = roundFittingDefaults();
+        console.log("roundFittingProps() -- opts", opts);
+        const {
+          dowelRadius,
+          length: length2,
+          type,
+          scale,
+          interfaceThickness,
+          fitGap
+        } = opts;
+        const dowelDiam = dowelRadius * 2;
+        const width = interfaceThickness * 2 + dowelDiam;
+        const simpleHeight = interfaceThickness + dowelRadius;
+        const types = ["default", "alt"];
+        const modelOpts = {
+          type,
+          scale,
+          types
+        };
+        const modelDims = {
+          dowelRadius,
+          dowelDiam,
+          width,
+          simpleHeight,
+          length: length2,
+          interfaceThickness,
+          fitGap
+        };
+        const modelPoints = {
+          centre: defaults.vals.points.centre
+        };
+        const modelConstants = {
+          ratioDiamToHolderHeight: 1.666667,
+          ratioDiamToChannelDepth: 0.866667,
+          ratioDiamToSideChannelWidth: 1,
+          ratioDiamToDowelDepth: 0.333333
+        };
+        const modelComponents = {};
+        const modelProperties = {
+          metadata: {
+            id: "9999",
+            name: "New Model",
+            project: "New Project",
+            author: "Somebody Somewhere",
+            organization: "Salvador Workshop",
+            client: null
+          },
+          constants: modelConstants,
+          opts: modelOpts,
+          dims: modelDims,
+          points: modelPoints,
+          components: modelComponents
+        };
+        console.log("roundFittingProps() -- modelProperties", modelProperties);
+        return modelProperties;
+      };
+      const simpleRoundFitting = (opts) => {
+        const defaults = roundFittingDefaults();
+        const initOpts = roundFittingOpts(opts);
+        const modelProperties = roundFittingProps(initOpts);
+        const {
+          dowelRadius,
+          dowelDiam,
+          interfaceThickness,
+          fitGap,
+          width,
+          simpleHeight
+        } = modelProperties.dims;
+        const baseRect = rectangle({
+          size: [width, simpleHeight]
+        });
+        const topCutaway = circle({ radius: fitGap / 2 + dowelRadius });
+        const dHolderSection = subtract(
+          align({ modes: ["center", "max", "center"] }, baseRect),
+          translate([0, dowelRadius / 3, 0], topCutaway)
+        );
+        let dHolder = extrudeLinear({ height: length }, dHolderSection);
+        dHolder = rotate([Math.PI / 2, 0, 0], dHolder);
+        const mainModel = align({ modes: ["center", "center", "center"] }, dHolder);
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const roundFitting = (opts) => {
+        const defaults = roundFittingDefaults();
+        const initOpts = roundFittingOpts(opts);
+        const modelProperties = roundFittingProps(initOpts);
+        const roundFittingSection = (modelProps) => {
+          const {
+            ratioDiamToHolderHeight,
+            ratioDiamToChannelDepth,
+            ratioDiamToSideChannelWidth,
+            ratioDiamToDowelDepth
+          } = modelProps.constants;
+          const {
+            dowelRadius,
+            dowelDiam,
+            interfaceThickness,
+            fitGap,
+            width
+          } = modelProps.dims;
+          const baseRect = rectangle({
+            size: [
+              width,
+              dowelDiam * ratioDiamToHolderHeight
+            ]
+          });
+          const topCutaway = circle({ radius: fitGap / 2 + dowelRadius });
+          const channelCutaway = triangle({
+            type: "SSS",
+            values: [
+              dowelDiam + fitGap,
+              dowelDiam + fitGap,
+              dowelDiam + fitGap
+            ]
+          });
+          let sideCutaway1 = triangle({
+            type: "ASA",
+            values: [
+              Math.PI / 6,
+              dowelDiam * ratioDiamToSideChannelWidth,
+              Math.PI / 6
+            ]
+          });
+          sideCutaway1 = rotate([0, 0, Math.PI / -2], sideCutaway1);
+          const sideCutaway2 = mirror({ normal: [1, 0, 0] }, sideCutaway1);
+          let dHolderSection = subtract(
+            align({ modes: ["center", "min", "center"] }, baseRect),
+            align({ modes: ["center", "min", "center"] }, channelCutaway)
+          );
+          dHolderSection = subtract(
+            align({ modes: ["center", "max", "center"] }, dHolderSection),
+            translate([0, dowelRadius / 3, 0], topCutaway)
+          );
+          dHolderSection = subtract(
+            align({ modes: ["min", "center", "center"] }, dHolderSection),
+            align({ modes: ["min", "center", "center"] }, sideCutaway1)
+          );
+          dHolderSection = subtract(
+            align({ modes: ["max", "center", "center"] }, dHolderSection),
+            align({ modes: ["max", "center", "center"] }, sideCutaway2)
+          );
+          return align({ modes: ["center", "center", "center"] }, dHolderSection);
+        };
+        const finalAssembly = (modelProps) => {
+          const {
+            length: length2
+          } = modelProps.dims;
+          const dHolderSection = roundFittingSection(modelProps);
+          let dHolder = extrudeLinear({ height: length2 }, dHolderSection);
+          dHolder = rotate([Math.PI / 2, 0, 0], dHolder);
+          return align({ modes: ["center", "center", "center"] }, dHolder);
+        };
+        const roundFittingSectionInst = roundFittingSection(modelProperties);
+        const mainModel = finalAssembly(modelProperties);
+        const modelParts = {
+          roundFittingSection: roundFittingSectionInst
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      return {
+        defaults: roundFittingDefaults,
+        props: roundFittingProps,
+        simpleRoundFitting,
+        roundFitting
+      };
+    };
+    module2.exports = {
+      init: roundFittingInit
+    };
+  }
+});
+
+// packages/swcad-js-components/src/fittings/rectangular-fitting.js
+var require_rectangular_fitting = __commonJS({
+  "packages/swcad-js-components/src/fittings/rectangular-fitting.js"(exports2, module2) {
+    "use strict";
+    var rectangularFittingInit = ({ jscad, swcadJs }) => {
+      const {
+        cube,
+        cylinder,
+        sphere,
+        cylinderElliptic,
+        circle,
+        cuboid,
+        roundedCuboid,
+        roundedCylinder,
+        roundedRectangle,
+        rectangle,
+        triangle
+      } = jscad.primitives;
+      const {
+        align,
+        translate,
+        rotate,
+        mirror
+      } = jscad.transforms;
+      const {
+        intersect,
+        subtract,
+        union,
+        scission
+      } = jscad.booleans;
+      const {
+        extrudeLinear,
+        extrudeRotate,
+        project
+      } = jscad.extrusions;
+      const {
+        measureDimensions,
+        measureBoundingBox,
+        measureVolume
+      } = jscad.measurements;
+      const {
+        hull,
+        hullChain
+      } = jscad.hulls;
+      const { vectorText } = jscad.text;
+      const { toOutlines } = jscad.geometries.geom2;
+      const { TAU } = jscad.maths.constants;
+      const { colorize } = jscad.colors;
+      const {
+        standards
+      } = swcadJs.data;
+      const {
+        math
+      } = swcadJs.calcs;
+      const rectangularFittingDefaults = () => {
+        const defaultValues = {
+          dims: {
+            size: [
+              math.inchesToMm(2),
+              math.inchesToMm(4),
+              math.inchesToMm(1)
+            ]
+          },
+          points: {
+            centrePt: [0, 0, 0]
+          },
+          types: {
+            default: standards.types.TYPE_DEFAULT,
+            alt: standards.types.TYPE_ALT
+          }
+        };
+        const standardOpts = {
+          type: defaultValues.types.default.id,
+          scale: 1,
+          interfaceThickness: standards.INTERFACE_THICKNESS,
+          fitGap: standards.FIT_GAP
+        };
+        const defaultOpts = {
+          ...standardOpts,
+          size: defaultValues.dims.size
+        };
+        return {
+          opts: defaultOpts,
+          vals: defaultValues
+        };
+      };
+      const rectangularFittingOpts = (opts) => {
+        const defaults = rectangularFittingDefaults();
+        console.log("rectangularFittingOpts() -- opts", opts);
+        const {
+          size = defaults.opts.size,
+          type = defaults.opts.type,
+          scale = defaults.opts.scale,
+          interfaceThickness = defaults.opts.interfaceThickness,
+          fitGap = defaults.opts.fitGap
+        } = opts;
+        const stdOpts = {
+          type,
+          scale,
+          interfaceThickness,
+          fitGap
+        };
+        const initOpts = {
+          size,
+          ...stdOpts
+        };
+        console.log("rectangularFittingOpts() -- initOpts", initOpts);
+        return initOpts;
+      };
+      const rectangularFittingProps = (opts) => {
+        const defaults = rectangularFittingDefaults();
+        console.log("rectangularFittingProps() -- opts", opts);
+        const {
+          size,
+          type,
+          scale,
+          interfaceThickness,
+          fitGap
+        } = opts;
+        const width = size[0];
+        const depth = size[1];
+        const height = size[2];
+        const modelConstants = {};
+        const modelOpts = {
+          type,
+          scale
+        };
+        const modelDims = {
+          size,
+          width,
+          depth,
+          height,
+          interfaceThickness,
+          fitGap
+        };
+        const modelPoints = {
+          centrePt: defaults.vals.points.centrePt
+        };
+        const modelComponents = {};
+        const modelProperties = {
+          metadata: {
+            id: "9999",
+            name: "New Model",
+            project: "New Project",
+            author: "Somebody Somewhere",
+            organization: "Salvador Workshop",
+            client: null
+          },
+          constants: modelConstants,
+          opts: modelOpts,
+          dims: modelDims,
+          points: modelPoints,
+          components: modelComponents
+        };
+        console.log("rectangularFittingProps() -- modelProperties", modelProperties);
+        return modelProperties;
+      };
+      const rectangularFitting = (opts) => {
+        const defaults = rectangularFittingDefaults();
+        const initOpts = rectangularFittingOpts(opts);
+        const modelProperties = rectangularFittingProps(initOpts);
+        const mainModel = cuboid();
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      return {
+        defaults: rectangularFittingDefaults,
+        props: rectangularFittingProps,
+        rectangularFitting
+      };
+    };
+    module2.exports = {
+      init: rectangularFittingInit
+    };
+  }
+});
+
+// packages/swcad-js-components/src/fittings/index.js
+var require_fittings = __commonJS({
+  "packages/swcad-js-components/src/fittings/index.js"(exports2, module2) {
+    var roundFittingModule = require_round_fitting();
+    var rectangularFittingModule = require_rectangular_fitting();
+    var fittingsInit = ({ jscad, swcadJs }) => {
+      const roundFitting = roundFittingModule.init({ jscad, swcadJs });
+      const rectangularFitting = rectangularFittingModule.init({ jscad, swcadJs });
+      return {
+        simpleRoundFitting: roundFitting.simpleRoundFitting,
+        roundFitting: roundFitting.roundFitting,
+        rectangularFitting: rectangularFitting.rectangularFitting
+      };
+    };
+    module2.exports = { init: fittingsInit };
+  }
+});
+
 // packages/swcad-js-components/src/mesh/index.js
 var require_mesh = __commonJS({
   "packages/swcad-js-components/src/mesh/index.js"(exports2, module2) {
@@ -8930,6 +9382,7 @@ var require_src5 = __commonJS({
     var beadsBitsModule = require_beads_bits2();
     var boxSupportModule = require_box_support();
     var componentLineModule = require_component_line();
+    var fittingsModule = require_fittings();
     var meshModule = require_mesh();
     var mouldingModule = require_moulding();
     var reinforcedRectPanelModule = require_reinforced_rect_panel();
@@ -8958,6 +9411,7 @@ var require_src5 = __commonJS({
         routedShapes,
         mesh,
         componentLine,
+        fittings: fittingsModule.init({ jscad, swcadJs: preLib }),
         moulding: mouldingModule.init({ jscad, swcadJs: preLib }),
         reinforcedRectPanel: reinforcedRectPanelModule.init({ jscad, swcadJs: preLib }),
         text: textModule.init({ jscad, swcadJs: preLib })
@@ -9038,10 +9492,10 @@ var require_crafts = __commonJS({
       };
       const toothpickProfile = ({
         radius = toothpickSpecs.radius,
-        length = toothpickSpecs.length,
+        length: length2 = toothpickSpecs.length,
         pointLength = toothpickSpecs.pointLength
       }) => {
-        const core2d = rectangle({ size: [pointLength * -2 + length, radius * 2] });
+        const core2d = rectangle({ size: [pointLength * -2 + length2, radius * 2] });
         const core2dCoords = position.getGeomCoords(core2d);
         const pointTriangleSide = Math.hypot(radius, pointLength);
         const pointAngle = Math.atan(radius / pointLength) * 2;
@@ -9059,18 +9513,18 @@ var require_crafts = __commonJS({
       };
       const toothpick = ({
         radius = toothpickSpecs.radius,
-        length = toothpickSpecs.length,
+        length: length2 = toothpickSpecs.length,
         pointLength = toothpickSpecs.pointLength
       }) => {
-        const baseShape = toothpickProfile({ radius, length, pointLength });
+        const baseShape = toothpickProfile({ radius, length: length2, pointLength });
         return extrudeRotate({ segments: 12 }, baseShape);
       };
       const bbqSkewerProfile = ({
         radius = bbqSkewerSpecs.radius,
-        length = bbqSkewerSpecs.length,
+        length: length2 = bbqSkewerSpecs.length,
         pointLength = bbqSkewerSpecs.pointLength
       }) => {
-        const core2d = rectangle({ size: [length - pointLength, radius * 2] });
+        const core2d = rectangle({ size: [length2 - pointLength, radius * 2] });
         const core2dCoords = position.getGeomCoords(core2d);
         const pointTriangleSide = Math.hypot(radius, pointLength);
         const pointAngle = Math.atan(radius / pointLength) * 2;
@@ -9084,24 +9538,24 @@ var require_crafts = __commonJS({
       };
       const bbqSkewer = ({
         radius = bbqSkewerSpecs.radius,
-        length = bbqSkewerSpecs.length,
+        length: length2 = bbqSkewerSpecs.length,
         pointLength = bbqSkewerSpecs.pointLength
       }) => {
-        const baseShape = bbqSkewerProfile({ radius, length, pointLength });
+        const baseShape = bbqSkewerProfile({ radius, length: length2, pointLength });
         return extrudeRotate({ segments: 12 }, baseShape);
       };
       const popsicleStickProfile = ({
         width = popsicleStickSpecs.width,
-        length = popsicleStickSpecs.length,
+        length: length2 = popsicleStickSpecs.length,
         endRadius = popsicleStickSpecs.endRadius
       }) => {
         const ends = [
           align(
-            { modes: ["min", "center", "center"], relativeTo: [length / -2, 0, 0] },
+            { modes: ["min", "center", "center"], relativeTo: [length2 / -2, 0, 0] },
             roundedRectangle({ size: [width, width], roundRadius: endRadius - 0.01 })
           ),
           align(
-            { modes: ["max", "center", "center"], relativeTo: [length / 2, 0, 0] },
+            { modes: ["max", "center", "center"], relativeTo: [length2 / 2, 0, 0] },
             roundedRectangle({ size: [width, width], roundRadius: endRadius - 0.01 })
           )
         ];
@@ -9111,10 +9565,10 @@ var require_crafts = __commonJS({
       const popsicleStick = ({
         width = popsicleStickSpecs.width,
         thickness = popsicleStickSpecs.thickness,
-        length = popsicleStickSpecs.length,
+        length: length2 = popsicleStickSpecs.length,
         endRadius = popsicleStickSpecs.endRadius
       }) => {
-        const baseShape = popsicleStickProfile({ width, length, endRadius });
+        const baseShape = popsicleStickProfile({ width, length: length2, endRadius });
         return extrudeLinear({ height: thickness }, baseShape);
       };
       const crafts = {
