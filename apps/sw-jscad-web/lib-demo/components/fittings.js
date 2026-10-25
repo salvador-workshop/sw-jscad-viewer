@@ -2,9 +2,8 @@
 const jscad = require('@jscad/modeling')
 
 const { translate } = jscad.transforms
-const { cuboid, rectangle, sphere, circle } = jscad.primitives
 
-const swcadJs = require('swcad-js-test').init({ jscad });
+const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
