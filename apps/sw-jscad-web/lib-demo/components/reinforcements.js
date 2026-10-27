@@ -1,13 +1,12 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
-const swcadJs = require('swcad-js').init({ jscad });
+const swcadJs = require('swcad-js-test').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
-    shapes,
-    curve,
-} = swcadJs.profiles
+    reinforcements,
+} = swcadJs.components
 
 const {
     layout,
@@ -15,15 +14,15 @@ const {
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 10,
+        layoutMargin: 15,
         layoutSpace: 10,
     }
 
-    const reinfRectData1 = shapes.rectangle.reinforcedRect({ size: [40, 45] })
+    const reinfRectData1 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3] })
 
-    const reinfRectData2 = shapes.rectangle.reinforcedRect({ size: [40, 45], reinforcementPattern: 'cross' })
+    const reinfRectData2 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'cross' })
 
-    const reinfRectData3 = shapes.rectangle.reinforcedRect({ size: [40, 45], reinforcementPattern: 'full' })
+    const reinfRectData3 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'full' })
 
     const rectProfiles = [
         {

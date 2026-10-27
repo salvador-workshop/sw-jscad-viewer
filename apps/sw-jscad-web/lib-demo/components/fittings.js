@@ -3,7 +3,7 @@ const jscad = require('@jscad/modeling')
 
 const { translate } = jscad.transforms
 
-const swcadJs = require('swcad-js').init({ jscad });
+const swcadJs = require('swcad-js-test').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
@@ -17,11 +17,11 @@ const {
 function main() {
     const spaceUnit = math.inchesToMm(2.25)
 
-    const simpleDowelHolder = fittings.simpleRoundFitting({
+    const simpleDowelHolder = fittings.roundFitting({
         dowelRadius: 3.25 / 2,
         length: math.inchesToMm(5 / 16),
     })[0]
-    const doubleDowelHolder = fittings.roundFitting({
+    const doubleDowelHolder = fittings.doubleRoundFitting({
         dowelRadius: 3.25 / 2,
         length: math.inchesToMm(5 / 16),
     })[0]
