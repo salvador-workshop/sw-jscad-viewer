@@ -5,8 +5,8 @@ const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
-    reinforcedRectPanel,
-} = swcadJs.components
+    reinforcements,
+} = swcadJs.profiles
 
 const {
     layout,
@@ -14,15 +14,15 @@ const {
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 15,
+        layoutMargin: 10,
         layoutSpace: 10,
     }
 
-    const reinfRectData1 = reinforcedRectPanel({ size: [40, 45, 3] })
+    const reinfRectData1 = reinforcements.reinforcedRect({ size: [40, 45] })
 
-    const reinfRectData2 = reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'cross' })
+    const reinfRectData2 = reinforcements.reinforcedRect({ size: [40, 45], reinforcementPattern: 'cross' })
 
-    const reinfRectData3 = reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'full' })
+    const reinfRectData3 = reinforcements.reinforcedRect({ size: [40, 45], reinforcementPattern: 'full' })
 
     const rectProfiles = [
         {
