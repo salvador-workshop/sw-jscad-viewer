@@ -21,10 +21,17 @@ function main() {
         dowelRadius: 3.25 / 2,
         length: math.inchesToMm(5 / 16),
     })[0]
+
+    const simpleInvDowelHolder = fittings.inverseRoundFitting({
+        dowelRadius: 3.25 / 2,
+        length: math.inchesToMm(5 / 16),
+    })[0]
+
     const doubleDowelHolder = fittings.doubleRoundFitting({
         dowelRadius: 3.25 / 2,
         length: math.inchesToMm(5 / 16),
     })[0]
+
     const flatStickHolder = fittings.rectangularFitting({
         subjectSize: [math.inchesToMm(1 / 4), math.inchesToMm(1 / 8)],
         length: math.inchesToMm(5 / 16),
@@ -32,8 +39,9 @@ function main() {
 
     return [
         translate([spaceUnit * 0, spaceUnit * 0, spaceUnit * 0], simpleDowelHolder),
-        translate([spaceUnit * 1, spaceUnit * 0, spaceUnit * 0], doubleDowelHolder),
-        translate([spaceUnit * 2, spaceUnit * 0, spaceUnit * 0], flatStickHolder),
+        translate([spaceUnit * 1, spaceUnit * 0, spaceUnit * 0], simpleInvDowelHolder),
+        translate([spaceUnit * 2, spaceUnit * 0, spaceUnit * 0], doubleDowelHolder),
+        translate([spaceUnit * 3, spaceUnit * 0, spaceUnit * 0], flatStickHolder),
     ]
 }
 
