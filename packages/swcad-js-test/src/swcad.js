@@ -1658,7 +1658,7 @@ var require_geometry = __commonJS({
       const lineLength = Math.hypot(coordDiffs[0], coordDiffs[1]);
       return lineLength;
     };
-    var midpointBetweenPoints2 = (startPt, endPt) => {
+    var midpointBetweenPoints = (startPt, endPt) => {
       const coordDiffs = coordDiffBetweenPoints(startPt, endPt);
       const midPt = [
         startPt[0] + coordDiffs[0] / 2,
@@ -1685,7 +1685,7 @@ var require_geometry = __commonJS({
         for (let ptIdx = 0; ptIdx < outlinePts.length - 1; ptIdx++) {
           const startPt = outlinePts[ptIdx];
           const endPt = outlinePts[ptIdx + 1];
-          const midPt = midpointBetweenPoints2(startPt, endPt);
+          const midPt = midpointBetweenPoints(startPt, endPt);
           const lineLength = distanceBetweenPoints(startPt, endPt);
           const lineAngle = angleOfTwoPtLine(startPt, endPt);
           lineData.push({
@@ -1773,7 +1773,7 @@ var require_geometry = __commonJS({
       return {
         coordDiffBetweenPoints,
         angleOfTwoPtLine,
-        midpointBetweenPoints: midpointBetweenPoints2,
+        midpointBetweenPoints,
         pointFromAngleAndDist,
         getLineDataFromOutlinePoints,
         getTriangularPtsInArea,
@@ -7799,7 +7799,7 @@ var require_component_line = __commonJS({
           baseLineOffset,
           component
         } = opts;
-        const midPt = midpointBetweenPoints(startPt, endPt);
+        const midPt = geometry.midpointBetweenPoints(startPt, endPt);
         const lineLength = geometry.distanceBetweenPoints(startPt, endPt);
         const offsetLineLength = lineLength - endOffset * 2;
         const numSubLengths = Math.floor(offsetLineLength / unitLength);
@@ -8028,7 +8028,7 @@ var require_round_fitting = __commonJS({
         math,
         position
       } = swcadJs.calcs;
-      const roundFittingDefaults2 = () => {
+      const roundFittingDefaults = () => {
         const defaultValues = {
           constants: {
             ratioDiamToDoubleFittingMaxHt: 2.76,
@@ -8062,8 +8062,8 @@ var require_round_fitting = __commonJS({
           vals: defaultValues
         };
       };
-      const roundFittingOpts2 = (opts) => {
-        const defaults = roundFittingDefaults2();
+      const roundFittingOpts = (opts) => {
+        const defaults = roundFittingDefaults();
         console.log("roundFittingOpts() -- opts", opts);
         const {
           dowelRadius = defaults.opts.dowelRadius,
@@ -8087,8 +8087,8 @@ var require_round_fitting = __commonJS({
         console.log("roundFittingOpts() -- initOpts", initOpts);
         return initOpts;
       };
-      const roundFittingProps2 = (opts) => {
-        const defaults = roundFittingDefaults2();
+      const roundFittingProps = (opts) => {
+        const defaults = roundFittingDefaults();
         console.log("roundFittingProps() -- opts", opts);
         const {
           dowelRadius,
@@ -8153,9 +8153,9 @@ var require_round_fitting = __commonJS({
         return modelProperties;
       };
       const roundFittingCutProfile = (opts) => {
-        const defaults = roundFittingDefaults2();
-        const initOpts = roundFittingOpts2(opts);
-        const modelProperties = roundFittingProps2(initOpts);
+        const defaults = roundFittingDefaults();
+        const initOpts = roundFittingOpts(opts);
+        const modelProperties = roundFittingProps(initOpts);
         const {
           roundCutProfileRadius
         } = modelProperties.dims;
@@ -8166,9 +8166,9 @@ var require_round_fitting = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const invRoundFittingCutProfile = (opts) => {
-        const defaults = roundFittingDefaults2();
-        const initOpts = roundFittingOpts2(opts);
-        const modelProperties = roundFittingProps2(initOpts);
+        const defaults = roundFittingDefaults();
+        const initOpts = roundFittingOpts(opts);
+        const modelProperties = roundFittingProps(initOpts);
         const {
           invCutProfileSideLength
         } = modelProperties.dims;
@@ -8186,9 +8186,9 @@ var require_round_fitting = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const roundFitting = (opts) => {
-        const defaults = roundFittingDefaults2();
-        const initOpts = roundFittingOpts2(opts);
-        const modelProperties = roundFittingProps2(initOpts);
+        const defaults = roundFittingDefaults();
+        const initOpts = roundFittingOpts(opts);
+        const modelProperties = roundFittingProps(initOpts);
         const {
           dowelRadius,
           dowelDiam,
@@ -8218,9 +8218,9 @@ var require_round_fitting = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const inverseRoundFitting = (opts) => {
-        const defaults = roundFittingDefaults2();
-        const initOpts = roundFittingOpts2(opts);
-        const modelProperties = roundFittingProps2(initOpts);
+        const defaults = roundFittingDefaults();
+        const initOpts = roundFittingOpts(opts);
+        const modelProperties = roundFittingProps(initOpts);
         const {
           dowelRadius,
           dowelDiam,
@@ -8249,9 +8249,9 @@ var require_round_fitting = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const doubleRoundFitting = (opts) => {
-        const defaults = roundFittingDefaults2();
-        const initOpts = roundFittingOpts2(opts);
-        const modelProperties = roundFittingProps2(initOpts);
+        const defaults = roundFittingDefaults();
+        const initOpts = roundFittingOpts(opts);
+        const modelProperties = roundFittingProps(initOpts);
         const roundFittingSection = (modelProps) => {
           const {
             ratioDiamToHolderHeight,
@@ -8319,8 +8319,8 @@ var require_round_fitting = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       return {
-        defaults: roundFittingDefaults2,
-        props: roundFittingProps2,
+        defaults: roundFittingDefaults,
+        props: roundFittingProps,
         roundFittingCutProfile,
         invRoundFittingCutProfile,
         roundFitting,
@@ -8504,9 +8504,9 @@ var require_rectangular_fitting = __commonJS({
         return modelProperties;
       };
       const rectFittingCutProfile = (opts) => {
-        const defaults = roundFittingDefaults();
-        const initOpts = roundFittingOpts(opts);
-        const modelProperties = roundFittingProps(initOpts);
+        const defaults = rectangularFittingDefaults();
+        const initOpts = rectangularFittingOpts(opts);
+        const modelProperties = rectangularFittingProps(initOpts);
         const {
           cutProfileWidth,
           cutProfileHeight
@@ -8580,7 +8580,10 @@ var require_fittings = __commonJS({
         roundFitting: roundFitting.roundFitting,
         inverseRoundFitting: roundFitting.inverseRoundFitting,
         doubleRoundFitting: roundFitting.doubleRoundFitting,
-        rectangularFitting: rectangularFitting.rectangularFitting
+        roundFittingCutProfile: roundFitting.roundFittingCutProfile,
+        invRoundFittingCutProfile: roundFitting.invRoundFittingCutProfile,
+        rectangularFitting: rectangularFitting.rectangularFitting,
+        rectFittingCutProfile: rectangularFitting.rectFittingCutProfile
       };
     };
     module2.exports = { init: fittingsInit };
