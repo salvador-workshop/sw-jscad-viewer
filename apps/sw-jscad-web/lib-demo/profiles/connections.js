@@ -47,6 +47,13 @@ const main = () => {
     const connDovetailMale = connDovetailProfiles[0]
     const connDovetailFemale = connDovetailProfiles[1]
 
+    const connRightAngleTabData = connections.rightAngleTab({
+        interfaceMargin: [math.inchesToMm(3/8), math.inchesToMm(3/16)]
+    })
+    const connRightAngleTabProfiles = connRightAngleTabData[0]
+    const connRightAngleTabMale = connRightAngleTabProfiles[0]
+    const connRightAngleTabFemale = connRightAngleTabProfiles[1]
+
     const connBoltCircleData = connections.boltCircle({
         radius: 20,
         unitRadius: 5,
@@ -70,6 +77,14 @@ const main = () => {
     const connTabRowProfiles = connTabRowData[0]
     const connTabRowMale = connTabRowProfiles[0]
     const connTabRowFemale = connTabRowProfiles[1]
+
+    const connRightAngleTabRowData = connections.rightAngleTabRow({
+        size: [100, 33],
+        interfaceMargin: [math.inchesToMm(3/8), math.inchesToMm(3/16)]
+    })
+    const connRightAngleTabRowProfiles = connRightAngleTabRowData[0]
+    const connRightAngleTabRowMale = connRightAngleTabRowProfiles[0]
+    const connRightAngleTabRowFemale = connRightAngleTabRowProfiles[1]
 
     const layoutOpts = {
         layoutMargin: 15,
@@ -110,6 +125,14 @@ const main = () => {
             geom: connDovetailFemale,
         },
         {
+            name: 'c-rangle-tab-m',
+            geom: connRightAngleTabMale,
+        },
+        {
+            name: 'c-rangle-tab-f',
+            geom: connRightAngleTabFemale,
+        },
+        {
             name: 'c-ellipse-m',
             geom: connEllipseMale,
         },
@@ -140,6 +163,14 @@ const main = () => {
         {
             name: 'c-tabrow-f',
             geom: connTabRowFemale,
+        },
+        {
+            name: 'c-rangle-tabrow-m',
+            geom: connRightAngleTabRowMale,
+        },
+        {
+            name: 'c-rangle-tabrow-f',
+            geom: connRightAngleTabRowFemale,
         },
     ]
 
