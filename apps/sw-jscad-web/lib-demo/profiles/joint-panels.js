@@ -19,37 +19,53 @@ const {
 
 //==============================================================================
 
-
 /* ----------------------------------------
- * Model / Scene Prep
- * ------------------------------------- */
+* Model / Scene Prep
+* ------------------------------------- */
+
+const smallSize = [100, 80]
+const largeSize = [150, 100]
 
 const jointPanelData1 = jointPanel.oneJointRectPanel({
-    size: [100, 80],
+    size: smallSize,
     jointNumConnectors: 2,
-    // jointMargin: 7,
 })
 const jointPanelProfiles1 = jointPanelData1[0]
 const jointPanelMale1 = jointPanelProfiles1[0]
 const jointPanelFemale1 = jointPanelProfiles1[1]
 
 const jointPanelData2 = jointPanel.oneJointRectPanel({
-    size: [100, 80],
+    size: smallSize,
     axis: 'y',
-    // jointMargin: 7,
     jointMargin: [math.inchesToMm(1 / 4), math.inchesToMm(1 / 8)]
 })
 const jointPanelProfiles2 = jointPanelData2[0]
 const jointPanelMale2 = jointPanelProfiles2[0]
 const jointPanelFemale2 = jointPanelProfiles2[1]
 
-const jointPanelData3 = jointPanel.twoJointRectPanel({
-    size: [150, 100],
+const twoJointPanelOpts = {
+    size: largeSize,
     jointNumConnectors: [3, 3],
-    // jointMargin: 6,
     jointMargin: [math.inchesToMm(5 / 16), math.inchesToMm(1 / 4)]
+}
+
+const jointPanelData3 = jointPanel.twoJointRectPanel({
+    ...twoJointPanelOpts,
+    jointWidth: 5,
 })
 const jointPanelProfiles3 = jointPanelData3[0]
+
+const jointPanelData4 = jointPanel.twoJointRectPanel({
+    ...twoJointPanelOpts,
+    type: 'dovetail'
+})
+const jointPanelProfiles4 = jointPanelData4[0]
+
+const jointPanelData5 = jointPanel.twoJointRectPanel({
+    ...twoJointPanelOpts,
+    type: 'rightAngleTab'
+})
+const jointPanelProfiles5 = jointPanelData5[0]
 
 
 //==============================================================================
@@ -97,6 +113,38 @@ const main = () => {
         {
             name: 'c-jointpanel-3d',
             geom: jointPanelProfiles3[3],
+        },
+        {
+            name: 'c-jointpanel-4a',
+            geom: jointPanelProfiles4[0],
+        },
+        {
+            name: 'c-jointpanel-4b',
+            geom: jointPanelProfiles4[1],
+        },
+        {
+            name: 'c-jointpanel-4c',
+            geom: jointPanelProfiles4[2],
+        },
+        {
+            name: 'c-jointpanel-4d',
+            geom: jointPanelProfiles4[3],
+        },
+        {
+            name: 'c-jointpanel-5a',
+            geom: jointPanelProfiles5[0],
+        },
+        {
+            name: 'c-jointpanel-5b',
+            geom: jointPanelProfiles5[1],
+        },
+        {
+            name: 'c-jointpanel-5c',
+            geom: jointPanelProfiles5[2],
+        },
+        {
+            name: 'c-jointpanel-5d',
+            geom: jointPanelProfiles5[3],
         },
     ]
 

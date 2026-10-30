@@ -3929,7 +3929,8 @@ var require_joint_panel = __commonJS({
           },
           types: {
             tab: { id: "tab", desc: "Tab" },
-            dovetail: { id: "dovetail", desc: "Dovetail" }
+            dovetail: { id: "dovetail", desc: "Dovetail" },
+            rightAngleTab: { id: "rightAngleTab", desc: "Right-angle Tab" }
           }
         };
         const standardOpts = {
@@ -4079,6 +4080,8 @@ var require_joint_panel = __commonJS({
         let jointData = connections.tabRow(jointOpts);
         if (type == "dovetail") {
           jointData = connections.dovetailRow(jointOpts);
+        } else if (type == "rightAngleTab") {
+          jointData = connections.rightAngleTabRow(jointOpts);
         }
         let jointCut = position.ctr(jointData[1].cut);
         if (axis == "y") {
@@ -4150,6 +4153,8 @@ var require_joint_panel = __commonJS({
         let jointDataX = connections.tabRow(jointOptsX);
         if (type == "dovetail") {
           jointDataX = connections.dovetailRow(jointOptsX);
+        } else if (type == "rightAngleTab") {
+          jointDataX = connections.rightAngleTabRow(jointOptsX);
         }
         const jointCutX = position.ctr(jointDataX[1].cut);
         const jointSizeY = [depth, totalJointWidth];
@@ -4161,6 +4166,8 @@ var require_joint_panel = __commonJS({
         let jointDataY = connections.tabRow(jointOptsY);
         if (type == "dovetail") {
           jointDataY = connections.dovetailRow(jointOptsY);
+        } else if (type == "rightAngleTab") {
+          jointDataY = connections.rightAngleTabRow(jointOptsY);
         }
         const jointCutY = rotate([0, 0, TAU / 4], position.ctr(jointDataY[1].cut));
         const comboCut = union(jointCutX, jointCutY);
