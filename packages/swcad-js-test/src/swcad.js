@@ -3228,10 +3228,6 @@ var require_connections = __commonJS({
         } = modelProperties.points;
         const rAngTabWidth = width - interfaceMargin[0] * 2;
         const rAngTabLength = depth - interfaceMargin[1] * 2;
-        const tabEndSize = [
-          rAngTabLength,
-          rAngTabLength
-        ];
         const widthCoords = [
           interfaceMargin[0],
           interfaceMargin[0] + rAngTabWidth
@@ -3251,8 +3247,8 @@ var require_connections = __commonJS({
           [width, lengthCoords[0]]
         ];
         const upperPts = [
-          [widthCoords[0] + tabEndSize[0], lengthCoords[1]],
-          [widthCoords[1] - tabEndSize[0], lengthCoords[1]]
+          [widthCoords[0], lengthCoords[1]],
+          [widthCoords[1], lengthCoords[1]]
         ];
         const allPts = [
           lowerPts[0],
@@ -3700,46 +3696,46 @@ var require_connections = __commonJS({
         const totalConnectionWidths = width - interfaceMargin[0] * numMargins;
         const connectionWidth = totalConnectionWidths / numConnectors;
         const connectionUnitWidth = 2 * interfaceMargin[0] + connectionWidth;
-        const tabCutOpts = modelOpts({
+        const rAngTabCutOpts = modelOpts({
           ...opts,
           size: [connectionUnitWidth, depth]
         });
-        const tabCutData = tab(tabCutOpts);
-        const tabCutBase = tabCutData[1].cut;
+        const rAngTabCutData = rightAngleTab(rAngTabCutOpts);
+        const rAngTabCutBase = rAngTabCutData[1].cut;
         const baseProfilePanel = cuboid({
           size: [width, depth, sampleThickness],
           center: [centrePt[0], centrePt[1], 0]
         });
-        let tabRowCut = tabCutBase;
+        let rAngTabRowCut = rAngTabCutBase;
         const translateDistBase = interfaceMargin[0] + connectionWidth;
         for (let idx = 1; idx < numConnectors; idx++) {
           const translateDist = translateDistBase * idx;
-          tabRowCut = union(
-            tabRowCut,
-            translate([translateDist, 0, 0], tabCutBase)
+          rAngTabRowCut = union(
+            rAngTabRowCut,
+            translate([translateDist, 0, 0], rAngTabCutBase)
           );
         }
         const cutPanel = subtract(
           baseProfilePanel,
-          tabRowCut
+          rAngTabRowCut
         );
         const cutParts = scission(cutPanel);
-        const tProfiles = [
+        const rtProfiles = [
           position.ctr(cutParts[1]),
           position.ctr(cutParts[0])
         ];
-        const tabProfiles = [
-          project({}, tProfiles[0]),
-          project({}, tProfiles[1])
+        const rAngTabProfiles = [
+          project({}, rtProfiles[0]),
+          project({}, rtProfiles[1])
         ];
         const mainModel = [
-          tabProfiles[0],
-          tabProfiles[1]
+          rAngTabProfiles[0],
+          rAngTabProfiles[1]
         ];
         const modelParts = {
-          male: tabProfiles[0],
-          female: tabProfiles[1],
-          cut: tabRowCut
+          male: rAngTabProfiles[0],
+          female: rAngTabProfiles[1],
+          cut: rAngTabRowCut
         };
         return [mainModel, modelParts, modelProperties];
       };
