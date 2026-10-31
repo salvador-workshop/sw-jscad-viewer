@@ -117,723 +117,10 @@ var require_functions = __commonJS({
   }
 });
 
-// packages/swcad-js-data/src/standards/std-crafts.js
-var require_std_crafts = __commonJS({
-  "packages/swcad-js-data/src/standards/std-crafts.js"(exports2, module2) {
-    "use strict";
-    var craftStd = ({ jscad }) => {
-      return {
-        /**
-         * Diam_Toothpick
-         * @memberof data.standards.crafts
-         * @constant {number}
-         */
-        DIAM_TOOTHPICK: 2.3,
-        /**
-         * Diam_Bbq_Skewer
-         * @memberof data.standards.crafts
-         * @constant {number}
-         */
-        DIAM_BBQ_SKEWER: 3.25,
-        /**
-         * Popsicle_Stick_Width
-         * @memberof data.standards.crafts
-         * @constant {number}
-         */
-        POPSICLE_STICK_WIDTH: 10,
-        /**
-         * Popsicle_Stick_Thickness
-         * @memberof data.standards.crafts
-         * @constant {number}
-         */
-        POPSICLE_STICK_THICKNESS: 2,
-        /**
-         * Popsicle_Stick_Length
-         * @memberof data.standards.crafts
-         * @constant {number}
-         */
-        POPSICLE_STICK_LENGTH: 114
-      };
-    };
-    module2.exports = { init: craftStd };
-  }
-});
-
-// packages/swcad-js-data/src/standards/std-lumber.js
-var require_std_lumber = __commonJS({
-  "packages/swcad-js-data/src/standards/std-lumber.js"(exports2, module2) {
-    "use strict";
-    var inchesToMm = (numIn) => numIn * 25.4;
-    var arrayCartesianProduct = (a, b) => a.reduce((acc, x) => [...acc, ...b.map((y) => [x, y])], []);
-    var lumberStd = ({ jscad }) => {
-      const baseLumberSizes = {
-        "1": {
-          name: "ONE",
-          nominal: inchesToMm(1),
-          actual: inchesToMm(3 / 4)
-        },
-        "2": {
-          name: "TWO",
-          nominal: inchesToMm(2),
-          actual: inchesToMm(1.5)
-        },
-        "3": {
-          name: "THREE",
-          nominal: inchesToMm(3),
-          actual: inchesToMm(2.5)
-        },
-        "4": {
-          name: "FOUR",
-          nominal: inchesToMm(4),
-          actual: inchesToMm(3.5)
-        },
-        "6": {
-          name: "SIX",
-          nominal: inchesToMm(6),
-          actual: inchesToMm(5.5)
-        },
-        "8": {
-          name: "EIGHT",
-          nominal: inchesToMm(8),
-          actual: inchesToMm(7.25)
-        },
-        "10": {
-          name: "TEN",
-          nominal: inchesToMm(10),
-          actual: inchesToMm(9.25)
-        },
-        "12": {
-          name: "TWELVE",
-          nominal: inchesToMm(12),
-          actual: inchesToMm(11.25)
-        }
-      };
-      const widths = [1, 2, 3, 4, 6, 8, 10, 12];
-      const depths = [1, 2, 3, 4];
-      const dimensional = {};
-      const lumberSizes = arrayCartesianProduct(depths, widths);
-      lumberSizes.forEach((lumberDims) => {
-        const depthDim = baseLumberSizes[`${lumberDims[0]}`];
-        const widthDim = baseLumberSizes[`${lumberDims[1]}`];
-        const newPropName = `${depthDim.name}_BY_${widthDim.name}`;
-        const newVal = {
-          name: newPropName,
-          nomDepth: depthDim.nominal,
-          nomWidth: widthDim.nominal,
-          depth: depthDim.actual,
-          width: widthDim.actual
-        };
-        dimensional[newPropName] = newVal;
-      });
-      const plywood = {
-        thicknesses: {
-          EIGHTH: {
-            nominal: inchesToMm(1 / 8),
-            actual: inchesToMm(7 / 64)
-          },
-          QUARTER: {
-            nominal: inchesToMm(1 / 4),
-            actual: inchesToMm(7 / 32)
-          },
-          THREE_SEVENTHS: {
-            nominal: inchesToMm(3 / 7),
-            actual: inchesToMm(11 / 32)
-          },
-          HALF: {
-            nominal: inchesToMm(1 / 2),
-            actual: inchesToMm(15 / 32)
-          },
-          FIVE_EIGHTHS: {
-            nominal: inchesToMm(5 / 8),
-            actual: inchesToMm(19 / 32)
-          },
-          THREE_QUARTERS: {
-            nominal: inchesToMm(3 / 4),
-            actual: inchesToMm(23 / 32)
-          }
-        },
-        SHEET_LENGTH_STD: inchesToMm(96),
-        SHEET_WIDTH_STD: inchesToMm(48),
-        SHEET_LENGTH_SM: inchesToMm(48),
-        SHEET_WIDTH_SM: inchesToMm(24)
-      };
-      return {
-        dimensional,
-        plywood
-      };
-    };
-    module2.exports = { init: lumberStd };
-  }
-});
-
-// packages/swcad-js-data/src/standards/std-masonry.js
-var require_std_masonry = __commonJS({
-  "packages/swcad-js-data/src/standards/std-masonry.js"(exports2, module2) {
-    "use strict";
-    var inchesToMm = (numIn) => numIn * 25.4;
-    var masonryStd = ({ jscad }) => {
-      const masonryCore = {
-        MORTAR_JOINT: inchesToMm(3 / 8),
-        MORTAR_JOINT_LG: inchesToMm(1 / 2)
-      };
-      const brick = {
-        /**
-         * Us_Brick_Length_Nom
-         * @memberof data.standards.masonry.brick
-         */
-        US_BRICK_LENGTH_NOM: inchesToMm(8),
-        /**
-         * Us_Brick_Width_Nom
-         * @memberof data.standards.masonry.brick
-         */
-        US_BRICK_WIDTH_NOM: inchesToMm(4),
-        /**
-         * Us_Brick_Height_Nom
-         * @memberof data.standards.masonry.brick
-         */
-        US_BRICK_HEIGHT_NOM: inchesToMm(2 + 2 / 3),
-        /**
-         * Uk_Brick_Length_Nom
-         * @memberof data.standards.masonry.brick
-         */
-        UK_BRICK_LENGTH_NOM: 215,
-        /**
-         * Uk_Brick_Width_Nom
-         * @memberof data.standards.masonry.brick
-         */
-        UK_BRICK_WIDTH_NOM: 102.5,
-        /**
-         * Uk_Brick_Height_Nom
-         * @memberof data.standards.masonry.brick
-         */
-        UK_BRICK_HEIGHT_NOM: 65
-      };
-      brick["US_BRICK_LENGTH"] = brick.US_BRICK_LENGTH_NOM - masonryCore.MORTAR_JOINT;
-      brick["US_BRICK_WIDTH"] = brick.US_BRICK_WIDTH_NOM - masonryCore.MORTAR_JOINT;
-      brick["US_BRICK_HEIGHT"] = brick.US_BRICK_HEIGHT_NOM - masonryCore.MORTAR_JOINT;
-      brick["US_BRICK_LENGTH_LG_JOINT"] = brick.US_BRICK_LENGTH_NOM - masonryCore.MORTAR_JOINT_LG;
-      brick["US_BRICK_WIDTH_LG_JOINT"] = brick.US_BRICK_WIDTH_NOM - masonryCore.MORTAR_JOINT_LG;
-      brick["US_BRICK_HEIGHT_LG_JOINT"] = brick.US_BRICK_HEIGHT_NOM - masonryCore.MORTAR_JOINT_LG;
-      const concrete = {
-        /**
-         * Cmu_Face_Thickness
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_FACE_THICKNESS: 36,
-        /**
-         * Cmu_Web_Thickness
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_WEB_THICKNESS: 32,
-        /**
-         * Cmu_Web_Thickness_Sm
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_WEB_THICKNESS_SM: 26,
-        /**
-         * Cmu_4_Nom
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_4_NOM: [inchesToMm(16), inchesToMm(4), inchesToMm(8)],
-        /**
-         * Cmu_6_Nom
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_6_NOM: [inchesToMm(16), inchesToMm(6), inchesToMm(8)],
-        /**
-         * Cmu_8_Nom
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_8_NOM: [inchesToMm(16), inchesToMm(8), inchesToMm(8)],
-        /**
-         * Cmu_10_Nom
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_10_NOM: [inchesToMm(16), inchesToMm(10), inchesToMm(8)],
-        /**
-         * Cmu_12_Nom
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_12_NOM: [inchesToMm(16), inchesToMm(12), inchesToMm(8)],
-        /**
-         * Cmu_4half_Nom
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_4HALF_NOM: [inchesToMm(8), inchesToMm(4), inchesToMm(8)],
-        /**
-         * Cmu_6half_Nom
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_6HALF_NOM: [inchesToMm(8), inchesToMm(6), inchesToMm(8)],
-        /**
-         * Cmu_8half_Nom
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_8HALF_NOM: [inchesToMm(8), inchesToMm(8), inchesToMm(8)],
-        /**
-         * Cmu_10half_Nom
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_10HALF_NOM: [inchesToMm(8), inchesToMm(10), inchesToMm(8)],
-        /**
-         * Cmu_12half_Nom
-         * @memberof data.standards.masonry.concrete
-         */
-        CMU_12HALF_NOM: [inchesToMm(8), inchesToMm(12), inchesToMm(8)]
-      };
-      Object.entries(concrete).forEach(([concKey, concVal]) => {
-        if (concKey.includes("_NOM")) {
-          const newKey = concKey.replace("_NOM", "");
-          concrete[newKey] = [
-            concVal[0] - masonryCore.MORTAR_JOINT,
-            concVal[1] - masonryCore.MORTAR_JOINT,
-            concVal[2] - masonryCore.MORTAR_JOINT
-          ];
-          concrete[`${newKey}_LG_JOINT`] = [
-            concVal[0] - masonryCore.MORTAR_JOINT_LG,
-            concVal[1] - masonryCore.MORTAR_JOINT_LG,
-            concVal[2] - masonryCore.MORTAR_JOINT_LG
-          ];
-        }
-      });
-      const masonry = {
-        ...masonryCore,
-        brick,
-        concrete
-      };
-      return masonry;
-    };
-    module2.exports = { init: masonryStd };
-  }
-});
-
-// packages/swcad-js-data/src/standards/std-paper.js
-var require_std_paper = __commonJS({
-  "packages/swcad-js-data/src/standards/std-paper.js"(exports2, module2) {
-    "use strict";
-    var inchesToMm = (numIn) => numIn * 25.4;
-    var paperStd = ({ jscad }) => {
-      const metric = {
-        /**
-         * A0 sheet
-         * @memberof data.standards.paper.metric
-         */
-        A0: [841, 1189],
-        /**
-         * A1 sheet
-         * @memberof data.standards.paper.metric
-         */
-        A1: [594, 841],
-        /**
-         * A2 sheet
-         * @memberof data.standards.paper.metric
-         */
-        A2: [420, 594],
-        /**
-         * A3 sheet
-         * @memberof data.standards.paper.metric
-         */
-        A3: [297, 420],
-        /**
-         * A4 sheet
-         * @memberof data.standards.paper.metric
-         */
-        A4: [210, 297],
-        /**
-         * A5 sheet
-         * @memberof data.standards.paper.metric
-         */
-        A5: [148, 210],
-        /**
-         * A6 sheet
-         * @memberof data.standards.paper.metric
-         */
-        A6: [105, 148],
-        /**
-         * A7 sheet
-         * @memberof data.standards.paper.metric
-         */
-        A7: [74, 105],
-        /**
-         * A8 sheet
-         * @memberof data.standards.paper.metric
-         */
-        A8: [52, 74],
-        /**
-         * A9 sheet
-         * @memberof data.standards.paper.metric
-         */
-        A9: [37, 52],
-        /**
-         * A10 sheet
-         * @memberof data.standards.paper.metric
-         */
-        A10: [26, 37],
-        /**
-         * B0 sheet
-         * @memberof data.standards.paper.metric
-         */
-        B0: [1e3, 1414],
-        /**
-         * B1 sheet
-         * @memberof data.standards.paper.metric
-         */
-        B1: [707, 1e3],
-        /**
-         * B2 sheet
-         * @memberof data.standards.paper.metric
-         */
-        B2: [500, 707],
-        /**
-         * B3 sheet
-         * @memberof data.standards.paper.metric
-         */
-        B3: [353, 500],
-        /**
-         * B4 sheet
-         * @memberof data.standards.paper.metric
-         */
-        B4: [250, 353],
-        /**
-         * B5 sheet
-         * @memberof data.standards.paper.metric
-         */
-        B5: [167, 250],
-        /**
-         * B6 sheet
-         * @memberof data.standards.paper.metric
-         */
-        B6: [125, 176],
-        /**
-         * B7 sheet
-         * @memberof data.standards.paper.metric
-         */
-        B7: [88, 125],
-        /**
-         * B8 sheet
-         * @memberof data.standards.paper.metric
-         */
-        B8: [62, 88],
-        /**
-         * B9 sheet
-         * @memberof data.standards.paper.metric
-         */
-        B9: [44, 62],
-        /**
-         * B10 sheet
-         * @memberof data.standards.paper.metric
-         */
-        B10: [31, 44],
-        /**
-         * C0 sheet
-         * @memberof data.standards.paper.metric
-         */
-        C0: [917, 1297],
-        /**
-         * C1 sheet
-         * @memberof data.standards.paper.metric
-         */
-        C1: [648, 917],
-        /**
-         * C2 sheet
-         * @memberof data.standards.paper.metric
-         */
-        C2: [458, 648],
-        /**
-         * C3 sheet
-         * @memberof data.standards.paper.metric
-         */
-        C3: [324, 458],
-        /**
-         * C4 sheet
-         * @memberof data.standards.paper.metric
-         */
-        C4: [229, 324],
-        /**
-         * C5 sheet
-         * @memberof data.standards.paper.metric
-         */
-        C5: [162, 229],
-        /**
-         * C6 sheet
-         * @memberof data.standards.paper.metric
-         */
-        C6: [114, 162],
-        /**
-         * C7 sheet
-         * @memberof data.standards.paper.metric
-         */
-        C7: [81, 114],
-        /**
-         * C8 sheet
-         * @memberof data.standards.paper.metric
-         */
-        C8: [57, 81],
-        /**
-         * C9 sheet
-         * @memberof data.standards.paper.metric
-         */
-        C9: [40, 57],
-        /**
-         * C10 sheet
-         * @memberof data.standards.paper.metric
-         */
-        C10: [28, 40]
-      };
-      const imperialAnsi = {
-        /**
-         * Ansi_A sheet
-         * @memberof data.standards.paper.imperialAnsi
-         */
-        ANSI_A: [inchesToMm(8.5), inchesToMm(11)],
-        /**
-         * Ansi_B sheet
-         * @memberof data.standards.paper.imperialAnsi
-         */
-        ANSI_B: [inchesToMm(11), inchesToMm(17)],
-        /**
-         * Ansi_C sheet
-         * @memberof data.standards.paper.imperialAnsi
-         */
-        ANSI_C: [inchesToMm(17), inchesToMm(22)],
-        /**
-         * Ansi_D sheet
-         * @memberof data.standards.paper.imperialAnsi
-         */
-        ANSI_D: [inchesToMm(22), inchesToMm(34)],
-        /**
-         * Ansi_E sheet
-         * @memberof data.standards.paper.imperialAnsi
-         */
-        ANSI_E: [inchesToMm(34), inchesToMm(44)]
-      };
-      const imperialArch = {
-        /**
-         * Arch_A sheet
-         * @memberof data.standards.paper.imperialArch
-         */
-        ARCH_A: [inchesToMm(9), inchesToMm(12)],
-        /**
-         * Arch_B sheet
-         * @memberof data.standards.paper.imperialArch
-         */
-        ARCH_B: [inchesToMm(12), inchesToMm(18)],
-        /**
-         * Arch_C sheet
-         * @memberof data.standards.paper.imperialArch
-         */
-        ARCH_C: [inchesToMm(18), inchesToMm(24)],
-        /**
-         * Arch_D sheet
-         * @memberof data.standards.paper.imperialArch
-         */
-        ARCH_D: [inchesToMm(24), inchesToMm(36)],
-        /**
-         * Arch_E1 sheet
-         * @memberof data.standards.paper.imperialArch
-         */
-        ARCH_E1: [inchesToMm(30), inchesToMm(42)],
-        /**
-         * Arch_E sheet
-         * @memberof data.standards.paper.imperialArch
-         */
-        ARCH_E: [inchesToMm(36), inchesToMm(48)]
-      };
-      const imperial = {
-        /**
-         * Letter sheet
-         * @memberof data.standards.paper.imperial
-         */
-        LETTER: imperialAnsi.ANSI_A,
-        /**
-         * Legal sheet
-         * @memberof data.standards.paper.imperial
-         */
-        LEGAL: [inchesToMm(8.5), inchesToMm(14)],
-        /**
-         * Tabloid sheet
-         * @memberof data.standards.paper.imperial
-         */
-        TABLOID: imperialAnsi.ANSI_B,
-        /**
-         * Ledger sheet
-         * @memberof data.standards.paper.imperial
-         */
-        LEDGER: [inchesToMm(17), inchesToMm(11)]
-      };
-      const cards = {
-        /**
-         * Business_Card sheet
-         * @memberof data.standards.paper.cards
-         */
-        BUSINESS_CARD: [inchesToMm(3.5), inchesToMm(2)],
-        /**
-         * Business_Card_Sq sheet
-         * @memberof data.standards.paper.cards
-         */
-        BUSINESS_CARD_SQ: [inchesToMm(2.5), inchesToMm(2.5)],
-        /**
-         * Credit_Card sheet
-         * @memberof data.standards.paper.cards
-         */
-        CREDIT_CARD: [85.6, 53.98],
-        /**
-         * Devotional sheet
-         * @memberof data.standards.paper.cards
-         */
-        DEVOTIONAL: [inchesToMm(2.5), inchesToMm(4.5)],
-        /**
-         * Index_Sm sheet
-         * @memberof data.standards.paper.cards
-         */
-        INDEX_SM: [inchesToMm(5), inchesToMm(3)],
-        /**
-         * Index_Md sheet
-         * @memberof data.standards.paper.cards
-         */
-        INDEX_MD: [inchesToMm(6), inchesToMm(4)],
-        /**
-         * Index_Lg sheet
-         * @memberof data.standards.paper.cards
-         */
-        INDEX_LG: [inchesToMm(8), inchesToMm(5)],
-        /**
-         * Index_Xl sheet
-         * @memberof data.standards.paper.cards
-         */
-        INDEX_XL: [inchesToMm(9), inchesToMm(6)],
-        /**
-         * Postcard sheet
-         * @memberof data.standards.paper.cards
-         */
-        POSTCARD: [inchesToMm(6), inchesToMm(4)]
-      };
-      const bookmarks = {
-        /**
-         * Bookmark_Sm sheet
-         * @memberof data.standards.paper.bookmarks
-         */
-        BOOKMARK_SM: [inchesToMm(1.5), inchesToMm(4.5)],
-        /**
-         * Bookmark_Md sheet
-         * @memberof data.standards.paper.bookmarks
-         */
-        BOOKMARK_MD: [inchesToMm(2), inchesToMm(6.5)],
-        /**
-         * Bookmark_Lg sheet
-         * @memberof data.standards.paper.bookmarks
-         */
-        BOOKMARK_LG: [inchesToMm(2.25), inchesToMm(8.5)]
-      };
-      const poster = {
-        /**
-         * Posterjam sheet
-         * @memberof data.standards.paper.poster
-         */
-        POSTERJAM: metric.B2,
-        /**
-         * Album_Cover sheet
-         * @memberof data.standards.paper.poster
-         */
-        ALBUM_COVER: [inchesToMm(12 + 3 / 8), inchesToMm(12 + 3 / 8)]
-      };
-      const photos = {
-        /**
-         * Passport_Can photo
-         * @memberof data.standards.paper.photos
-         */
-        PASSPORT_CAN: [50, 70],
-        /**
-         * Passport_Us photo
-         * @memberof data.standards.paper.photos
-         */
-        PASSPORT_US: [inchesToMm(2), inchesToMm(2)],
-        /**
-         * Wallet photo
-         * @memberof data.standards.paper.photos
-         */
-        WALLET: [inchesToMm(2), inchesToMm(3)],
-        /**
-         * R2 photo
-         * @memberof data.standards.paper.photos
-         */
-        R2: [inchesToMm(2.5), inchesToMm(3.5)],
-        /**
-         * R3 photo
-         * @memberof data.standards.paper.photos
-         */
-        R3: [inchesToMm(3.5), inchesToMm(5)],
-        /**
-         * R4 photo
-         * @memberof data.standards.paper.photos
-         */
-        R4: [inchesToMm(5.04), inchesToMm(6)],
-        /**
-         * R5 photo
-         * @memberof data.standards.paper.photos
-         */
-        R5: [inchesToMm(5), inchesToMm(7)],
-        /**
-         * R6 photo
-         * @memberof data.standards.paper.photos
-         */
-        R6: [inchesToMm(6), inchesToMm(8)],
-        /**
-         * R8 photo
-         * @memberof data.standards.paper.photos
-         */
-        R8: [inchesToMm(8), inchesToMm(10)],
-        /**
-         * R10 photo
-         * @memberof data.standards.paper.photos
-         */
-        R10: [inchesToMm(10), inchesToMm(12)],
-        /**
-         * R11 photo
-         * @memberof data.standards.paper.photos
-         */
-        R11: [inchesToMm(11), inchesToMm(14)],
-        /**
-         * R12 photo
-         * @memberof data.standards.paper.photos
-         */
-        R12: [inchesToMm(12), inchesToMm(15)]
-      };
-      return {
-        cards,
-        metric,
-        imperial,
-        imperialAnsi,
-        imperialArch,
-        bookmarks,
-        poster,
-        photos
-      };
-    };
-    module2.exports = { init: paperStd };
-  }
-});
-
-// packages/swcad-js-data/src/standards/std-tiles.js
-var require_std_tiles = __commonJS({
-  "packages/swcad-js-data/src/standards/std-tiles.js"(exports2, module2) {
-    "use strict";
-    var tileStd = ({ jscad }) => {
-      return {};
-    };
-    module2.exports = { init: tileStd };
-  }
-});
-
 // packages/swcad-js-data/src/standards/index.js
 var require_standards = __commonJS({
   "packages/swcad-js-data/src/standards/index.js"(exports2, module2) {
     "use strict";
-    var craftStd = require_std_crafts();
-    var lumberStd = require_std_lumber();
-    var masonryStd = require_std_masonry();
-    var paperStd = require_std_paper();
-    var tileStd = require_std_tiles();
     var inchesToMm = (numIn) => numIn * 25.4;
     var standards = ({ jscad }) => {
       const pegboard = {
@@ -992,12 +279,7 @@ var require_standards = __commonJS({
         pegboard,
         gridfinity,
         types,
-        params,
-        crafts: craftStd.init({ jscad }),
-        lumber: lumberStd.init({ jscad }),
-        masonry: masonryStd.init({ jscad }),
-        paper: paperStd.init({ jscad }),
-        tiles: tileStd.init({ jscad })
+        params
       };
     };
     module2.exports = { init: standards };
@@ -1801,7 +1083,7 @@ var require_math = __commonJS({
         /**
          * Checks if a given integer is even
          * @param {number} n - an integer
-         * @returns true if even, false if not
+         * @returns {boolean} true if even, false if not
          * @memberof calcs.math
          */
         isEven: (n) => {
@@ -1811,7 +1093,7 @@ var require_math = __commonJS({
          * Checks if a given integer is odd
          * @memberof calcs.math
          * @param {number} n - an integer
-         * @returns true if odd, false if not
+         * @returns {boolean} true if odd, false if not
          */
         isOdd: (n) => {
           return Math.abs(n % 2) == 1;
@@ -1819,22 +1101,22 @@ var require_math = __commonJS({
         /**
          * Converts distance in inches to mm
          * @memberof calcs.math
-         * @param {*} numInches 
-         * @returns distance in mm
+         * @param {number} numInches - distance in inches
+         * @returns {number} distance in mm
          */
         inchesToMm: (numInches) => numInches * INCHES_MM_FACTOR,
         /**
          * Converts distance in mm to inches
          * @memberof calcs.math
-         * @param {number} numInches 
-         * @returns distance in inches
+         * @param {number} numMils - distance in mm
+         * @returns {number} distance in inches
          */
         mmToInches: (numMils) => numMils / INCHES_MM_FACTOR,
         /**
-         * ...
+         * Given an integer, calculates two integers that are factors for a containing rectangle around the input.
          * @memberof calcs.math
-         * @param {*} numInches 
-         * @returns ...
+         * @param {number} num 
+         * @returns {number[]} two integers that are factors for a containing rectangle around the input
          */
         factorize: (num) => {
           const int1 = Math.floor(Math.sqrt(num));
@@ -1845,6 +1127,13 @@ var require_math = __commonJS({
           const int2 = (num - rem) / int1;
           return [int1, int2 + 1];
         },
+        /**
+         * Gets a random integer between `min` and `max`. The maximum is exclusive and the minimum is inclusive
+         * @param {number} min
+         * @param {number} max
+         * @returns {number} random integer
+         * @memberof calcs.math
+         */
         getRandomInt: (min, max) => {
           const minCeiled = Math.ceil(min);
           const maxFloored = Math.floor(max);
@@ -7273,121 +6562,6 @@ var require_src3 = __commonJS({
   }
 });
 
-// packages/swcad-js-profile-spec/src/lumber/index.js
-var require_lumber = __commonJS({
-  "packages/swcad-js-profile-spec/src/lumber/index.js"(exports2, module2) {
-    "use strict";
-    var lumberInit = ({ jscad, swcadJs }) => {
-      const { rectangle } = jscad.primitives;
-      const { lumber } = swcadJs.data.standards;
-      const dimLumberModels = [];
-      for (const [stdKey, stdVal] of Object.entries(lumber.dimensional)) {
-        const hasDepth = typeof stdVal === "object" && "depth" in stdVal;
-        const hasWidth = typeof stdVal === "object" && "depth" in stdVal;
-        if (hasDepth && hasWidth) {
-          dimLumberModels.push({
-            id: stdKey,
-            ...stdVal,
-            geom: rectangle({ size: [stdVal.width, stdVal.depth] })
-          });
-        }
-      }
-      const output = {
-        dimensional: dimLumberModels
-      };
-      return output;
-    };
-    module2.exports = { init: lumberInit };
-  }
-});
-
-// packages/swcad-js-profile-spec/src/paper/index.js
-var require_paper = __commonJS({
-  "packages/swcad-js-profile-spec/src/paper/index.js"(exports2, module2) {
-    "use strict";
-    var init2 = ({ jscad, swcadJs }) => {
-      const { rectangle } = jscad.primitives;
-      const { functions } = swcadJs.data;
-      const { paper } = swcadJs.data.standards;
-      const metric = {};
-      Object.entries(paper.metric).forEach(([key, val]) => {
-        const newKey = functions.camelCase(key.replaceAll("_", " ").toLocaleLowerCase());
-        metric[newKey] = rectangle({ size: val });
-      });
-      const imperial = {};
-      const ansi = {};
-      const arch = {};
-      Object.entries(paper.imperial).forEach(([key, val]) => {
-        if (key === "ansi") {
-          Object.entries(val).forEach(([aKey, aVal]) => {
-            const ansiKey = functions.camelCase(aKey.replaceAll("_", " ").toLocaleLowerCase());
-            ansi[ansiKey] = rectangle({ size: aVal });
-          });
-        } else if (key === "arch") {
-          Object.entries(val).forEach(([arKey, arVal]) => {
-            const archKey = functions.camelCase(arKey.replaceAll("_", " ").toLocaleLowerCase());
-            arch[archKey] = rectangle({ size: arVal });
-          });
-        } else {
-          const newKey = functions.camelCase(key.replaceAll("_", " ").toLocaleLowerCase());
-          imperial[newKey] = rectangle({ size: val });
-        }
-      });
-      const cards = {};
-      Object.entries(paper.cards).forEach(([key, val]) => {
-        const newKey = functions.camelCase(key.replaceAll("_", " ").toLocaleLowerCase());
-        cards[newKey] = rectangle({ size: val });
-      });
-      const bookmarks = {};
-      Object.entries(paper.bookmarks).forEach(([key, val]) => {
-        const newKey = functions.camelCase(key.replaceAll("_", " ").toLocaleLowerCase());
-        bookmarks[newKey] = rectangle({ size: val });
-      });
-      const poster = {};
-      Object.entries(paper.poster).forEach(([key, val]) => {
-        const newKey = functions.camelCase(key.replaceAll("_", " ").toLocaleLowerCase());
-        poster[newKey] = rectangle({ size: val });
-      });
-      const photos = {};
-      Object.entries(paper.photos).forEach(([key, val]) => {
-        const newKey = functions.camelCase(key.replaceAll("_", " ").toLocaleLowerCase());
-        photos[newKey] = rectangle({ size: val });
-      });
-      const outPaper = {
-        metric,
-        ansi,
-        arch,
-        imperial,
-        cards,
-        bookmarks,
-        poster,
-        photos
-      };
-      return outPaper;
-    };
-    module2.exports = { init: init2 };
-  }
-});
-
-// packages/swcad-js-profile-spec/src/index.js
-var require_src4 = __commonJS({
-  "packages/swcad-js-profile-spec/src/index.js"(exports2, module2) {
-    "use strict";
-    var lumber = require_lumber();
-    var paper = require_paper();
-    var profileSpecInit = ({ jscad, swcadJs }) => {
-      const profileSpec = {
-        lumber: lumber.init({ jscad, swcadJs }),
-        paper: paper.init({ jscad, swcadJs })
-      };
-      return profileSpec;
-    };
-    module2.exports = {
-      init: profileSpecInit
-    };
-  }
-});
-
 // packages/swcad-js-components/src/beads-bits/index.js
 var require_beads_bits2 = __commonJS({
   "packages/swcad-js-components/src/beads-bits/index.js"(exports2, module2) {
@@ -8185,8 +7359,13 @@ var require_round_fitting = __commonJS({
       const roundFittingDefaults = () => {
         const defaultValues = {
           constants: {
-            ratioDiamToDoubleFittingMaxHt: 2.76,
-            ratioDiamToDoubleFittingDowelCtrsDist: 1.76
+            ratioDiamToHolderHeight: 1.666667,
+            ratioDiamToChannelDepth: 0.866667,
+            ratioDiamToSideChannelWidth: 1,
+            ratioDiamToDowelDepth: 0.333333,
+            ratioDiamToDoubleFittingMaxHt: 2.973,
+            ratioDiamToDblFittingVertDowelCtrsDist: 1.973,
+            ratioDiamToDblFittingSideDowelCtrsDist: 1.798
           },
           dims: {
             dowelRadius: 3.25 / 2,
@@ -8281,12 +7460,7 @@ var require_round_fitting = __commonJS({
         const modelPoints = {
           centre: defaults.vals.points.centre
         };
-        const modelConstants = {
-          ratioDiamToHolderHeight: 1.666667,
-          ratioDiamToChannelDepth: 0.866667,
-          ratioDiamToSideChannelWidth: 1,
-          ratioDiamToDowelDepth: 0.333333
-        };
+        const modelConstants = defaults.vals.constants;
         const modelComponents = {};
         const modelProperties = {
           metadata: {
@@ -9102,7 +8276,7 @@ var require_reinforced_joist = __commonJS({
       const {
         beadsBits
       } = swcadJs.components;
-      const modelDefaults = () => {
+      const reinforcedJoistDefaults = () => {
         const defaultValues = {
           dims: {
             size: [
@@ -9148,8 +8322,8 @@ var require_reinforced_joist = __commonJS({
           vals: defaultValues
         };
       };
-      const modelProps = (opts) => {
-        const defaults = modelDefaults();
+      const reinforcedJoistProps = (opts) => {
+        const defaults = reinforcedJoistDefaults();
         const {
           type,
           scale,
@@ -9221,7 +8395,7 @@ var require_reinforced_joist = __commonJS({
         return modelProperties;
       };
       const reinforcedJoist = (opts) => {
-        const defaults = modelDefaults();
+        const defaults = reinforcedJoistDefaults();
         const {
           type = defaults.opts.type,
           scale = defaults.opts.scale,
@@ -9230,8 +8404,6 @@ var require_reinforced_joist = __commonJS({
           logMode = defaults.opts.logMode,
           width = defaults.opts.width,
           length = defaults.opts.length,
-          // // dowelRadius = defaults.opts.dowelRadius,
-          // // dovetailOpt = defaults.opts.dovetailOpt,
           reinforcementLevel = defaults.opts.reinforcementLevel,
           unitLength = defaults.opts.unitLength,
           dowelHolderLength = defaults.opts.dowelHolderLength
@@ -9244,16 +8416,15 @@ var require_reinforced_joist = __commonJS({
           logMode,
           width,
           length,
-          // dovetailOpt,
           reinforcementLevel,
           unitLength,
           dowelHolderLength
         };
-        const modelProperties = modelProps(inOpts);
-        const framePanelWebs = (modelProps2) => {
+        const modelProperties = reinforcedJoistProps(inOpts);
+        const framePanelWebs = (modelProps) => {
           const {
             reinforcementLevel: reinforcementLevel2
-          } = modelProps2.opts;
+          } = modelProps.opts;
           const {
             size,
             lengthUnits,
@@ -9265,10 +8436,10 @@ var require_reinforced_joist = __commonJS({
             edgeWidth,
             supportWidth,
             lightSupportWidth
-          } = modelProps2.dims;
+          } = modelProps.dims;
           const {
             interfaceProfileBeads
-          } = modelProps2.components;
+          } = modelProps.components;
           const panelPtsWidth = width2 - edgeWidth;
           const braceUnitSize = [
             panelPtsWidth,
@@ -9371,8 +8542,8 @@ var require_reinforced_joist = __commonJS({
           });
           return intersect(joistWebs, keepArea);
         };
-        const finalAssembly = (modelProps2) => {
-          fPanelWebs = framePanelWebs(modelProps2);
+        const finalAssembly = (modelProps) => {
+          fPanelWebs = framePanelWebs(modelProps);
           return fPanelWebs;
         };
         let fPanelWebs = framePanelWebs(modelProperties);
@@ -10024,7 +9195,7 @@ var require_text2 = __commonJS({
 });
 
 // packages/swcad-js-components/src/index.js
-var require_src5 = __commonJS({
+var require_src4 = __commonJS({
   "packages/swcad-js-components/src/index.js"(exports2, module2) {
     "use strict";
     var beadsBitsModule = require_beads_bits2();
@@ -10068,242 +9239,6 @@ var require_src5 = __commonJS({
     };
     module2.exports = {
       init: componentsInit
-    };
-  }
-});
-
-// packages/swcad-js-component-spec/src/brick/index.js
-var require_brick = __commonJS({
-  "packages/swcad-js-component-spec/src/brick/index.js"(exports2, module2) {
-    "use strict";
-    var brickInit = ({ jscad, swcadJs }) => {
-      const { cuboid } = jscad.primitives;
-      const { masonry } = swcadJs.data.standards;
-      const brickNorAm = {};
-      const brickNorAmSpecs = [
-        {
-          name: "nominal",
-          length: masonry.brick.US_BRICK_LENGTH_NOM,
-          width: masonry.brick.US_BRICK_WIDTH_NOM,
-          height: masonry.brick.US_BRICK_HEIGHT_NOM
-        },
-        {
-          name: "actualStdJoint",
-          length: masonry.brick.US_BRICK_LENGTH,
-          width: masonry.brick.US_BRICK_WIDTH,
-          height: masonry.brick.US_BRICK_HEIGHT
-        },
-        {
-          name: "actualWideJoint",
-          length: masonry.brick.US_BRICK_LENGTH_LG_JOINT,
-          width: masonry.brick.US_BRICK_WIDTH_LG_JOINT,
-          height: masonry.brick.US_BRICK_HEIGHT_LG_JOINT
-        }
-      ];
-      brickNorAmSpecs.forEach((brickSpec) => {
-        brickNorAm[brickSpec.name] = cuboid({ size: [brickSpec.length, brickSpec.width, brickSpec.height] });
-      });
-      return brickNorAm;
-    };
-    module2.exports = { init: brickInit };
-  }
-});
-
-// packages/swcad-js-component-spec/src/crafts/index.js
-var require_crafts = __commonJS({
-  "packages/swcad-js-component-spec/src/crafts/index.js"(exports2, module2) {
-    "use strict";
-    var init2 = ({ jscad, swcadJs }) => {
-      const { rectangle, triangle, roundedRectangle } = jscad.primitives;
-      const { union } = jscad.booleans;
-      const { align, rotate } = jscad.transforms;
-      const { hull } = jscad.hulls;
-      const { extrudeLinear, extrudeRotate } = jscad.extrusions;
-      const { TAU } = jscad.maths.constants;
-      const { standards } = swcadJs.data;
-      const { math, position } = swcadJs.calcs;
-      const toothpickSpecs = {
-        radius: standards.crafts.DIAM_TOOTHPICK / 2,
-        length: math.inchesToMm(4),
-        pointLength: math.inchesToMm(1 / 4)
-      };
-      const bbqSkewerSpecs = {
-        radius: standards.crafts.DIAM_BBQ_SKEWER / 2,
-        length: math.inchesToMm(12),
-        pointLength: math.inchesToMm(0.5)
-      };
-      const popsicleStickSpecs = {
-        width: standards.crafts.POPSICLE_STICK_WIDTH,
-        thickness: standards.crafts.POPSICLE_STICK_THICKNESS,
-        length: standards.crafts.POPSICLE_STICK_LENGTH,
-        endRadius: standards.crafts.POPSICLE_STICK_WIDTH / 2
-      };
-      const toothpickProfile = ({
-        radius = toothpickSpecs.radius,
-        length = toothpickSpecs.length,
-        pointLength = toothpickSpecs.pointLength
-      }) => {
-        const core2d = rectangle({ size: [pointLength * -2 + length, radius * 2] });
-        const core2dCoords = position.getGeomCoords(core2d);
-        const pointTriangleSide = Math.hypot(radius, pointLength);
-        const pointAngle = Math.atan(radius / pointLength) * 2;
-        const pointTriangle = triangle({ type: "SSA", values: [radius * 2, pointTriangleSide, pointAngle] });
-        const point2d1 = align(
-          { modes: ["max", "center", "center"], relativeTo: [core2dCoords.left, 0, 0] },
-          rotate([0, 0, TAU / 4], pointTriangle)
-        );
-        const point2d2 = align(
-          { modes: ["min", "center", "center"], relativeTo: [core2dCoords.right, 0, 0] },
-          rotate([0, 0, TAU / -4], pointTriangle)
-        );
-        const baseShape = rotate([0, 0, TAU / 4], union(core2d, point2d1, point2d2));
-        return baseShape;
-      };
-      const toothpick = ({
-        radius = toothpickSpecs.radius,
-        length = toothpickSpecs.length,
-        pointLength = toothpickSpecs.pointLength
-      }) => {
-        const baseShape = toothpickProfile({ radius, length, pointLength });
-        return extrudeRotate({ segments: 12 }, baseShape);
-      };
-      const bbqSkewerProfile = ({
-        radius = bbqSkewerSpecs.radius,
-        length = bbqSkewerSpecs.length,
-        pointLength = bbqSkewerSpecs.pointLength
-      }) => {
-        const core2d = rectangle({ size: [length - pointLength, radius * 2] });
-        const core2dCoords = position.getGeomCoords(core2d);
-        const pointTriangleSide = Math.hypot(radius, pointLength);
-        const pointAngle = Math.atan(radius / pointLength) * 2;
-        const pointTriangle = triangle({ type: "SSA", values: [radius * 2, pointTriangleSide, pointAngle] });
-        const point2d = align(
-          { modes: ["min", "center", "center"], relativeTo: [core2dCoords.right, 0, 0] },
-          rotate([0, 0, TAU / -4], pointTriangle)
-        );
-        const baseShape = rotate([0, 0, TAU / 4], union(core2d, point2d));
-        return baseShape;
-      };
-      const bbqSkewer = ({
-        radius = bbqSkewerSpecs.radius,
-        length = bbqSkewerSpecs.length,
-        pointLength = bbqSkewerSpecs.pointLength
-      }) => {
-        const baseShape = bbqSkewerProfile({ radius, length, pointLength });
-        return extrudeRotate({ segments: 12 }, baseShape);
-      };
-      const popsicleStickProfile = ({
-        width = popsicleStickSpecs.width,
-        length = popsicleStickSpecs.length,
-        endRadius = popsicleStickSpecs.endRadius
-      }) => {
-        const ends = [
-          align(
-            { modes: ["min", "center", "center"], relativeTo: [length / -2, 0, 0] },
-            roundedRectangle({ size: [width, width], roundRadius: endRadius - 0.01 })
-          ),
-          align(
-            { modes: ["max", "center", "center"], relativeTo: [length / 2, 0, 0] },
-            roundedRectangle({ size: [width, width], roundRadius: endRadius - 0.01 })
-          )
-        ];
-        const baseShape = hull(ends);
-        return baseShape;
-      };
-      const popsicleStick = ({
-        width = popsicleStickSpecs.width,
-        thickness = popsicleStickSpecs.thickness,
-        length = popsicleStickSpecs.length,
-        endRadius = popsicleStickSpecs.endRadius
-      }) => {
-        const baseShape = popsicleStickProfile({ width, length, endRadius });
-        return extrudeLinear({ height: thickness }, baseShape);
-      };
-      const crafts = {
-        toothpickProfile,
-        toothpick,
-        bbqSkewerProfile,
-        bbqSkewer,
-        popsicleStickProfile,
-        popsicleStick
-      };
-      return crafts;
-    };
-    module2.exports = { init: init2 };
-  }
-});
-
-// packages/swcad-js-component-spec/src/tile/index.js
-var require_tile = __commonJS({
-  "packages/swcad-js-component-spec/src/tile/index.js"(exports2, module2) {
-    "use strict";
-    var tileInit = ({ jscad, swcadJs }) => {
-      const { cuboid } = jscad.primitives;
-      const { math } = swcadJs.calcs;
-      const { functions } = swcadJs.data;
-      const tileStandards = {
-        TILE_THICKNESS_LG: math.inchesToMm(9 / 32),
-        // 7.14375 mm
-        TILE_THICKNESS_MD: math.inchesToMm(1 / 4),
-        // 6.35 mm
-        TILE_THICKNESS_SM: math.inchesToMm(7 / 32),
-        // 5.55625 mm
-        TILE_SIZE_MOSAIC: 10,
-        TILE_SIZE_SM: math.inchesToMm(3),
-        TILE_SIZE_MD: math.inchesToMm(4),
-        TILE_SIZE_LG: math.inchesToMm(5)
-      };
-      const thicknesses = {
-        thin: tileStandards.TILE_THICKNESS_SM,
-        medium: tileStandards.TILE_THICKNESS_MD,
-        thick: tileStandards.TILE_THICKNESS_LG
-      };
-      const sizes = {
-        mosaic: tileStandards.TILE_SIZE_MOSAIC,
-        small: tileStandards.TILE_SIZE_SM,
-        medium: tileStandards.TILE_SIZE_MD,
-        large: tileStandards.TILE_SIZE_LG
-      };
-      const tileModels = {};
-      Object.entries(thicknesses).forEach(([thKey, thVal], thIdx) => {
-        Object.entries(sizes).forEach(([sKey, sVal], sIdx) => {
-          const thicknessLabel = thKey === "medium" ? "" : ` ${thKey}`;
-          const modelName = functions.camelCase(`${sKey}${thicknessLabel}`);
-          const modelSize = [sVal, sVal, thVal];
-          tileModels[modelName] = {
-            name: modelName,
-            size: modelSize,
-            length: sKey,
-            lengthDim: sVal,
-            thickness: thKey,
-            thicknessDim: thVal,
-            geom: cuboid({ size: modelSize })
-          };
-        });
-      });
-      return tileModels;
-    };
-    module2.exports = { init: tileInit };
-  }
-});
-
-// packages/swcad-js-component-spec/src/index.js
-var require_src6 = __commonJS({
-  "packages/swcad-js-component-spec/src/index.js"(exports2, module2) {
-    "use strict";
-    var brick = require_brick();
-    var crafts = require_crafts();
-    var tile = require_tile();
-    var componentSpecInit = ({ jscad, swcadJs }) => {
-      const componentSpec = {
-        brick: brick.init({ jscad, swcadJs }),
-        crafts: crafts.init({ jscad, swcadJs }),
-        tile: tile.init({ jscad, swcadJs })
-      };
-      return componentSpec;
-    };
-    module2.exports = {
-      init: componentSpecInit
     };
   }
 });
@@ -10710,7 +9645,7 @@ var require_palette = __commonJS({
 });
 
 // packages/swcad-js-utils/src/index.js
-var require_src7 = __commonJS({
+var require_src5 = __commonJS({
   "packages/swcad-js-utils/src/index.js"(exports2, module2) {
     "use strict";
     var colors = require_colors();
@@ -10940,7 +9875,7 @@ var require_foil = __commonJS({
 });
 
 // packages/swcad-js-models/src/index.js
-var require_src8 = __commonJS({
+var require_src6 = __commonJS({
   "packages/swcad-js-models/src/index.js"(exports2, module2) {
     "use strict";
     var archModule = require_arch();
@@ -10966,7 +9901,7 @@ var require_src8 = __commonJS({
 });
 
 // packages/swcad-js-core/src/index.js
-var require_src9 = __commonJS({
+var require_src7 = __commonJS({
   "packages/swcad-js-core/src/index.js"(exports2, module2) {
     "use strict";
     var coreInit = ({ jscad }) => {
@@ -10985,23 +9920,17 @@ var require_src9 = __commonJS({
       swcadJsAssembly.calcs = assemblyCalcs;
       const assemblyProfiles = require_src3().init({ jscad, swcadJs: swcadJsAssembly });
       swcadJsAssembly.profiles = assemblyProfiles;
-      const assemblyProfileSpec = require_src4().init({ jscad, swcadJs: swcadJsAssembly });
-      swcadJsAssembly.profileSpec = assemblyProfileSpec;
-      const assemblyComponents = require_src5().init({ jscad, swcadJs: swcadJsAssembly });
+      const assemblyComponents = require_src4().init({ jscad, swcadJs: swcadJsAssembly });
       swcadJsAssembly.components = assemblyComponents;
-      const assemblyComponentSpec = require_src6().init({ jscad, swcadJs: swcadJsAssembly });
-      swcadJsAssembly.componentSpec = assemblyComponentSpec;
-      const assemblyUtils = require_src7().init({ jscad, swcadJs: swcadJsAssembly });
+      const assemblyUtils = require_src5().init({ jscad, swcadJs: swcadJsAssembly });
       swcadJsAssembly.utils = assemblyUtils;
-      const assemblyModels = require_src8().init({ jscad, swcadJs: swcadJsAssembly });
+      const assemblyModels = require_src6().init({ jscad, swcadJs: swcadJsAssembly });
       swcadJsAssembly.models = assemblyModels;
       const swcadJs = {
         data: swcadJsAssembly.data,
         calcs: swcadJsAssembly.calcs,
         profiles: swcadJsAssembly.profiles,
-        profileSpec: swcadJsAssembly.profileSpec,
         components: swcadJsAssembly.components,
-        componentSpec: swcadJsAssembly.componentSpec,
         utils: swcadJsAssembly.utils,
         models: swcadJsAssembly.models
       };
@@ -11014,7 +9943,7 @@ var require_src9 = __commonJS({
 });
 
 // src/index.js
-var coreModule = require_src9();
+var coreModule = require_src7();
 var init = ({ jscad }) => {
   const swcadJs = coreModule.init({ jscad });
   return swcadJs;
