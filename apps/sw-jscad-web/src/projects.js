@@ -10,11 +10,6 @@ export const swcadJsCalcs = [
   { name: 'Transforms', source: './lib-demo/calcs/transform-examples.js' },
 ]
 
-export const swcadJsComponentSpec = [
-  { name: 'Brick', source: './lib-demo/component-spec/standard-masonry-examples.js' },
-  { name: 'Tile', source: './lib-demo/component-spec/standard-tile-examples.js' },
-]
-
 export const swcadJsComponents = [
   { name: 'Beads and Bits', source: './lib-demo/components/beads-bits.js' },
   { name: 'Box Support', source: './lib-demo/components/box-support.js' },
@@ -29,11 +24,6 @@ export const swcadJsComponents = [
 export const swcadJsModels = [
   { name: 'Arch', source: './lib-demo/models/arch-examples.js' },
   { name: 'Foil', source: './lib-demo/models/foil-examples.js' },
-]
-
-export const swcadJsProfileSpec = [
-  { name: 'Lumber', source: './lib-demo/profile-spec/standard-lumber-examples.js' },
-  { name: 'Paper', source: './lib-demo/profile-spec/standard-paper-examples.js' },
 ]
 
 export const swcadJsProfiles = [
