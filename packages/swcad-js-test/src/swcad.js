@@ -7721,8 +7721,8 @@ var require_rectangular_fitting = __commonJS({
         const defaultValues = {
           dims: {
             subjectSize: [
-              standards.crafts.POPSICLE_STICK_WIDTH,
-              standards.crafts.POPSICLE_STICK_THICKNESS
+              10,
+              2
             ],
             length: math.inchesToMm(1 / 4)
           },
