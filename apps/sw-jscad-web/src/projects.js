@@ -1,6 +1,5 @@
 export const baseDemos = [
   { name: 'swcad-js', source: './examples/swcad-js.example.js' },
-  { name: '"Legacy" demo', source: './lib-demo/index.js' },
   { name: 'sw-jscad (Legacy libs)', source: './lib-demo/sw-jscad.example.js' },
 ]
 
@@ -21,18 +20,11 @@ export const swcadJsComponents = [
   { name: 'Text (3D)', source: './lib-demo/components/text-3d.js' },
 ]
 
-export const swcadJsModels = [
-  { name: 'Arch', source: './lib-demo/models/arch-examples.js' },
-  { name: 'Foil', source: './lib-demo/models/foil-examples.js' },
-]
-
 export const swcadJsProfiles = [
-  { name: 'Basic Profiles', source: './lib-demo/profiles/profile-examples.js' },
   { name: 'Box Curves', source: './lib-demo/profiles/box-curve.js' },
   { name: 'Connections', source: './lib-demo/profiles/connections.js' },
   { name: 'Joint Panels', source: './lib-demo/profiles/joint-panels.js' },
   { name: 'Mesh Panel (2D)', source: './lib-demo/profiles/mesh-2d.js' },
-  { name: 'Rectangular Frame', source: './lib-demo/profiles/rectangular-frame-examples.js' },
   { name: 'Reinforcements (2D)', source: './lib-demo/profiles/reinforcements-2d.js' },
   { name: 'Text (2D)', source: './lib-demo/profiles/text-2d.js' },
   { name: 'Trim Families', source: './lib-demo/profiles/trim-family-examples.js' },

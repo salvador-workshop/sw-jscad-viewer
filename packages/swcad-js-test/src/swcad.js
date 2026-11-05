@@ -7015,7 +7015,7 @@ var require_mesh2 = __commonJS({
       } = swcadJs.data;
       const {
         mesh: mesh2d
-      } = swcadJs.profiles.structure;
+      } = swcadJs.profiles;
       const edgeFlange = (type = "inset", width, thickness, flipOpts = []) => {
         let triangleAlignOpts = {};
         let triangleMirrorOpts = null;
