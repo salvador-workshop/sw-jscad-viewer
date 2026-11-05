@@ -14,7 +14,7 @@ const {
     connections,
 } = swcadJs.profiles
 
-const spaceUnit = math.inchesToMm(3)
+const spaceUnit = math.inchesToMm(4.25)
 
 //==============================================================================
 
@@ -75,9 +75,13 @@ const jointPanelProfiles5 = jointPanelData5[0]
  * @returns `geom3` or `geom3[]`
  */
 const main = () => {
-    const models = []
+    const modelSet1 = []
+    const modelSet2 = []
+    const modelSet3 = []
+    const modelSet4 = []
+    const modelSet5 = []
 
-    const jointPanelProfiles = [
+    const jointPanelSet1 = [
         {
             name: 'c-jointpanel-1m',
             geom: jointPanelMale1,
@@ -86,6 +90,9 @@ const main = () => {
             name: 'c-jointpanel-1f',
             geom: jointPanelFemale1,
         },
+    ]
+
+    const jointPanelSet2 = [
         {
             name: 'c-jointpanel-2m',
             geom: jointPanelMale2,
@@ -94,6 +101,9 @@ const main = () => {
             name: 'c-jointpanel-2f',
             geom: jointPanelFemale2,
         },
+    ]
+
+    const jointPanelSet3 = [
         {
             name: 'c-jointpanel-3a',
             geom: jointPanelProfiles3[0],
@@ -110,6 +120,9 @@ const main = () => {
             name: 'c-jointpanel-3d',
             geom: jointPanelProfiles3[3],
         },
+    ]
+
+    const jointPanelSet4 = [
         {
             name: 'c-jointpanel-4a',
             geom: jointPanelProfiles4[0],
@@ -126,6 +139,9 @@ const main = () => {
             name: 'c-jointpanel-4d',
             geom: jointPanelProfiles4[3],
         },
+    ]
+
+    const jointPanelSet5 = [
         {
             name: 'c-jointpanel-5a',
             geom: jointPanelProfiles5[0],
@@ -144,15 +160,53 @@ const main = () => {
         },
     ]
 
-    jointPanelProfiles.forEach((prof) => {
-        models.push(prof.geom);
+    jointPanelSet1.forEach((prof) => {
+        modelSet1.push(prof.geom);
     })
 
-    const outModels = models.map((oModel, idx) => {
+    jointPanelSet2.forEach((prof) => {
+        modelSet2.push(prof.geom);
+    })
+
+    jointPanelSet3.forEach((prof) => {
+        modelSet3.push(prof.geom);
+    })
+
+    jointPanelSet4.forEach((prof) => {
+        modelSet4.push(prof.geom);
+    })
+
+    jointPanelSet5.forEach((prof) => {
+        modelSet5.push(prof.geom);
+    })
+
+    const outModels1 = modelSet1.map((oModel, idx) => {
         return translate([idx * spaceUnit, 0, 0], oModel)
     })
 
-    return outModels;
+    const outModels2 = modelSet2.map((oModel, idx) => {
+        return translate([idx * spaceUnit, -spaceUnit, 0], oModel)
+    })
+
+    const outModels3 = modelSet3.map((oModel, idx) => {
+        return translate([idx * spaceUnit, spaceUnit * -2, 0], oModel)
+    })
+
+    const outModels4 = modelSet4.map((oModel, idx) => {
+        return translate([idx * spaceUnit, spaceUnit * -3, 0], oModel)
+    })
+
+    const outModels5 = modelSet5.map((oModel, idx) => {
+        return translate([idx * spaceUnit, spaceUnit * -4, 0], oModel)
+    })
+
+    return [
+        ...outModels1,
+        ...outModels2,
+        ...outModels3,
+        ...outModels4,
+        ...outModels5,
+    ];
 }
 
 module.exports = { main }

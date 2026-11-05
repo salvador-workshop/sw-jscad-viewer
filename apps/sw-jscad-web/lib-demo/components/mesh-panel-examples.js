@@ -43,7 +43,7 @@ const main = () => {
             size: [math.inchesToMm(3), math.inchesToMm(4)],
             holeRadius: 5,
             holeDistance: math.inchesToMm(3 / 4),
-            edgeMargin: 12.7,
+            edgeMargin: math.inchesToMm(1 / 2),
         })
     );
 

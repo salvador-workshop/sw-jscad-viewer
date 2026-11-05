@@ -14,10 +14,12 @@ const {
     connections,
 } = swcadJs.profiles
 
-const spaceUnit = math.inchesToMm(3)
+const spaceUnit = math.inchesToMm(3.5)
 
 const main = () => {
     const models = []
+    const faceConnectionModels = []
+    const connectionRowModels = []
 
     const connPegboardData = connections.pegboard({})
     const connPegboardProfiles = connPegboardData[0]
@@ -90,22 +92,6 @@ const main = () => {
 
     const connectionProfiles = [
         {
-            name: 'c-pegboard-m',
-            geom: connPegboardMale,
-        },
-        {
-            name: 'c-pegboard-f',
-            geom: connPegboardFemale,
-        },
-        {
-            name: 'c-polygon-m',
-            geom: connPolygonMale,
-        },
-        {
-            name: 'c-polygon-f',
-            geom: connPolygonFemale,
-        },
-        {
             name: 'c-tab-m',
             geom: connTabMale,
         },
@@ -137,6 +123,25 @@ const main = () => {
             name: 'c-ellipse-f',
             geom: connEllipseFemale,
         },
+    ]
+
+    const faceConnectionProfiles = [
+        {
+            name: 'c-pegboard-m',
+            geom: connPegboardMale,
+        },
+        {
+            name: 'c-pegboard-f',
+            geom: connPegboardFemale,
+        },
+        {
+            name: 'c-polygon-m',
+            geom: connPolygonMale,
+        },
+        {
+            name: 'c-polygon-f',
+            geom: connPolygonFemale,
+        },
         {
             name: 'c-bolt-circle-m',
             geom: connBoltCircleMale,
@@ -145,6 +150,9 @@ const main = () => {
             name: 'c-bolt-circle-f',
             geom: connBoltCircleFemale,
         },
+    ]
+
+    const rowConnectionProfiles = [
         {
             name: 'c-dovetailrow-m',
             geom: connDovetailRowMale,
@@ -175,11 +183,29 @@ const main = () => {
         models.push(prof.geom);
     })
 
+    faceConnectionProfiles.forEach((prof) => {
+        faceConnectionModels.push(prof.geom);
+    })
+
+    rowConnectionProfiles.forEach((prof) => {
+        connectionRowModels.push(prof.geom);
+    })
+
     const outModels = models.map((oModel, idx) => {
         return translate([idx * spaceUnit, 0, 0], oModel)
     })
+    const outFaceModels = faceConnectionModels.map((oModel, idx) => {
+        return translate([idx * spaceUnit, -spaceUnit, 0], oModel)
+    })
+    const outRowModels = connectionRowModels.map((oModel, idx) => {
+        return translate([idx * spaceUnit * 1.5, spaceUnit * -2, 0], oModel)
+    })
 
-    return outModels;
+    return [
+        ...outModels,
+        ...outFaceModels,
+        ...outRowModels,
+    ];
 }
 
 module.exports = { main }

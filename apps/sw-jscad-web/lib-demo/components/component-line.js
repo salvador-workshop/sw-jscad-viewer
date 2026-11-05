@@ -27,7 +27,7 @@ function main() {
         component: baseComponent1,
         startPt: [0, 0],
         endPt: [80, 40],
-        unitLength: 25.4,
+        unitLength: math.inchesToMm(1),
     })[0]
 
     const componentLine2 = componentLine({
@@ -36,7 +36,7 @@ function main() {
         component: baseComponent2,
         startPt: [50, 50],
         endPt: [70, 150],
-        unitLength: 25.4,
+        unitLength: math.inchesToMm(1),
     })[0]
 
     return [

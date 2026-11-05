@@ -21,7 +21,7 @@ export const swcadJsComponents = [
 
 export const swcadJsProfiles = [
   { name: 'Connections', source: './lib-demo/profiles/connections.js' },
-  { name: 'Joint Panels', source: './lib-demo/profiles/joint-panels.js' },
+  { name: 'Jointed Panels', source: './lib-demo/profiles/joint-panels.js' },
   { name: 'Mesh Panel (2D)', source: './lib-demo/profiles/mesh-2d.js' },
   { name: 'Reinforcements (2D)', source: './lib-demo/profiles/reinforcements-2d.js' },
   { name: 'Text (2D)', source: './lib-demo/profiles/text-2d.js' },
