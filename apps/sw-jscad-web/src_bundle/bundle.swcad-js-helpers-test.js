@@ -1,1 +1,1 @@
-export * from 'swcad-js-test'
+export * from 'swcad-js-helpers-test'
