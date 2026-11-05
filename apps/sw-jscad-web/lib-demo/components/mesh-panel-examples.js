@@ -1,6 +1,8 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
+const { translate } = jscad.transforms;
+
 const swcadJs = require('swcad-js-test').init({ jscad });
 
 console.log('swcadJs', swcadJs)

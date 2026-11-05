@@ -2,7 +2,7 @@
 const jscad = require('@jscad/modeling')
 
 const { intersect, subtract } = jscad.booleans
-const { colorize } = jscad.colors
+const { colorize, hexToRgb } = jscad.colors
 const { cube, sphere } = jscad.primitives
 
 // The sw-jscad libaries are still available, for legacy scripts
@@ -31,8 +31,8 @@ function main() {
   )
 
   return [
-    colorize(colors.lightGreen, outer),
-    colorize(colors.orange, inner),
+    colorize(hexToRgb('#8bc34a'), outer),
+    colorize(hexToRgb('#ff9800'), inner),
   ]
 }
 

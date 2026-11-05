@@ -9,6 +9,7 @@ const swcadJs = require('swcad-js-test').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
+    math,
     geometry,
 } = swcadJs.calcs;
 

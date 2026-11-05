@@ -1,6 +1,8 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
+const { translate } = jscad.transforms;
+
 const swcadJs = require('swcad-js-test').init({ jscad });
 console.log('swcadJs', swcadJs)
 
@@ -9,7 +11,7 @@ const {
 } = swcadJs.calcs
 
 const {
-    jointPanel,
+    connections,
 } = swcadJs.profiles
 
 const spaceUnit = math.inchesToMm(3)
@@ -23,7 +25,7 @@ const spaceUnit = math.inchesToMm(3)
 const smallSize = [100, 80]
 const largeSize = [150, 100]
 
-const jointPanelData1 = jointPanel.oneJointRectPanel({
+const jointPanelData1 = connections.jointPanel.oneJointRectPanel({
     size: smallSize,
     jointNumConnectors: 2,
 })
@@ -31,7 +33,7 @@ const jointPanelProfiles1 = jointPanelData1[0]
 const jointPanelMale1 = jointPanelProfiles1[0]
 const jointPanelFemale1 = jointPanelProfiles1[1]
 
-const jointPanelData2 = jointPanel.oneJointRectPanel({
+const jointPanelData2 = connections.jointPanel.oneJointRectPanel({
     size: smallSize,
     axis: 'y',
     jointMargin: [math.inchesToMm(1 / 4), math.inchesToMm(1 / 8)]
@@ -46,19 +48,19 @@ const twoJointPanelOpts = {
     jointMargin: [math.inchesToMm(5 / 16), math.inchesToMm(1 / 4)]
 }
 
-const jointPanelData3 = jointPanel.twoJointRectPanel({
+const jointPanelData3 = connections.jointPanel.twoJointRectPanel({
     ...twoJointPanelOpts,
     jointWidth: 5,
 })
 const jointPanelProfiles3 = jointPanelData3[0]
 
-const jointPanelData4 = jointPanel.twoJointRectPanel({
+const jointPanelData4 = connections.jointPanel.twoJointRectPanel({
     ...twoJointPanelOpts,
     type: 'dovetail'
 })
 const jointPanelProfiles4 = jointPanelData4[0]
 
-const jointPanelData5 = jointPanel.twoJointRectPanel({
+const jointPanelData5 = connections.jointPanel.twoJointRectPanel({
     ...twoJointPanelOpts,
     type: 'rightAngleTab'
 })
