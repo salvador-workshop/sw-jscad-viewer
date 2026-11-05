@@ -39,8 +39,34 @@ const main = () => {
         },
     ]
 
+    const boxCurveQtrData = reinforcements.boxCurve.boxCurveQuarter({
+        size: [20, 20],
+    })
+    const boxCurveQtrModel = boxCurveQtrData[0]
+
+    const boxCurveHalfData = reinforcements.boxCurve.boxCurveHalf({
+        size: [20, 20],
+        margin: [5, 5],
+    })
+    const boxCurveHalfModel = boxCurveHalfData[0]
+
+    const boxCurveProfiles = [
+        {
+            name: 'box-curve-1',
+            geom: boxCurveQtrModel,
+        },
+        {
+            name: 'box-curve-2',
+            geom: boxCurveHalfModel,
+        },
+    ]
+
     rectProfiles.forEach((prof) => {
         layout.addToLayout({ name: prof.name, desc: '..', layoutOpts }, prof.geom);
+    })
+
+    boxCurveProfiles.forEach((bProf) => {
+        layout.addToLayout({ name: bProf.name, desc: '..', layoutOpts }, bProf.geom);
     })
 
     const layoutContent = layout.gridLayout({ layoutOpts });

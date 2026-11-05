@@ -13,23 +13,6 @@ const {
 } = swcadJs.utils
 
 const main = () => {
-    const dowelJoistPanelOpts1 = {
-        length: 6 * 25.4,
-        width: 1.25 * 25.4,
-    }
-
-    const dowelJoistPanelOpts2 = {
-        length: 6.5 * 25.4,
-        width: 1.5 * 25.4,
-        reinforcementLevel: 2
-    }
-
-    const dowelJoistPanelOpts3 = {
-        length: 7 * 25.4,
-        width: 1.75 * 25.4,
-        reinforcementLevel: 3
-    }
-
     const reinfRectData1 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3] })
     const reinfRectData2 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'cross' })
     const reinfRectData3 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'full' })
@@ -48,6 +31,23 @@ const main = () => {
             geom: reinfRectData3[0],
         },
     ]
+
+    const dowelJoistPanelOpts1 = {
+        length: 6 * 25.4,
+        width: 1.25 * 25.4,
+    }
+
+    const dowelJoistPanelOpts2 = {
+        length: 6.5 * 25.4,
+        width: 1.5 * 25.4,
+        reinforcementLevel: 2
+    }
+
+    const dowelJoistPanelOpts3 = {
+        length: 7 * 25.4,
+        width: 1.75 * 25.4,
+        reinforcementLevel: 3
+    }
 
     const openWebJoistData1 = reinforcements.reinforcedJoist(dowelJoistPanelOpts1)
     const openWebJoistData2 = reinforcements.reinforcedJoist(dowelJoistPanelOpts2)
@@ -77,6 +77,28 @@ const main = () => {
         },
     ]
 
+    const boxSupportQtrData = reinforcements.boxSupport.boxSupportQuarter({
+        size: [20, 20],
+    })
+    const boxSupportQtrModel = boxSupportQtrData[0]
+
+    const boxSupportHalfData = reinforcements.boxSupport.boxSupportHalf({
+        size: [20, 20],
+        margin: [5, 5, 1.333],
+    })
+    const boxSupportHalfModel = boxSupportHalfData[0]
+
+    const boxSupportComponents = [
+        {
+            name: 'box-support-1',
+            geom: boxSupportQtrModel,
+        },
+        {
+            name: 'box-support-2',
+            geom: boxSupportHalfModel,
+        },
+    ]
+
     const layoutOpts = {
         layoutMargin: 15,
         layoutSpace: 10,
@@ -87,6 +109,9 @@ const main = () => {
     })
     joistComponents.forEach((joistComp) => {
         layout.addToLayout({ name: joistComp.name, desc: '..', layoutOpts }, joistComp.geom);
+    })
+    boxSupportComponents.forEach((boxSupportComp) => {
+        layout.addToLayout({ name: boxSupportComp.name, desc: '..', layoutOpts }, boxSupportComp.geom);
     })
 
     const layoutContent = layout.gridLayout({ layoutOpts });
