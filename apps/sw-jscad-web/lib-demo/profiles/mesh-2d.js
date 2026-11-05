@@ -15,7 +15,7 @@ const {
     mesh,
 } = swcadJs.profiles
 
-const spaceUnit = math.inchesToMm(3)
+const spaceUnit = math.inchesToMm(8)
 
 const main = () => {
     const models = []

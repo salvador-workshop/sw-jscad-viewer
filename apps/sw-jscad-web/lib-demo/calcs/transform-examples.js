@@ -13,7 +13,7 @@ const {
     transform,
 } = swcadJs.calcs;
 
-const spaceUnit = math.inchesToMm(3)
+const spaceUnit = math.inchesToMm(1.75)
 
 const main = () => {
     const shape1 = cuboid({ size: [15, 30, 15] })

@@ -13,7 +13,7 @@ const {
     geometry,
 } = swcadJs.calcs;
 
-const spaceUnit = math.inchesToMm(3)
+const spaceUnit = math.inchesToMm(2)
 
 const main = () => {
     const areaSize = [15, 25]

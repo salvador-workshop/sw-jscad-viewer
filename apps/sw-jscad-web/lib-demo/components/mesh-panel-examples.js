@@ -15,7 +15,7 @@ const {
     math
 } = swcadJs.calcs;
 
-const spaceUnit = math.inchesToMm(3)
+const spaceUnit = math.inchesToMm(4.5)
 
 const main = () => {
     const models = []

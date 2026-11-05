@@ -26,7 +26,7 @@ function main() {
         baseLineOffset: 0,
         component: baseComponent1,
         startPt: [0, 0],
-        endPt: [75, 60],
+        endPt: [80, 40],
         unitLength: 25.4,
     })[0]
 
