@@ -8,11 +8,11 @@ const {
     reinforcements,
 } = swcadJs.components
 
-const {
-    layout,
-} = swcadJs.utils
+const spaceUnit = math.inchesToMm(3)
 
 const main = () => {
+    const models = []
+
     const reinfRectData1 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3] })
     const reinfRectData2 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'cross' })
     const reinfRectData3 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'full' })
@@ -99,23 +99,21 @@ const main = () => {
         },
     ]
 
-    const layoutOpts = {
-        layoutMargin: 15,
-        layoutSpace: 10,
-    }
-
     rectComponents.forEach((rectComp) => {
-        layout.addToLayout({ name: rectComp.name, desc: '..', layoutOpts }, rectComp.geom);
+        models.push(rectComp.geom);
     })
     joistComponents.forEach((joistComp) => {
-        layout.addToLayout({ name: joistComp.name, desc: '..', layoutOpts }, joistComp.geom);
+        models.push(joistComp.geom);
     })
     boxSupportComponents.forEach((boxSupportComp) => {
-        layout.addToLayout({ name: boxSupportComp.name, desc: '..', layoutOpts }, boxSupportComp.geom);
+        models.push(boxSupportComp.geom);
     })
 
-    const layoutContent = layout.gridLayout({ layoutOpts });
-    return layoutContent;
+    const outModels = models.map((oModel, idx) => {
+        return translate([idx * spaceUnit, 0, 0], oModel)
+    })
+
+    return outModels;
 }
 
 module.exports = { main }

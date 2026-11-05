@@ -12,11 +12,11 @@ const {
     connections,
 } = swcadJs.profiles
 
-const {
-    layout,
-} = swcadJs.utils
+const spaceUnit = math.inchesToMm(3)
 
 const main = () => {
+    const models = []
+
     const connPegboardData = connections.pegboard({})
     const connPegboardProfiles = connPegboardData[0]
     const connPegboardMale = connPegboardProfiles[0]
@@ -29,7 +29,7 @@ const main = () => {
 
     const connEllipseData = connections.ellipse({
         segments: 18,
-        interfaceMargin: [math.inchesToMm(3/8), math.inchesToMm(3/16)]
+        interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
     })
     const connEllipseProfiles = connEllipseData[0]
     const connEllipseMale = connEllipseProfiles[0]
@@ -41,14 +41,14 @@ const main = () => {
     const connTabFemale = connTabProfiles[1]
 
     const connDovetailData = connections.dovetail({
-        interfaceMargin: [math.inchesToMm(3/8), math.inchesToMm(3/16)]
+        interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
     })
     const connDovetailProfiles = connDovetailData[0]
     const connDovetailMale = connDovetailProfiles[0]
     const connDovetailFemale = connDovetailProfiles[1]
 
     const connRightAngleTabData = connections.rightAngleTab({
-        interfaceMargin: [math.inchesToMm(3/8), math.inchesToMm(3/16)]
+        interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
     })
     const connRightAngleTabProfiles = connRightAngleTabData[0]
     const connRightAngleTabMale = connRightAngleTabProfiles[0]
@@ -72,7 +72,7 @@ const main = () => {
 
     const connTabRowData = connections.tabRow({
         size: [100, 33],
-        interfaceMargin: [math.inchesToMm(3/8), math.inchesToMm(3/16)]
+        interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
     })
     const connTabRowProfiles = connTabRowData[0]
     const connTabRowMale = connTabRowProfiles[0]
@@ -80,16 +80,11 @@ const main = () => {
 
     const connRightAngleTabRowData = connections.rightAngleTabRow({
         size: [100, 33],
-        interfaceMargin: [math.inchesToMm(3/8), math.inchesToMm(3/16)]
+        interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
     })
     const connRightAngleTabRowProfiles = connRightAngleTabRowData[0]
     const connRightAngleTabRowMale = connRightAngleTabRowProfiles[0]
     const connRightAngleTabRowFemale = connRightAngleTabRowProfiles[1]
-
-    const layoutOpts = {
-        layoutMargin: 15,
-        layoutSpace: 15,
-    }
 
     const connectionProfiles = [
         {
@@ -175,11 +170,14 @@ const main = () => {
     ]
 
     connectionProfiles.forEach((prof) => {
-        layout.addToLayout({ name: prof.name, desc: '..', layoutOpts }, prof.geom);
+        models.push(prof.geom);
     })
 
-    const layoutContent = layout.gridLayout({ layoutOpts });
-    return layoutContent;
+    const outModels = models.map((oModel, idx) => {
+        return translate([idx * spaceUnit, 0, 0], oModel)
+    })
+
+    return outModels;
 }
 
 module.exports = { main }

@@ -10,7 +10,6 @@ var require_constants = __commonJS({
     var tri30Factor = Math.sqrt(3);
     var tri45Factor = Math.sqrt(2);
     var eqTriHeightFactor = tri30Factor / 2;
-    var phi = 1.6180339887;
     var constants = {
       /**
        * Inches / Millimetre conversion rate
@@ -18,18 +17,6 @@ var require_constants = __commonJS({
        * @constant {number}
        */
       INCHES_MM_FACTOR: 25.4,
-      /**
-       * Golden ratio
-       * @memberof data.constants
-       * @constant {number}
-       */
-      PHI: phi,
-      /**
-       * Golden ratio inverse
-       * @memberof data.constants
-       * @constant {number}
-       */
-      PHI_INV: 1 / phi,
       /**
        * Ratio of equilateral triangle's height to its side length
        * @memberof data.constants
@@ -47,73 +34,9 @@ var require_constants = __commonJS({
        * @memberof data.constants
        * @constant {number}
        */
-      TRI_30_FACTOR: tri30Factor,
-      /**
-       * Plastic_Ratio
-       * @memberof data.constants
-       * @constant {number}
-       */
-      PLASTIC_RATIO: 1.3247179572,
-      /**
-       * Supergolden_Ratio
-       * @memberof data.constants
-       * @constant {number}
-       */
-      SUPERGOLDEN_RATIO: 1.4655712319,
-      /**
-       * Golden_Ratio
-       * @memberof data.constants
-       * @constant {number}
-       */
-      GOLDEN_RATIO: phi,
-      /**
-       * Silver_Ratio
-       * @memberof data.constants
-       * @constant {number}
-       */
-      SILVER_RATIO: 1 + tri45Factor,
-      // 2.4142
-      /**
-       * Bronze_Ratio
-       * @memberof data.constants
-       * @constant {number}
-       */
-      BRONZE_RATIO: 3 + Math.sqrt(13) / 2,
-      // 3.3028
-      /**
-       * Copper_Ratio
-       * @memberof data.constants
-       * @constant {number}
-       */
-      COPPER_RATIO: 2 + Math.sqrt(5),
-      // 4.2361
-      /**
-       * Nickel_Ratio
-       * @memberof data.constants
-       * @constant {number}
-       */
-      NICKEL_RATIO: 5 + Math.sqrt(29)
-      // 5.1925
+      TRI_30_FACTOR: tri30Factor
     };
     module2.exports = constants;
-  }
-});
-
-// packages/swcad-js-data/src/functions/index.js
-var require_functions = __commonJS({
-  "packages/swcad-js-data/src/functions/index.js"(exports2, module2) {
-    var camelCase = (str) => {
-      return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
-        return index == 0 ? word.toLowerCase() : word.toUpperCase();
-      }).replace(/\s+/g, "");
-    };
-    var constantToCamelCase = (str) => {
-      return camelCase(str.replaceAll("_", " ").toLowerCase());
-    };
-    module2.exports = {
-      camelCase,
-      constantToCamelCase
-    };
   }
 });
 
@@ -215,98 +138,16 @@ var require_standards = __commonJS({
   }
 });
 
-// packages/swcad-js-data/src/errors.js
-var require_errors = __commonJS({
-  "packages/swcad-js-data/src/errors.js"(exports2, module2) {
-    "use strict";
-    function SwError(message) {
-      this.name = "SwError";
-      this.message = message;
-      this.stack = new Error().stack;
-    }
-    function SwInvalidInput(message) {
-      this.name = "SwInvalidInput";
-      this.message = message;
-      this.stack = new Error().stack;
-    }
-    SwInvalidInput.prototype = new Error();
-    var errors = {
-      SwError,
-      SwInvalidInput
-    };
-    module2.exports = errors;
-  }
-});
-
-// packages/swcad-js-data/src/internals.js
-var require_internals = __commonJS({
-  "packages/swcad-js-data/src/internals.js"(exports2, module2) {
-    "use strict";
-    var internals = ({ jscad }) => {
-      const propListBasic = [
-        { id: "length", desc: "length of element" },
-        { id: "width", desc: "Width of element" },
-        { id: "height", desc: "height of element" }
-      ];
-      const propListDecorative = [
-        { id: "trimOpts", desc: "array of string options" },
-        { id: "trimUnitSize", desc: "[x,y] of trim unit depth, and trim unit height" }
-      ];
-      const propListWall = [
-        { id: "wallSize", desc: "[x,y,z] of wall length, wall thickness, and wall height" },
-        { id: "crownDetailLvl", desc: "crown detail level, as integer (usually 0-2)" },
-        { id: "dadoDetailLvl", desc: "dado detail level, as integer (usually 0-2)" },
-        { id: "baseDetailLvl", desc: "base detail level, as integer (usually 0-2)" }
-      ];
-      const propListRoof = [
-        { id: "roofSpanSize", desc: "length of element" },
-        { id: "roofOverhangSize", desc: "Width of element" },
-        { id: "roofPitch", desc: "height of element" }
-      ];
-      const propListVariants = [
-        { id: "family", desc: "General grouping" },
-        { id: "type", desc: "Functional grouping" },
-        { id: "subType", desc: "Functional subgroup" },
-        { id: "tagsVariants", desc: "Extra options for variants" }
-      ];
-      const masterPropList = [
-        ...propListBasic,
-        ...propListDecorative,
-        ...propListWall,
-        ...propListRoof
-      ];
-      const colourList = [];
-      const layerList = [];
-      return {
-        propListBasic,
-        propListWall,
-        propListRoof,
-        propListVariants,
-        masterPropList,
-        colourList,
-        layerList
-      };
-    };
-    module2.exports = { init: internals };
-  }
-});
-
 // packages/swcad-js-data/src/index.js
 var require_src = __commonJS({
   "packages/swcad-js-data/src/index.js"(exports2, module2) {
     "use strict";
     var constants = require_constants();
-    var functions = require_functions();
     var standards = require_standards();
-    var errors = require_errors();
-    var internals = require_internals();
     var dataInit = ({ jscad }) => {
       const data = {
         constants,
-        functions,
-        standards: standards.init({ jscad }),
-        errors,
-        internals: internals.init({ jscad })
+        standards: standards.init({ jscad })
       };
       return data;
     };
@@ -1300,7 +1141,7 @@ var require_src2 = __commonJS({
     var calcsInit = ({ jscad, swcadJs }) => {
       const math = mathModule.init({ jscad, swcadJs });
       const position = positionModule.init({ jscad, swcadJs });
-      const preLib2 = {
+      const preLib = {
         ...swcadJs,
         calcs: {
           math,
@@ -1310,8 +1151,8 @@ var require_src2 = __commonJS({
       const calcs = {
         math,
         position,
-        geometry: geometry.init({ jscad, swcadJs: preLib2 }),
-        transform: transform.init({ jscad, swcadJs: preLib2 })
+        geometry: geometry.init({ jscad, swcadJs: preLib }),
+        transform: transform.init({ jscad, swcadJs: preLib })
       };
       return calcs;
     };
@@ -2638,9 +2479,9 @@ var require_connections = __commonJS({
   }
 });
 
-// packages/swcad-js-profiles/src/joint-panel/index.js
+// packages/swcad-js-profiles/src/connections/joint-panel.js
 var require_joint_panel = __commonJS({
-  "packages/swcad-js-profiles/src/joint-panel/index.js"(exports2, module2) {
+  "packages/swcad-js-profiles/src/connections/joint-panel.js"(exports2, module2) {
     "use strict";
     var jointPanelInit = ({ jscad, swcadJs }) => {
       const {
@@ -3677,7 +3518,7 @@ var require_reinforcements = __commonJS({
     var boxCurveModule = require_box_curve();
     var reinforcedRectModule = require_reinforced_rect();
     var reinforcementsInit = ({ jscad, swcadJs }) => {
-      const boxCurve = boxCurveModule.init({ jscad, swcadJs: preLib });
+      const boxCurve = boxCurveModule.init({ jscad, swcadJs });
       const reinforcedRect = reinforcedRectModule.init({ jscad, swcadJs });
       return {
         boxCurve,
@@ -3728,28 +3569,23 @@ var require_src3 = __commonJS({
     var reinforcementsModule = require_reinforcements();
     var textModule = require_text();
     var profilesInit = ({ jscad, swcadJs }) => {
-      const beadsBits = beadsBitsModule.init({ jscad, swcadJs });
-      let preLib2 = {
+      const connections = connectionsModule.init({ jscad, swcadJs });
+      let preLib = {
         ...swcadJs,
         profiles: {
-          beadsBits
-        }
-      };
-      const connections = connectionsModule.init({ jscad, swcadJs: preLib2 });
-      preLib2 = {
-        ...swcadJs,
-        profiles: {
-          beadsBits,
           connections
         }
       };
+      const connectionsApi = {
+        ...connections,
+        jointPanel: jointPanelModule.init({ jscad, swcadJs: preLib })
+      };
       return {
-        beadsBits,
-        connections,
-        jointPanel: jointPanelModule.init({ jscad, swcadJs: preLib2 }),
-        mesh: meshModule.init({ jscad, swcadJs: preLib2 }),
-        reinforcements: reinforcementsModule.init({ jscad, swcadJs: preLib2 }),
-        text: textModule.init({ jscad, swcadJs: preLib2 })
+        beadsBits: beadsBitsModule.init({ jscad, swcadJs: preLib }),
+        connections: connectionsApi,
+        mesh: meshModule.init({ jscad, swcadJs: preLib }),
+        reinforcements: reinforcementsModule.init({ jscad, swcadJs: preLib }),
+        text: textModule.init({ jscad, swcadJs: preLib })
       };
     };
     module2.exports = {
@@ -4980,7 +4816,7 @@ var require_box_support = __commonJS({
         math
       } = swcadJs.calcs;
       const {
-        boxCurve
+        reinforcements
       } = swcadJs.profiles;
       const boxSupportDefaults = () => {
         const defaultValues = {
@@ -5116,7 +4952,7 @@ var require_box_support = __commonJS({
           margin,
           marginHeight
         } = modelProperties.dims;
-        const boxCurvesQtrData = boxCurve.boxCurveQuarter({
+        const boxCurvesQtrData = reinforcements.boxCurve.boxCurveQuarter({
           size,
           margin
         });
@@ -5136,7 +4972,7 @@ var require_box_support = __commonJS({
           margin,
           marginHeight
         } = modelProperties.dims;
-        const boxCurvesHalfData = boxCurve.boxCurveHalf({
+        const boxCurvesHalfData = reinforcements.boxCurve.boxCurveHalf({
           size,
           margin
         });
@@ -6123,16 +5959,16 @@ var require_src4 = __commonJS({
     var textModule = require_text2();
     var componentsInit = ({ jscad, swcadJs }) => {
       const beadsBits = beadsBitsModule.init({ jscad, swcadJs });
-      const preLib2 = {
+      const preLib = {
         ...swcadJs,
         components: {
           beadsBits
         }
       };
-      const routedShapes = routedShapesModule.init({ jscad, swcadJs: preLib2 });
-      const mesh = meshModule.init({ jscad, swcadJs: preLib2 });
-      const componentLine = componentLineModule.init({ jscad, swcadJs: preLib2 });
-      preLib2.components = {
+      const routedShapes = routedShapesModule.init({ jscad, swcadJs: preLib });
+      const mesh = meshModule.init({ jscad, swcadJs: preLib });
+      const componentLine = componentLineModule.init({ jscad, swcadJs: preLib });
+      preLib.components = {
         beadsBits,
         routedShapes,
         mesh,
@@ -6143,9 +5979,9 @@ var require_src4 = __commonJS({
         routedShapes,
         mesh,
         componentLine,
-        fittings: fittingsModule.init({ jscad, swcadJs: preLib2 }),
-        reinforcements: reinforcementsModule.init({ jscad, swcadJs: preLib2 }),
-        text: textModule.init({ jscad, swcadJs: preLib2 })
+        fittings: fittingsModule.init({ jscad, swcadJs: preLib }),
+        reinforcements: reinforcementsModule.init({ jscad, swcadJs: preLib }),
+        text: textModule.init({ jscad, swcadJs: preLib })
       };
       return components;
     };
@@ -6155,437 +5991,8 @@ var require_src4 = __commonJS({
   }
 });
 
-// packages/swcad-js-utils/src/colors.js
-var require_colors = __commonJS({
-  "packages/swcad-js-utils/src/colors.js"(exports2, module2) {
-    "use strict";
-    var colourUtils = ({ jscad, swcadJs }) => {
-      const { hexToRgb } = jscad.colors;
-      const colors = {
-        /** @memberof utils.colors */
-        red: hexToRgb("#f44336"),
-        /** @memberof utils.colors */
-        pink: hexToRgb("#e91e63"),
-        /** @memberof utils.colors */
-        purple: hexToRgb("#9c27b0"),
-        /** @memberof utils.colors */
-        deepPurple: hexToRgb("#673ab7"),
-        /** @memberof utils.colors */
-        indigo: hexToRgb("#3f51b5"),
-        /** @memberof utils.colors */
-        blue: hexToRgb("#2196f3"),
-        /** @memberof utils.colors */
-        lightBlue: hexToRgb("#03a9f4"),
-        /** @memberof utils.colors */
-        cyan: hexToRgb("#00bcd4"),
-        /** @memberof utils.colors */
-        teal: hexToRgb("#009688"),
-        /** @memberof utils.colors */
-        green: hexToRgb("#4caf50"),
-        /** @memberof utils.colors */
-        lightGreen: hexToRgb("#8bc34a"),
-        /** @memberof utils.colors */
-        lime: hexToRgb("#cddc39"),
-        /** @memberof utils.colors */
-        yellow: hexToRgb("#ffeb3b"),
-        /** @memberof utils.colors */
-        amber: hexToRgb("#ffc107"),
-        /** @memberof utils.colors */
-        orange: hexToRgb("#ff9800"),
-        /** @memberof utils.colors */
-        deepOrange: hexToRgb("#ff5722"),
-        /** @memberof utils.colors */
-        brown: hexToRgb("#795548"),
-        /** @memberof utils.colors */
-        grey: hexToRgb("#9e9e9e"),
-        /** @memberof utils.colors */
-        blueGrey: hexToRgb("#607d8b"),
-        /** @memberof utils.colors */
-        white: hexToRgb("#ffffff")
-      };
-      for (const [colour, rgbVal] of Object.entries(colors)) {
-        const capColName = colour.slice(0, 1).toUpperCase() + colour.slice(1);
-        colors[`translucent${capColName}1`] = [...rgbVal, 0.3];
-        colors[`translucent${capColName}2`] = [...rgbVal, 0.5];
-        colors[`translucent${capColName}`] = [...rgbVal, 0.5];
-        colors[`translucent${capColName}3`] = [...rgbVal, 0.7];
-      }
-      return colors;
-    };
-    module2.exports = { init: colourUtils };
-  }
-});
-
-// packages/swcad-js-utils/src/layout.js
-var require_layout = __commonJS({
-  "packages/swcad-js-utils/src/layout.js"(exports2, module2) {
-    "use strict";
-    var layoutUtils = ({ jscad, swcadJs }) => {
-      const { cuboid, rectangle } = jscad.primitives;
-      const { union, subtract } = jscad.booleans;
-      const { translate, align } = jscad.transforms;
-      const { measureDimensions } = jscad.measurements;
-      const isGeom2 = jscad.geometries.geom2.isA;
-      const isPath2 = jscad.geometries.path2.isA;
-      const { math, position } = swcadJs.calcs;
-      const { text: text2d } = swcadJs.profiles;
-      const { text: text3d } = swcadJs.components;
-      const layoutElements = /* @__PURE__ */ new Map();
-      let largestDimensionX = 0;
-      let largestDimensionY = 0;
-      let sortedLayoutEntries = [];
-      const largestDimension = () => {
-        return [largestDimensionX, largestDimensionY];
-      };
-      const getXYArea = (dims) => {
-        return dims[0] * dims[1];
-      };
-      const dimsSizeAsc = (firstEntry, secondEntry) => {
-        const firstArea = getXYArea(firstEntry.layoutDims);
-        const secondArea = getXYArea(secondEntry.layoutDims);
-        if (firstArea.size > secondArea.size) {
-          return 1;
-        } else if (firstArea.size < secondArea.size) {
-          return -1;
-        } else {
-          return 0;
-        }
-      };
-      const addLayoutEntry = ({ layoutEntry }) => {
-        layoutElements.set(layoutEntry.id, layoutEntry);
-        const newEntries = [...sortedLayoutEntries, layoutEntry];
-        sortedLayoutEntries = newEntries.sort(dimsSizeAsc);
-        if (layoutEntry.layoutDims[0] > largestDimensionX) {
-          largestDimensionX = layoutEntry.layoutDims[0];
-        }
-        if (layoutEntry.layoutDims[1] > largestDimensionY) {
-          largestDimensionY = layoutEntry.layoutDims[1];
-        }
-      };
-      const layoutFrame = ({
-        title,
-        subtitle = ". . .",
-        data1 = "..",
-        data2 = "....",
-        objectDims,
-        layoutDims,
-        is2D = false
-      }) => {
-        const frameWidth = 1.5;
-        const frameOpts = {};
-        const ctrlPts = {
-          topLeft: [layoutDims[0] / -2, layoutDims[1] / 2],
-          topRight: [layoutDims[0] / 2, layoutDims[1] / 2],
-          bottomLeft: [layoutDims[0] / -2, layoutDims[1] / -2],
-          bottomRight: [layoutDims[0] / 2, layoutDims[1] / -2]
-        };
-        const alignmentSlots = {
-          topLeft: { modes: ["min", "max", "min"], relativeTo: [...ctrlPts.topLeft, 0] },
-          topRight: { modes: ["max", "max", "min"], relativeTo: [...ctrlPts.topRight, 0] },
-          bottomLeft: { modes: ["min", "min", "min"], relativeTo: [...ctrlPts.bottomLeft, 0] },
-          bottomRight: { modes: ["max", "min", "min"], relativeTo: [...ctrlPts.bottomRight, 0] }
-        };
-        if (is2D) {
-          const titleText2 = text2d.basicText({
-            message: title,
-            fontSize: 3.5,
-            charLineWidth: 1,
-            ...frameOpts
-          });
-          const subtitleText2 = text2d.basicText({
-            message: subtitle,
-            fontSize: 3,
-            charLineWidth: 0.75,
-            ...frameOpts
-          });
-          ;
-          const data1Text2 = text2d.basicText({
-            message: data1,
-            fontSize: 3,
-            charLineWidth: 0.75,
-            ...frameOpts
-          });
-          ;
-          const data2Text2 = text2d.basicText({
-            message: data2,
-            fontSize: 3,
-            charLineWidth: 0.75,
-            ...frameOpts
-          });
-          ;
-          const frameSpacer = frameWidth * 1.25;
-          const basicFrame2 = subtract(
-            rectangle({
-              size: [
-                layoutDims[0] + frameSpacer + frameWidth * 2,
-                layoutDims[1] + frameSpacer + frameWidth * 2
-              ]
-            }),
-            rectangle({
-              size: [
-                layoutDims[0] + frameSpacer,
-                layoutDims[1] + frameSpacer
-              ]
-            })
-          );
-          return union(
-            position.ctrMin(basicFrame2),
-            align(alignmentSlots.topLeft, data1Text2),
-            align(alignmentSlots.topRight, data2Text2),
-            align(alignmentSlots.bottomLeft, titleText2),
-            align(alignmentSlots.bottomRight, subtitleText2)
-          );
-        }
-        const recessDepth = 0.6667;
-        frameOpts.extrudeHeight = recessDepth;
-        frameOpts.panelThickness = frameWidth + recessDepth;
-        frameOpts.panelOffset = (frameWidth + recessDepth) * 2;
-        const titleText = text3d.textPanel({
-          message: title,
-          fontSize: 3.5,
-          charLineWidth: 1,
-          ...frameOpts
-        });
-        const subtitleText = text3d.textPanel({
-          message: subtitle,
-          fontSize: 3,
-          charLineWidth: 0.75,
-          ...frameOpts
-        });
-        const data1Text = text3d.textPanel({
-          message: data1,
-          fontSize: 3,
-          charLineWidth: 0.75,
-          ...frameOpts
-        });
-        const data2Text = text3d.textPanel({
-          message: data2,
-          fontSize: 3,
-          charLineWidth: 0.75,
-          ...frameOpts
-        });
-        const basicFrame = subtract(
-          cuboid({ size: [layoutDims[0], layoutDims[1], frameWidth] }),
-          cuboid({ size: [layoutDims[0] - frameWidth * 2, layoutDims[1] - frameWidth * 2, 3] })
-        );
-        return union(
-          position.ctrMin(basicFrame),
-          align(alignmentSlots.topLeft, data1Text),
-          align(alignmentSlots.topRight, data2Text),
-          align(alignmentSlots.bottomLeft, titleText),
-          align(alignmentSlots.bottomRight, subtitleText)
-        );
-      };
-      const linearLayout = ({ layoutOpts }) => {
-        const layoutContent = [];
-        layoutElements.values().forEach((val, idx) => {
-          const offsets = { x: 0, y: 0, z: 0 };
-          if (layoutOpts.relativeTo) {
-            offsets.x = offsets.x + layoutOpts.relativeTo[0];
-            offsets.y = offsets.y + layoutOpts.relativeTo[1];
-            offsets.z = offsets.z + layoutOpts.relativeTo[2];
-          }
-          const gridUnits = [
-            largestDimension()[0] + layoutOpts.layoutSpace,
-            largestDimension()[1] + layoutOpts.layoutSpace
-          ];
-          let layoutPosition = [
-            gridUnits[0] * idx + offsets.x,
-            offsets.y,
-            offsets.z
-          ];
-          if (layoutOpts.column) {
-            layoutPosition = [
-              offsets.x,
-              gridUnits[1] * idx + offsets.y,
-              offsets.z
-            ];
-          }
-          const nextLayoutGeoms = [
-            translate(layoutPosition, val.geom)
-          ];
-          const skipFrame = layoutOpts.noFrame || val.tags.includes("noFrame");
-          const is2D = val.tags.includes("is2D");
-          if (!skipFrame) {
-            const frameGeom = translate(layoutPosition, layoutFrame({
-              title: val.name,
-              subtitle: val.desc,
-              objectDims: val.objectDims,
-              layoutDims: val.layoutDims,
-              is2D
-            }));
-            nextLayoutGeoms.push(frameGeom);
-          }
-          layoutContent.push(...nextLayoutGeoms);
-        });
-        return layoutContent;
-      };
-      const gridLayout = ({ layoutOpts }) => {
-        const gridSize = math.factorize(layoutElements.size);
-        const numColumns = gridSize[1];
-        const layoutContent = [];
-        let gridRow = -1;
-        layoutElements.values().forEach((val, idx) => {
-          const gridCol = idx % numColumns;
-          if (gridCol === 0) {
-            gridRow += 1;
-          }
-          const gridPos = { row: gridRow, col: gridCol };
-          const offsets = { x: 0, y: 0, z: 0 };
-          if (layoutOpts.relativeTo) {
-            offsets.x = offsets.x + layoutOpts.relativeTo[0];
-            offsets.y = offsets.y + layoutOpts.relativeTo[1];
-            offsets.z = offsets.z + layoutOpts.relativeTo[2];
-          }
-          const gridUnits = [
-            largestDimension()[0] + layoutOpts.layoutSpace,
-            largestDimension()[1] + layoutOpts.layoutSpace
-          ];
-          let layoutPosition = [
-            gridUnits[0] * gridPos.col + offsets.x,
-            gridUnits[1] * gridPos.row + offsets.y,
-            offsets.z
-          ];
-          const nextLayoutGeoms = [
-            translate(layoutPosition, val.geom)
-          ];
-          const skipFrame = layoutOpts.noFrame || val.tags.includes("noFrame");
-          const is2D = val.tags.includes("is2D");
-          if (!skipFrame) {
-            const frameGeom = translate(layoutPosition, layoutFrame({
-              title: val.name,
-              subtitle: val.desc,
-              objectDims: val.objectDims,
-              layoutDims: val.layoutDims,
-              is2D
-            }));
-            nextLayoutGeoms.push(frameGeom);
-          }
-          layoutContent.push(...nextLayoutGeoms);
-        });
-        return layoutContent;
-      };
-      return {
-        /**
-         * Adds element to layout
-         * @param {Object} opts 
-         * @param {string} opts.name 
-         * @param {string} opts.desc 
-         * @param {string[]} opts.tags 
-         * @param {Object} opts.layoutOpts 
-         * @param {number[]} opts.layoutOpts.minSize -- [x,y,z] showing minimum size for element layout
-         * @param {boolean} opts.layoutOpts.is2D -- 
-         * @param {Object} geom
-         * @memberof utils.layout
-         * @instance
-         */
-        addToLayout: ({
-          name = "",
-          desc = "",
-          tags = [],
-          layoutOpts = {}
-        }, geom) => {
-          const layoutId = name + "-randomTag";
-          const objectDims = measureDimensions(geom);
-          const layoutMargin = layoutOpts.layoutMargin || 10;
-          const layoutDims = [
-            layoutMargin * 2 + objectDims[0],
-            layoutMargin * 2 + objectDims[1],
-            layoutMargin * 2 + objectDims[2]
-          ];
-          const extraTags = [
-            isGeom2(geom) || isPath2(geom) ? "is2D" : "is3D"
-          ];
-          const layoutEntry = {
-            id: layoutId,
-            name,
-            desc,
-            tags: [...tags, ...extraTags],
-            geom: position.ctrMin(geom),
-            objectDims,
-            layoutDims
-          };
-          addLayoutEntry({ layoutEntry });
-          return layoutEntry;
-        },
-        removeFromLayout: ({ id }) => {
-          layoutElements.delete(id);
-        },
-        clearLayout: () => {
-          layoutElements.clear();
-        },
-        linearLayout,
-        gridLayout
-      };
-    };
-    module2.exports = { init: layoutUtils };
-  }
-});
-
-// packages/swcad-js-utils/src/palette.js
-var require_palette = __commonJS({
-  "packages/swcad-js-utils/src/palette.js"(exports2, module2) {
-    "use strict";
-    var paletteUtils = ({ jscad, swcadJs }) => {
-      const { colors } = swcadJs.utils;
-      const palette = {
-        /** @memberof utils.palette */
-        light: {
-          default: colors.blue,
-          primary: colors.indigo,
-          secondary: colors.green,
-          tertiary: colors.pink,
-          layout: colors.translucentDeepOrange,
-          detail: colors.lightBlue,
-          guide: colors.translucentGrey
-        },
-        /** @memberof utils.palette */
-        dark: {
-          default: colors.blue,
-          primary: colors.indigo,
-          secondary: colors.green,
-          tertiary: colors.pink,
-          layout: colors.translucentDeepOrange,
-          detail: colors.lightBlue,
-          guide: colors.translucentGrey
-        }
-      };
-      return palette;
-    };
-    module2.exports = { init: paletteUtils };
-  }
-});
-
-// packages/swcad-js-utils/src/index.js
-var require_src5 = __commonJS({
-  "packages/swcad-js-utils/src/index.js"(exports2, module2) {
-    "use strict";
-    var colors = require_colors();
-    var layout = require_layout();
-    var palette = require_palette();
-    var utilsInit = ({ jscad, swcadJs }) => {
-      const coloursCore = colors.init({ jscad, swcadJs });
-      const preLib2 = {
-        ...swcadJs,
-        utils: {
-          colors: coloursCore
-        }
-      };
-      const utils = {
-        colors: coloursCore,
-        layout: layout.init({ jscad, swcadJs: preLib2 }),
-        palette: palette.init({ jscad, swcadJs: preLib2 })
-      };
-      return utils;
-    };
-    module2.exports = {
-      init: utilsInit
-    };
-  }
-});
-
 // packages/swcad-js-core/src/index.js
-var require_src6 = __commonJS({
+var require_src5 = __commonJS({
   "packages/swcad-js-core/src/index.js"(exports2, module2) {
     "use strict";
     var coreInit = ({ jscad }) => {
@@ -6593,8 +6000,7 @@ var require_src6 = __commonJS({
         data: require_src().init({ jscad }),
         calcs: null,
         profiles: null,
-        components: null,
-        utils: null
+        components: null
       };
       let swcadJsAssembly = swcadJsCore;
       const assemblyCalcs = require_src2().init({ jscad, swcadJs: swcadJsAssembly });
@@ -6603,14 +6009,11 @@ var require_src6 = __commonJS({
       swcadJsAssembly.profiles = assemblyProfiles;
       const assemblyComponents = require_src4().init({ jscad, swcadJs: swcadJsAssembly });
       swcadJsAssembly.components = assemblyComponents;
-      const assemblyUtils = require_src5().init({ jscad, swcadJs: swcadJsAssembly });
-      swcadJsAssembly.utils = assemblyUtils;
       const swcadJs = {
         data: swcadJsAssembly.data,
         calcs: swcadJsAssembly.calcs,
         profiles: swcadJsAssembly.profiles,
-        components: swcadJsAssembly.components,
-        utils: swcadJsAssembly.utils
+        components: swcadJsAssembly.components
       };
       return swcadJs;
     };
@@ -6621,7 +6024,7 @@ var require_src6 = __commonJS({
 });
 
 // src/index.js
-var coreModule = require_src6();
+var coreModule = require_src5();
 var init = ({ jscad }) => {
   const swcadJs = coreModule.init({ jscad });
   return swcadJs;

@@ -8,15 +8,10 @@ const {
     reinforcements,
 } = swcadJs.profiles
 
-const {
-    layout,
-} = swcadJs.utils
+const spaceUnit = math.inchesToMm(3)
 
 const main = () => {
-    const layoutOpts = {
-        layoutMargin: 10,
-        layoutSpace: 10,
-    }
+    const models = []
 
     const reinfRectData1 = reinforcements.reinforcedRect({ size: [40, 45] })
 
@@ -62,15 +57,18 @@ const main = () => {
     ]
 
     rectProfiles.forEach((prof) => {
-        layout.addToLayout({ name: prof.name, desc: '..', layoutOpts }, prof.geom);
+        models.push(prof.geom);
     })
 
     boxCurveProfiles.forEach((bProf) => {
-        layout.addToLayout({ name: bProf.name, desc: '..', layoutOpts }, bProf.geom);
+        models.push(bProf.geom);
     })
 
-    const layoutContent = layout.gridLayout({ layoutOpts });
-    return layoutContent;
+    const outModels = models.map((oModel, idx) => {
+        return translate([idx * spaceUnit, 0, 0], oModel)
+    })
+
+    return outModels;
 }
 
 module.exports = { main }

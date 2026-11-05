@@ -26,7 +26,3 @@ export const swcadJsProfiles = [
   { name: 'Reinforcements (2D)', source: './lib-demo/profiles/reinforcements-2d.js' },
   { name: 'Text (2D)', source: './lib-demo/profiles/text-2d.js' },
 ]
-
-export const swcadJsUtils = [
-  { name: 'Layouts', source: './lib-demo/utils/layout-examples.js' },
-]

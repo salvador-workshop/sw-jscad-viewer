@@ -12,10 +12,7 @@ const {
     jointPanel,
 } = swcadJs.profiles
 
-const {
-    layout,
-} = swcadJs.utils
-
+const spaceUnit = math.inchesToMm(3)
 
 //==============================================================================
 
@@ -76,10 +73,7 @@ const jointPanelProfiles5 = jointPanelData5[0]
  * @returns `geom3` or `geom3[]`
  */
 const main = () => {
-    let layoutOpts = {
-        layoutMargin: 15,
-        layoutSpace: 15,
-    }
+    const models = []
 
     const jointPanelProfiles = [
         {
@@ -149,14 +143,14 @@ const main = () => {
     ]
 
     jointPanelProfiles.forEach((prof) => {
-        layout.addToLayout({ name: prof.name, desc: '..', layoutOpts }, prof.geom);
+        models.push(prof.geom);
     })
 
-    // -----------
-    // OUTPUT
+    const outModels = models.map((oModel, idx) => {
+        return translate([idx * spaceUnit, 0, 0], oModel)
+    })
 
-    const layoutContent = layout.gridLayout({ layoutOpts });
-    return layoutContent
+    return outModels;
 }
 
 module.exports = { main }

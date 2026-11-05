@@ -19,10 +19,6 @@ console.log(swjBuilders)
 const swcadJs = require('swcad-js-test').init({ jscad });
 console.log('swcadJs', swcadJs)
 
-const {
-  colors,
-} = swcadJs.utils
-
 function main() {
   const outer = subtract(
     cube({ size: 10 }),
