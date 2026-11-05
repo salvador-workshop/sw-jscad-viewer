@@ -2,26 +2,20 @@
 const jscad = require('@jscad/modeling')
 
 const { cuboid, sphere, cylinder } = jscad.primitives
+const { translate } = jscad.transforms;
 const { union } = jscad.booleans
 
 const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
+    math,
     transform,
 } = swcadJs.calcs;
 
-const {
-    layout,
-} = swcadJs.utils;
+const spaceUnit = math.inchesToMm(1.75)
 
 const main = () => {
-    const layoutOpts = {
-        layoutMargin: 20,
-        noFrame: false,
-        layoutSpace: 20,
-    }
-
     const shape1 = cuboid({ size: [15, 30, 15] })
     const shape2 = cylinder({ radius: 6, height: 15 })
     const shape3 = sphere({ radius: 10 })
@@ -30,15 +24,20 @@ const main = () => {
     const shapeStack2 = transform.stack({}, [shape2, shape3, shape1])
     const shapeStack3 = transform.stack({ reverse: true }, [shape1, shape2, shape3])
 
-    layout.addToLayout({ name: 'shape1', desc: '...', layoutOpts }, shape1);
-    layout.addToLayout({ name: 'shape2', desc: '...', layoutOpts }, shape2);
-    layout.addToLayout({ name: 'shape3', desc: '...', layoutOpts }, shape3);
-    layout.addToLayout({ name: 'shapeStack1', desc: '...', layoutOpts }, union(...shapeStack1));
-    layout.addToLayout({ name: 'shapeStack2', desc: '...', layoutOpts }, union(...shapeStack2));
-    layout.addToLayout({ name: 'shapeStack3', desc: '...', layoutOpts }, union(...shapeStack3));
+    const models = []
 
-    const layoutContent = layout.gridLayout({ layoutOpts });
-    return layoutContent;
+    models.push(shape1);
+    models.push(shape2);
+    models.push(shape3);
+    models.push(union(...shapeStack1));
+    models.push(union(...shapeStack2));
+    models.push(union(...shapeStack3));
+
+    const outModels = models.map((oModel, idx) => {
+        return translate([idx * spaceUnit, 0, 0], oModel)
+    })
+
+    return outModels;
 }
 
 module.exports = { main }

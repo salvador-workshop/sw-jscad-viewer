@@ -11,7 +11,6 @@ export const swcadJsCalcs = [
 
 export const swcadJsComponents = [
   { name: 'Beads and Bits', source: './lib-demo/components/beads-bits.js' },
-  { name: 'Box Support', source: './lib-demo/components/box-support.js' },
   { name: 'Component Line', source: './lib-demo/components/component-line.js' },
   { name: 'Fittings', source: './lib-demo/components/fittings.js' },
   { name: 'Mesh Panel (3D)', source: './lib-demo/components/mesh-panel-examples.js' },
@@ -21,15 +20,9 @@ export const swcadJsComponents = [
 ]
 
 export const swcadJsProfiles = [
-  { name: 'Box Curves', source: './lib-demo/profiles/box-curve.js' },
   { name: 'Connections', source: './lib-demo/profiles/connections.js' },
-  { name: 'Joint Panels', source: './lib-demo/profiles/joint-panels.js' },
+  { name: 'Jointed Panels', source: './lib-demo/profiles/joint-panels.js' },
   { name: 'Mesh Panel (2D)', source: './lib-demo/profiles/mesh-2d.js' },
   { name: 'Reinforcements (2D)', source: './lib-demo/profiles/reinforcements-2d.js' },
   { name: 'Text (2D)', source: './lib-demo/profiles/text-2d.js' },
-  { name: 'Trim Families', source: './lib-demo/profiles/trim-family-examples.js' },
-]
-
-export const swcadJsUtils = [
-  { name: 'Layouts', source: './lib-demo/utils/layout-examples.js' },
 ]

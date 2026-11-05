@@ -18,10 +18,6 @@ const {
 } = swcadJs.calcs
 
 const {
-  colors,
-} = swcadJs.utils
-
-const {
   routedCuboid,
 } = swcadJs.components.routedShapes
 

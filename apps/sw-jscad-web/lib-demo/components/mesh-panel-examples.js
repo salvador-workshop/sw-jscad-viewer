@@ -1,6 +1,8 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
+const { translate } = jscad.transforms;
+
 const swcadJs = require('swcad-js').init({ jscad });
 
 console.log('swcadJs', swcadJs)
@@ -13,61 +15,43 @@ const {
     math
 } = swcadJs.calcs;
 
-const {
-    layout,
-} = swcadJs.utils;
+const spaceUnit = math.inchesToMm(4.5)
 
 const main = () => {
-    const layoutOpts = {
-        layoutMargin: 25,
-        noFrame: false,
-        layoutSpace: 20,
-    }
+    const models = []
 
-    layout.addToLayout(
-        {
-            name: 'mesh-panel-1.0',
-            desc: '...',
-            layoutOpts,
-        },
+    models.push(
         mesh.meshPanel({
             size: [math.inchesToMm(3), math.inchesToMm(4)],
             holeRadius: 3,
-            holeDistance: math.inchesToMm(3/4),
+            holeDistance: math.inchesToMm(3 / 4),
         })
     );
 
-    layout.addToLayout(
-        {
-            name: 'mesh-panel-2',
-            desc: '...',
-            layoutOpts,
-        },
+    models.push(
         mesh.meshPanel({
             size: [math.inchesToMm(3), math.inchesToMm(4)],
             thickness: 5,
             holeRadius: 4,
-            holeDistance: math.inchesToMm(3/4),
+            holeDistance: math.inchesToMm(3 / 4),
             pattern: 'square'
         })
     );
 
-    layout.addToLayout(
-        {
-            name: 'mesh-panel-3',
-            desc: '...',
-            layoutOpts,
-        },
+    models.push(
         mesh.meshPanel({
             size: [math.inchesToMm(3), math.inchesToMm(4)],
             holeRadius: 5,
-            holeDistance: math.inchesToMm(3/4),
-            edgeMargin: 12.7,
+            holeDistance: math.inchesToMm(3 / 4),
+            edgeMargin: math.inchesToMm(1 / 2),
         })
     );
 
-    const layoutContent = layout.gridLayout({ layoutOpts });
-    return layoutContent;
+    const outModels = models.map((oModel, idx) => {
+        return translate([idx * spaceUnit, 0, 0], oModel)
+    })
+
+    return outModels;
 }
 
 module.exports = { main }

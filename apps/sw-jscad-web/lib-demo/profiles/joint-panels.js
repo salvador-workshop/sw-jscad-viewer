@@ -1,6 +1,8 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
+const { translate } = jscad.transforms;
+
 const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
 
@@ -9,13 +11,10 @@ const {
 } = swcadJs.calcs
 
 const {
-    jointPanel,
+    connections,
 } = swcadJs.profiles
 
-const {
-    layout,
-} = swcadJs.utils
-
+const spaceUnit = math.inchesToMm(4.25)
 
 //==============================================================================
 
@@ -26,7 +25,7 @@ const {
 const smallSize = [100, 80]
 const largeSize = [150, 100]
 
-const jointPanelData1 = jointPanel.oneJointRectPanel({
+const jointPanelData1 = connections.jointPanel.oneJointRectPanel({
     size: smallSize,
     jointNumConnectors: 2,
 })
@@ -34,7 +33,7 @@ const jointPanelProfiles1 = jointPanelData1[0]
 const jointPanelMale1 = jointPanelProfiles1[0]
 const jointPanelFemale1 = jointPanelProfiles1[1]
 
-const jointPanelData2 = jointPanel.oneJointRectPanel({
+const jointPanelData2 = connections.jointPanel.oneJointRectPanel({
     size: smallSize,
     axis: 'y',
     jointMargin: [math.inchesToMm(1 / 4), math.inchesToMm(1 / 8)]
@@ -49,19 +48,19 @@ const twoJointPanelOpts = {
     jointMargin: [math.inchesToMm(5 / 16), math.inchesToMm(1 / 4)]
 }
 
-const jointPanelData3 = jointPanel.twoJointRectPanel({
+const jointPanelData3 = connections.jointPanel.twoJointRectPanel({
     ...twoJointPanelOpts,
     jointWidth: 5,
 })
 const jointPanelProfiles3 = jointPanelData3[0]
 
-const jointPanelData4 = jointPanel.twoJointRectPanel({
+const jointPanelData4 = connections.jointPanel.twoJointRectPanel({
     ...twoJointPanelOpts,
     type: 'dovetail'
 })
 const jointPanelProfiles4 = jointPanelData4[0]
 
-const jointPanelData5 = jointPanel.twoJointRectPanel({
+const jointPanelData5 = connections.jointPanel.twoJointRectPanel({
     ...twoJointPanelOpts,
     type: 'rightAngleTab'
 })
@@ -76,12 +75,13 @@ const jointPanelProfiles5 = jointPanelData5[0]
  * @returns `geom3` or `geom3[]`
  */
 const main = () => {
-    let layoutOpts = {
-        layoutMargin: 15,
-        layoutSpace: 15,
-    }
+    const modelSet1 = []
+    const modelSet2 = []
+    const modelSet3 = []
+    const modelSet4 = []
+    const modelSet5 = []
 
-    const jointPanelProfiles = [
+    const jointPanelSet1 = [
         {
             name: 'c-jointpanel-1m',
             geom: jointPanelMale1,
@@ -90,6 +90,9 @@ const main = () => {
             name: 'c-jointpanel-1f',
             geom: jointPanelFemale1,
         },
+    ]
+
+    const jointPanelSet2 = [
         {
             name: 'c-jointpanel-2m',
             geom: jointPanelMale2,
@@ -98,6 +101,9 @@ const main = () => {
             name: 'c-jointpanel-2f',
             geom: jointPanelFemale2,
         },
+    ]
+
+    const jointPanelSet3 = [
         {
             name: 'c-jointpanel-3a',
             geom: jointPanelProfiles3[0],
@@ -114,6 +120,9 @@ const main = () => {
             name: 'c-jointpanel-3d',
             geom: jointPanelProfiles3[3],
         },
+    ]
+
+    const jointPanelSet4 = [
         {
             name: 'c-jointpanel-4a',
             geom: jointPanelProfiles4[0],
@@ -130,6 +139,9 @@ const main = () => {
             name: 'c-jointpanel-4d',
             geom: jointPanelProfiles4[3],
         },
+    ]
+
+    const jointPanelSet5 = [
         {
             name: 'c-jointpanel-5a',
             geom: jointPanelProfiles5[0],
@@ -148,15 +160,53 @@ const main = () => {
         },
     ]
 
-    jointPanelProfiles.forEach((prof) => {
-        layout.addToLayout({ name: prof.name, desc: '..', layoutOpts }, prof.geom);
+    jointPanelSet1.forEach((prof) => {
+        modelSet1.push(prof.geom);
     })
 
-    // -----------
-    // OUTPUT
+    jointPanelSet2.forEach((prof) => {
+        modelSet2.push(prof.geom);
+    })
 
-    const layoutContent = layout.gridLayout({ layoutOpts });
-    return layoutContent
+    jointPanelSet3.forEach((prof) => {
+        modelSet3.push(prof.geom);
+    })
+
+    jointPanelSet4.forEach((prof) => {
+        modelSet4.push(prof.geom);
+    })
+
+    jointPanelSet5.forEach((prof) => {
+        modelSet5.push(prof.geom);
+    })
+
+    const outModels1 = modelSet1.map((oModel, idx) => {
+        return translate([idx * spaceUnit, 0, 0], oModel)
+    })
+
+    const outModels2 = modelSet2.map((oModel, idx) => {
+        return translate([idx * spaceUnit, -spaceUnit, 0], oModel)
+    })
+
+    const outModels3 = modelSet3.map((oModel, idx) => {
+        return translate([idx * spaceUnit, spaceUnit * -2, 0], oModel)
+    })
+
+    const outModels4 = modelSet4.map((oModel, idx) => {
+        return translate([idx * spaceUnit, spaceUnit * -3, 0], oModel)
+    })
+
+    const outModels5 = modelSet5.map((oModel, idx) => {
+        return translate([idx * spaceUnit, spaceUnit * -4, 0], oModel)
+    })
+
+    return [
+        ...outModels1,
+        ...outModels2,
+        ...outModels3,
+        ...outModels4,
+        ...outModels5,
+    ];
 }
 
 module.exports = { main }

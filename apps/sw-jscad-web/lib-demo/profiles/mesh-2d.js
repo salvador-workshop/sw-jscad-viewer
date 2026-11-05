@@ -1,23 +1,24 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
+const { translate } = jscad.transforms;
+
 const swcadJs = require('swcad-js').init({ jscad });
 
 console.log('swcadJs', swcadJs)
 
 const {
+    math,
+} = swcadJs.calcs
+
+const {
     mesh,
 } = swcadJs.profiles
 
-const {
-    layout,
-} = swcadJs.utils
+const spaceUnit = math.inchesToMm(8)
 
 const main = () => {
-    const layoutOpts = {
-        layoutMargin: 25.4,
-        layoutSpace: 12.7,
-    }
+    const models = []
 
     const triPanelOpts = {
         holePattern: 'tri',
@@ -40,11 +41,14 @@ const main = () => {
     ]
 
     reinforcementProfiles.forEach((prof) => {
-        layout.addToLayout({ name: prof.name, desc: '..', layoutOpts }, prof.geom);
+        models.push(prof.geom);
     })
 
-    const layoutContent = layout.gridLayout({ layoutOpts });
-    return layoutContent;
+    const outModels = models.map((oModel, idx) => {
+        return translate([idx * spaceUnit, 0, 0], oModel)
+    })
+
+    return outModels;
 }
 
 module.exports = { main }

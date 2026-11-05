@@ -9,20 +9,13 @@ const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
+    math,
     geometry,
 } = swcadJs.calcs;
 
-const {
-    layout,
-} = swcadJs.utils;
+const spaceUnit = math.inchesToMm(2)
 
 const main = () => {
-    const layoutOpts = {
-        layoutMargin: 25,
-        noFrame: false,
-        layoutSpace: 20,
-    }
-
     const areaSize = [15, 25]
     const pointClouds = []
 
@@ -33,6 +26,8 @@ const main = () => {
 
     console.log(pointClouds)
 
+    const ptCloudModels = []
+
     pointClouds.forEach((ptCloud, idx) => {
         const pointGeoms = []
         pointGeoms.push(sphere({ radius: 3 }))
@@ -40,15 +35,11 @@ const main = () => {
         ptCloud.forEach(pt => {
             pointGeoms.push(translate([pt.x, pt.y, 0], sphere()))
         })
-        layout.addToLayout({
-            name: `area-points-${idx}`,
-            desc: '...',
-            layoutOpts,
-        }, union(...pointGeoms));
+        const ptCloudModel = union(...pointGeoms);
+        ptCloudModels.push(translate([spaceUnit * idx, 0, 0], ptCloudModel))
     })
 
-    const layoutContent = layout.gridLayout({ layoutOpts });
-    return layoutContent;
+    return ptCloudModels;
 }
 
 module.exports = { main }

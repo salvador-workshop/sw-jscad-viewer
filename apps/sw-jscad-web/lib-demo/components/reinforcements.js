@@ -1,34 +1,45 @@
 "use strict"
 const jscad = require('@jscad/modeling')
 
+const { translate } = jscad.transforms;
+
 const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
+
+const {
+    math,
+} = swcadJs.calcs
 
 const {
     reinforcements,
 } = swcadJs.components
 
-const {
-    layout,
-} = swcadJs.utils
+const spaceUnit = math.inchesToMm(2.75)
 
 const main = () => {
-    const dowelJoistPanelOpts1 = {
-        length: 6 * 25.4,
-        width: 1.25 * 25.4,
-    }
+    const models = []
 
-    const dowelJoistPanelOpts2 = {
-        length: 6.5 * 25.4,
-        width: 1.5 * 25.4,
-        reinforcementLevel: 2
-    }
+    const boxSupportQtrData = reinforcements.boxSupport.boxSupportQuarter({
+        size: [20, 20],
+    })
+    const boxSupportQtrModel = boxSupportQtrData[0]
 
-    const dowelJoistPanelOpts3 = {
-        length: 7 * 25.4,
-        width: 1.75 * 25.4,
-        reinforcementLevel: 3
-    }
+    const boxSupportHalfData = reinforcements.boxSupport.boxSupportHalf({
+        size: [20, 20],
+        margin: [5, 5, 1.333],
+    })
+    const boxSupportHalfModel = boxSupportHalfData[0]
+
+    const boxSupportComponents = [
+        {
+            name: 'box-support-1',
+            geom: boxSupportQtrModel,
+        },
+        {
+            name: 'box-support-2',
+            geom: boxSupportHalfModel,
+        },
+    ]
 
     const reinfRectData1 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3] })
     const reinfRectData2 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'cross' })
@@ -48,6 +59,23 @@ const main = () => {
             geom: reinfRectData3[0],
         },
     ]
+
+    const dowelJoistPanelOpts1 = {
+        length: 6 * 25.4,
+        width: 1.25 * 25.4,
+    }
+
+    const dowelJoistPanelOpts2 = {
+        length: 6.5 * 25.4,
+        width: 1.5 * 25.4,
+        reinforcementLevel: 2
+    }
+
+    const dowelJoistPanelOpts3 = {
+        length: 7 * 25.4,
+        width: 1.75 * 25.4,
+        reinforcementLevel: 3
+    }
 
     const openWebJoistData1 = reinforcements.reinforcedJoist(dowelJoistPanelOpts1)
     const openWebJoistData2 = reinforcements.reinforcedJoist(dowelJoistPanelOpts2)
@@ -77,20 +105,21 @@ const main = () => {
         },
     ]
 
-    const layoutOpts = {
-        layoutMargin: 15,
-        layoutSpace: 10,
-    }
-
+    boxSupportComponents.forEach((boxSupportComp) => {
+        models.push(boxSupportComp.geom);
+    })
     rectComponents.forEach((rectComp) => {
-        layout.addToLayout({ name: rectComp.name, desc: '..', layoutOpts }, rectComp.geom);
+        models.push(rectComp.geom);
     })
     joistComponents.forEach((joistComp) => {
-        layout.addToLayout({ name: joistComp.name, desc: '..', layoutOpts }, joistComp.geom);
+        models.push(joistComp.geom);
     })
 
-    const layoutContent = layout.gridLayout({ layoutOpts });
-    return layoutContent;
+    const outModels = models.map((oModel, idx) => {
+        return translate([idx * spaceUnit, 0, 0], oModel)
+    })
+
+    return outModels;
 }
 
 module.exports = { main }

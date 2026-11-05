@@ -85,13 +85,6 @@ export const init = () => {
   swcadJsComponents.forEach(({ name, source }) => {
     generateLink(name, source, swcadJsComponentsDiv);
   })
-
-  const swcadJsUtilsDiv = /** @type {HTMLElement} */ (
-    document.getElementById('swcad-js-utils')
-  )
-  swcadJsUtils.forEach(({ name, source }) => {
-    generateLink(name, source, swcadJsUtilsDiv);
-  })
 }
 
 const dismiss = () => {

@@ -13,9 +13,7 @@ const {
     math,
 } = swcadJs.calcs;
 
-const {
-    layout,
-} = swcadJs.utils;
+const spaceUnit = math.inchesToMm(3)
 
 const generatePoints = (numPoints, offset) => {
     const min = -20
@@ -34,11 +32,6 @@ const generatePoints = (numPoints, offset) => {
 }
 
 const main = () => {
-    const layoutOpts = {
-        layoutMargin: 25,
-        noFrame: false,
-        layoutSpace: 20,
-    }
 
     const numClouds = 4;
     const pointClouds = []
@@ -55,6 +48,8 @@ const main = () => {
 
     console.log(pointClouds)
 
+    const ptCloudModels = []
+
     pointClouds.forEach((ptCloud, idx) => {
         const pointGeoms = []
         const centroid = geometry.points.centroid(ptCloud)
@@ -64,15 +59,12 @@ const main = () => {
         ptCloud.forEach(pt => {
             pointGeoms.push(translate(pt, sphere()))
         })
-        layout.addToLayout({
-            name: `point-cloud-${idx}`,
-            desc: '...',
-            layoutOpts,
-        }, union(...pointGeoms));
+
+        const ptCloudModel = union(...pointGeoms);
+        ptCloudModels.push(translate([spaceUnit * idx, 0, 0], ptCloudModel))
     })
 
-    const layoutContent = layout.gridLayout({ layoutOpts });
-    return layoutContent;
+    return ptCloudModels;
 }
 
 module.exports = { main }
