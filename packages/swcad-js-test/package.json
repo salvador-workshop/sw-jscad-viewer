@@ -1,6 +1,6 @@
 {
   "name": "swcad-js-test",
-  "version": "0.14.10-alpha.1",
+  "version": "99.99.99",
   "description": "swcad-js-test",
   "main": "src/swcad.js",
   "scripts": {

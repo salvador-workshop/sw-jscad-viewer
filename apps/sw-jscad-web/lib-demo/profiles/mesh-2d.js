@@ -6,8 +6,7 @@ const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
-    connections,
-    structure,
+    mesh,
 } = swcadJs.profiles
 
 const {
@@ -23,11 +22,11 @@ const main = () => {
     const triPanelOpts = {
         holePattern: 'tri',
     }
-    const triPanel = structure.mesh.meshPanel(triPanelOpts)[0]
+    const triPanel = mesh.meshPanel(triPanelOpts)[0]
     const squarePanelOpts = {
         holePattern: 'square',
     }
-    const squarePanel = structure.mesh.meshPanel(squarePanelOpts)[0]
+    const squarePanel = mesh.meshPanel(squarePanelOpts)[0]
 
     const reinforcementProfiles = [
         {
