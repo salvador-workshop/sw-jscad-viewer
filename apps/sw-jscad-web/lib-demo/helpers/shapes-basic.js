@@ -10,11 +10,11 @@ console.log('swcadJsHelpers', swcadJsHelpers)
 const {
     shapes,
     curve,
-} = swcadJs.profiles
+} = swcadJsHelpers.profiles
 
 const {
     layout,
-} = swcadJs.utils
+} = swcadJsHelpers.utils
 
 const main = () => {
     const layoutOpts = {

@@ -30,7 +30,6 @@ export const swcadJsProfiles = [
 export const swcadJsHelpers = [
   { name: 'Arches (2D)', source: './lib-demo/helpers/arches-2d.js' },
   { name: 'Arches (3D)', source: './lib-demo/helpers/arches-3d.js' },
-  { name: 'Colours', source: './lib-demo/helpers/colours.js' },
   { name: 'Foils (2D)', source: './lib-demo/helpers/foils-2d.js' },
   { name: 'Foils (3D)', source: './lib-demo/helpers/foils-3d.js' },
   { name: 'Layouts', source: './lib-demo/helpers/layouts.js' },

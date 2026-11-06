@@ -8,17 +8,12 @@ const swcadJsHelpers = require('swcad-js-helpers-test').init({ jscad, swcadJs })
 console.log('swcadJsHelpers', swcadJsHelpers)
 
 const {
-    arch: arch3d,
-} = swcadJs.models;
-
-const {
-    structure,
-    shapes,
-} = swcadJs.profiles;
+    arch
+} = swcadJsHelpers.profiles;
 
 const {
     layout,
-} = swcadJs.utils;
+} = swcadJsHelpers.utils;
 
 const main = () => {
     const layoutOpts = {
@@ -26,18 +21,10 @@ const main = () => {
         layoutSpace: 0,
     }
 
-    const profile1 = shapes.square.cornerCircNotch({ sqLength: 5 });
-
-    const arch1 = arch3d.twoPtArch({ arcRadius: 30, archWidth: 35 }, profile1);
-    layout.addToLayout({ name: 'arch1', desc: '...', layoutOpts }, arch1);
-
-    const arch2 = arch3d.onePtArch({ arcRadius: 60 }, profile1);
-    layout.addToLayout({ name: 'arch2', desc: '...', layoutOpts }, arch2);
-
-    const arch3 = structure.arch.twoPtArch({ arcRadius: 30, archWidth: 35 });
+    const arch3 = arch.twoPtArch({ arcRadius: 30, archWidth: 35 });
     layout.addToLayout({ name: 'arch3', desc: '...', layoutOpts }, arch3);
 
-    const arch4 = structure.arch.onePtArch({ arcRadius: 60 });
+    const arch4 = arch.onePtArch({ arcRadius: 60 });
     layout.addToLayout({ name: 'arch4', desc: '...', layoutOpts }, arch4);
 
     const layoutContent = layout.gridLayout({ layoutOpts });

@@ -8,12 +8,12 @@ const swcadJsHelpers = require('swcad-js-helpers-test').init({ jscad, swcadJs })
 console.log('swcadJsHelpers', swcadJsHelpers)
 
 const {
-    frame: frameRect,
-} = swcadJs.profiles.shapes.rectangle
+    rectFrame,
+} = swcadJsHelpers.profiles
 
 const {
     layout,
-} = swcadJs.utils;
+} = swcadJsHelpers.utils;
 
 const main = () => {
     const layoutOpts = {
@@ -28,7 +28,7 @@ const main = () => {
             desc: '..',
             layoutOpts,
         },
-        frameRect({
+        rectFrame({
             size: [40, 50],
             direction: 'in',
             frameWidth: 10,
@@ -45,7 +45,7 @@ const main = () => {
             desc: '..',
             layoutOpts,
         },
-        frameRect({
+        rectFrame({
             size: [50, 40],
             direction: 'out',
             frameWidth: 10,
@@ -62,7 +62,7 @@ const main = () => {
             desc: '..',
             layoutOpts,
         },
-        frameRect({
+        rectFrame({
             size: [40, 50],
             direction: 'both',
             frameWidth: 10,
@@ -83,7 +83,7 @@ const main = () => {
             desc: '..',
             layoutOpts,
         },
-        frameRect({
+        rectFrame({
             size: [40, 50],
             direction: 'both',
             frameWidth: 10,
@@ -105,7 +105,7 @@ const main = () => {
             desc: '..',
             layoutOpts,
         },
-        frameRect({
+        rectFrame({
             size: [60, 45],
             direction: 'both',
             frameWidth: 10,

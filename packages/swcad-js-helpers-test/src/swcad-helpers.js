@@ -11,6 +11,18 @@ var require_constants = __commonJS({
     var phi = 1.6180339887;
     var constants = {
       /**
+       * Golden ratio
+       * @memberof data.constants
+       * @constant {number}
+       */
+      PHI: phi,
+      /**
+       * Golden ratio inverse
+       * @memberof data.constants
+       * @constant {number}
+       */
+      PHI_INV: 1 / phi,
+      /**
        * Plastic_Ratio
        * @memberof data.constants
        * @constant {number}
@@ -83,29 +95,31 @@ var require_functions = __commonJS({
 var require_standards = __commonJS({
   "packages/swcad-js-helpers-data/src/standards/index.js"(exports2, module2) {
     "use strict";
-    var inchesToMm = (numIn) => numIn * 25.4;
-    var standards = ({ jscad }) => {
+    var standards = ({ jscad, swcadJs }) => {
+      const {
+        math
+      } = swcadJs.calcs;
       const pegboard = {
         /**
          * Pegboard_Spacing
          * @memberof data.standards.pegboard
          */
-        PEGBOARD_SPACING: inchesToMm(1),
+        PEGBOARD_SPACING: math.inchesToMm(1),
         /**
          * Pegboard_Hole_Diam
          * @memberof data.standards.pegboard
          */
-        PEGBOARD_HOLE_DIAM: inchesToMm(7 / 32),
+        PEGBOARD_HOLE_DIAM: math.inchesToMm(7 / 32),
         /**
          * Micro_Pegboard_Spacing
          * @memberof data.standards.pegboard
          */
-        MICRO_PEGBOARD_SPACING: inchesToMm(1 / 2),
+        MICRO_PEGBOARD_SPACING: math.inchesToMm(1 / 2),
         /**
          * Micro_Pegboard_Hole_Diam
          * @memberof data.standards.pegboard
          */
-        MICRO_PEGBOARD_HOLE_DIAM: inchesToMm(1 / 8)
+        MICRO_PEGBOARD_HOLE_DIAM: math.inchesToMm(1 / 8)
       };
       const gridfinity = {
         /**
@@ -132,7 +146,7 @@ var require_standards = __commonJS({
         TYPE_ALT: { id: "alt", desc: "Alternate" }
       };
       const interfaceThickness = 1.333333;
-      const fitGap = inchesToMm(1 / 128);
+      const fitGap = math.inchesToMm(1 / 128);
       const panelThicknessXs = interfaceThickness * 0.5;
       const panelThicknessSm = interfaceThickness * 0.75;
       const panelThicknessMd = interfaceThickness;
@@ -223,17 +237,17 @@ var require_standards = __commonJS({
          * @memberof data.standards.params
          */
         OBJ_2D_SIZE: [
-          inchesToMm(2),
-          inchesToMm(4)
+          math.inchesToMm(2),
+          math.inchesToMm(4)
         ],
         /**
          * Obj_3d_Size
          * @memberof data.standards.params
          */
         OBJ_3D_SIZE: [
-          inchesToMm(2),
-          inchesToMm(4),
-          inchesToMm(1)
+          math.inchesToMm(2),
+          math.inchesToMm(4),
+          math.inchesToMm(1)
         ]
       };
       return {
@@ -275,7 +289,7 @@ var require_errors = __commonJS({
 var require_internals = __commonJS({
   "packages/swcad-js-helpers-data/src/internals.js"(exports2, module2) {
     "use strict";
-    var internals = ({ jscad }) => {
+    var internals = ({ jscad, swcadJs }) => {
       const propListBasic = [
         { id: "length", desc: "length of element" },
         { id: "width", desc: "Width of element" },
@@ -333,13 +347,13 @@ var require_src = __commonJS({
     var standards = require_standards();
     var errors = require_errors();
     var internals = require_internals();
-    var dataInit = ({ jscad }) => {
+    var dataInit = ({ jscad, swcadJs }) => {
       const data = {
         constants,
         functions,
-        standards: standards.init({ jscad }),
+        standards: standards.init({ jscad, swcadJs }),
         errors,
-        internals: internals.init({ jscad })
+        internals: internals.init({ jscad, swcadJs })
       };
       return data;
     };
@@ -457,7 +471,7 @@ var require_position = __commonJS({
     "use strict";
     var posRectangle = require_pos_rectangle();
     var posTriangle = require_pos_triangle();
-    var positionUtils = ({ jscad, swcadJs }) => {
+    var positionUtils = ({ jscad, swcadJs, swcadJsHelpers }) => {
       return {
         rectangle: posRectangle.init({ jscad, swcadJs }),
         triangle: posTriangle.init({ jscad, swcadJs })
@@ -472,8 +486,8 @@ var require_src2 = __commonJS({
   "packages/swcad-js-helpers-calcs/src/index.js"(exports2, module2) {
     "use strict";
     var positionModule = require_position();
-    var calcsInit = ({ jscad, swcadJs }) => {
-      const position = positionModule.init({ jscad, swcadJs });
+    var calcsInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
+      const position = positionModule.init({ jscad, swcadJs, swcadJsHelpers });
       const calcs = {
         position
       };
@@ -489,7 +503,7 @@ var require_src2 = __commonJS({
 var require_arch = __commonJS({
   "packages/swcad-js-helpers-profiles/src/arch/index.js"(exports2, module2) {
     "use strict";
-    var archBuilder = ({ jscad, swcadJs }) => {
+    var archBuilder2d = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { path2, geom2 } = jscad.geometries;
       const { extrudeRotate } = jscad.extrusions;
       const { arc, cuboid } = jscad.primitives;
@@ -534,7 +548,7 @@ var require_arch = __commonJS({
         }
       };
     };
-    module2.exports = { init: archBuilder };
+    module2.exports = { init: archBuilder2d };
   }
 });
 
@@ -542,14 +556,14 @@ var require_arch = __commonJS({
 var require_curve = __commonJS({
   "packages/swcad-js-helpers-profiles/src/curve/index.js"(exports2, module2) {
     "use strict";
-    var curveBuilder = ({ jscad, swcadJs }) => {
+    var curveBuilder = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
       const { intersect, union, subtract } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { bezier } = jscad.curves;
       const { geom2, path2 } = jscad.geometries;
-      const { constants } = swcadJs.data;
       const { position } = swcadJs.calcs;
+      const { constants } = swcadJsHelpers.data;
       const getBezierPts = (bezierCurve, segments) => {
         const points = [];
         const segmentsInput = segments - 1;
@@ -656,7 +670,7 @@ var require_curve = __commonJS({
 var require_foil = __commonJS({
   "packages/swcad-js-helpers-profiles/src/foil/index.js"(exports2, module2) {
     "use strict";
-    var foilBuilder = ({ jscad, swcadJs }) => {
+    var foilBuilder2d = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { union } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { circle } = jscad.primitives;
@@ -761,7 +775,7 @@ var require_foil = __commonJS({
         }
       };
     };
-    module2.exports = { init: foilBuilder };
+    module2.exports = { init: foilBuilder2d };
   }
 });
 
@@ -769,14 +783,15 @@ var require_foil = __commonJS({
 var require_rect_frame = __commonJS({
   "packages/swcad-js-helpers-profiles/src/rect-frame/index.js"(exports2, module2) {
     "use strict";
-    var rectangularFrameInit = ({ jscad, swcadJs }) => {
+    var rectangularFrameInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { circle, rectangle } = jscad.primitives;
       const { rotate, align, mirror } = jscad.transforms;
       const { subtract, union } = jscad.booleans;
       const { measureDimensions } = jscad.measurements;
       const { TAU } = jscad.maths.constants;
-      const { shapes, curve } = swcadJs.profiles;
-      const { position } = swcadJs.calcs;
+      const { position: basePosition } = swcadJs.calcs;
+      const { position } = swcadJsHelpers.calcs;
+      const { shapes, curve } = swcadJsHelpers.profiles;
       const cornerStyleTypes = ["round", "tri", "rect", "ellipse", "cornerBez"];
       const cStyleDefault = { inv: false, inset: true, offset: false };
       const cStRound = { inv: true, offset: true };
@@ -970,7 +985,7 @@ var require_rect_frame = __commonJS({
         cornerOpts = rectangularFrameDefOpts.cornerOpts
       }) => {
         let outRect = rectangle({ size });
-        const outRectCoords = position.getGeomCoords(outRect);
+        const outRectCoords = basePosition.getGeomCoords(outRect);
         const outRectCorners = position.rectangle.getRectangleCorners(outRect);
         const cornerStyle = cornerStyles[cornerOpts.style];
         const cornerPieces = [];
@@ -985,7 +1000,7 @@ var require_rect_frame = __commonJS({
           }
           Object.entries(outRectCorners).forEach(([cName, cPt]) => {
             let inPieceRotation = null;
-            let inPieceAlign = position.alignModes.ctr;
+            let inPieceAlign = basePosition.alignModes.ctr;
             let inPieceMirror = null;
             if (cornerOpts.longAxis == "y") {
               if (styleType == "tri") {
@@ -1074,7 +1089,7 @@ var require_rect_frame = __commonJS({
             frameWidth * 2 + size[0],
             frameWidth * 2 + size[1]
           ],
-          longAxis: cornerOpts.longAxis || position.findLongAxis(size)
+          longAxis: cornerOpts.longAxis || basePosition.findLongAxis(size)
         };
         const iCornOpts = { ...cornerOpts, longAxis: specs.longAxis };
         const oCornOpts = { ...outCornerOpts, longAxis: specs.longAxis };
@@ -1108,13 +1123,13 @@ var require_rect_frame = __commonJS({
 var require_ellipse = __commonJS({
   "packages/swcad-js-helpers-profiles/src/shapes/ellipse/index.js"(exports2, module2) {
     "use strict";
-    var ellipseInit = ({ jscad, swcadJs }) => {
+    var ellipseInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
       const { intersect, union, subtract } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { geom2, path2 } = jscad.geometries;
-      const { constants } = swcadJs.data;
       const { position } = swcadJs.calcs;
+      const { constants } = swcadJsHelpers.data;
       const createEllipse = ({ width, depth, ratio }) => {
         const validSize = [
           width || depth / ratio,
@@ -1197,13 +1212,14 @@ var require_ellipse = __commonJS({
 var require_rectangle = __commonJS({
   "packages/swcad-js-helpers-profiles/src/shapes/rectangle/index.js"(exports2, module2) {
     "use strict";
-    var rectangleInit = ({ jscad, swcadJs }) => {
+    var rectangleInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
       const { intersect, union, subtract } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { geom2, path2 } = jscad.geometries;
-      const { constants } = swcadJs.data;
+      const { constants: baseConstants } = swcadJs.data;
       const { position } = swcadJs.calcs;
+      const { constants } = swcadJsHelpers.data;
       const createRect = ({ width, depth, ratio }) => {
         const validSize = [
           width || depth / ratio,
@@ -1290,13 +1306,13 @@ var require_rectangle = __commonJS({
 var require_square = __commonJS({
   "packages/swcad-js-helpers-profiles/src/shapes/square/index.js"(exports2, module2) {
     "use strict";
-    var squareInit = ({ jscad, swcadJs }) => {
+    var squareInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
       const { intersect, union, subtract } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { geom2, path2 } = jscad.geometries;
-      const { constants } = swcadJs.data;
       const { position } = swcadJs.calcs;
+      const { constants } = swcadJsHelpers.data;
       const squares = {
         /**
          * Square with circular notches at corners.
@@ -1358,13 +1374,14 @@ var require_square = __commonJS({
 var require_triangle = __commonJS({
   "packages/swcad-js-helpers-profiles/src/shapes/triangle/index.js"(exports2, module2) {
     "use strict";
-    var triangleInit = ({ jscad, swcadJs }) => {
+    var triangleInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
       const { intersect, union, subtract } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { geom2, path2 } = jscad.geometries;
-      const { constants } = swcadJs.data;
-      const { position } = swcadJs.calcs;
+      const { position: basePosition } = swcadJs.calcs;
+      const { position } = swcadJsHelpers.calcs;
+      const { constants } = swcadJsHelpers.data;
       const createRtTriangle = ({ base, height, ratio }) => {
         const validOpts = {
           short: base || height / ratio,
@@ -1453,42 +1470,33 @@ var require_shapes = __commonJS({
     var rectangleModule = require_rectangle();
     var squareModule = require_square();
     var triangleModule = require_triangle();
-    var profileBuilder = ({ jscad, swcadJs }) => {
+    var shapesBuilder = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
       const { intersect, union, subtract } = jscad.booleans;
       const { rotate, align } = jscad.transforms;
       const { geom2, path2 } = jscad.geometries;
-      const { constants } = swcadJs.data;
-      const { position } = swcadJs.calcs;
-      const ellipses = ellipseModule.init({ jscad, swcadJs });
-      const rectangles = rectangleModule.init({ jscad, swcadJs });
-      const squares = squareModule.init({ jscad, swcadJs });
-      const triangles = triangleModule.init({ jscad, swcadJs });
+      const ellipses = ellipseModule.init({ jscad, swcadJs, swcadJsHelpers });
+      const rectangles = rectangleModule.init({ jscad, swcadJs, swcadJsHelpers });
+      const squares = squareModule.init({ jscad, swcadJs, swcadJsHelpers });
+      const triangles = triangleModule.init({ jscad, swcadJs, swcadJsHelpers });
+      const octFromDiam = (opts) => {
+        const sqLen = opts.sqLength;
+        const baseSquare = square({ size: sqLen });
+        const angledSquare = rotate([0, 0, Math.PI / 4], baseSquare);
+        return intersect(baseSquare, angledSquare);
+      };
       const shapes = {
         ellipse: ellipses,
         rectangle: rectangles,
         square: squares,
         triangle: triangles,
         octagon: {
-          /**
-           * octFromDiam
-           * @memberof profiles.shapes
-           * @alias octagon
-           * @instance
-           * @param {Object} opts 
-           * @param {number} opts.sqLength - side length for bounding square 
-           */
-          octFromDiam: (opts) => {
-            const sqLen = opts.sqLength;
-            const baseSquare = square({ size: sqLen });
-            const angledSquare = rotate([0, 0, Math.PI / 4], baseSquare);
-            return intersect(baseSquare, angledSquare);
-          }
+          octFromDiam
         }
       };
       return shapes;
     };
-    module2.exports = { init: profileBuilder };
+    module2.exports = { init: shapesBuilder };
   }
 });
 
@@ -1501,35 +1509,22 @@ var require_src3 = __commonJS({
     var foilModule = require_foil();
     var rectFrameModule = require_rect_frame();
     var shapesModule = require_shapes();
-    var profilesInit = ({ jscad, swcadJs }) => {
-      const shapesCore = shapesModule.init({ jscad, swcadJs });
-      const curve = curveModule.init({ jscad, swcadJs });
+    var profilesInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
+      const shapes = shapesModule.init({ jscad, swcadJs, swcadJsHelpers });
+      const curve = curveModule.init({ jscad, swcadJs, swcadJsHelpers });
       let preLib = {
-        ...swcadJs,
-        profiles: {
-          shapes: shapesCore,
-          curve
-        }
-      };
-      const shapes = {
-        ...shapesCore,
-        rectangle: {
-          ...shapesCore.rectangle,
-          frame: rectFrameModule.init({ jscad, swcadJs: preLib })
-        }
-      };
-      preLib = {
-        ...swcadJs,
+        ...swcadJsHelpers,
         profiles: {
           shapes,
           curve
         }
       };
       return {
-        arch: archModule.init({ jscad, swcadJs: preLib }),
+        arch: archModule.init({ jscad, swcadJs, swcadJsHelpers: preLib }),
         curve,
-        foil: foilModule.init({ jscad, swcadJs: preLib }),
-        shapes
+        foil: foilModule.init({ jscad, swcadJs, swcadJsHelpers: preLib }),
+        shapes,
+        rectFrame: rectFrameModule.init({ jscad, swcadJs, swcadJsHelpers: preLib })
       };
     };
     module2.exports = {
@@ -1542,7 +1537,7 @@ var require_src3 = __commonJS({
 var require_arch2 = __commonJS({
   "packages/swcad-js-helpers-components/src/arch/index.js"(exports2, module2) {
     "use strict";
-    var archBuilder = ({ jscad, swcadJs }) => {
+    var archBuilder3d = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { path2, geom2 } = jscad.geometries;
       const { extrudeRotate } = jscad.extrusions;
       const { arc, cuboid } = jscad.primitives;
@@ -1553,7 +1548,7 @@ var require_arch2 = __commonJS({
       return {
         /**
          * Builds a one-centre (semicircular) arch.
-         * @memberof models.arch
+         * @memberof components.arch
          * @instance
          * @param {Object} opts 
          * @param {number} opts.arcRadius - arc radius 
@@ -1567,7 +1562,7 @@ var require_arch2 = __commonJS({
         },
         /**
          * Builds a two-centre pointed arch.
-         * @memberof models.arch
+         * @memberof components.arch
          * @instance
          * @param {Object} opts 
          * @param {number} opts.arcRadius - arc radius 
@@ -1603,7 +1598,7 @@ var require_arch2 = __commonJS({
         }
       };
     };
-    module2.exports = { init: archBuilder };
+    module2.exports = { init: archBuilder3d };
   }
 });
 
@@ -1611,7 +1606,7 @@ var require_arch2 = __commonJS({
 var require_foil2 = __commonJS({
   "packages/swcad-js-helpers-components/src/foil/index.js"(exports2, module2) {
     "use strict";
-    var foilBuilder = ({ jscad, swcadJs }) => {
+    var foilBuilder3d = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { union, subtract, scission } = jscad.booleans;
       const { rotate, align, translate, mirror } = jscad.transforms;
       const { cuboid, rectangle } = jscad.primitives;
@@ -1671,7 +1666,7 @@ var require_foil2 = __commonJS({
         buildFoil3d,
         /**
          * Builds a trefoil opening using a given 2d cross-section profile
-         * @memberof models.foil
+         * @memberof components.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
@@ -1684,7 +1679,7 @@ var require_foil2 = __commonJS({
         },
         /**
          * Builds a quatrefoil opening using a given 2d cross-section profile
-         * @memberof models.foil
+         * @memberof components.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
@@ -1697,7 +1692,7 @@ var require_foil2 = __commonJS({
         },
         /**
          * Builds a cinquefoil opening using a given 2d cross-section profile
-         * @memberof models.foil
+         * @memberof components.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
@@ -1710,7 +1705,7 @@ var require_foil2 = __commonJS({
         },
         /**
          * Builds a sexfoil opening using a given 2d cross-section profile
-         * @memberof models.foil
+         * @memberof components.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
@@ -1723,7 +1718,7 @@ var require_foil2 = __commonJS({
         },
         /**
          * Builds an octofoil opening using a given 2d cross-section profile
-         * @memberof models.foil
+         * @memberof components.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
@@ -1736,7 +1731,7 @@ var require_foil2 = __commonJS({
         }
       };
     };
-    module2.exports = { init: foilBuilder };
+    module2.exports = { init: foilBuilder3d };
   }
 });
 
@@ -1746,22 +1741,15 @@ var require_src4 = __commonJS({
     "use strict";
     var archModule = require_arch2();
     var foilModule = require_foil2();
-    var modelsInit = ({ jscad, swcadJs }) => {
-      const arch = archModule.init({ jscad, swcadJs });
-      const preLib = {
-        ...swcadJs,
-        models: {
-          arch
-        }
+    var componentsInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
+      const components = {
+        arch: archModule.init({ jscad, swcadJs, swcadJsHelpers }),
+        foil: foilModule.init({ jscad, swcadJs, swcadJsHelpers })
       };
-      const models = {
-        arch,
-        foil: foilModule.init({ jscad, swcadJs: preLib })
-      };
-      return models;
+      return components;
     };
     module2.exports = {
-      init: modelsInit
+      init: componentsInit
     };
   }
 });
@@ -1831,7 +1819,7 @@ var require_colors = __commonJS({
 var require_layout = __commonJS({
   "packages/swcad-js-helpers-utils/src/layout.js"(exports2, module2) {
     "use strict";
-    var layoutUtils = ({ jscad, swcadJs }) => {
+    var layoutUtils = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { cuboid, rectangle } = jscad.primitives;
       const { union, subtract } = jscad.booleans;
       const { translate, align } = jscad.transforms;
@@ -2137,8 +2125,8 @@ var require_layout = __commonJS({
 var require_palette = __commonJS({
   "packages/swcad-js-helpers-utils/src/palette.js"(exports2, module2) {
     "use strict";
-    var paletteUtils = ({ jscad, swcadJs }) => {
-      const { colors } = swcadJs.utils;
+    var paletteUtils = ({ jscad, swcadJs, swcadJsHelpers }) => {
+      const { colors } = swcadJsHelpers.utils;
       const palette = {
         /** @memberof utils.palette */
         light: {
@@ -2174,18 +2162,18 @@ var require_src5 = __commonJS({
     var colors = require_colors();
     var layout = require_layout();
     var palette = require_palette();
-    var utilsInit = ({ jscad, swcadJs }) => {
-      const coloursCore = colors.init({ jscad, swcadJs });
+    var utilsInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
+      const coloursCore = colors.init({ jscad, swcadJs, swcadJsHelpers });
       const preLib = {
-        ...swcadJs,
+        ...swcadJsHelpers,
         utils: {
           colors: coloursCore
         }
       };
       const utils = {
         colors: coloursCore,
-        layout: layout.init({ jscad, swcadJs: preLib }),
-        palette: palette.init({ jscad, swcadJs: preLib })
+        layout: layout.init({ jscad, swcadJs, swcadJsHelpers: preLib }),
+        palette: palette.init({ jscad, swcadJs, swcadJsHelpers: preLib })
       };
       return utils;
     };
@@ -2199,22 +2187,22 @@ var require_src5 = __commonJS({
 var require_src6 = __commonJS({
   "packages/swcad-js-helpers-core/src/index.js"(exports2, module2) {
     "use strict";
-    var coreInit = ({ jscad }) => {
-      const swcadJsHelpersCore = {
+    var coreInit = ({ jscad, swcadJs }) => {
+      const assemblyData = require_src().init({ jscad, swcadJs });
+      let swcadJsHelpersAssembly = {
         calcs: null,
         components: null,
-        data: require_src().init({ jscad }),
+        data: assemblyData,
         profiles: null,
         utils: null
       };
-      let swcadJsHelpersAssembly = swcadJsHelpersCore;
-      const assemblyCalcs = require_src2().init({ jscad, swcadJs: swcadJsHelpersAssembly });
+      const assemblyCalcs = require_src2().init({ jscad, swcadJs, swcadJsHelpers: swcadJsHelpersAssembly });
       swcadJsHelpersAssembly.calcs = assemblyCalcs;
-      const assemblyProfiles = require_src3().init({ jscad, swcadJs: swcadJsHelpersAssembly });
+      const assemblyProfiles = require_src3().init({ jscad, swcadJs, swcadJsHelpers: swcadJsHelpersAssembly });
       swcadJsHelpersAssembly.profiles = assemblyProfiles;
-      const assemblyComponents = require_src4().init({ jscad, swcadJs: swcadJsHelpersAssembly });
+      const assemblyComponents = require_src4().init({ jscad, swcadJs, swcadJsHelpers: swcadJsHelpersAssembly });
       swcadJsHelpersAssembly.components = assemblyComponents;
-      const assemblyUtils = require_src5().init({ jscad, swcadJs: swcadJsHelpersAssembly });
+      const assemblyUtils = require_src5().init({ jscad, swcadJs, swcadJsHelpers: swcadJsHelpersAssembly });
       swcadJsHelpersAssembly.utils = assemblyUtils;
       const swcadJsHelpers = {
         calcs: swcadJsHelpersAssembly.calcs,
@@ -2233,8 +2221,8 @@ var require_src6 = __commonJS({
 
 // src/index.js
 var coreModule = require_src6();
-var init = ({ jscad }) => {
-  const swcadJs = coreModule.init({ jscad });
-  return swcadJs;
+var init = ({ jscad, swcadJs }) => {
+  const swcadJsHelpers = coreModule.init({ jscad, swcadJs });
+  return swcadJsHelpers;
 };
 module.exports = { init };
