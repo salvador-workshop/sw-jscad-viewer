@@ -291,6 +291,7 @@ const bundles = {
   'sw-jscad-builders': toUrl('./build/bundle.sw-jscad-builders.js'),
   'swcad-js': toUrl('./build/bundle.swcad-js.js'),
   'swcad-js-test': toUrl('./build/bundle.swcad-js-test.js'),
+  'swcad-js-helpers': toUrl('./build/bundle.swcad-js-helpers.js'),
   'swcad-js-helpers-test': toUrl('./build/bundle.swcad-js-helpers-test.js'),
 }
 

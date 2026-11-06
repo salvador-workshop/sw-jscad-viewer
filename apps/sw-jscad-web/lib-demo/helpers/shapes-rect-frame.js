@@ -4,7 +4,7 @@ const jscad = require('@jscad/modeling')
 const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
 
-const swcadJsHelpers = require('swcad-js-helpers-test').init({ jscad, swcadJs });
+const swcadJsHelpers = require('swcad-js-helpers').init({ jscad, swcadJs });
 console.log('swcadJsHelpers', swcadJsHelpers)
 
 const {
