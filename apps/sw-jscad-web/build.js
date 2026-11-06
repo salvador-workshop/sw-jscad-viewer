@@ -48,6 +48,8 @@ await buildBundle(outDir + '/build', 'bundle.sw-jscad-families.js', { format: 'c
 await buildBundle(outDir + '/build', 'bundle.sw-jscad-builders.js', { format: 'cjs', skipExisting: dev })
 await buildBundle(outDir + '/build', 'bundle.swcad-js.js', { format: 'cjs', skipExisting: dev })
 await buildBundle(outDir + '/build', 'bundle.swcad-js-test.js', { format: 'cjs', skipExisting: dev })
+await buildBundle(outDir + '/build', 'bundle.swcad-js-helpers.js', { format: 'cjs', skipExisting: dev })
+await buildBundle(outDir + '/build', 'bundle.swcad-js-helpers-test.js', { format: 'cjs', skipExisting: dev })
 
 /**************************** BUILD JS THAT can change and watch if in dev mode *************/
 await buildOne('src_bundle', outDir + '/build', 'bundle.worker.js', watch, { format: 'iife' })

@@ -26,3 +26,13 @@ export const swcadJsProfiles = [
   { name: 'Reinforcements (2D)', source: './lib-demo/profiles/reinforcements-2d.js' },
   { name: 'Text (2D)', source: './lib-demo/profiles/text-2d.js' },
 ]
+
+export const swcadJsHelpers = [
+  { name: 'Arches (2D)', source: './lib-demo/helpers/arches-2d.js' },
+  { name: 'Arches (3D)', source: './lib-demo/helpers/arches-3d.js' },
+  { name: 'Foils (2D)', source: './lib-demo/helpers/foils-2d.js' },
+  { name: 'Foils (3D)', source: './lib-demo/helpers/foils-3d.js' },
+  { name: 'Layouts', source: './lib-demo/helpers/layouts.js' },
+  { name: 'Shapes', source: './lib-demo/helpers/shapes-basic.js' },
+  { name: 'Rectangular Frame', source: './lib-demo/helpers/shapes-rect-frame.js' },
+]
