@@ -25,7 +25,7 @@ const main = () => {
         layoutSpace: 5,
     }
     const profile1 = shapes.square.cornerCircNotch({ sqLength: 5 });
-    const profile3 = shapes.octagon.octFromDiam({ sqLength: 5 });
+    const profile3 = shapes.polygons.octFromDiam({ sqLength: 5 });
 
     const foil7 = foil3d.trefoil({ radius: 15, lobeRadiusType: 'halfRadius', cutCentre: true }, profile1);
     layout.addToLayout({ name: 'foil7', desc: '...', layoutOpts }, foil7);

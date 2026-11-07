@@ -14,197 +14,126 @@ const {
     connections,
 } = swcadJs.profiles
 
-const spaceUnit = math.inchesToMm(3.5)
+const spaceUnit = math.inchesToMm(3.75)
 
 const main = () => {
-    const models = []
-    const faceConnectionModels = []
-    const connectionRowModels = []
-
-    const connPegboardData = connections.pegboard({})
-    const connPegboardProfiles = connPegboardData[0]
-    const connPegboardMale = connPegboardProfiles[0]
-    const connPegboardFemale = connPegboardProfiles[1]
-
-    const connPolygonData = connections.polygon({})
-    const connPolygonProfiles = connPolygonData[0]
-    const connPolygonMale = connPolygonProfiles[0]
-    const connPolygonFemale = connPolygonProfiles[1]
-
-    const connEllipseData = connections.ellipse({
+    const connEllipseProfiles = connections.ellipse({
         segments: 18,
         interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
-    })
-    const connEllipseProfiles = connEllipseData[0]
+    })[0]
     const connEllipseMale = connEllipseProfiles[0]
     const connEllipseFemale = connEllipseProfiles[1]
 
-    const connTabData = connections.tab({})
-    const connTabProfiles = connTabData[0]
+    const connTabProfiles = connections.tab({})[0]
     const connTabMale = connTabProfiles[0]
     const connTabFemale = connTabProfiles[1]
 
-    const connDovetailData = connections.dovetail({
+    const connDovetailProfiles = connections.dovetail({
         interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
-    })
-    const connDovetailProfiles = connDovetailData[0]
+    })[0]
     const connDovetailMale = connDovetailProfiles[0]
     const connDovetailFemale = connDovetailProfiles[1]
 
-    const connRightAngleTabData = connections.rightAngleTab({
+    const connRightAngleTabProfiles = connections.rightAngleTab({
         interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
-    })
-    const connRightAngleTabProfiles = connRightAngleTabData[0]
+    })[0]
     const connRightAngleTabMale = connRightAngleTabProfiles[0]
     const connRightAngleTabFemale = connRightAngleTabProfiles[1]
 
-    const connBoltCircleData = connections.boltCircle({
+    const tabLikeProfiles1 = [
+        connTabMale,
+        connTabFemale,
+        connDovetailMale,
+        connDovetailFemale,
+    ]
+
+    const tabLikeProfiles2 = [
+        connRightAngleTabMale,
+        connRightAngleTabFemale,
+        connEllipseMale,
+        connEllipseFemale,
+    ]
+
+    const connPegboardProfiles = connections.pegboard({})[0]
+    const connPegboardMale = connPegboardProfiles[0]
+    const connPegboardFemale = connPegboardProfiles[1]
+
+    const connPolygonProfiles = connections.polygon({})[0]
+    const connPolygonMale = connPolygonProfiles[0]
+    const connPolygonFemale = connPolygonProfiles[1]
+
+    const connBoltCircleProfiles = connections.boltCircle({
         radius: 20,
         unitRadius: 5,
         unitSegments: 18,
-    })
-    const connBoltCircleProfiles = connBoltCircleData[0]
+    })[0]
     const connBoltCircleMale = connBoltCircleProfiles[0]
     const connBoltCircleFemale = connBoltCircleProfiles[1]
 
-    const connDovetailRowData = connections.dovetailRow({
+    const faceConnectionProfiles = [
+        connPegboardMale,
+        connPegboardFemale,
+        connPolygonMale,
+        connPolygonFemale,
+        connBoltCircleMale,
+        connBoltCircleFemale,
+    ]
+
+    const connDovetailRowProfiles = connections.dovetailRow({
         size: [100, 33],
-    })
-    const connDovetailRowProfiles = connDovetailRowData[0]
+    })[0]
     const connDovetailRowMale = connDovetailRowProfiles[0]
     const connDovetailRowFemale = connDovetailRowProfiles[1]
 
-    const connTabRowData = connections.tabRow({
+    const connTabRowProfiles = connections.tabRow({
         size: [100, 33],
         interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
-    })
-    const connTabRowProfiles = connTabRowData[0]
+    })[0]
     const connTabRowMale = connTabRowProfiles[0]
     const connTabRowFemale = connTabRowProfiles[1]
 
-    const connRightAngleTabRowData = connections.rightAngleTabRow({
+    const connRightAngleTabRowProfiles = connections.rightAngleTabRow({
         size: [100, 33],
         interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
-    })
-    const connRightAngleTabRowProfiles = connRightAngleTabRowData[0]
+    })[0]
     const connRightAngleTabRowMale = connRightAngleTabRowProfiles[0]
     const connRightAngleTabRowFemale = connRightAngleTabRowProfiles[1]
 
-    const connectionProfiles = [
-        {
-            name: 'c-tab-m',
-            geom: connTabMale,
-        },
-        {
-            name: 'c-tab-f',
-            geom: connTabFemale,
-        },
-        {
-            name: 'c-dovetail-m',
-            geom: connDovetailMale,
-        },
-        {
-            name: 'c-dovetail-f',
-            geom: connDovetailFemale,
-        },
-        {
-            name: 'c-rangle-tab-m',
-            geom: connRightAngleTabMale,
-        },
-        {
-            name: 'c-rangle-tab-f',
-            geom: connRightAngleTabFemale,
-        },
-        {
-            name: 'c-ellipse-m',
-            geom: connEllipseMale,
-        },
-        {
-            name: 'c-ellipse-f',
-            geom: connEllipseFemale,
-        },
+    const rowConnectionProfiles1 = [
+        connDovetailRowMale,
+        connDovetailRowFemale,
+        connTabRowMale,
+        connTabRowFemale,
     ]
 
-    const faceConnectionProfiles = [
-        {
-            name: 'c-pegboard-m',
-            geom: connPegboardMale,
-        },
-        {
-            name: 'c-pegboard-f',
-            geom: connPegboardFemale,
-        },
-        {
-            name: 'c-polygon-m',
-            geom: connPolygonMale,
-        },
-        {
-            name: 'c-polygon-f',
-            geom: connPolygonFemale,
-        },
-        {
-            name: 'c-bolt-circle-m',
-            geom: connBoltCircleMale,
-        },
-        {
-            name: 'c-bolt-circle-f',
-            geom: connBoltCircleFemale,
-        },
+    const rowConnectionProfiles2 = [
+        connRightAngleTabRowMale,
+        connRightAngleTabRowFemale,
     ]
 
-    const rowConnectionProfiles = [
-        {
-            name: 'c-dovetailrow-m',
-            geom: connDovetailRowMale,
-        },
-        {
-            name: 'c-dovetailrow-f',
-            geom: connDovetailRowFemale,
-        },
-        {
-            name: 'c-tabrow-m',
-            geom: connTabRowMale,
-        },
-        {
-            name: 'c-tabrow-f',
-            geom: connTabRowFemale,
-        },
-        {
-            name: 'c-rangle-tabrow-m',
-            geom: connRightAngleTabRowMale,
-        },
-        {
-            name: 'c-rangle-tabrow-f',
-            geom: connRightAngleTabRowFemale,
-        },
-    ]
-
-    connectionProfiles.forEach((prof) => {
-        models.push(prof.geom);
-    })
-
-    faceConnectionProfiles.forEach((prof) => {
-        faceConnectionModels.push(prof.geom);
-    })
-
-    rowConnectionProfiles.forEach((prof) => {
-        connectionRowModels.push(prof.geom);
-    })
-
-    const outModels = models.map((oModel, idx) => {
+    const outTabLike1 = tabLikeProfiles1.map((oModel, idx) => {
         return translate([idx * spaceUnit, 0, 0], oModel)
     })
-    const outFaceModels = faceConnectionModels.map((oModel, idx) => {
+
+    const outTabLike2 = tabLikeProfiles2.map((oModel, idx) => {
         return translate([idx * spaceUnit, -spaceUnit, 0], oModel)
     })
-    const outRowModels = connectionRowModels.map((oModel, idx) => {
-        return translate([idx * spaceUnit * 1.5, spaceUnit * -2, 0], oModel)
+    const outFaceModels = faceConnectionProfiles.map((oModel, idx) => {
+        return translate([idx * spaceUnit, spaceUnit * -2, 0], oModel)
+    })
+    const outRowModels1 = rowConnectionProfiles1.map((oModel, idx) => {
+        return translate([idx * spaceUnit * 1.5, spaceUnit * -3, 0], oModel)
+    })
+    const outRowModels2 = rowConnectionProfiles2.map((oModel, idx) => {
+        return translate([idx * spaceUnit * 1.5, spaceUnit * -4, 0], oModel)
     })
 
     return [
-        ...outModels,
+        ...outTabLike1,
+        ...outTabLike2,
         ...outFaceModels,
-        ...outRowModels,
+        ...outRowModels1,
+        ...outRowModels2,
     ];
 }
 

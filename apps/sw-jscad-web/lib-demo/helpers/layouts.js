@@ -17,7 +17,7 @@ const main = () => {
     const layoutOpts = {
         layoutMargin: 15,
         noFrame: false,
-        layoutSpace: 0,
+        layoutSpace: 20,
     }
 
     const shape1 = cuboid({ size: [15, 30, 15] })
@@ -38,7 +38,7 @@ const main = () => {
     layout.addToLayout({ name: 'arch4', desc: '...', layoutOpts }, arch4);
 
     const layoutContent = layout.gridLayout({ layoutOpts });
-    // const layoutContent = layout.gridLayout({ layoutOpts: { ...layoutOpts, is2D: true } });
+
     return layoutContent;
 }
 

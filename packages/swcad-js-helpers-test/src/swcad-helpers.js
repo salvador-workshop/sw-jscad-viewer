@@ -102,239 +102,43 @@ var require_standards = __commonJS({
       const pegboard = {
         /**
          * Pegboard_Spacing
-         * @memberof data.standards.pegboard
+         * @memberof data.standards
          */
         PEGBOARD_SPACING: math.inchesToMm(1),
         /**
          * Pegboard_Hole_Diam
-         * @memberof data.standards.pegboard
+         * @memberof data.standards
          */
         PEGBOARD_HOLE_DIAM: math.inchesToMm(7 / 32),
         /**
          * Micro_Pegboard_Spacing
-         * @memberof data.standards.pegboard
+         * @memberof data.standards
          */
         MICRO_PEGBOARD_SPACING: math.inchesToMm(1 / 2),
         /**
          * Micro_Pegboard_Hole_Diam
-         * @memberof data.standards.pegboard
+         * @memberof data.standards
          */
         MICRO_PEGBOARD_HOLE_DIAM: math.inchesToMm(1 / 8)
       };
       const gridfinity = {
         /**
          * Gridfinity_Spacing
-         * @memberof data.standards.gridfinity
+         * @memberof data.standards
          */
         GRIDFINITY_SPACING: 42,
         /**
          * Gridfinity_Rail_Width
-         * @memberof data.standards.gridfinity
+         * @memberof data.standards
          */
         GRIDFINITY_RAIL_WIDTH: 7
       };
-      const types = {
-        /**
-         * Type_Default
-         * @memberof data.standards.types
-         */
-        TYPE_DEFAULT: { id: "default", desc: "Default" },
-        /**
-         * Type_Alt
-         * @memberof data.standards.types
-         */
-        TYPE_ALT: { id: "alt", desc: "Alternate" }
-      };
-      const interfaceThickness = 1.333333;
-      const fitGap = math.inchesToMm(1 / 128);
-      const panelThicknessXs = interfaceThickness * 0.5;
-      const panelThicknessSm = interfaceThickness * 0.75;
-      const panelThicknessMd = interfaceThickness;
-      const panelThicknessLg = interfaceThickness * 1.25;
-      const panelThicknessXl = interfaceThickness * 1.5;
-      const smProfileBeadWidth = interfaceThickness * 1.125;
-      const mdProfileBeadWidth = interfaceThickness * 1.5;
-      const lgProfileBeadWidth = interfaceThickness * 1.75;
-      const xsReinforcementWidth = 2;
-      const smReinforcementWidth = 3;
-      const mdReinforcementWidth = 4;
-      const lgReinforcementWidth = 5;
-      const swDefaults = {
-        /**
-         * Interface thickness
-         * @memberof data.standards
-         */
-        INTERFACE_THICKNESS: interfaceThickness,
-        /**
-         * Fit_Gap
-         * @memberof data.standards
-         */
-        FIT_GAP: fitGap,
-        /**
-         * Panel_Thickness_Xs
-         * @memberof data.standards
-         */
-        PANEL_THICKNESS_XS: panelThicknessXs,
-        /**
-         * Panel_Thickness_Sm
-         * @memberof data.standards
-         */
-        PANEL_THICKNESS_SM: panelThicknessSm,
-        /**
-         * Panel_Thickness_Md
-         * @memberof data.standards
-         */
-        PANEL_THICKNESS_MD: panelThicknessMd,
-        /**
-         * Panel_Thickness_Lg
-         * @memberof data.standards
-         */
-        PANEL_THICKNESS_LG: panelThicknessLg,
-        /**
-         * Panel_Thickness_Xl
-         * @memberof data.standards
-         */
-        PANEL_THICKNESS_XL: panelThicknessXl,
-        /**
-         * Sm_Profile_Bead_Width
-         * @memberof data.standards
-         */
-        SM_PROFILE_BEAD_WIDTH: smProfileBeadWidth,
-        /**
-         * Md_Profile_Bead_Width
-         * @memberof data.standards
-         */
-        MD_PROFILE_BEAD_WIDTH: mdProfileBeadWidth,
-        /**
-         * Lg_Profile_Bead_Width
-         * @memberof data.standards
-         */
-        LG_PROFILE_BEAD_WIDTH: lgProfileBeadWidth,
-        /**
-         * Xs_Reinforcement_Width
-         * @memberof data.standards
-         */
-        XS_REINFORCEMENT_WIDTH: xsReinforcementWidth,
-        /**
-         * Sm_Reinforcement_Width
-         * @memberof data.standards
-         */
-        SM_REINFORCEMENT_WIDTH: smReinforcementWidth,
-        /**
-         * Md_Reinforcement_Width
-         * @memberof data.standards
-         */
-        MD_REINFORCEMENT_WIDTH: mdReinforcementWidth,
-        /**
-         * Lg_Reinforcement_Width
-         * @memberof data.standards
-         */
-        LG_REINFORCEMENT_WIDTH: lgReinforcementWidth
-      };
-      const params = {
-        /**
-         * Obj_2d_Size
-         * @memberof data.standards.params
-         */
-        OBJ_2D_SIZE: [
-          math.inchesToMm(2),
-          math.inchesToMm(4)
-        ],
-        /**
-         * Obj_3d_Size
-         * @memberof data.standards.params
-         */
-        OBJ_3D_SIZE: [
-          math.inchesToMm(2),
-          math.inchesToMm(4),
-          math.inchesToMm(1)
-        ]
-      };
       return {
-        ...swDefaults,
         pegboard,
-        gridfinity,
-        types,
-        params
+        gridfinity
       };
     };
     module2.exports = { init: standards };
-  }
-});
-
-// packages/swcad-js-helpers-data/src/errors.js
-var require_errors = __commonJS({
-  "packages/swcad-js-helpers-data/src/errors.js"(exports2, module2) {
-    "use strict";
-    function SwError(message) {
-      this.name = "SwError";
-      this.message = message;
-      this.stack = new Error().stack;
-    }
-    function SwInvalidInput(message) {
-      this.name = "SwInvalidInput";
-      this.message = message;
-      this.stack = new Error().stack;
-    }
-    SwInvalidInput.prototype = new Error();
-    var errors = {
-      SwError,
-      SwInvalidInput
-    };
-    module2.exports = errors;
-  }
-});
-
-// packages/swcad-js-helpers-data/src/internals.js
-var require_internals = __commonJS({
-  "packages/swcad-js-helpers-data/src/internals.js"(exports2, module2) {
-    "use strict";
-    var internals = ({ jscad, swcadJs }) => {
-      const propListBasic = [
-        { id: "length", desc: "length of element" },
-        { id: "width", desc: "Width of element" },
-        { id: "height", desc: "height of element" }
-      ];
-      const propListDecorative = [
-        { id: "trimOpts", desc: "array of string options" },
-        { id: "trimUnitSize", desc: "[x,y] of trim unit depth, and trim unit height" }
-      ];
-      const propListWall = [
-        { id: "wallSize", desc: "[x,y,z] of wall length, wall thickness, and wall height" },
-        { id: "crownDetailLvl", desc: "crown detail level, as integer (usually 0-2)" },
-        { id: "dadoDetailLvl", desc: "dado detail level, as integer (usually 0-2)" },
-        { id: "baseDetailLvl", desc: "base detail level, as integer (usually 0-2)" }
-      ];
-      const propListRoof = [
-        { id: "roofSpanSize", desc: "length of element" },
-        { id: "roofOverhangSize", desc: "Width of element" },
-        { id: "roofPitch", desc: "height of element" }
-      ];
-      const propListVariants = [
-        { id: "family", desc: "General grouping" },
-        { id: "type", desc: "Functional grouping" },
-        { id: "subType", desc: "Functional subgroup" },
-        { id: "tagsVariants", desc: "Extra options for variants" }
-      ];
-      const masterPropList = [
-        ...propListBasic,
-        ...propListDecorative,
-        ...propListWall,
-        ...propListRoof
-      ];
-      const colourList = [];
-      const layerList = [];
-      return {
-        propListBasic,
-        propListWall,
-        propListRoof,
-        propListVariants,
-        masterPropList,
-        colourList,
-        layerList
-      };
-    };
-    module2.exports = { init: internals };
   }
 });
 
@@ -345,15 +149,11 @@ var require_src = __commonJS({
     var constants = require_constants();
     var functions = require_functions();
     var standards = require_standards();
-    var errors = require_errors();
-    var internals = require_internals();
     var dataInit = ({ jscad, swcadJs }) => {
       const data = {
         constants,
         functions,
-        standards: standards.init({ jscad, swcadJs }),
-        errors,
-        internals: internals.init({ jscad, swcadJs })
+        standards: standards.init({ jscad, swcadJs })
       };
       return data;
     };
@@ -363,47 +163,11 @@ var require_src = __commonJS({
   }
 });
 
-// packages/swcad-js-helpers-calcs/src/position/pos-rectangle.js
-var require_pos_rectangle = __commonJS({
-  "packages/swcad-js-helpers-calcs/src/position/pos-rectangle.js"(exports2, module2) {
+// packages/swcad-js-helpers-calcs/src/geometry/geo-triangle.js
+var require_geo_triangle = __commonJS({
+  "packages/swcad-js-helpers-calcs/src/geometry/geo-triangle.js"(exports2, module2) {
     "use strict";
-    var geoRectangle = ({ jscad, swcadJs }) => {
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureCenter
-      } = jscad.measurements;
-      const { position } = swcadJs.calcs;
-      const getRectangleCoords = (rectGeom) => {
-        return position.getGeomCoords(rectGeom);
-      };
-      const getRectangleCorners = (rectGeom) => {
-        const bBox = measureBoundingBox(rectGeom);
-        const coords = getRectangleCoords(rectGeom);
-        return {
-          c1: [coords.right, coords.front, 0],
-          // (+X, -Y)
-          c2: [coords.right, coords.back, 0],
-          // (+X, +Y)
-          c3: [coords.left, coords.back, 0],
-          // (-X, +Y)
-          c4: [coords.left, coords.front, 0]
-          // (-X, -Y)
-        };
-      };
-      return {
-        getRectangleCorners
-      };
-    };
-    module2.exports = { init: geoRectangle };
-  }
-});
-
-// packages/swcad-js-helpers-calcs/src/position/pos-triangle.js
-var require_pos_triangle = __commonJS({
-  "packages/swcad-js-helpers-calcs/src/position/pos-triangle.js"(exports2, module2) {
-    "use strict";
-    var geoTriangle = ({ jscad, swcadJs }) => {
+    var geoTriangleInit = ({ jscad, swcadJs }) => {
       const { TAU } = jscad.maths.constants;
       const rightTriangleOpts = ({
         hypot,
@@ -461,7 +225,54 @@ var require_pos_triangle = __commonJS({
         rightTriangleOpts
       };
     };
-    module2.exports = { init: geoTriangle };
+    module2.exports = { init: geoTriangleInit };
+  }
+});
+
+// packages/swcad-js-helpers-calcs/src/geometry/index.js
+var require_geometry = __commonJS({
+  "packages/swcad-js-helpers-calcs/src/geometry/index.js"(exports2, module2) {
+    "use strict";
+    var geoTriangleModule = require_geo_triangle();
+    var geometryInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
+      return {
+        triangle: geoTriangleModule.init({ jscad, swcadJs })
+      };
+    };
+    module2.exports = { init: geometryInit };
+  }
+});
+
+// packages/swcad-js-helpers-calcs/src/position/pos-rectangle.js
+var require_pos_rectangle = __commonJS({
+  "packages/swcad-js-helpers-calcs/src/position/pos-rectangle.js"(exports2, module2) {
+    "use strict";
+    var geoRectangle = ({ jscad, swcadJs }) => {
+      const {
+        measureBoundingBox
+      } = jscad.measurements;
+      const { position } = swcadJs.calcs;
+      const getRectangleCoords = (rectGeom) => {
+        return position.getGeomCoords(rectGeom);
+      };
+      const getRectangleCorners = (rectGeom) => {
+        const coords = getRectangleCoords(rectGeom);
+        return {
+          c1: [coords.right, coords.front, 0],
+          // (+X, -Y)
+          c2: [coords.right, coords.back, 0],
+          // (+X, +Y)
+          c3: [coords.left, coords.back, 0],
+          // (-X, +Y)
+          c4: [coords.left, coords.front, 0]
+          // (-X, -Y)
+        };
+      };
+      return {
+        getRectangleCorners
+      };
+    };
+    module2.exports = { init: geoRectangle };
   }
 });
 
@@ -470,14 +281,12 @@ var require_position = __commonJS({
   "packages/swcad-js-helpers-calcs/src/position/index.js"(exports2, module2) {
     "use strict";
     var posRectangle = require_pos_rectangle();
-    var posTriangle = require_pos_triangle();
-    var positionUtils = ({ jscad, swcadJs, swcadJsHelpers }) => {
+    var positionInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
       return {
-        rectangle: posRectangle.init({ jscad, swcadJs }),
-        triangle: posTriangle.init({ jscad, swcadJs })
+        rectangle: posRectangle.init({ jscad, swcadJs })
       };
     };
-    module2.exports = { init: positionUtils };
+    module2.exports = { init: positionInit };
   }
 });
 
@@ -485,10 +294,13 @@ var require_position = __commonJS({
 var require_src2 = __commonJS({
   "packages/swcad-js-helpers-calcs/src/index.js"(exports2, module2) {
     "use strict";
+    var geometryModule = require_geometry();
     var positionModule = require_position();
     var calcsInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
+      const geometry = geometryModule.init({ jscad, swcadJs, swcadJsHelpers });
       const position = positionModule.init({ jscad, swcadJs, swcadJsHelpers });
       const calcs = {
+        geometry,
         position
       };
       return calcs;
@@ -505,15 +317,13 @@ var require_arch = __commonJS({
     "use strict";
     var archBuilder2d = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { path2, geom2 } = jscad.geometries;
-      const { extrudeRotate } = jscad.extrusions;
-      const { arc, cuboid } = jscad.primitives;
-      const { translate, mirror, rotate, align } = jscad.transforms;
-      const { union, subtract, intersect } = jscad.booleans;
-      const { measureDimensions } = jscad.measurements;
+      const { arc } = jscad.primitives;
+      const { mirror, align } = jscad.transforms;
+      const { intersect } = jscad.booleans;
       return {
         /**
          * Builds a one-centre (semicircular) arch.
-         * @memberof profiles.structure.arch
+         * @memberof profiles.arch
          * @instance
          * @param {Object} opts 
          * @param {number} opts.arcRadius - arc radius 
@@ -525,7 +335,7 @@ var require_arch = __commonJS({
         },
         /**
          * Builds a two-centre pointed arch.
-         * @memberof profiles.structure.arch
+         * @memberof profiles.arch
          * @instance
          * @param {Object} opts 
          * @param {number} opts.arcRadius - arc radius 
@@ -539,12 +349,6 @@ var require_arch = __commonJS({
           const mirrorAxis = arcRad - archWth / 2;
           const reflectedArch = mirror({ normal: [1, 0, 0], origin: [mirrorAxis, 0, 0] }, baseArch);
           return align({ modes: ["center", "min", "min"] }, intersect(baseArch, reflectedArch));
-        },
-        threePt: (opts) => {
-          return null;
-        },
-        fourPt: (opts) => {
-          return null;
         }
       };
     };
@@ -557,9 +361,8 @@ var require_curve = __commonJS({
   "packages/swcad-js-helpers-profiles/src/curve/index.js"(exports2, module2) {
     "use strict";
     var curveBuilder = ({ jscad, swcadJs, swcadJsHelpers }) => {
-      const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
-      const { intersect, union, subtract } = jscad.booleans;
-      const { rotate, align } = jscad.transforms;
+      const { rectangle } = jscad.primitives;
+      const { subtract } = jscad.booleans;
       const { bezier } = jscad.curves;
       const { geom2, path2 } = jscad.geometries;
       const { position } = swcadJs.calcs;
@@ -594,10 +397,15 @@ var require_curve = __commonJS({
         return subtract(container, bezGeom);
       };
       const curves = {
+        /**
+         * Modelling functions for right-angle corner curves.
+         * @memberof profiles.curve
+         * @namespace rightCorner
+         */
         rightCorner: {
           /**
-           * ...
-           * @memberof profiles.curve
+           * Generates a right-angle corner curve with axis lengths corresponding to the Golden ratio.
+           * @memberof profiles.curve.rightCorner
            * @param {object} opts
            * @returns ...
            */
@@ -605,8 +413,8 @@ var require_curve = __commonJS({
             return createRtCornerCurve({ width, depth, ratio: constants.PHI });
           },
           /**
-           * ...
-           * @memberof profiles.curve
+           * Generates a right-angle corner curve with axis lengths corresponding to a 30-degree right triangle's sides.
+           * @memberof profiles.curve.rightCorner
            * @param {object} opts
            * @returns ...
            */
@@ -614,8 +422,8 @@ var require_curve = __commonJS({
             return createRtCornerCurve({ width, depth, ratio: 2 });
           },
           /**
-           * ...
-           * @memberof profiles.curve
+           * Generates a right-angle corner curve with axis lengths corresponding to the Silver ratio.
+           * @memberof profiles.curve.rightCorner
            * @param {object} opts
            * @returns ...
            */
@@ -623,8 +431,8 @@ var require_curve = __commonJS({
             return createRtCornerCurve({ width, depth, ratio: constants.SILVER_RATIO });
           },
           /**
-           * ...
-           * @memberof profiles.curve
+           * Generates a right-angle corner curve with axis lengths corresponding to the Bronze ratio.
+           * @memberof profiles.curve.rightCorner
            * @param {object} opts
            * @returns ...
            */
@@ -632,8 +440,8 @@ var require_curve = __commonJS({
             return createRtCornerCurve({ width, depth, ratio: constants.BRONZE_RATIO });
           },
           /**
-           * ...
-           * @memberof profiles.curve
+           * Generates a right-angle corner curve with axis lengths corresponding to the Copper ratio.
+           * @memberof profiles.curve.rightCorner
            * @param {object} opts
            * @returns ...
            */
@@ -641,8 +449,8 @@ var require_curve = __commonJS({
             return createRtCornerCurve({ width, depth, ratio: constants.COPPER_RATIO });
           },
           /**
-           * ...
-           * @memberof profiles.curve
+           * Generates a right-angle corner curve with axis lengths corresponding to the Super-golden ratio.
+           * @memberof profiles.curve.rightCorner
            * @param {object} opts
            * @returns ...
            */
@@ -650,8 +458,8 @@ var require_curve = __commonJS({
             return createRtCornerCurve({ width, depth, ratio: constants.SUPERGOLDEN_RATIO });
           },
           /**
-           * ...
-           * @memberof profiles.curve
+           * Generates a right-angle corner curve with axis lengths corresponding to the Plastic ratio.
+           * @memberof profiles.curve.rightCorner
            * @param {object} opts
            * @returns ...
            */
@@ -709,68 +517,58 @@ var require_foil = __commonJS({
       return {
         buildFoil2d,
         /**
-         * Builds a trefoil opening using a given 2d cross-section profile
-         * @memberof profiles.structure.foil
+         * Generates a trefoil outline.
+         * @memberof profiles.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
          * @param {string} opts.lobeRadiusType - "inSlice", "halfRadius", "mean"
-         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening (only for 3D)
-         * @param {geom2.Geom2} geomProfile - 2D cross-section profile
          */
-        trefoil: (opts, geomProfile) => {
+        trefoil: (opts) => {
           return buildFoil2d({ ...opts, numLobes: 3 });
         },
         /**
-         * Builds a quatrefoil opening using a given 2d cross-section profile
-         * @memberof profiles.structure.foil
+         * Generates a quatrefoil outline.
+         * @memberof profiles.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
          * @param {string} opts.lobeRadiusType - "inSlice", "halfRadius", "mean"
-         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening (only for 3D)
-         * @param {geom2.Geom2} geomProfile - 2D cross-section profile
          */
-        quatrefoil: (opts, geomProfile) => {
+        quatrefoil: (opts) => {
           return buildFoil2d({ ...opts, numLobes: 4 });
         },
         /**
-         * Builds a cinquefoil opening using a given 2d cross-section profile
-         * @memberof profiles.structure.foil
+         * Generates a cinquefoil outline.
+         * @memberof profiles.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
          * @param {string} opts.lobeRadiusType - "inSlice", "halfRadius", "mean"
-         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening (only for 3D)
-         * @param {geom2.Geom2} geomProfile - 2D cross-section profile
          */
-        cinquefoil: (opts, geomProfile) => {
+        cinquefoil: (opts) => {
           return buildFoil2d({ ...opts, numLobes: 5 });
         },
         /**
-         * Builds a sexfoil opening using a given 2d cross-section profile
-         * @memberof profiles.structure.foil
+         * Generates a sexfoil outline.
+         * @memberof profiles.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
          * @param {string} opts.lobeRadiusType - "inSlice", "halfRadius", "mean"
-         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening (only for 3D)
-         * @param {geom2.Geom2} geomProfile - 2D cross-section profile
          */
-        sexfoil: (opts, geomProfile) => {
+        sexfoil: (opts) => {
           return buildFoil2d({ ...opts, numLobes: 6 });
         },
         /**
-         * Builds an octofoil opening using a given 2d cross-section profile
-         * @memberof profiles.structure.foil
+         * Generates an octofoil outline.
+         * @memberof profiles.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
          * @param {string} opts.lobeRadiusType - "inSlice", "halfRadius", "mean"
-         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening (only for 3D)
-         * @param {geom2.Geom2} geomProfile - 2D cross-section profile
          */
-        octofoil: (opts, geomProfile) => {
+        octofoil: (opts) => {
           return buildFoil2d({ ...opts, numLobes: 8 });
         }
       };
@@ -985,7 +783,6 @@ var require_rect_frame = __commonJS({
         cornerOpts = rectangularFrameDefOpts.cornerOpts
       }) => {
         let outRect = rectangle({ size });
-        const outRectCoords = basePosition.getGeomCoords(outRect);
         const outRectCorners = position.rectangle.getRectangleCorners(outRect);
         const cornerStyle = cornerStyles[cornerOpts.style];
         const cornerPieces = [];
@@ -1124,11 +921,7 @@ var require_ellipse = __commonJS({
   "packages/swcad-js-helpers-profiles/src/shapes/ellipse/index.js"(exports2, module2) {
     "use strict";
     var ellipseInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
-      const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
-      const { intersect, union, subtract } = jscad.booleans;
-      const { rotate, align } = jscad.transforms;
-      const { geom2, path2 } = jscad.geometries;
-      const { position } = swcadJs.calcs;
+      const { ellipse } = jscad.primitives;
       const { constants } = swcadJsHelpers.data;
       const createEllipse = ({ width, depth, ratio }) => {
         const validSize = [
@@ -1139,7 +932,7 @@ var require_ellipse = __commonJS({
       };
       const ellipses = {
         /**
-         * ...
+         * Generates an ellipse with axis lengths corresponding to the Golden ratio.
          * @memberof profiles.shapes.ellipse
          * @param {object} opts
          * @returns ...
@@ -1148,7 +941,7 @@ var require_ellipse = __commonJS({
           return createEllipse({ width, depth, ratio: constants.PHI });
         },
         /**
-         * ...
+         * Generates an ellipse with axis lengths corresponding to a 30-degree right triangle's sides.
          * @memberof profiles.shapes.ellipse
          * @param {object} opts
          * @returns ...
@@ -1157,7 +950,7 @@ var require_ellipse = __commonJS({
           return createEllipse({ width, depth, ratio: 2 });
         },
         /**
-         * ...
+         * Generates an ellipse with axis lengths corresponding to the Silver ratio.
          * @memberof profiles.shapes.ellipse
          * @param {object} opts
          * @returns ...
@@ -1166,7 +959,7 @@ var require_ellipse = __commonJS({
           return createEllipse({ width, depth, ratio: constants.SILVER_RATIO });
         },
         /**
-         * ...
+         * Generates an ellipse with axis lengths corresponding to the Bronze ratio.
          * @memberof profiles.shapes.ellipse
          * @param {object} opts
          * @returns ...
@@ -1175,7 +968,7 @@ var require_ellipse = __commonJS({
           return createEllipse({ width, depth, ratio: constants.BRONZE_RATIO });
         },
         /**
-         * ...
+         * Generates an ellipse with axis lengths corresponding to the Copper ratio.
          * @memberof profiles.shapes.ellipse
          * @param {object} opts
          * @returns ...
@@ -1184,7 +977,7 @@ var require_ellipse = __commonJS({
           return createEllipse({ width, depth, ratio: constants.COPPER_RATIO });
         },
         /**
-         * ...
+         * Generates an ellipse with axis lengths corresponding to the Super-golden ratio.
          * @memberof profiles.shapes.ellipse
          * @param {object} opts
          * @returns ...
@@ -1193,7 +986,7 @@ var require_ellipse = __commonJS({
           return createEllipse({ width, depth, ratio: constants.SUPERGOLDEN_RATIO });
         },
         /**
-         * ...
+         * Generates an ellipse with axis lengths corresponding to the Plastic ratio.
          * @memberof profiles.shapes.ellipse
          * @param {object} opts
          * @returns ...
@@ -1213,12 +1006,7 @@ var require_rectangle = __commonJS({
   "packages/swcad-js-helpers-profiles/src/shapes/rectangle/index.js"(exports2, module2) {
     "use strict";
     var rectangleInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
-      const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
-      const { intersect, union, subtract } = jscad.booleans;
-      const { rotate, align } = jscad.transforms;
-      const { geom2, path2 } = jscad.geometries;
-      const { constants: baseConstants } = swcadJs.data;
-      const { position } = swcadJs.calcs;
+      const { rectangle } = jscad.primitives;
       const { constants } = swcadJsHelpers.data;
       const createRect = ({ width, depth, ratio }) => {
         const validSize = [
@@ -1229,7 +1017,7 @@ var require_rectangle = __commonJS({
       };
       const rectangles = {
         /**
-         * ...
+         * Generates a rectangle with side lengths corresponding to the Golden ratio.
          * @memberof profiles.shapes.rectangle
          * @param {object} opts
          * @returns ...
@@ -1238,7 +1026,7 @@ var require_rectangle = __commonJS({
           return createRect({ width, depth, ratio: constants.PHI });
         },
         /**
-         * ...
+         * Generates a rectangle with side lengths corresponding to a 30-degree right triangle's sides.
          * @memberof profiles.shapes.rectangle
          * @param {object} opts
          * @returns ...
@@ -1247,7 +1035,7 @@ var require_rectangle = __commonJS({
           return createRect({ width, depth, ratio: 2 });
         },
         /**
-         * ...
+         * Generates a rectangle with side lengths corresponding to the Silver ratio.
          * @memberof profiles.shapes.rectangle
          * @param {object} opts
          * @returns ...
@@ -1256,7 +1044,7 @@ var require_rectangle = __commonJS({
           return createRect({ width, depth, ratio: constants.SILVER_RATIO });
         },
         /**
-         * ...
+         * Generates a rectangle with side lengths corresponding to the Bronze ratio.
          * @memberof profiles.shapes.rectangle
          * @param {object} opts
          * @returns ...
@@ -1265,7 +1053,7 @@ var require_rectangle = __commonJS({
           return createRect({ width, depth, ratio: constants.BRONZE_RATIO });
         },
         /**
-         * ...
+         * Generates a rectangle with side lengths corresponding to the Copper ratio.
          * @memberof profiles.shapes.rectangle
          * @param {object} opts
          * @returns ...
@@ -1274,7 +1062,7 @@ var require_rectangle = __commonJS({
           return createRect({ width, depth, ratio: constants.COPPER_RATIO });
         },
         /**
-         * ...
+         * Generates a rectangle with side lengths corresponding to the Super-golden ratio.
          * @memberof profiles.shapes.rectangle
          * @param {object} opts
          * @returns ...
@@ -1283,7 +1071,7 @@ var require_rectangle = __commonJS({
           return createRect({ width, depth, ratio: constants.SUPERGOLDEN_RATIO });
         },
         /**
-         * ...
+         * Generates a rectangle with side lengths corresponding to the Plastic ratio.
          * @memberof profiles.shapes.rectangle
          * @param {object} opts
          * @returns ...
@@ -1307,12 +1095,8 @@ var require_square = __commonJS({
   "packages/swcad-js-helpers-profiles/src/shapes/square/index.js"(exports2, module2) {
     "use strict";
     var squareInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
-      const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
-      const { intersect, union, subtract } = jscad.booleans;
-      const { rotate, align } = jscad.transforms;
-      const { geom2, path2 } = jscad.geometries;
-      const { position } = swcadJs.calcs;
-      const { constants } = swcadJsHelpers.data;
+      const { square, circle } = jscad.primitives;
+      const { union, subtract } = jscad.booleans;
       const squares = {
         /**
          * Square with circular notches at corners.
@@ -1375,24 +1159,20 @@ var require_triangle = __commonJS({
   "packages/swcad-js-helpers-profiles/src/shapes/triangle/index.js"(exports2, module2) {
     "use strict";
     var triangleInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
-      const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
-      const { intersect, union, subtract } = jscad.booleans;
-      const { rotate, align } = jscad.transforms;
-      const { geom2, path2 } = jscad.geometries;
-      const { position: basePosition } = swcadJs.calcs;
-      const { position } = swcadJsHelpers.calcs;
+      const { triangle } = jscad.primitives;
+      const { position, geometry } = swcadJsHelpers.calcs;
       const { constants } = swcadJsHelpers.data;
       const createRtTriangle = ({ base, height, ratio }) => {
         const validOpts = {
           short: base || height / ratio,
           long: height || base * ratio
         };
-        const triOpts = position.triangle.rightTriangleOpts({ ...validOpts });
+        const triOpts = geometry.triangle.rightTriangleOpts({ ...validOpts });
         return triangle(triOpts);
       };
       const triangles = {
         /**
-         * ...
+         * Generates an equilateral triangle.
          * @memberof profiles.shapes.triangle
          * @param {object} opts
          * @returns ...
@@ -1401,17 +1181,17 @@ var require_triangle = __commonJS({
           return triangle({ type: "SSS", values: [base, base, base] });
         },
         /**
-         * ...
+         * Generates a right triangle with a 45-degree angle.
          * @memberof profiles.shapes.triangle
          * @param {object} opts
          * @returns ...
          */
         right45: ({ base }) => {
-          const triOpts = position.triangle.rightTriangleOpts({ short: base, long: base });
+          const triOpts = geometry.triangle.rightTriangleOpts({ short: base, long: base });
           return triangle(triOpts);
         },
         /**
-         * ...
+         * Generates a right triangle with a 30-degree angle.
          * @memberof profiles.shapes.triangle
          * @param {object} opts
          * @returns ...
@@ -1420,7 +1200,7 @@ var require_triangle = __commonJS({
           return createRtTriangle({ base, height, ratio: 2 });
         },
         /**
-         * ...
+         * Generates a right triangle with side lengths corresponding to the Golden ratio.
          * @memberof profiles.shapes.triangle
          * @param {object} opts
          * @returns ...
@@ -1429,7 +1209,7 @@ var require_triangle = __commonJS({
           return createRtTriangle({ base, height, ratio: constants.PHI });
         },
         /**
-         * ...
+         * Generates a right triangle with side lengths corresponding to the Silver ratio.
          * @memberof profiles.shapes.triangle
          * @param {object} opts
          * @returns ...
@@ -1438,7 +1218,7 @@ var require_triangle = __commonJS({
           return createRtTriangle({ base, height, ratio: constants.SILVER_RATIO });
         },
         /**
-         * ...
+         * Generates a right triangle with side lengths corresponding to the Bronze ratio.
          * @memberof profiles.shapes.triangle
          * @param {object} opts
          * @returns ...
@@ -1447,7 +1227,7 @@ var require_triangle = __commonJS({
           return createRtTriangle({ base, height, ratio: constants.BRONZE_RATIO });
         },
         /**
-         * ...
+         * Generates a right triangle with side lengths corresponding to the Copper ratio.
          * @memberof profiles.shapes.triangle
          * @param {object} opts
          * @returns ...
@@ -1471,10 +1251,9 @@ var require_shapes = __commonJS({
     var squareModule = require_square();
     var triangleModule = require_triangle();
     var shapesBuilder = ({ jscad, swcadJs, swcadJsHelpers }) => {
-      const { square, circle, rectangle, triangle, ellipse } = jscad.primitives;
-      const { intersect, union, subtract } = jscad.booleans;
-      const { rotate, align } = jscad.transforms;
-      const { geom2, path2 } = jscad.geometries;
+      const { square } = jscad.primitives;
+      const { intersect } = jscad.booleans;
+      const { rotate } = jscad.transforms;
       const ellipses = ellipseModule.init({ jscad, swcadJs, swcadJsHelpers });
       const rectangles = rectangleModule.init({ jscad, swcadJs, swcadJsHelpers });
       const squares = squareModule.init({ jscad, swcadJs, swcadJsHelpers });
@@ -1490,7 +1269,12 @@ var require_shapes = __commonJS({
         rectangle: rectangles,
         square: squares,
         triangle: triangles,
-        octagon: {
+        /**
+         * Modelling functions for various polygons.
+         * @memberof profiles.shapes
+         * @namespace polygons
+         */
+        polygons: {
           octFromDiam
         }
       };
@@ -1538,16 +1322,16 @@ var require_arch2 = __commonJS({
   "packages/swcad-js-helpers-components/src/arch/index.js"(exports2, module2) {
     "use strict";
     var archBuilder3d = ({ jscad, swcadJs, swcadJsHelpers }) => {
-      const { path2, geom2 } = jscad.geometries;
+      const { geom2 } = jscad.geometries;
       const { extrudeRotate } = jscad.extrusions;
-      const { arc, cuboid } = jscad.primitives;
-      const { translate, mirror, rotate, align } = jscad.transforms;
-      const { union, subtract, intersect } = jscad.booleans;
+      const { cuboid } = jscad.primitives;
+      const { translate, mirror, rotate } = jscad.transforms;
+      const { union, subtract } = jscad.booleans;
       const { measureDimensions } = jscad.measurements;
       const { position } = swcadJs.calcs;
       return {
         /**
-         * Builds a one-centre (semicircular) arch.
+         * Generates a one-centre (semicircular) arch using a given 2d cross-section profile.
          * @memberof components.arch
          * @instance
          * @param {Object} opts 
@@ -1561,7 +1345,7 @@ var require_arch2 = __commonJS({
           return position.ctrMin(rotate([Math.PI / 2, 0, 0], baseArch));
         },
         /**
-         * Builds a two-centre pointed arch.
+         * Generates a two-centre pointed arch using a given 2d cross-section profile.
          * @memberof components.arch
          * @instance
          * @param {Object} opts 
@@ -1589,12 +1373,6 @@ var require_arch2 = __commonJS({
           return position.ctrMin(
             rotate([Math.PI / 2, 0, 0], union(cutArch, reflectedArch))
           );
-        },
-        threePt: (opts, geomProfile) => {
-          return null;
-        },
-        fourPt: (opts, geomProfile) => {
-          return null;
         }
       };
     };
@@ -1665,65 +1443,65 @@ var require_foil2 = __commonJS({
       return {
         buildFoil3d,
         /**
-         * Builds a trefoil opening using a given 2d cross-section profile
+         * Generates a trefoil opening using a given 2d cross-section profile.
          * @memberof components.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
          * @param {string} opts.lobeRadiusType - "inSlice", "halfRadius", "mean"
-         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening (only for 3D)
+         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening
          * @param {geom2.Geom2} geomProfile - 2D cross-section profile
          */
         trefoil: (opts, geomProfile) => {
           return buildFoil3d({ ...opts, numLobes: 3 }, geomProfile);
         },
         /**
-         * Builds a quatrefoil opening using a given 2d cross-section profile
+         * Generates a quatrefoil opening using a given 2d cross-section profile.
          * @memberof components.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
          * @param {string} opts.lobeRadiusType - "inSlice", "halfRadius", "mean"
-         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening (only for 3D)
+         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening
          * @param {geom2.Geom2} geomProfile - 2D cross-section profile
          */
         quatrefoil: (opts, geomProfile) => {
           return buildFoil3d({ ...opts, numLobes: 4 }, geomProfile);
         },
         /**
-         * Builds a cinquefoil opening using a given 2d cross-section profile
+         * Generates a cinquefoil opening using a given 2d cross-section profile.
          * @memberof components.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
          * @param {string} opts.lobeRadiusType - "inSlice", "halfRadius", "mean"
-         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening (only for 3D)
+         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening
          * @param {geom2.Geom2} geomProfile - 2D cross-section profile
          */
         cinquefoil: (opts, geomProfile) => {
           return buildFoil3d({ ...opts, numLobes: 5 }, geomProfile);
         },
         /**
-         * Builds a sexfoil opening using a given 2d cross-section profile
+         * Generates a sexfoil opening using a given 2d cross-section profile.
          * @memberof components.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
          * @param {string} opts.lobeRadiusType - "inSlice", "halfRadius", "mean"
-         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening (only for 3D)
+         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening
          * @param {geom2.Geom2} geomProfile - 2D cross-section profile
          */
         sexfoil: (opts, geomProfile) => {
           return buildFoil3d({ ...opts, numLobes: 6 }, geomProfile);
         },
         /**
-         * Builds an octofoil opening using a given 2d cross-section profile
+         * Generates an octofoil opening using a given 2d cross-section profile.
          * @memberof components.foil
          * @instance
          * @param {Object} opts
          * @param {number} opts.radius - radius of container circle
          * @param {string} opts.lobeRadiusType - "inSlice", "halfRadius", "mean"
-         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening (only for 3D)
+         * @param {boolean} opts.cutCentre - if true, cuts a circular hole in centre of opening
          * @param {geom2.Geom2} geomProfile - 2D cross-section profile
          */
         octofoil: (opts, geomProfile) => {
@@ -2066,7 +1844,7 @@ var require_layout = __commonJS({
       };
       return {
         /**
-         * Adds element to layout
+         * Adds an element to the layout.
          * @param {Object} opts 
          * @param {string} opts.name 
          * @param {string} opts.desc 
@@ -2107,9 +1885,21 @@ var require_layout = __commonJS({
           addLayoutEntry({ layoutEntry });
           return layoutEntry;
         },
+        /**
+         * Removes an element with the given ID from the layout.
+         * @param {object} opts
+         * @instance
+         * @memberof utils.layout
+         */
         removeFromLayout: ({ id }) => {
           layoutElements.delete(id);
         },
+        /**
+         * Clears all the layout elements.
+         * @param {object} opts
+         * @instance
+         * @memberof utils.layout
+         */
         clearLayout: () => {
           layoutElements.clear();
         },

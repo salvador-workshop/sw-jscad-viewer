@@ -17,47 +17,33 @@ const {
 const spaceUnit = math.inchesToMm(2.75)
 
 const main = () => {
-    const models = []
-
-    const boxSupportQtrData = reinforcements.boxSupport.boxSupportQuarter({
+    const boxSupportQtr = reinforcements.boxSupport.boxSupportQuarter({
         size: [20, 20],
-    })
-    const boxSupportQtrModel = boxSupportQtrData[0]
+    })[0]
 
-    const boxSupportHalfData = reinforcements.boxSupport.boxSupportHalf({
+    const boxSupportHalf = reinforcements.boxSupport.boxSupportHalf({
         size: [20, 20],
         margin: [5, 5, 1.333],
-    })
-    const boxSupportHalfModel = boxSupportHalfData[0]
+    })[0]
 
-    const boxSupportComponents = [
-        {
-            name: 'box-support-1',
-            geom: boxSupportQtrModel,
-        },
-        {
-            name: 'box-support-2',
-            geom: boxSupportHalfModel,
-        },
-    ]
+    const reinfRect1 = reinforcements.reinforcedRectPanel({
+        size: [40, 45, 3]
+    })[0]
+    const reinfRect2 = reinforcements.reinforcedRectPanel({
+        size: [40, 45, 3],
+        reinforcementPattern: 'cross'
+    })[0]
+    const reinfRect3 = reinforcements.reinforcedRectPanel({
+        size: [40, 45, 3],
+        reinforcementPattern: 'full'
+    })[0]
 
-    const reinfRectData1 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3] })
-    const reinfRectData2 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'cross' })
-    const reinfRectData3 = reinforcements.reinforcedRectPanel({ size: [40, 45, 3], reinforcementPattern: 'full' })
-
-    const rectComponents = [
-        {
-            name: 'rect-reinforced-1',
-            geom: reinfRectData1[0],
-        },
-        {
-            name: 'rect-reinforced-2',
-            geom: reinfRectData2[0],
-        },
-        {
-            name: 'rect-reinforced-3',
-            geom: reinfRectData3[0],
-        },
+    const basicModels = [
+        boxSupportQtr,
+        boxSupportHalf,
+        reinfRect1,
+        reinfRect2,
+        reinfRect3,
     ]
 
     const dowelJoistPanelOpts1 = {
@@ -77,49 +63,27 @@ const main = () => {
         reinforcementLevel: 3
     }
 
-    const openWebJoistData1 = reinforcements.reinforcedJoist(dowelJoistPanelOpts1)
-    const openWebJoistData2 = reinforcements.reinforcedJoist(dowelJoistPanelOpts2)
-    const openWebJoistData3 = reinforcements.reinforcedJoist(dowelJoistPanelOpts3)
+    const openWebJoist1 = reinforcements.reinforcedJoist(dowelJoistPanelOpts1)[0]
+    const openWebJoist2 = reinforcements.reinforcedJoist(dowelJoistPanelOpts2)[0]
+    const openWebJoist3 = reinforcements.reinforcedJoist(dowelJoistPanelOpts3)[0]
 
-    const openWebJoistModel1 = openWebJoistData1[0]
-    const openWebJoistParts1 = openWebJoistData1[1]
-
-    const openWebJoistModel2 = openWebJoistData2[0]
-    const openWebJoistParts2 = openWebJoistData2[1]
-
-    const openWebJoistModel3 = openWebJoistData3[0]
-    const openWebJoistParts3 = openWebJoistData3[1]
-
-    const joistComponents = [
-        {
-            name: 'open-web-joist-1',
-            geom: openWebJoistModel1,
-        },
-        {
-            name: 'open-web-joist-2',
-            geom: openWebJoistModel2,
-        },
-        {
-            name: 'open-web-joist-3',
-            geom: openWebJoistModel3,
-        },
+    const joistModels = [
+        openWebJoist1,
+        openWebJoist2,
+        openWebJoist3,
     ]
 
-    boxSupportComponents.forEach((boxSupportComp) => {
-        models.push(boxSupportComp.geom);
-    })
-    rectComponents.forEach((rectComp) => {
-        models.push(rectComp.geom);
-    })
-    joistComponents.forEach((joistComp) => {
-        models.push(joistComp.geom);
-    })
-
-    const outModels = models.map((oModel, idx) => {
+    const outModelsBasic = basicModels.map((oModel, idx) => {
         return translate([idx * spaceUnit, 0, 0], oModel)
     })
+    const outModelsJoists = joistModels.map((oModel, idx) => {
+        return translate([idx * spaceUnit, spaceUnit * 2.5, 0], oModel)
+    })
 
-    return outModels;
+    return [
+        ...outModelsBasic,
+        ...outModelsJoists
+    ];
 }
 
 module.exports = { main }
