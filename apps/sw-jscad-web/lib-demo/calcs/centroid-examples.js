@@ -32,7 +32,6 @@ const generatePoints = (numPoints, offset) => {
 }
 
 const main = () => {
-
     const numClouds = 4;
     const pointClouds = []
 
@@ -49,7 +48,6 @@ const main = () => {
     console.log(pointClouds)
 
     const ptCloudModels = []
-
     pointClouds.forEach((ptCloud, idx) => {
         const pointGeoms = []
         const centroid = geometry.points.centroid(ptCloud)

@@ -17,64 +17,57 @@ const {
 } = swcadJs.components.routedShapes
 
 
-//==============================================================================
+//===============================================f===============================
 
 
 /* ----------------------------------------
  * Model / Scene Prep
  * ------------------------------------- */
 
-const routedCuboidOpts = {
-    topBit: 'chamfer',
-    topBitOpts: {
-        radius1: 6,
-        radius2: 8,
-        offset1: 3,
-        offset2: 2,
-        offset3: 3,
-        offset4: 2,
-    },
-    bottomBit: 'cove',
-    bottomBitOpts: {
-        radius1: 6,
-        radius2: 8,
-        offset1: 3,
-        offset2: 2,
-        offset3: 3,
-        offset4: 2,
-    },
-}
-const routedCuboidData = routedCuboid(routedCuboidOpts)
-const routedCuboidModel = routedCuboidData[0]
-const routedCuboidProps = routedCuboidData[2]
-
-const routedCylinderEllipticOpts = {
-    topBit: 'roundOver',
-    topBitOpts: {
-        radius1: 6,
-        radius2: 8,
-        offset1: 3,
-        offset2: 2,
-        offset3: 3,
-        offset4: 2,
-    },
-    bottomBit: 'none',
-}
-const routedCylinderEllipticData = routedCylinderElliptic(routedCylinderEllipticOpts)
-const routedCylinderEllipticModel = routedCylinderEllipticData[0]
-const routedCylinderEllipticProps = routedCylinderEllipticData[2]
-
-
+const spaceUnit = math.inchesToMm(5.5)
 
 //==============================================================================
-
 
 /**
  * Main function to be rendered by JSCAD
  * @returns `geom3` or `geom3[]`
  */
 function main() {
-    const spaceUnit = math.inchesToMm(5.5)
+    const routedCuboidOpts = {
+        topBit: 'chamfer',
+        topBitOpts: {
+            radius1: 6,
+            radius2: 8,
+            offset1: 3,
+            offset2: 2,
+            offset3: 3,
+            offset4: 2,
+        },
+        bottomBit: 'cove',
+        bottomBitOpts: {
+            radius1: 6,
+            radius2: 8,
+            offset1: 3,
+            offset2: 2,
+            offset3: 3,
+            offset4: 2,
+        },
+    }
+    const routedCuboidModel = routedCuboid(routedCuboidOpts)[0]
+
+    const routedCylinderEllipticOpts = {
+        topBit: 'roundOver',
+        topBitOpts: {
+            radius1: 6,
+            radius2: 8,
+            offset1: 3,
+            offset2: 2,
+            offset3: 3,
+            offset4: 2,
+        },
+        bottomBit: 'none',
+    }
+    const routedCylinderEllipticModel = routedCylinderElliptic(routedCylinderEllipticOpts)[0]
 
     return [
         translate([spaceUnit * 0, spaceUnit * 0, spaceUnit * 0], routedCuboidModel),

@@ -10,7 +10,7 @@ export const swcadJsCalcs = [
 ]
 
 export const swcadJsComponents = [
-  { name: 'Beads and Bits', source: './lib-demo/components/beads-bits.js' },
+  { name: 'Beads and Bits (3D)', source: './lib-demo/components/beads-bits.js' },
   { name: 'Component Line', source: './lib-demo/components/component-line.js' },
   { name: 'Fittings', source: './lib-demo/components/fittings.js' },
   { name: 'Mesh Panel (3D)', source: './lib-demo/components/mesh-panel-examples.js' },
@@ -20,6 +20,7 @@ export const swcadJsComponents = [
 ]
 
 export const swcadJsProfiles = [
+  { name: 'Beads and Bits (2D)', source: './lib-demo/profiles/beads-bits.js' },
   { name: 'Connections', source: './lib-demo/profiles/connections.js' },
   { name: 'Jointed Panels', source: './lib-demo/profiles/joint-panels.js' },
   { name: 'Mesh Panel (2D)', source: './lib-demo/profiles/mesh-2d.js' },

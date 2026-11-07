@@ -14,8 +14,9 @@ const {
     text,
 } = swcadJs.profiles
 
+const spaceUnit = math.inchesToMm(2.25)
+
 function main() {
-    const spaceUnit = math.inchesToMm(2.25)
 
     const textContent = text.basicText({
         message: 'Hello world! Nice to see you.',

@@ -17,17 +17,17 @@ const spaceUnit = math.inchesToMm(2)
 
 const main = () => {
     const areaSize = [15, 25]
-    const pointClouds = []
 
-    pointClouds.push(geometry.getTriangularPtsInArea(areaSize[0], areaSize[1], 5, false));
-    pointClouds.push(geometry.getTriangularPtsInArea(areaSize[0], areaSize[1], 5));
-    pointClouds.push(geometry.getSquarePtsInArea(areaSize[0], areaSize[1], 5, false));
-    pointClouds.push(geometry.getSquarePtsInArea(areaSize[0], areaSize[1], 5));
+    const pointClouds = [
+        geometry.getTriangularPtsInArea(areaSize[0], areaSize[1], 5, false),
+        geometry.getTriangularPtsInArea(areaSize[0], areaSize[1], 5),
+        geometry.getSquarePtsInArea(areaSize[0], areaSize[1], 5, false),
+        geometry.getSquarePtsInArea(areaSize[0], areaSize[1], 5),
+    ]
 
     console.log(pointClouds)
 
     const ptCloudModels = []
-
     pointClouds.forEach((ptCloud, idx) => {
         const pointGeoms = []
         pointGeoms.push(sphere({ radius: 3 }))
