@@ -1,6 +1,6 @@
 {
   "name": "sw-jscad-web",
-  "version": "0.2.3",
+  "version": "0.2.4-alpha.0",
   "type": "module",
   "scripts": {
     "start": "node build.js --dev --skipDocs",
@@ -33,9 +33,9 @@
     "sw-jscad-builders": "0.0.4",
     "sw-jscad-families": "0.0.9",
     "sw-jscad-ui": "0.1.4",
-    "swcad-js": "0.15.2",
+    "swcad-js": "0.15.4",
     "swcad-js-test": "*",
-    "swcad-js-helpers": "0.0.3",
+    "swcad-js-helpers": "0.0.4",
     "swcad-js-helpers-test": "*",
     "three": "^0.147.0"
   },
