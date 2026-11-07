@@ -14,9 +14,9 @@ const {
     text,
 } = swcadJs.components
 
-function main() {
-    const spaceUnit = math.inchesToMm(1.25)
+const spaceUnit = math.inchesToMm(1.25)
 
+function main() {
     const flatTextContent = text.flatText({
         message: 'Hello world! Nice to see you.',
         fontSize: 4,

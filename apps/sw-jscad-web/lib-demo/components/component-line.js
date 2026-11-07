@@ -15,8 +15,9 @@ const {
     componentLine,
 } = swcadJs.components
 
+const spaceUnit = math.inchesToMm(2.25)
+
 function main() {
-    const spaceUnit = math.inchesToMm(2.25)
 
     const baseComponent1 = cuboid({ size: [15, 10, 5] })
     const baseComponent2 = cuboid({ size: [10, 15, 5] })

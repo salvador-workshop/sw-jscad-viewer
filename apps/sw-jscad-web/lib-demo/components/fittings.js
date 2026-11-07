@@ -41,10 +41,12 @@ function main() {
         dowelRadius: 3.25 / 2,
         length: math.inchesToMm(5 / 16),
     })[0]
+
     const roundProfile2 = fittings.invRoundFittingCutProfile({
         dowelRadius: 3.25 / 2,
         length: math.inchesToMm(5 / 16),
     })[0]
+
     const rectProfile1 = fittings.rectFittingCutProfile({
         subjectSize: [math.inchesToMm(1 / 4), math.inchesToMm(1 / 8)],
         length: math.inchesToMm(5 / 16),
