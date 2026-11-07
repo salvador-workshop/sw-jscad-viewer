@@ -20,6 +20,7 @@ const main = () => {
     const layoutOpts = {
         layoutMargin: 15,
         layoutSpace: 5,
+        noFrame: true,
     }
 
     const profile1 = shapes.square.cornerCircNotch({ sqLength: 25 });
