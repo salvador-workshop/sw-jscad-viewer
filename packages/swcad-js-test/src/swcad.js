@@ -3182,12 +3182,13 @@ var require_box_curve = __commonJS({
         } = modelProperties.dims;
         const blank = rectangle({ size });
         const cutaway = ellipse({ radius: ellipseRadiusQtr });
-        const mainModel = subtract(
+        const cutCurve = subtract(
           align({
             modes: ["max", "max", "center"]
           }, blank),
           position.ctr(cutaway)
         );
+        const mainModel = position.ctr(cutCurve);
         const modelParts = {
           mainModel
         };
@@ -3204,12 +3205,13 @@ var require_box_curve = __commonJS({
         } = modelProperties.dims;
         const blank = rectangle({ size });
         const cutaway = ellipse({ radius: ellipseRadiusHalf });
-        const mainModel = subtract(
+        const cutCurve = subtract(
           align({
             modes: ["center", "max", "center"]
           }, blank),
           position.ctr(cutaway)
         );
+        const mainModel = position.ctr(cutCurve);
         const modelParts = {
           mainModel
         };
@@ -3248,7 +3250,8 @@ var require_reinforced_rect = __commonJS({
         hullChain
       } = jscad.hulls;
       const {
-        math
+        math,
+        position
       } = swcadJs.calcs;
       const {
         standards
@@ -3489,7 +3492,7 @@ var require_reinforced_rect = __commonJS({
         const rectOutlineInst = rectOutline(modelProperties);
         const rectPrimaryBracingInst = rectPrimaryBracing(modelProperties);
         const rectSecondaryBracingInst = rectSecondaryBracing(modelProperties);
-        let mainModel = finalAssembly(modelProperties);
+        let mainModel = position.ctr(finalAssembly(modelProperties));
         let modelParts = {
           rectOutline: rectOutlineInst,
           rectPrimaryBracing: rectPrimaryBracingInst,
@@ -3532,6 +3535,9 @@ var require_text = __commonJS({
       const { translate } = jscad.transforms;
       const { vectorText } = jscad.text;
       const { hullChain } = jscad.hulls;
+      const {
+        position
+      } = swcadJs.calcs;
       const basicText = (opts) => {
         const lineRadius = opts.charLineWidth / 2;
         const lineCorner = circle({ radius: lineRadius });
@@ -3541,7 +3547,8 @@ var require_text = __commonJS({
           const corners = segmentPoints.map((point) => translate(point, lineCorner));
           lineSegments.push(hullChain(corners));
         });
-        return union(lineSegments);
+        const bText = union(lineSegments);
+        return position.ctr(bText);
       };
       return {
         basicText
@@ -4702,7 +4709,8 @@ var require_mesh2 = __commonJS({
     var mesh3dInit = ({ jscad, swcadJs }) => {
       const { extrudeLinear } = jscad.extrusions;
       const {
-        math
+        math,
+        position
       } = swcadJs.calcs;
       const {
         standards
@@ -4726,7 +4734,7 @@ var require_mesh2 = __commonJS({
           holePattern
         })[0];
         const mPanel = extrudeLinear({ height: thickness }, mPanelProfile);
-        return mPanel;
+        return position.ctr(mPanel);
       };
       return {
         meshPanel
@@ -4746,7 +4754,8 @@ var require_box_support = __commonJS({
         standards
       } = swcadJs.data;
       const {
-        math
+        math,
+        position
       } = swcadJs.calcs;
       const {
         reinforcements
@@ -4890,7 +4899,10 @@ var require_box_support = __commonJS({
           margin
         });
         const boxCurvesQtrModel = boxCurvesQtrData[0];
-        const mainModel = extrudeLinear({ height: marginHeight }, boxCurvesQtrModel);
+        const mainModel = position.ctr(extrudeLinear(
+          { height: marginHeight },
+          boxCurvesQtrModel
+        ));
         const modelParts = {
           mainModel
         };
@@ -4910,7 +4922,10 @@ var require_box_support = __commonJS({
           margin
         });
         const boxCurvesHalfModel = boxCurvesHalfData[0];
-        const mainModel = extrudeLinear({ height: marginHeight }, boxCurvesHalfModel);
+        const mainModel = position.ctr(extrudeLinear(
+          { height: marginHeight },
+          boxCurvesHalfModel
+        ));
         const modelParts = {
           mainModel
         };
@@ -5249,7 +5264,8 @@ var require_reinforced_rect_panel = __commonJS({
         extrudeLinear
       } = jscad.extrusions;
       const {
-        math
+        math,
+        position
       } = swcadJs.calcs;
       const {
         standards
@@ -5387,7 +5403,10 @@ var require_reinforced_rect_panel = __commonJS({
           reinforcementThickness
         };
         const reinforcedRect = reinforcements.reinforcedRect(reinforcedRectOpts)[0];
-        const extrudedReinforcedRect = extrudeLinear({ height: size[2] }, reinforcedRect);
+        const extrudedReinforcedRect = position.ctr(extrudeLinear(
+          { height: size[2] },
+          reinforcedRect
+        ));
         const mainModel = extrudedReinforcedRect;
         const modelParts = {
           mainModel
@@ -5576,7 +5595,7 @@ var require_brackets = __commonJS({
           bracketBodyBase,
           align({ modes: ["center", "min", "min"] }, bracketReinforcementsAssembly)
         );
-        const mainModel = rightAngleBracketAssembly;
+        const mainModel = position.ctr(rightAngleBracketAssembly);
         const modelParts = {
           mainModel
         };
@@ -5659,7 +5678,7 @@ var require_brackets = __commonJS({
             relativeTo: yAssemblyPt
           }, bracketReinforcementsYAssembly)
         );
-        const mainModel = cornerBracketAssembly;
+        const mainModel = position.ctr(cornerBracketAssembly);
         const modelParts = {
           mainModel
         };
@@ -6098,7 +6117,8 @@ var require_text2 = __commonJS({
           const corners = segmentPoints.map((point) => translate(point, lineCorner));
           lineSegments.push(hullChain(corners));
         });
-        return union(lineSegments);
+        const eText = union(lineSegments);
+        return position.ctr(eText);
       };
       const textPanel = (opts) => {
         const extrudeHt = opts.extrudeHeight || DEFAULT_EXTRUDE_HEIGHT;
