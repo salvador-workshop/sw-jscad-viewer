@@ -3,7 +3,7 @@ const jscad = require('@jscad/modeling')
 
 const { translate } = jscad.transforms;
 
-const swcadJs = require('swcad-js').init({ jscad });
+const swcadJs = require('swcad-js-test').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
@@ -73,16 +73,31 @@ const main = () => {
         openWebJoist3,
     ]
 
+    const rightAngleBracket = reinforcements.brackets.rightAngleBracket({})[0]
+    const rightAngleCornerBracket = reinforcements.brackets.rightAngleCornerBracket({
+        size: [math.inchesToMm(1), math.inchesToMm(1.5), math.inchesToMm(0.75)],
+        numReinforcements: [2,3]
+    })[0]
+
+    const bracketModels = [
+        rightAngleBracket,
+        rightAngleCornerBracket,
+    ]
+
     const outModelsBasic = basicModels.map((oModel, idx) => {
         return translate([idx * spaceUnit, 0, 0], oModel)
     })
-    const outModelsJoists = joistModels.map((oModel, idx) => {
-        return translate([idx * spaceUnit, spaceUnit * 2.5, 0], oModel)
+    const outModelsJoists = joistModels.map((jModel, idx) => {
+        return translate([idx * spaceUnit, spaceUnit * 2.5, 0], jModel)
+    })
+    const outModelsBrackets = bracketModels.map((bModel, idx) => {
+        return translate([idx * spaceUnit, spaceUnit * 5, 0], bModel)
     })
 
     return [
         ...outModelsBasic,
-        ...outModelsJoists
+        ...outModelsJoists,
+        ...outModelsBrackets,
     ];
 }
 
