@@ -164,7 +164,7 @@ var require_geo_reg_poly = __commonJS({
     var geoRegPoly = ({ jscad, swcadJs }) => {
       return {
         /**
-         * Calculates side length from apothem and # of sides
+         * Calculates side length from apothem and # of sides.
          * @memberof calcs.geometry.regPoly
          * @param {number} apothem - distance from center to the midpoint of one side
          * @param {number} numSides - number of polygon sides
@@ -174,7 +174,7 @@ var require_geo_reg_poly = __commonJS({
           return apothem * 2 * Math.tan(Math.PI / numSides);
         },
         /**
-         * Calculates side length from circumradius and # of sides
+         * Calculates side length from circumradius and # of sides.
          * @memberof calcs.geometry.regPoly
          * @param {number} circumradius - distance from center to vertex
          * @param {number} numSides - number of polygon sides
@@ -184,7 +184,7 @@ var require_geo_reg_poly = __commonJS({
           return circumradius * 2 * Math.sin(Math.PI / numSides);
         },
         /**
-         * Calculates apothem from circumradius and # of sides
+         * Calculates apothem from circumradius and # of sides.
          * @memberof calcs.geometry.regPoly
          * @param {number} circumradius - distance from center to vertex
          * @param {number} numSides - number of polygon sides
@@ -194,7 +194,7 @@ var require_geo_reg_poly = __commonJS({
           return circumradius * Math.cos(Math.PI / numSides);
         },
         /**
-         * Calculates apothem from side length and # of sides
+         * Calculates apothem from side length and # of sides.
          * @memberof calcs.geometry.regPoly
          * @param {number} sideLength - side length
          * @param {number} numSides - number of polygon sides
@@ -204,7 +204,7 @@ var require_geo_reg_poly = __commonJS({
           return sideLength / 2 * Math.tan(Math.PI / numSides);
         },
         /**
-         * Calculates circumradius from apothem and # of sides
+         * Calculates circumradius from apothem and # of sides.
          * @memberof calcs.geometry.regPoly
          * @param {number} apothem - distance from center to the midpoint of one side
          * @param {number} numSides - number of polygon sides
@@ -214,7 +214,7 @@ var require_geo_reg_poly = __commonJS({
           return apothem / Math.cos(Math.PI / numSides);
         },
         /**
-         * Calculates circumradius from side length and # of sides
+         * Calculates circumradius from side length and # of sides.
          * @memberof calcs.geometry.regPoly
          * @param {number} sideLength - side length
          * @param {number} numSides - number of polygon sides
@@ -224,7 +224,7 @@ var require_geo_reg_poly = __commonJS({
           return sideLength / 2 * Math.sin(Math.PI / numSides);
         },
         /**
-         * Calculates interior angle from # of sides
+         * Calculates interior angle from # of sides.
          * @memberof calcs.geometry.regPoly
          * @param {number} numSides - number of polygon sides
          * @returns interior angle
@@ -851,7 +851,7 @@ var require_math = __commonJS({
       } = swcadJs.data.constants;
       return {
         /**
-         * Checks if a given integer is even
+         * Checks if a given integer is even.
          * @param {number} n - an integer
          * @returns {boolean} true if even, false if not
          * @memberof calcs.math
@@ -860,7 +860,7 @@ var require_math = __commonJS({
           return n % 2 == 0;
         },
         /**
-         * Checks if a given integer is odd
+         * Checks if a given integer is odd.
          * @memberof calcs.math
          * @param {number} n - an integer
          * @returns {boolean} true if odd, false if not
@@ -869,14 +869,14 @@ var require_math = __commonJS({
           return Math.abs(n % 2) == 1;
         },
         /**
-         * Converts distance in inches to mm
+         * Converts distance in inches to mm.
          * @memberof calcs.math
          * @param {number} numInches - distance in inches
          * @returns {number} distance in mm
          */
         inchesToMm: (numInches) => numInches * INCHES_MM_FACTOR,
         /**
-         * Converts distance in mm to inches
+         * Converts distance in mm to inches.
          * @memberof calcs.math
          * @param {number} numMils - distance in mm
          * @returns {number} distance in inches
@@ -898,7 +898,7 @@ var require_math = __commonJS({
           return [int1, int2 + 1];
         },
         /**
-         * Gets a random integer between `min` and `max`. The maximum is exclusive and the minimum is inclusive
+         * Gets a random integer between `min` and `max`. The maximum is exclusive and the minimum is inclusive.
          * @param {number} min
          * @param {number} max
          * @returns {number} random integer
@@ -1576,13 +1576,11 @@ var require_connections = __commonJS({
         circle,
         ellipse: ellipseShape,
         cuboid,
-        rectangle,
-        triangle
+        rectangle
       } = jscad.primitives;
       const {
         align,
-        translate,
-        mirror
+        translate
       } = jscad.transforms;
       const {
         subtract,
@@ -2488,7 +2486,6 @@ var require_joint_panel = __commonJS({
         cuboid
       } = jscad.primitives;
       const {
-        align,
         rotate
       } = jscad.transforms;
       const {
@@ -2563,7 +2560,7 @@ var require_joint_panel = __commonJS({
           size = defaults.opts.size,
           jointWidth = defaults.opts.jointWidth,
           jointMargin = defaults.opts.jointMargin,
-          jointNumConnectors = defaults.opts.jointNumConnectors,
+          jointNumConnectors: jointNumConnectors2 = defaults.opts.jointNumConnectors,
           axis = defaults.opts.axis,
           type = defaults.opts.type,
           scale = defaults.opts.scale,
@@ -2580,7 +2577,7 @@ var require_joint_panel = __commonJS({
           size,
           jointWidth,
           jointMargin,
-          jointNumConnectors,
+          jointNumConnectors: jointNumConnectors2,
           axis,
           ...stdOpts
         };
@@ -2592,7 +2589,7 @@ var require_joint_panel = __commonJS({
           size,
           jointWidth,
           jointMargin,
-          jointNumConnectors,
+          jointNumConnectors: jointNumConnectors2,
           axis,
           type,
           scale,
@@ -2617,7 +2614,7 @@ var require_joint_panel = __commonJS({
           type,
           scale,
           axis,
-          jointNumConnectors
+          jointNumConnectors: jointNumConnectors2
         };
         const modelDims = {
           size,
@@ -2660,7 +2657,7 @@ var require_joint_panel = __commonJS({
         const {
           type,
           axis,
-          jointNumConnectors
+          jointNumConnectors: jointNumConnectors2
         } = modelProperties.opts;
         const {
           size,
@@ -2680,7 +2677,7 @@ var require_joint_panel = __commonJS({
         const jointOpts = {
           size: jointSize,
           interfaceMargin: jointMargin,
-          numConnectors: jointNumConnectors
+          numConnectors: jointNumConnectors2
         };
         let jointData = connections.tabRow(jointOpts);
         if (type == "dovetail") {
@@ -2729,7 +2726,7 @@ var require_joint_panel = __commonJS({
         const {
           type,
           axis,
-          jointNumConnectors
+          jointNumConnectors: jointNumConnectors2
         } = modelProperties.opts;
         const {
           size,
@@ -2742,11 +2739,11 @@ var require_joint_panel = __commonJS({
         const {
           centrePt
         } = modelProperties.points;
-        let jNumConnectors = jointNumConnectors;
-        if (typeof jointNumConnectors == "number") {
+        let jNumConnectors = jointNumConnectors2;
+        if (typeof jointNumConnectors2 == "number") {
           jNumConnectors = [
-            jointNumConnectors,
-            jointNumConnectors
+            jointNumConnectors2,
+            jointNumConnectors2
           ];
         }
         const jointSizeX = [width, totalJointWidth];
@@ -2856,7 +2853,6 @@ var require_mesh = __commonJS({
           scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP,
-          logMode: "normal",
           edgeMargin: math.inchesToMm(3 / 16),
           holeRadius: math.inchesToMm(0.125),
           holeDistance: math.inchesToMm(1),
@@ -2874,7 +2870,6 @@ var require_mesh = __commonJS({
           scale,
           interfaceThickness,
           fitGap,
-          logMode,
           size,
           edgeMargin,
           holeRadius,
@@ -2938,7 +2933,6 @@ var require_mesh = __commonJS({
           scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap,
-          logMode = defaults.opts.logMode,
           size = defaults.opts.size,
           edgeMargin = defaults.opts.edgeMargin,
           holeRadius = defaults.opts.holeRadius,
@@ -2950,7 +2944,6 @@ var require_mesh = __commonJS({
           scale,
           interfaceThickness,
           fitGap,
-          logMode,
           size,
           edgeMargin,
           holeRadius,
@@ -3834,7 +3827,6 @@ var require_component_line = __commonJS({
     "use strict";
     var moduleInit = ({ jscad, swcadJs }) => {
       const {
-        cylinderElliptic,
         cuboid
       } = jscad.primitives;
       const {
@@ -3854,7 +3846,6 @@ var require_component_line = __commonJS({
       } = jscad.hulls;
       const { TAU } = jscad.maths.constants;
       const {
-        constants,
         standards
       } = swcadJs.data;
       const {
@@ -3947,9 +3938,9 @@ var require_component_line = __commonJS({
         const {
           interfaceThickness,
           fitGap,
-          unitLength,
           type,
           scale,
+          unitLength,
           startPt,
           endPt,
           endOffset,
@@ -4347,10 +4338,7 @@ var require_round_fitting = __commonJS({
         const initOpts = roundFittingOpts(opts);
         const modelProperties = roundFittingProps(initOpts);
         const {
-          dowelRadius,
-          dowelDiam,
           interfaceThickness,
-          fitGap,
           length,
           width,
           simpleHeight
@@ -4379,14 +4367,8 @@ var require_round_fitting = __commonJS({
         const initOpts = roundFittingOpts(opts);
         const modelProperties = roundFittingProps(initOpts);
         const {
-          dowelRadius,
-          dowelDiam,
-          interfaceThickness,
-          fitGap,
           length,
           width,
-          simpleHeight,
-          invCutProfileHeight,
           invSimpleHeight
         } = modelProperties.dims;
         const baseRect = rectangle({
@@ -4497,48 +4479,18 @@ var require_rectangular_fitting = __commonJS({
     "use strict";
     var rectangularFittingInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
+        rectangle
       } = jscad.primitives;
       const {
         align,
-        translate,
-        rotate,
-        mirror
+        rotate
       } = jscad.transforms;
       const {
-        intersect,
-        subtract,
-        union,
-        scission
+        subtract
       } = jscad.booleans;
       const {
-        extrudeLinear,
-        extrudeRotate,
-        project
+        extrudeLinear
       } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
         standards
       } = swcadJs.data;
@@ -4684,14 +4636,10 @@ var require_rectangular_fitting = __commonJS({
         const initOpts = rectangularFittingOpts(opts);
         const modelProperties = rectangularFittingProps(initOpts);
         const {
-          subjectSize,
-          subjectWidth,
-          subjectHeight,
           length,
           width,
           height,
-          interfaceThickness,
-          fitGap
+          interfaceThickness
         } = modelProperties.dims;
         const baseRect = rectangle({
           size: [width, height]
@@ -4752,14 +4700,9 @@ var require_mesh2 = __commonJS({
   "packages/swcad-js-components/src/mesh/index.js"(exports2, module2) {
     "use strict";
     var mesh3dInit = ({ jscad, swcadJs }) => {
-      const { cylinder, triangle, rectangle } = jscad.primitives;
-      const { translate, rotate, align, mirror } = jscad.transforms;
-      const { subtract, union } = jscad.booleans;
-      const { extrudeRotate, extrudeLinear } = jscad.extrusions;
-      const { TAU } = jscad.maths.constants;
+      const { extrudeLinear } = jscad.extrusions;
       const {
-        math,
-        position
+        math
       } = swcadJs.calcs;
       const {
         standards
@@ -4798,16 +4741,6 @@ var require_box_support = __commonJS({
   "packages/swcad-js-components/src/reinforcements/box-support.js"(exports2, module2) {
     "use strict";
     var boxSupportInit = ({ jscad, swcadJs }) => {
-      const {
-        ellipse,
-        rectangle
-      } = jscad.primitives;
-      const {
-        align
-      } = jscad.transforms;
-      const {
-        subtract
-      } = jscad.booleans;
       const { extrudeLinear } = jscad.extrusions;
       const {
         standards
@@ -5078,7 +5011,6 @@ var require_reinforced_joist = __commonJS({
           scale,
           interfaceThickness,
           fitGap,
-          logMode,
           width,
           length,
           reinforcementLevel,
@@ -5150,7 +5082,6 @@ var require_reinforced_joist = __commonJS({
           scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap,
-          logMode = defaults.opts.logMode,
           width = defaults.opts.width,
           length = defaults.opts.length,
           reinforcementLevel = defaults.opts.reinforcementLevel,
@@ -5162,7 +5093,6 @@ var require_reinforced_joist = __commonJS({
           scale,
           interfaceThickness,
           fitGap,
-          logMode,
           width,
           length,
           reinforcementLevel,
@@ -5489,6 +5419,262 @@ var require_reinforcements2 = __commonJS({
       };
     };
     module2.exports = { init: reinforcementsInit };
+  }
+});
+
+// packages/swcad-js-components/src/reinforcements/brackets.js
+var require_brackets = __commonJS({
+  "packages/swcad-js-components/src/reinforcements/brackets.js"(exports2, module2) {
+    "use strict";
+    var bracketsInit = ({ jscad, swcadJs }) => {
+      const {
+        cuboid
+      } = jscad.primitives;
+      const {
+        align,
+        rotate,
+        translate
+      } = jscad.transforms;
+      const {
+        union
+      } = jscad.booleans;
+      const {
+        measureBoundingBox
+      } = jscad.measurements;
+      const { TAU } = jscad.maths.constants;
+      const {
+        standards
+      } = swcadJs.data;
+      const {
+        math,
+        position
+      } = swcadJs.calcs;
+      const {
+        reinforcements
+      } = swcadJs.components;
+      const bracketsDefaults = () => {
+        const defaultValues = {
+          dims: {
+            size: [
+              math.inchesToMm(1.5),
+              math.inchesToMm(0.5),
+              math.inchesToMm(0.75)
+            ]
+          },
+          opts: {
+            numReinforcements: 4
+          },
+          points: {},
+          types: {},
+          constants: {}
+        };
+        const standardOpts = {
+          interfaceThickness: standards.INTERFACE_THICKNESS
+        };
+        const defaultOpts = {
+          ...standardOpts,
+          size: defaultValues.dims.size,
+          numReinforcements: defaultValues.opts.numReinforcements
+        };
+        return {
+          opts: defaultOpts,
+          vals: defaultValues
+        };
+      };
+      const bracketsOpts = (opts) => {
+        const defaults = bracketsDefaults();
+        console.log("bracketsOpts() -- opts", opts);
+        const {
+          size = defaults.opts.size,
+          numReinforcements = defaults.opts.numReinforcements,
+          interfaceThickness = defaults.opts.interfaceThickness
+        } = opts;
+        const stdOpts = {
+          interfaceThickness
+        };
+        const initOpts = {
+          size,
+          numReinforcements,
+          ...stdOpts
+        };
+        console.log("bracketsOpts() -- initOpts", initOpts);
+        return initOpts;
+      };
+      const bracketsProps = (opts) => {
+        const defaults = bracketsDefaults();
+        console.log("bracketsProps() -- opts", opts);
+        const {
+          size,
+          numReinforcements,
+          interfaceThickness
+        } = opts;
+        const length = size[0];
+        const width = size[1];
+        const height = size[2];
+        const modelConstants = {};
+        const modelOpts = {
+          numReinforcements
+        };
+        const modelDims = {
+          size,
+          length,
+          width,
+          height,
+          interfaceThickness
+        };
+        const modelPoints = {};
+        const modelComponents = {};
+        const modelProperties = {
+          metadata: {},
+          constants: modelConstants,
+          opts: modelOpts,
+          dims: modelDims,
+          points: modelPoints,
+          components: modelComponents
+        };
+        console.log("bracketsProps() -- modelProperties", modelProperties);
+        return modelProperties;
+      };
+      const rightAngleBracket = (opts) => {
+        const defaults = bracketsDefaults();
+        const initOpts = bracketsOpts(opts);
+        const modelProperties = bracketsProps(initOpts);
+        const {
+          numReinforcements
+        } = modelProperties.opts;
+        const {
+          size,
+          length,
+          width,
+          height,
+          interfaceThickness
+        } = modelProperties.dims;
+        let bracketReinf = reinforcements.boxSupport.boxSupportQuarter({
+          size: [height, width]
+        })[0];
+        bracketReinf = position.ctrMin(rotate([0, TAU / -4, 0], bracketReinf));
+        const reinforcementsPtsLength = length - interfaceThickness;
+        const reinforcementsSpacing = reinforcementsPtsLength / (numReinforcements - 1);
+        const bracketReinforcements = [];
+        for (let bReinfIdx = 0; bReinfIdx < numReinforcements; bReinfIdx++) {
+          const currentOffset = [reinforcementsSpacing * bReinfIdx, 0, 0];
+          bracketReinforcements.push(translate(
+            currentOffset,
+            bracketReinf
+          ));
+        }
+        const bracketReinforcementsAssembly = union(
+          ...bracketReinforcements
+        );
+        const sidePanel = cuboid({ size: [length, interfaceThickness, height] });
+        const basePanel = cuboid({ size: [length, width, interfaceThickness] });
+        const bracketBodyBase = union(
+          align({ modes: ["center", "min", "min"] }, sidePanel),
+          align({ modes: ["center", "min", "min"] }, basePanel)
+        );
+        const rightAngleBracketAssembly = union(
+          bracketBodyBase,
+          align({ modes: ["center", "min", "min"] }, bracketReinforcementsAssembly)
+        );
+        const mainModel = rightAngleBracketAssembly;
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const rightAngleCornerBracket = (opts) => {
+        const defaults = bracketsDefaults();
+        const initOpts = bracketsOpts(opts);
+        const modelProperties = bracketsProps(initOpts);
+        const {
+          numReinforcements
+        } = modelProperties.opts;
+        const {
+          size,
+          length,
+          width,
+          height,
+          interfaceThickness
+        } = modelProperties.dims;
+        const sidePanelX = cuboid({ size: [length, interfaceThickness, height] });
+        const sidePanelY = cuboid({ size: [interfaceThickness, width, height] });
+        const basePanel = cuboid({ size: [length, width, interfaceThickness] });
+        const cornerBracketBodyBase = union(
+          align({ modes: ["min", "min", "min"] }, sidePanelX),
+          align({ modes: ["min", "min", "min"] }, sidePanelY),
+          align({ modes: ["min", "min", "min"] }, basePanel)
+        );
+        let numReinfs = numReinforcements;
+        if (typeof jointNumConnectors == "number") {
+          numReinfs = [
+            numReinforcements,
+            numReinforcements
+          ];
+        }
+        let bracketReinfX = reinforcements.boxSupport.boxSupportQuarter({
+          size: [height, width / 2]
+        })[0];
+        bracketReinfX = position.ctrMin(rotate([0, TAU / -4, 0], bracketReinfX));
+        const reinforcementsPtsLengthX = length - interfaceThickness;
+        const reinforcementsSpacingX = reinforcementsPtsLengthX / numReinfs[0];
+        const bracketReinforcementsX = [];
+        for (let bReinfXIdx = 0; bReinfXIdx < numReinfs[0]; bReinfXIdx++) {
+          const currentOffset = [reinforcementsSpacingX * bReinfXIdx, 0, 0];
+          bracketReinforcementsX.push(translate(
+            currentOffset,
+            bracketReinfX
+          ));
+        }
+        const bracketReinforcementsXAssembly = union(
+          ...bracketReinforcementsX
+        );
+        let bracketReinfY = reinforcements.boxSupport.boxSupportQuarter({
+          size: [height, length / 2]
+        })[0];
+        bracketReinfY = position.ctrMin(rotate([0, TAU / -4, TAU / -4], bracketReinfY));
+        const reinforcementsPtsLengthY = width - interfaceThickness;
+        const reinforcementsSpacingY = reinforcementsPtsLengthY / numReinfs[1];
+        const bracketReinforcementsY = [];
+        for (let bReinfYIdx = 0; bReinfYIdx < numReinfs[1]; bReinfYIdx++) {
+          const currentOffset = [0, reinforcementsSpacingY * bReinfYIdx, 0];
+          bracketReinforcementsY.push(translate(
+            currentOffset,
+            bracketReinfY
+          ));
+        }
+        const bracketReinforcementsYAssembly = union(
+          ...bracketReinforcementsY
+        );
+        const cornerBracketBodyBaseBbox = measureBoundingBox(cornerBracketBodyBase);
+        const xAssemblyPt = [cornerBracketBodyBaseBbox[1][0], 0, 0];
+        const yAssemblyPt = [0, cornerBracketBodyBaseBbox[1][1], 0];
+        const cornerBracketAssembly = union(
+          cornerBracketBodyBase,
+          align({
+            modes: ["max", "min", "min"],
+            relativeTo: xAssemblyPt
+          }, bracketReinforcementsXAssembly),
+          align({
+            modes: ["min", "max", "min"],
+            relativeTo: yAssemblyPt
+          }, bracketReinforcementsYAssembly)
+        );
+        const mainModel = cornerBracketAssembly;
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      return {
+        defaults: bracketsDefaults,
+        props: bracketsProps,
+        rightAngleBracket,
+        rightAngleCornerBracket
+      };
+    };
+    module2.exports = {
+      init: bracketsInit
+    };
   }
 });
 
@@ -5874,7 +6060,7 @@ var require_text2 = __commonJS({
     var textUtils = ({ jscad, swcadJs }) => {
       const { union, subtract } = jscad.booleans;
       const { cuboid, cylinderElliptic } = jscad.primitives;
-      const { align, translate } = jscad.transforms;
+      const { translate } = jscad.transforms;
       const { vectorText } = jscad.text;
       const { hullChain } = jscad.hulls;
       const { extrudeLinear } = jscad.extrusions;
@@ -5955,6 +6141,7 @@ var require_src4 = __commonJS({
     var fittingsModule = require_fittings();
     var meshModule = require_mesh2();
     var reinforcementsModule = require_reinforcements2();
+    var reinforcementBracketsModule = require_brackets();
     var routedShapesModule = require_routed_shapes();
     var textModule = require_text2();
     var componentsInit = ({ jscad, swcadJs }) => {
@@ -5968,11 +6155,17 @@ var require_src4 = __commonJS({
       const routedShapes = routedShapesModule.init({ jscad, swcadJs: preLib });
       const mesh = meshModule.init({ jscad, swcadJs: preLib });
       const componentLine = componentLineModule.init({ jscad, swcadJs: preLib });
+      const setupReinforcements = reinforcementsModule.init({ jscad, swcadJs: preLib });
       preLib.components = {
         beadsBits,
         routedShapes,
         mesh,
-        componentLine
+        componentLine,
+        reinforcements: setupReinforcements
+      };
+      const finalReinforcements = {
+        ...setupReinforcements,
+        brackets: reinforcementBracketsModule.init({ jscad, swcadJs: preLib })
       };
       const components = {
         beadsBits,
@@ -5980,7 +6173,7 @@ var require_src4 = __commonJS({
         mesh,
         componentLine,
         fittings: fittingsModule.init({ jscad, swcadJs: preLib }),
-        reinforcements: reinforcementsModule.init({ jscad, swcadJs: preLib }),
+        reinforcements: finalReinforcements,
         text: textModule.init({ jscad, swcadJs: preLib })
       };
       return components;
