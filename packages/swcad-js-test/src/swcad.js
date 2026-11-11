@@ -6100,13 +6100,36 @@ var require_reinforced_length = __commonJS({
           reinforcementThickness,
           spineHeight: size[2]
         });
+        const endPiece = cuboid({
+          size: [
+            reinforcementThickness,
+            size[1],
+            size[2]
+          ]
+        });
+        const endPiece1 = align(
+          {
+            modes: ["min", "center", "min"],
+            relativeTo: [size[0] / -2, 0, 0]
+          },
+          endPiece
+        );
+        const endPiece2 = align(
+          {
+            modes: ["max", "center", "min"],
+            relativeTo: [size[0] / 2, 0, 0]
+          },
+          endPiece
+        );
         const lightReinfUnitAssembly = union(
           position.ctrMin(lightReinfUnitBase),
-          position.ctrMin(lightReinfUnitReinforcement)
+          position.ctrMin(lightReinfUnitReinforcement),
+          endPiece1,
+          endPiece2
         );
         return position.ctr(lightReinfUnitAssembly);
       };
-      const mediumReinforcedLengthCoreUnit = (opts) => {
+      const mediumReinforcedLengthUnit = (opts) => {
         const {
           size,
           baseThickness,
@@ -6123,13 +6146,36 @@ var require_reinforced_length = __commonJS({
           reinforcementThickness,
           spineHeight: size[2]
         });
+        const endPiece = cuboid({
+          size: [
+            reinforcementThickness,
+            size[1],
+            size[2]
+          ]
+        });
+        const endPiece1 = align(
+          {
+            modes: ["min", "center", "min"],
+            relativeTo: [size[0] / -2, 0, 0]
+          },
+          endPiece
+        );
+        const endPiece2 = align(
+          {
+            modes: ["max", "center", "min"],
+            relativeTo: [size[0] / 2, 0, 0]
+          },
+          endPiece
+        );
         const mediumReinfUnitAssembly = union(
           position.ctrMin(mediumReinfUnitBase),
-          position.ctrMin(mediumReinfUnitReinforcement)
+          position.ctrMin(mediumReinfUnitReinforcement),
+          endPiece1,
+          endPiece2
         );
         return position.ctr(mediumReinfUnitAssembly);
       };
-      const heavyReinforcementLengthUnit = (opts) => {
+      const heavyReinforcedLengthUnit = (opts) => {
         const {
           size,
           baseThickness,
@@ -6152,13 +6198,73 @@ var require_reinforced_length = __commonJS({
         );
         return position.ctr(reinfUnitAssembly);
       };
+      const outputKeepBox = (opts) => {
+        const { size } = opts;
+        return cuboid({
+          size: [
+            size[0],
+            size[1] * 1.5,
+            size[2] * 1.5
+          ]
+        });
+      };
       const lightReinforcedLength = (opts) => {
         const defaults = reinforcedLengthDefaults();
         const initOpts = reinforcedLengthOpts(opts);
         const modelProperties = reinforcedLengthProps(initOpts);
-        const mainModel = cuboid();
+        const {
+          size,
+          unitLength,
+          baseThickness,
+          reinforcementThickness
+        } = modelProperties.dims;
+        const lightLengthUnitBase = lightReinforcedLengthUnit({
+          size: [unitLength, size[1], size[2]],
+          baseThickness,
+          reinforcementThickness
+        });
+        const numUnits = Math.ceil(size[0] / unitLength) + 1;
+        const lengthOffset = unitLength - reinforcementThickness;
+        let lightReinfLengthAssembly = lightLengthUnitBase;
+        for (let assemblyIdx = 1; assemblyIdx < numUnits; assemblyIdx++) {
+          const currentOffset = assemblyIdx * lengthOffset;
+          lightReinfLengthAssembly = union(
+            lightReinfLengthAssembly,
+            translate(
+              [currentOffset, 0, 0],
+              lightLengthUnitBase
+            )
+          );
+        }
+        const lightReinfLength = intersect(
+          position.ctr(lightReinfLengthAssembly),
+          outputKeepBox({ size })
+        );
+        const endPiece = cuboid({
+          size: [
+            reinforcementThickness,
+            size[1],
+            size[2]
+          ]
+        });
+        const endPiece1 = align(
+          {
+            modes: ["min", "center", "center"],
+            relativeTo: [size[0] / -2, 0, 0]
+          },
+          endPiece
+        );
+        const endPiece2 = align(
+          {
+            modes: ["max", "center", "center"],
+            relativeTo: [size[0] / 2, 0, 0]
+          },
+          endPiece
+        );
+        const mainModel = union(lightReinfLength, endPiece1, endPiece2);
         const modelParts = {
-          mainModel
+          mainModel,
+          unit: lightLengthUnitBase
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -6166,9 +6272,59 @@ var require_reinforced_length = __commonJS({
         const defaults = reinforcedLengthDefaults();
         const initOpts = reinforcedLengthOpts(opts);
         const modelProperties = reinforcedLengthProps(initOpts);
-        const mainModel = cuboid();
+        const {
+          size,
+          unitLength,
+          baseThickness,
+          reinforcementThickness
+        } = modelProperties.dims;
+        const mediumLengthUnitBase = mediumReinforcedLengthUnit({
+          size: [unitLength, size[1], size[2]],
+          baseThickness,
+          reinforcementThickness
+        });
+        const numUnits = Math.ceil(size[0] / unitLength) + 1;
+        const lengthOffset = unitLength - reinforcementThickness;
+        let mediumReinfLengthAssembly = mediumLengthUnitBase;
+        for (let assemblyIdx = 1; assemblyIdx < numUnits; assemblyIdx++) {
+          const currentOffset = assemblyIdx * lengthOffset;
+          mediumReinfLengthAssembly = union(
+            mediumReinfLengthAssembly,
+            translate(
+              [currentOffset, 0, 0],
+              mediumLengthUnitBase
+            )
+          );
+        }
+        const mediumReinfLength = intersect(
+          position.ctr(mediumReinfLengthAssembly),
+          outputKeepBox({ size })
+        );
+        const endPiece = cuboid({
+          size: [
+            reinforcementThickness,
+            size[1],
+            size[2]
+          ]
+        });
+        const endPiece1 = align(
+          {
+            modes: ["min", "center", "center"],
+            relativeTo: [size[0] / -2, 0, 0]
+          },
+          endPiece
+        );
+        const endPiece2 = align(
+          {
+            modes: ["max", "center", "center"],
+            relativeTo: [size[0] / 2, 0, 0]
+          },
+          endPiece
+        );
+        const mainModel = union(mediumReinfLength, endPiece1, endPiece2);
         const modelParts = {
-          mainModel
+          mainModel,
+          unit: mediumLengthUnitBase
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -6182,37 +6338,53 @@ var require_reinforced_length = __commonJS({
           baseThickness,
           reinforcementThickness
         } = modelProperties.dims;
-        const numUnits = Math.ceil(size[0] / unitLength) + 1;
-        const reinfEdgeUnitBase = heavyReinforcementLengthUnit({
+        const heavyLengthUnitBase = heavyReinforcedLengthUnit({
           size: [unitLength, size[1], size[2]],
           baseThickness,
           reinforcementThickness
         });
-        let reinfEdgePieceAssembly = reinfEdgeUnitBase;
-        for (let assemblyIdx = 0; assemblyIdx < numUnits; assemblyIdx++) {
-          const currentOffset = assemblyIdx * (unitLength - reinforcementThickness);
-          reinfEdgePieceAssembly = union(
-            reinfEdgePieceAssembly,
+        const numUnits = Math.ceil(size[0] / unitLength) + 1;
+        const lengthOffset = unitLength - reinforcementThickness;
+        let heavyReinfLengthAssembly = heavyLengthUnitBase;
+        for (let assemblyIdx = 1; assemblyIdx < numUnits; assemblyIdx++) {
+          const currentOffset = assemblyIdx * lengthOffset;
+          heavyReinfLengthAssembly = union(
+            heavyReinfLengthAssembly,
             translate(
               [currentOffset, 0, 0],
-              reinfEdgeUnitBase
+              heavyLengthUnitBase
             )
           );
         }
-        const keepBox = cuboid({
+        const heavyReinfLength = intersect(
+          position.ctr(heavyReinfLengthAssembly),
+          outputKeepBox({ size })
+        );
+        const endPiece = cuboid({
           size: [
-            size[0],
-            size[1] * 1.5,
-            size[2] * 1.5
+            reinforcementThickness,
+            size[1],
+            size[2]
           ]
         });
-        const reinfEdgePiece = intersect(
-          position.ctr(reinfEdgePieceAssembly),
-          keepBox
+        const endPiece1 = align(
+          {
+            modes: ["min", "center", "center"],
+            relativeTo: [size[0] / -2, 0, 0]
+          },
+          endPiece
         );
-        const mainModel = position.ctr(reinfEdgePiece);
+        const endPiece2 = align(
+          {
+            modes: ["max", "center", "center"],
+            relativeTo: [size[0] / 2, 0, 0]
+          },
+          endPiece
+        );
+        const mainModel = union(heavyReinfLength, endPiece1, endPiece2);
         const modelParts = {
-          mainModel
+          mainModel,
+          unit: heavyLengthUnitBase
         };
         return [mainModel, modelParts, modelProperties];
       };
