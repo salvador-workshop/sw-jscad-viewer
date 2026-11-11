@@ -262,15 +262,9 @@ var require_reinforcement = __commonJS({
           },
           points: {
             centre: [0, 0, 0]
-          },
-          types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
           }
         };
         const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
@@ -293,19 +287,13 @@ var require_reinforcement = __commonJS({
           },
           points: {
             centre: [0, 0]
-          },
-          typeDetails: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
           }
         };
         const defaultOpts = {
           size: defaultValues.dims.size,
           reinforcementPattern: defaultValues.opts.reinforcementPatterns[0],
           interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP,
-          type: "default",
-          scale: 1
+          fitGap: standards.FIT_GAP
         };
         return {
           opts: defaultOpts,
@@ -316,14 +304,10 @@ var require_reinforcement = __commonJS({
         const defaults = modelDefaults();
         const {
           size = defaults.opts.size,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -339,17 +323,13 @@ var require_reinforcement = __commonJS({
           size = defaults.opts.size,
           reinforcementPattern = defaults.opts.reinforcementPattern,
           interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale
+          fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
           size,
           reinforcementPattern,
           interfaceThickness,
-          fitGap,
-          type,
-          scale
+          fitGap
         };
         const initOpts = {
           size,
@@ -361,8 +341,6 @@ var require_reinforcement = __commonJS({
         const defaults = modelDefaults();
         const {
           size,
-          type,
-          scale,
           interfaceThickness,
           fitGap
         } = opts;
@@ -370,10 +348,7 @@ var require_reinforcement = __commonJS({
         const depth = size[1];
         const height = size[2];
         const modelConstants = {};
-        const modelOpts2 = {
-          type,
-          scale
-        };
+        const modelOpts2 = {};
         const modelDims = {
           size,
           interfaceThickness,
@@ -409,9 +384,7 @@ var require_reinforcement = __commonJS({
           size,
           reinforcementPattern,
           interfaceThickness,
-          fitGap,
-          type,
-          scale
+          fitGap
         } = opts;
         const width = size[0];
         const length = size[1];
@@ -1198,15 +1171,9 @@ var require_beads_bits = __commonJS({
           },
           points: {
             centre: [0, 0, 0]
-          },
-          types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
           }
         };
         const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
@@ -1233,14 +1200,10 @@ var require_beads_bits = __commonJS({
           offset2 = defaults.opts.offset2,
           offset3 = defaults.opts.offset3,
           offset4 = defaults.opts.offset4,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -1264,19 +1227,11 @@ var require_beads_bits = __commonJS({
           offset2,
           offset3,
           offset4,
-          type,
-          scale,
           interfaceThickness,
           fitGap
         } = opts;
-        const modelConstants = {
-          type,
-          scale
-        };
-        const modelOpts2 = {
-          type,
-          scale
-        };
+        const modelConstants = {};
+        const modelOpts2 = {};
         const modelDims = {
           radius1,
           radius2,
@@ -1626,15 +1581,9 @@ var require_connections = __commonJS({
           },
           points: {
             centre: [0, 0, 0]
-          },
-          types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
           }
         };
         const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
@@ -1665,14 +1614,10 @@ var require_connections = __commonJS({
           numConnectors = defaults.opts.numConnectors,
           segments = defaults.opts.segments,
           interfaceMargin = defaults.opts.interfaceMargin,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -1700,8 +1645,6 @@ var require_connections = __commonJS({
           unitSegments,
           numConnectors,
           interfaceMargin,
-          type,
-          scale,
           interfaceThickness,
           fitGap
         } = opts;
@@ -1721,8 +1664,6 @@ var require_connections = __commonJS({
           sampleThickness: defaults.vals.constants.sampleThickness
         };
         const modelOpts2 = {
-          type,
-          scale,
           segments,
           unitSegments,
           numConnectors
@@ -2537,7 +2478,6 @@ var require_joint_panel = __commonJS({
         };
         const standardOpts = {
           type: defaultValues.types.tab.id,
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
@@ -2563,13 +2503,11 @@ var require_joint_panel = __commonJS({
           jointNumConnectors: jointNumConnectors2 = defaults.opts.jointNumConnectors,
           axis = defaults.opts.axis,
           type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
           type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -2592,7 +2530,6 @@ var require_joint_panel = __commonJS({
           jointNumConnectors: jointNumConnectors2,
           axis,
           type,
-          scale,
           interfaceThickness,
           fitGap
         } = opts;
@@ -2612,7 +2549,6 @@ var require_joint_panel = __commonJS({
         };
         const modelOpts = {
           type,
-          scale,
           axis,
           jointNumConnectors: jointNumConnectors2
         };
@@ -2841,16 +2777,10 @@ var require_mesh = __commonJS({
           },
           points: {
             centre: [0, 0, 0]
-          },
-          typeDetails: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
           }
         };
         const defaultOpts = {
           size: defaultValues.dims.size,
-          type: "default",
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP,
           edgeMargin: math.inchesToMm(3 / 16),
@@ -2866,8 +2796,6 @@ var require_mesh = __commonJS({
       const meshPanelProps = (opts) => {
         const defaults = meshPanelDefaults();
         const {
-          type,
-          scale,
           interfaceThickness,
           fitGap,
           size,
@@ -2883,13 +2811,8 @@ var require_mesh = __commonJS({
           size[0] - holeDiam - edgeMargin * 2,
           size[1] - holeDiam - edgeMargin * 2
         ];
-        const modelConstants = {
-          type,
-          scale
-        };
+        const modelConstants = {};
         const modelOpts = {
-          type,
-          scale,
           holePattern
         };
         const modelDims = {
@@ -2929,8 +2852,6 @@ var require_mesh = __commonJS({
         const defaults = meshPanelDefaults();
         const {
           // size = defaults.opts.size,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap,
           size = defaults.opts.size,
@@ -2940,8 +2861,6 @@ var require_mesh = __commonJS({
           holePattern = defaults.opts.holePattern
         } = opts;
         const inOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap,
           size,
@@ -3062,15 +2981,9 @@ var require_box_curve = __commonJS({
           },
           points: {
             centrePt: [0, 0, 0]
-          },
-          types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
           }
         };
         const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
@@ -3089,14 +3002,10 @@ var require_box_curve = __commonJS({
         const {
           size = defaults.opts.size,
           margin = defaults.opts.margin,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -3112,8 +3021,6 @@ var require_box_curve = __commonJS({
         const {
           size,
           margin,
-          type,
-          scale,
           interfaceThickness,
           fitGap
         } = opts;
@@ -3132,10 +3039,7 @@ var require_box_curve = __commonJS({
           size[1] - marginDepth
         ];
         const modelConstants = {};
-        const modelOpts = {
-          type,
-          scale
-        };
+        const modelOpts = {};
         const modelDims = {
           size,
           margin,
@@ -3277,15 +3181,9 @@ var require_reinforced_rect = __commonJS({
           },
           points: {
             centrePt: [0, 0, 0]
-          },
-          types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
           }
         };
         const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
@@ -3306,14 +3204,10 @@ var require_reinforced_rect = __commonJS({
           size = defaults.opts.size,
           reinforcementPattern = defaults.opts.reinforcementPattern,
           reinforcementThickness = defaults.opts.reinforcementThickness,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -3331,8 +3225,6 @@ var require_reinforced_rect = __commonJS({
           size,
           reinforcementPattern,
           reinforcementThickness,
-          type,
-          scale,
           interfaceThickness,
           fitGap
         } = opts;
@@ -3381,8 +3273,6 @@ var require_reinforced_rect = __commonJS({
         const cornerNode = square({ size: rThickness[0] });
         const modelConstants = {};
         const modelOpts = {
-          type,
-          scale,
           reinforcementPattern
         };
         const modelDims = {
@@ -3626,15 +3516,9 @@ var require_beads_bits2 = __commonJS({
           },
           points: {
             centre: [0, 0, 0]
-          },
-          types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
           }
         };
         const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
@@ -3661,14 +3545,10 @@ var require_beads_bits2 = __commonJS({
           offset2 = defaults.opts.offset2,
           offset3 = defaults.opts.offset3,
           offset4 = defaults.opts.offset4,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -3692,19 +3572,11 @@ var require_beads_bits2 = __commonJS({
           offset2,
           offset3,
           offset4,
-          type,
-          scale,
           interfaceThickness,
           fitGap
         } = opts;
-        const modelConstants = {
-          type,
-          scale
-        };
-        const modelOpts2 = {
-          type,
-          scale
-        };
+        const modelConstants = {};
+        const modelOpts2 = {};
         const modelDims = {
           radius1,
           radius2,
@@ -3877,10 +3749,6 @@ var require_component_line = __commonJS({
             startPt: [math.inchesToMm(0.5), math.inchesToMm(0.5)],
             endPt: [math.inchesToMm(3), math.inchesToMm(4)]
           },
-          types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
-          },
           component: cuboid({
             size: [
               math.inchesToMm(6 / 16),
@@ -3890,8 +3758,6 @@ var require_component_line = __commonJS({
           })
         };
         const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
@@ -3915,8 +3781,6 @@ var require_component_line = __commonJS({
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap,
           unitLength = defaults.opts.unitLength,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           startPt = defaults.opts.startPt,
           endPt = defaults.opts.endPt,
           endOffset = defaults.opts.endOffset,
@@ -3924,8 +3788,6 @@ var require_component_line = __commonJS({
           component = defaults.opts.component
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -3945,8 +3807,6 @@ var require_component_line = __commonJS({
         const {
           interfaceThickness,
           fitGap,
-          type,
-          scale,
           unitLength,
           startPt,
           endPt,
@@ -3967,14 +3827,8 @@ var require_component_line = __commonJS({
         const lgProfileBeadWidth = standards.LG_PROFILE_BEAD_WIDTH;
         const mdProfileBeadWidth = standards.MD_PROFILE_BEAD_WIDTH;
         const smProfileBeadWidth = standards.SM_PROFILE_BEAD_WIDTH;
-        const modelConstants = {
-          type,
-          scale
-        };
+        const modelConstants = {};
         const modelOpts2 = {
-          type,
-          scale,
-          types: defaults.vals.types,
           componentUnits
         };
         const modelDims = {
@@ -4200,15 +4054,9 @@ var require_round_fitting = __commonJS({
           },
           points: {
             centre: [0, 0, 0]
-          },
-          types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
           }
         };
         const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
           interfaceThickness: 1.333333,
           fitGap: math.inchesToMm(1 / 128)
         };
@@ -4228,14 +4076,10 @@ var require_round_fitting = __commonJS({
         const {
           dowelRadius = defaults.opts.dowelRadius,
           length = defaults.opts.length,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -4253,8 +4097,6 @@ var require_round_fitting = __commonJS({
         const {
           dowelRadius,
           length,
-          type,
-          scale,
           interfaceThickness,
           fitGap
         } = opts;
@@ -4265,12 +4107,7 @@ var require_round_fitting = __commonJS({
         const invCutProfileHeight = dowelDiam * constants.EQUI_TRIANGLE_HEIGHT_FACTOR;
         const simpleHeight = dowelDiam / 3 + interfaceThickness + fitGap;
         const invSimpleHeight = invCutProfileHeight + interfaceThickness + fitGap;
-        const types = ["default", "alt"];
-        const modelOpts = {
-          type,
-          scale,
-          types
-        };
+        const modelOpts = {};
         const modelDims = {
           dowelRadius,
           dowelDiam,
@@ -4516,15 +4353,9 @@ var require_rectangular_fitting = __commonJS({
           },
           points: {
             centrePt: [0, 0, 0]
-          },
-          types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
           }
         };
         const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
@@ -4544,14 +4375,10 @@ var require_rectangular_fitting = __commonJS({
         const {
           subjectSize = defaults.opts.subjectSize,
           length = defaults.opts.length,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -4569,8 +4396,6 @@ var require_rectangular_fitting = __commonJS({
         const {
           subjectSize,
           length,
-          type,
-          scale,
           interfaceThickness,
           fitGap
         } = opts;
@@ -4581,10 +4406,7 @@ var require_rectangular_fitting = __commonJS({
         const cutProfileWidth = subjectWidth + fitGap;
         const cutProfileHeight = subjectHeight + fitGap;
         const modelConstants = {};
-        const modelOpts = {
-          type,
-          scale
-        };
+        const modelOpts = {};
         const modelDims = {
           subjectSize,
           subjectWidth,
@@ -4776,15 +4598,9 @@ var require_box_support = __commonJS({
           },
           points: {
             centrePt: [0, 0, 0]
-          },
-          types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
           }
         };
         const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
@@ -4803,14 +4619,10 @@ var require_box_support = __commonJS({
         const {
           size = defaults.opts.size,
           margin = defaults.opts.margin,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -4826,8 +4638,6 @@ var require_box_support = __commonJS({
         const {
           size,
           margin,
-          type,
-          scale,
           interfaceThickness,
           fitGap
         } = opts;
@@ -4846,10 +4656,7 @@ var require_box_support = __commonJS({
           size[1] - marginDepth
         ];
         const modelConstants = {};
-        const modelOpts = {
-          type,
-          scale
-        };
+        const modelOpts = {};
         const modelDims = {
           size,
           margin,
@@ -4985,13 +4792,8 @@ var require_reinforced_joist = __commonJS({
           points: {
             centre: [0, 0, 0]
           },
-          typeDetails: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
-          },
           width: math.inchesToMm(1.125),
           length: math.inchesToMm(5.5),
-          type: "default",
           reinforcementLevel: 1,
           unitLength: math.inchesToMm(1),
           dowelHolderLength: math.inchesToMm(5 / 16),
@@ -5003,8 +4805,6 @@ var require_reinforced_joist = __commonJS({
           ratioDiamToDowelDepth: 0.333333
         };
         const defaultOpts = {
-          type: "default",
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP,
           logMode: "normal",
@@ -5022,8 +4822,6 @@ var require_reinforced_joist = __commonJS({
       const reinforcedJoistProps = (opts) => {
         const defaults = reinforcedJoistDefaults();
         const {
-          type,
-          scale,
           interfaceThickness,
           fitGap,
           width,
@@ -5046,8 +4844,6 @@ var require_reinforced_joist = __commonJS({
           ratioDiamToDowelDepth: defaults.vals.ratioDiamToDowelDepth
         };
         const modelOpts = {
-          type,
-          scale,
           reinforcementLevel
         };
         const modelDims = {
@@ -5093,8 +4889,6 @@ var require_reinforced_joist = __commonJS({
       const reinforcedJoist = (opts) => {
         const defaults = reinforcedJoistDefaults();
         const {
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap,
           width = defaults.opts.width,
@@ -5104,8 +4898,6 @@ var require_reinforced_joist = __commonJS({
           dowelHolderLength = defaults.opts.dowelHolderLength
         } = opts;
         const inOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap,
           width,
@@ -5288,15 +5080,9 @@ var require_reinforced_rect_panel = __commonJS({
           },
           points: {
             centrePt: [0, 0, 0]
-          },
-          types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
           }
         };
         const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
@@ -5317,14 +5103,10 @@ var require_reinforced_rect_panel = __commonJS({
           size = defaults.opts.size,
           reinforcementPattern = defaults.opts.reinforcementPattern,
           reinforcementThickness = defaults.opts.reinforcementThickness,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -5342,8 +5124,6 @@ var require_reinforced_rect_panel = __commonJS({
           size,
           reinforcementPattern,
           reinforcementThickness,
-          type,
-          scale,
           interfaceThickness,
           fitGap
         } = opts;
@@ -5352,8 +5132,6 @@ var require_reinforced_rect_panel = __commonJS({
         const height = size[2];
         const modelConstants = {};
         const modelOpts = {
-          type,
-          scale,
           reinforcementPattern
         };
         const modelDims = {
@@ -5748,10 +5526,6 @@ var require_routed_shapes = __commonJS({
           points: {
             centre: [0, 0, 0]
           },
-          types: {
-            default: { id: "default", desc: "Default" },
-            alt: { id: "alt", desc: "Alternate" }
-          },
           topBit: {
             type: "chamfer",
             radius1: math.inchesToMm(1 / 2),
@@ -5772,8 +5546,6 @@ var require_routed_shapes = __commonJS({
           }
         };
         const standardOpts = {
-          type: defaultValues.types.default.id,
-          scale: 1,
           interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
@@ -5800,14 +5572,10 @@ var require_routed_shapes = __commonJS({
           topBitOpts = defaults.opts.topBitOpts,
           bottomBit = defaults.opts.bottomBit,
           bottomBitOpts = defaults.opts.bottomBitOpts,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -5830,14 +5598,10 @@ var require_routed_shapes = __commonJS({
           topBitOpts = defaults.opts.topBitOpts,
           bottomBit = defaults.opts.bottomBit,
           bottomBitOpts = defaults.opts.bottomBitOpts,
-          type = defaults.opts.type,
-          scale = defaults.opts.scale,
           interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          type,
-          scale,
           interfaceThickness,
           fitGap
         };
@@ -5862,18 +5626,11 @@ var require_routed_shapes = __commonJS({
           topBitOpts,
           bottomBit,
           bottomBitOpts,
-          type,
-          scale,
           interfaceThickness,
           fitGap
         } = opts;
-        const modelConstants = {
-          type,
-          scale
-        };
+        const modelConstants = {};
         const modelOpts = {
-          type,
-          scale,
           topBit,
           bottomBit
         };
