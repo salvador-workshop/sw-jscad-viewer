@@ -264,12 +264,7 @@ var require_reinforcement = __commonJS({
             centre: [0, 0, 0]
           }
         };
-        const standardOpts = {
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
-        };
         const defaultOpts = {
-          ...standardOpts,
           size: defaultValues.dims.size
         };
         return {
@@ -291,9 +286,7 @@ var require_reinforcement = __commonJS({
         };
         const defaultOpts = {
           size: defaultValues.dims.size,
-          reinforcementPattern: defaultValues.opts.reinforcementPatterns[0],
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
+          reinforcementPattern: defaultValues.opts.reinforcementPatterns[0]
         };
         return {
           opts: defaultOpts,
@@ -303,14 +296,9 @@ var require_reinforcement = __commonJS({
       const modelOpts = (opts) => {
         const defaults = modelDefaults();
         const {
-          size = defaults.opts.size,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap
+          size = defaults.opts.size
         } = opts;
-        const stdOpts = {
-          interfaceThickness,
-          fitGap
-        };
+        const stdOpts = {};
         const initOpts = {
           size,
           ...stdOpts
@@ -321,15 +309,11 @@ var require_reinforcement = __commonJS({
         const defaults = rectangleDefaults();
         const {
           size = defaults.opts.size,
-          reinforcementPattern = defaults.opts.reinforcementPattern,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap
+          reinforcementPattern = defaults.opts.reinforcementPattern
         } = opts;
         const stdOpts = {
           size,
-          reinforcementPattern,
-          interfaceThickness,
-          fitGap
+          reinforcementPattern
         };
         const initOpts = {
           size,
@@ -340,9 +324,7 @@ var require_reinforcement = __commonJS({
       const modelProps = (opts) => {
         const defaults = modelDefaults();
         const {
-          size,
-          interfaceThickness,
-          fitGap
+          size
         } = opts;
         const width = size[0];
         const depth = size[1];
@@ -351,8 +333,6 @@ var require_reinforcement = __commonJS({
         const modelOpts2 = {};
         const modelDims = {
           size,
-          interfaceThickness,
-          fitGap,
           width,
           depth,
           height
@@ -362,14 +342,6 @@ var require_reinforcement = __commonJS({
         };
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts2,
           dims: modelDims,
@@ -382,9 +354,7 @@ var require_reinforcement = __commonJS({
         const defaults = rectangleDefaults();
         const {
           size,
-          reinforcementPattern,
-          interfaceThickness,
-          fitGap
+          reinforcementPattern
         } = opts;
         const width = size[0];
         const length = size[1];
@@ -587,14 +557,6 @@ var require_reinforcement = __commonJS({
           }
         };
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           opts: modelOpts2,
           dims: modelDims,
           points: modelPoints
@@ -1157,9 +1119,6 @@ var require_beads_bits = __commonJS({
         math,
         transform
       } = swcadJs.calcs;
-      const {
-        standards
-      } = swcadJs.data;
       const modelDefaults = () => {
         const defaultValues = {
           dims: {
@@ -1173,12 +1132,7 @@ var require_beads_bits = __commonJS({
             centre: [0, 0, 0]
           }
         };
-        const standardOpts = {
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
-        };
         const defaultOpts = {
-          ...standardOpts,
           radius1: math.inchesToMm(1 / 2),
           radius2: math.inchesToMm(3 / 4),
           offset1: 0,
@@ -1199,14 +1153,9 @@ var require_beads_bits = __commonJS({
           offset1 = defaults.opts.offset1,
           offset2 = defaults.opts.offset2,
           offset3 = defaults.opts.offset3,
-          offset4 = defaults.opts.offset4,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap
+          offset4 = defaults.opts.offset4
         } = opts;
-        const stdOpts = {
-          interfaceThickness,
-          fitGap
-        };
+        const stdOpts = {};
         const initOpts = {
           radius1,
           radius2,
@@ -1226,9 +1175,7 @@ var require_beads_bits = __commonJS({
           offset1,
           offset2,
           offset3,
-          offset4,
-          interfaceThickness,
-          fitGap
+          offset4
         } = opts;
         const modelConstants = {};
         const modelOpts2 = {};
@@ -1238,23 +1185,13 @@ var require_beads_bits = __commonJS({
           offset1,
           offset2,
           offset3,
-          offset4,
-          interfaceThickness,
-          fitGap
+          offset4
         };
         const modelPoints = {
           centre: defaults.vals.points.centre
         };
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts2,
           dims: modelDims,
@@ -1583,12 +1520,8 @@ var require_connections = __commonJS({
             centre: [0, 0, 0]
           }
         };
-        const standardOpts = {
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
-        };
         const defaultOpts = {
-          ...standardOpts,
+          fitGap: standards.FIT_GAP,
           size: defaultValues.dims.size,
           radius: defaultValues.dims.radius,
           unitSpacing: defaultValues.dims.unitSpacing,
@@ -1614,11 +1547,9 @@ var require_connections = __commonJS({
           numConnectors = defaults.opts.numConnectors,
           segments = defaults.opts.segments,
           interfaceMargin = defaults.opts.interfaceMargin,
-          interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
-          interfaceThickness,
           fitGap
         };
         const initOpts = {
@@ -1645,7 +1576,6 @@ var require_connections = __commonJS({
           unitSegments,
           numConnectors,
           interfaceMargin,
-          interfaceThickness,
           fitGap
         } = opts;
         const width = size[0];
@@ -1670,7 +1600,6 @@ var require_connections = __commonJS({
         };
         const modelDims = {
           size,
-          interfaceThickness,
           fitGap,
           width,
           depth,
@@ -1686,14 +1615,6 @@ var require_connections = __commonJS({
         };
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts2,
           dims: modelDims,
@@ -2478,7 +2399,6 @@ var require_joint_panel = __commonJS({
         };
         const standardOpts = {
           type: defaultValues.types.tab.id,
-          interfaceThickness: standards.INTERFACE_THICKNESS,
           fitGap: standards.FIT_GAP
         };
         const defaultOpts = {
@@ -2503,12 +2423,10 @@ var require_joint_panel = __commonJS({
           jointNumConnectors: jointNumConnectors2 = defaults.opts.jointNumConnectors,
           axis = defaults.opts.axis,
           type = defaults.opts.type,
-          interfaceThickness = defaults.opts.interfaceThickness,
           fitGap = defaults.opts.fitGap
         } = opts;
         const stdOpts = {
           type,
-          interfaceThickness,
           fitGap
         };
         const initOpts = {
@@ -2530,7 +2448,6 @@ var require_joint_panel = __commonJS({
           jointNumConnectors: jointNumConnectors2,
           axis,
           type,
-          interfaceThickness,
           fitGap
         } = opts;
         const width = size[0];
@@ -2559,7 +2476,6 @@ var require_joint_panel = __commonJS({
           jointWidth,
           jointMargin: jMargin,
           totalJointWidth,
-          interfaceThickness,
           fitGap
         };
         const modelPoints = {
@@ -2567,14 +2483,6 @@ var require_joint_panel = __commonJS({
         };
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts,
           dims: modelDims,
@@ -2601,7 +2509,8 @@ var require_joint_panel = __commonJS({
           depth,
           jointWidth,
           jointMargin,
-          totalJointWidth
+          totalJointWidth,
+          fitGap
         } = modelProperties.dims;
         const {
           centrePt
@@ -2613,7 +2522,8 @@ var require_joint_panel = __commonJS({
         const jointOpts = {
           size: jointSize,
           interfaceMargin: jointMargin,
-          numConnectors: jointNumConnectors2
+          numConnectors: jointNumConnectors2,
+          fitGap
         };
         let jointData = connections.tabRow(jointOpts);
         if (type == "dovetail") {
@@ -2670,7 +2580,8 @@ var require_joint_panel = __commonJS({
           depth,
           jointWidth,
           jointMargin,
-          totalJointWidth
+          totalJointWidth,
+          fitGap
         } = modelProperties.dims;
         const {
           centrePt
@@ -2686,7 +2597,8 @@ var require_joint_panel = __commonJS({
         const jointOptsX = {
           size: jointSizeX,
           interfaceMargin: jointMargin,
-          numConnectors: jNumConnectors[0]
+          numConnectors: jNumConnectors[0],
+          fitGap
         };
         let jointDataX = connections.tabRow(jointOptsX);
         if (type == "dovetail") {
@@ -2699,7 +2611,8 @@ var require_joint_panel = __commonJS({
         const jointOptsY = {
           size: jointSizeY,
           interfaceMargin: jointMargin,
-          numConnectors: jNumConnectors[1]
+          numConnectors: jNumConnectors[1],
+          fitGap
         };
         let jointDataY = connections.tabRow(jointOptsY);
         if (type == "dovetail") {
@@ -2764,9 +2677,6 @@ var require_mesh = __commonJS({
         math,
         geometry
       } = swcadJs.calcs;
-      const {
-        standards
-      } = swcadJs.data;
       const meshPanelDefaults = () => {
         const defaultValues = {
           dims: {
@@ -2781,8 +2691,6 @@ var require_mesh = __commonJS({
         };
         const defaultOpts = {
           size: defaultValues.dims.size,
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP,
           edgeMargin: math.inchesToMm(3 / 16),
           holeRadius: math.inchesToMm(0.125),
           holeDistance: math.inchesToMm(1),
@@ -2796,8 +2704,6 @@ var require_mesh = __commonJS({
       const meshPanelProps = (opts) => {
         const defaults = meshPanelDefaults();
         const {
-          interfaceThickness,
-          fitGap,
           size,
           edgeMargin,
           holeRadius,
@@ -2818,8 +2724,6 @@ var require_mesh = __commonJS({
         const modelDims = {
           size,
           meshAreaSize,
-          interfaceThickness,
-          fitGap,
           width,
           depth,
           edgeMargin,
@@ -2832,14 +2736,6 @@ var require_mesh = __commonJS({
         };
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts,
           dims: modelDims,
@@ -2851,9 +2747,6 @@ var require_mesh = __commonJS({
       const meshPanel = (opts) => {
         const defaults = meshPanelDefaults();
         const {
-          // size = defaults.opts.size,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap,
           size = defaults.opts.size,
           edgeMargin = defaults.opts.edgeMargin,
           holeRadius = defaults.opts.holeRadius,
@@ -2861,8 +2754,6 @@ var require_mesh = __commonJS({
           holePattern = defaults.opts.holePattern
         } = opts;
         const inOpts = {
-          interfaceThickness,
-          fitGap,
           size,
           edgeMargin,
           holeRadius,
@@ -2970,8 +2861,7 @@ var require_box_curve = __commonJS({
           dims: {
             size: [
               math.inchesToMm(2),
-              math.inchesToMm(4),
-              math.inchesToMm(1)
+              math.inchesToMm(4)
             ],
             margin: [
               standards.INTERFACE_THICKNESS,
@@ -2983,12 +2873,7 @@ var require_box_curve = __commonJS({
             centrePt: [0, 0, 0]
           }
         };
-        const standardOpts = {
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
-        };
         const defaultOpts = {
-          ...standardOpts,
           size: defaultValues.dims.size,
           margin: defaultValues.dims.margin
         };
@@ -3001,18 +2886,11 @@ var require_box_curve = __commonJS({
         const defaults = boxCurveDefaults();
         const {
           size = defaults.opts.size,
-          margin = defaults.opts.margin,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap
+          margin = defaults.opts.margin
         } = opts;
-        const stdOpts = {
-          interfaceThickness,
-          fitGap
-        };
         const initOpts = {
           size,
-          margin,
-          ...stdOpts
+          margin
         };
         return initOpts;
       };
@@ -3020,9 +2898,7 @@ var require_box_curve = __commonJS({
         const defaults = boxCurveDefaults();
         const {
           size,
-          margin,
-          interfaceThickness,
-          fitGap
+          margin
         } = opts;
         const width = size[0];
         const depth = size[1];
@@ -3050,23 +2926,13 @@ var require_box_curve = __commonJS({
           marginDepth,
           marginHeight,
           ellipseRadiusQtr,
-          ellipseRadiusHalf,
-          interfaceThickness,
-          fitGap
+          ellipseRadiusHalf
         };
         const modelPoints = {
           centrePt: defaults.vals.points.centrePt
         };
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts,
           dims: modelDims,
@@ -3183,12 +3049,7 @@ var require_reinforced_rect = __commonJS({
             centrePt: [0, 0, 0]
           }
         };
-        const standardOpts = {
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
-        };
         const defaultOpts = {
-          ...standardOpts,
           size: defaultValues.dims.size,
           reinforcementPattern: defaultValues.constants.reinforcementPatterns[0],
           reinforcementThickness: defaultValues.dims.reinforcementThickness
@@ -3203,19 +3064,12 @@ var require_reinforced_rect = __commonJS({
         const {
           size = defaults.opts.size,
           reinforcementPattern = defaults.opts.reinforcementPattern,
-          reinforcementThickness = defaults.opts.reinforcementThickness,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap
+          reinforcementThickness = defaults.opts.reinforcementThickness
         } = opts;
-        const stdOpts = {
-          interfaceThickness,
-          fitGap
-        };
         const initOpts = {
           size,
           reinforcementPattern,
-          reinforcementThickness,
-          ...stdOpts
+          reinforcementThickness
         };
         return initOpts;
       };
@@ -3224,9 +3078,7 @@ var require_reinforced_rect = __commonJS({
         const {
           size,
           reinforcementPattern,
-          reinforcementThickness,
-          interfaceThickness,
-          fitGap
+          reinforcementThickness
         } = opts;
         const width = size[0];
         const depth = size[1];
@@ -3279,9 +3131,7 @@ var require_reinforced_rect = __commonJS({
           size,
           width,
           depth,
-          reinforcementThickness: rThickness,
-          interfaceThickness,
-          fitGap
+          reinforcementThickness: rThickness
         };
         const modelPoints = {
           centrePt: defaults.vals.points.centrePt,
@@ -3292,14 +3142,6 @@ var require_reinforced_rect = __commonJS({
           cornerNode
         };
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts,
           dims: modelDims,
@@ -3496,8 +3338,7 @@ var require_beads_bits2 = __commonJS({
         extrudeRotate
       } = jscad.extrusions;
       const {
-        constants,
-        standards
+        constants
       } = swcadJs.data;
       const {
         math
@@ -3518,12 +3359,7 @@ var require_beads_bits2 = __commonJS({
             centre: [0, 0, 0]
           }
         };
-        const standardOpts = {
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
-        };
         const defaultOpts = {
-          ...standardOpts,
           radius1: math.inchesToMm(1 / 2),
           radius2: math.inchesToMm(3 / 4),
           offset1: 0,
@@ -3544,14 +3380,9 @@ var require_beads_bits2 = __commonJS({
           offset1 = defaults.opts.offset1,
           offset2 = defaults.opts.offset2,
           offset3 = defaults.opts.offset3,
-          offset4 = defaults.opts.offset4,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap
+          offset4 = defaults.opts.offset4
         } = opts;
-        const stdOpts = {
-          interfaceThickness,
-          fitGap
-        };
+        const stdOpts = {};
         const initOpts = {
           radius1,
           radius2,
@@ -3571,9 +3402,7 @@ var require_beads_bits2 = __commonJS({
           offset1,
           offset2,
           offset3,
-          offset4,
-          interfaceThickness,
-          fitGap
+          offset4
         } = opts;
         const modelConstants = {};
         const modelOpts2 = {};
@@ -3583,23 +3412,13 @@ var require_beads_bits2 = __commonJS({
           offset1,
           offset2,
           offset3,
-          offset4,
-          interfaceThickness,
-          fitGap
+          offset4
         };
         const modelPoints = {
           centre: defaults.vals.points.centre
         };
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts2,
           dims: modelDims,
@@ -3758,8 +3577,7 @@ var require_component_line = __commonJS({
           })
         };
         const standardOpts = {
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
+          interfaceThickness: standards.INTERFACE_THICKNESS
         };
         const defaultOpts = {
           ...standardOpts,
@@ -3779,7 +3597,6 @@ var require_component_line = __commonJS({
         const defaults = modelDefaults();
         const {
           interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap,
           unitLength = defaults.opts.unitLength,
           startPt = defaults.opts.startPt,
           endPt = defaults.opts.endPt,
@@ -3788,8 +3605,7 @@ var require_component_line = __commonJS({
           component = defaults.opts.component
         } = opts;
         const stdOpts = {
-          interfaceThickness,
-          fitGap
+          interfaceThickness
         };
         const initOpts = {
           unitLength,
@@ -3806,7 +3622,6 @@ var require_component_line = __commonJS({
         const defaults = modelDefaults();
         const {
           interfaceThickness,
-          fitGap,
           unitLength,
           startPt,
           endPt,
@@ -3833,7 +3648,6 @@ var require_component_line = __commonJS({
         };
         const modelDims = {
           interfaceThickness,
-          fitGap,
           unitLength,
           componentUnitLength,
           lineLength,
@@ -3866,14 +3680,6 @@ var require_component_line = __commonJS({
           }
         };
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts2,
           dims: modelDims,
@@ -3906,13 +3712,7 @@ var require_component_line = __commonJS({
             componentUnits
           } = modelProps2.opts;
           const {
-            interfaceThickness,
-            fitGap,
-            unitLength,
-            componentUnitLength,
-            lineLength,
-            componentDims,
-            componentBoundingBox
+            componentUnitLength
           } = modelProps2.dims;
           const lineComponents = [];
           for (let idx = 0; idx < componentUnits; idx++) {
@@ -3927,11 +3727,8 @@ var require_component_line = __commonJS({
         const cutBox = (modelProps2) => {
           const {
             interfaceThickness,
-            fitGap,
-            unitLength,
             lineLength,
-            componentDims,
-            componentBoundingBox
+            componentDims
           } = modelProps2.dims;
           return cuboid({
             size: [
@@ -3943,12 +3740,6 @@ var require_component_line = __commonJS({
         };
         const finalAssembly = (modelProps2) => {
           const {
-            interfaceThickness,
-            fitGap,
-            unitLength,
-            lineLength,
-            componentDims,
-            componentBoundingBox,
             baseLineOffset,
             compLineAngle
           } = modelProps2.dims;
@@ -4124,14 +3915,6 @@ var require_round_fitting = __commonJS({
         const modelConstants = defaults.vals.constants;
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts,
           dims: modelDims,
@@ -4417,14 +4200,6 @@ var require_rectangular_fitting = __commonJS({
         };
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts,
           dims: modelDims,
@@ -4592,12 +4367,7 @@ var require_box_support = __commonJS({
             centrePt: [0, 0, 0]
           }
         };
-        const standardOpts = {
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
-        };
         const defaultOpts = {
-          ...standardOpts,
           size: defaultValues.dims.size,
           margin: defaultValues.dims.margin
         };
@@ -4610,14 +4380,9 @@ var require_box_support = __commonJS({
         const defaults = boxSupportDefaults();
         const {
           size = defaults.opts.size,
-          margin = defaults.opts.margin,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap
+          margin = defaults.opts.margin
         } = opts;
-        const stdOpts = {
-          interfaceThickness,
-          fitGap
-        };
+        const stdOpts = {};
         const initOpts = {
           size,
           margin,
@@ -4629,9 +4394,7 @@ var require_box_support = __commonJS({
         const defaults = boxSupportDefaults();
         const {
           size,
-          margin,
-          interfaceThickness,
-          fitGap
+          margin
         } = opts;
         const width = size[0];
         const depth = size[1];
@@ -4659,23 +4422,13 @@ var require_box_support = __commonJS({
           marginDepth,
           marginHeight,
           ellipseRadiusQtr,
-          ellipseRadiusHalf,
-          interfaceThickness,
-          fitGap
+          ellipseRadiusHalf
         };
         const modelPoints = {
           centrePt: defaults.vals.points.centrePt
         };
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts,
           dims: modelDims,
@@ -4790,7 +4543,6 @@ var require_reinforced_joist = __commonJS({
           unitLength: math.inchesToMm(1),
           dowelHolderLength: math.inchesToMm(5 / 16),
           interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP,
           ratioDiamToHolderHeight: 1.666667,
           ratioDiamToChannelDepth: 0.866667,
           ratioDiamToSideChannelWidth: 1,
@@ -4798,7 +4550,6 @@ var require_reinforced_joist = __commonJS({
         };
         const defaultOpts = {
           interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP,
           logMode: "normal",
           width: defaultValues.width,
           length: defaultValues.length,
@@ -4815,7 +4566,6 @@ var require_reinforced_joist = __commonJS({
         const defaults = reinforcedJoistDefaults();
         const {
           interfaceThickness,
-          fitGap,
           width,
           length,
           reinforcementLevel,
@@ -4845,7 +4595,6 @@ var require_reinforced_joist = __commonJS({
           lengthUnits,
           dowelHolderLength,
           interfaceThickness,
-          fitGap,
           edgeWidth,
           supportWidth,
           lightSupportWidth
@@ -4862,14 +4611,6 @@ var require_reinforced_joist = __commonJS({
           )
         };
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts,
           dims: modelDims,
@@ -4882,7 +4623,6 @@ var require_reinforced_joist = __commonJS({
         const defaults = reinforcedJoistDefaults();
         const {
           interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap,
           width = defaults.opts.width,
           length = defaults.opts.length,
           reinforcementLevel = defaults.opts.reinforcementLevel,
@@ -4891,7 +4631,6 @@ var require_reinforced_joist = __commonJS({
         } = opts;
         const inOpts = {
           interfaceThickness,
-          fitGap,
           width,
           length,
           reinforcementLevel,
@@ -4909,7 +4648,6 @@ var require_reinforced_joist = __commonJS({
             unitLength: unitLength2,
             length: length2,
             interfaceThickness: interfaceThickness2,
-            fitGap: fitGap2,
             width: width2,
             edgeWidth,
             supportWidth,
@@ -5066,7 +4804,7 @@ var require_reinforced_rect_panel = __commonJS({
             size: [
               math.inchesToMm(3),
               math.inchesToMm(4),
-              math.inchesToMm(1 / 8)
+              standards.INTERFACE_THICKNESS
             ],
             reinforcementThickness: [5, 4, 3]
           },
@@ -5074,12 +4812,7 @@ var require_reinforced_rect_panel = __commonJS({
             centrePt: [0, 0, 0]
           }
         };
-        const standardOpts = {
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
-        };
         const defaultOpts = {
-          ...standardOpts,
           size: defaultValues.dims.size,
           reinforcementPattern: defaultValues.constants.reinforcementPatterns[0],
           reinforcementThickness: defaultValues.dims.reinforcementThickness
@@ -5094,19 +4827,12 @@ var require_reinforced_rect_panel = __commonJS({
         const {
           size = defaults.opts.size,
           reinforcementPattern = defaults.opts.reinforcementPattern,
-          reinforcementThickness = defaults.opts.reinforcementThickness,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap
+          reinforcementThickness = defaults.opts.reinforcementThickness
         } = opts;
-        const stdOpts = {
-          interfaceThickness,
-          fitGap
-        };
         const initOpts = {
           size,
           reinforcementPattern,
-          reinforcementThickness,
-          ...stdOpts
+          reinforcementThickness
         };
         return initOpts;
       };
@@ -5115,9 +4841,7 @@ var require_reinforced_rect_panel = __commonJS({
         const {
           size,
           reinforcementPattern,
-          reinforcementThickness,
-          interfaceThickness,
-          fitGap
+          reinforcementThickness
         } = opts;
         const width = size[0];
         const depth = size[1];
@@ -5131,23 +4855,13 @@ var require_reinforced_rect_panel = __commonJS({
           width,
           depth,
           height,
-          reinforcementThickness,
-          interfaceThickness,
-          fitGap
+          reinforcementThickness
         };
         const modelPoints = {
           centrePt: defaults.vals.points.centrePt
         };
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts,
           dims: modelDims,
@@ -5191,20 +4905,348 @@ var require_reinforced_rect_panel = __commonJS({
   }
 });
 
+// packages/swcad-js-components/src/reinforcements/reinforced-ring.js
+var require_reinforced_ring = __commonJS({
+  "packages/swcad-js-components/src/reinforcements/reinforced-ring.js"(exports2, module2) {
+    "use strict";
+    var reinforcedRingInit = ({ jscad, swcadJs }) => {
+      const {
+        cylinder,
+        cuboid
+      } = jscad.primitives;
+      const {
+        rotate
+      } = jscad.transforms;
+      const {
+        subtract,
+        union
+      } = jscad.booleans;
+      const { TAU } = jscad.maths.constants;
+      const {
+        standards
+      } = swcadJs.data;
+      const {
+        math,
+        position
+      } = swcadJs.calcs;
+      const reinforcedRingDefaults = () => {
+        const defInterfaceThickness = standards.INTERFACE_THICKNESS;
+        const defFitGap = standards.FIT_GAP;
+        const defaultValues = {
+          constants: {
+            defInterfaceThickness
+          },
+          opts: {},
+          dims: {
+            height: math.inchesToMm(1 / 8),
+            holeRadius: math.inchesToMm(1 / 8),
+            ringWidth: math.inchesToMm(3 / 16),
+            baseThickness: defInterfaceThickness,
+            reinforcementThickness: 1.125,
+            fitGap: defFitGap
+          },
+          points: {},
+          components: {}
+        };
+        const defaultOpts = {
+          height: defaultValues.dims.height,
+          holeRadius: defaultValues.dims.holeRadius,
+          ringWidth: defaultValues.dims.ringWidth,
+          baseThickness: defaultValues.dims.baseThickness,
+          reinforcementThickness: defaultValues.dims.reinforcementThickness,
+          fitGap: defaultValues.dims.fitGap
+        };
+        return {
+          opts: defaultOpts,
+          vals: defaultValues
+        };
+      };
+      const reinforcedRingOpts = (opts) => {
+        const defaults = reinforcedRingDefaults();
+        console.log("reinforcedRingOpts() -- opts", opts);
+        const {
+          height = defaults.opts.height,
+          holeRadius = defaults.opts.holeRadius,
+          ringWidth = defaults.opts.ringWidth,
+          baseThickness = defaults.opts.baseThickness,
+          reinforcementThickness = defaults.opts.reinforcementThickness,
+          fitGap = defaults.opts.fitGap
+        } = opts;
+        const initOpts = {
+          height,
+          holeRadius,
+          ringWidth,
+          baseThickness,
+          reinforcementThickness,
+          fitGap
+        };
+        console.log("reinforcedRingOpts() -- initOpts", initOpts);
+        return initOpts;
+      };
+      const reinforcedRingProps = (opts) => {
+        const defaults = reinforcedRingDefaults();
+        console.log("reinforcedRingProps() -- opts", opts);
+        const {
+          height,
+          holeRadius,
+          ringWidth,
+          baseThickness,
+          reinforcementThickness,
+          fitGap
+        } = opts;
+        const holeDiam = holeRadius * 2;
+        const ringBlankRadius = holeRadius + ringWidth;
+        const ringBlankDiam = ringBlankRadius * 2;
+        const ringHoleCutRadius = holeRadius + fitGap / 2;
+        const ringIntReinfBlankRadius = holeRadius + reinforcementThickness;
+        const ringExtReinfHoleCutRadius = ringBlankRadius - reinforcementThickness;
+        const modelConstants = defaults.vals.constants;
+        const modelOpts = defaults.vals.opts;
+        const modelDims = {
+          height,
+          holeRadius,
+          ringWidth,
+          baseThickness,
+          reinforcementThickness,
+          fitGap,
+          holeDiam,
+          ringBlankRadius,
+          ringBlankDiam,
+          ringHoleCutRadius,
+          ringIntReinfBlankRadius,
+          ringExtReinfHoleCutRadius
+        };
+        const modelPoints = defaults.vals.points;
+        const modelComponents = defaults.vals.components;
+        const modelProperties = {
+          constants: modelConstants,
+          opts: modelOpts,
+          dims: modelDims,
+          points: modelPoints,
+          components: modelComponents
+        };
+        console.log("reinforcedRingProps() -- modelProperties", modelProperties);
+        return modelProperties;
+      };
+      const ringReinforcementBase = (opts) => {
+        const {
+          baseThickness,
+          ringBlankRadius,
+          ringHoleCutRadius
+        } = opts;
+        const ringBlank = cylinder({
+          height: baseThickness,
+          radius: ringBlankRadius
+        });
+        const ringCutCylinder = cylinder({
+          height: baseThickness * 2,
+          radius: ringHoleCutRadius
+        });
+        return subtract(ringBlank, ringCutCylinder);
+      };
+      const ringReinforcementInnerEdge = (opts) => {
+        const {
+          height,
+          ringIntReinfBlankRadius,
+          ringHoleCutRadius
+        } = opts;
+        const ringReinfInBlank = cylinder({
+          height,
+          radius: ringIntReinfBlankRadius
+        });
+        const ringReinfInCutCylinder = cylinder({
+          height: height * 2,
+          radius: ringHoleCutRadius
+        });
+        return subtract(ringReinfInBlank, ringReinfInCutCylinder);
+      };
+      const ringReinforcementOuterEdge = (opts) => {
+        const {
+          height,
+          ringBlankRadius,
+          ringExtReinfHoleCutRadius
+        } = opts;
+        const ringReinfOutBlank = cylinder({
+          height,
+          radius: ringBlankRadius
+        });
+        const ringReinfOutCutCylinder = cylinder({
+          height: height * 2,
+          radius: ringExtReinfHoleCutRadius
+        });
+        return subtract(ringReinfOutBlank, ringReinfOutCutCylinder);
+      };
+      const ringReinforcementSpokes = (opts) => {
+        const {
+          reinforcementThickness,
+          height,
+          ringBlankDiam,
+          ringHoleCutRadius
+        } = opts;
+        const spokeReinforcementBase = cuboid({
+          size: [reinforcementThickness, ringBlankDiam - reinforcementThickness, height]
+        });
+        const spokeReinforcements = union(
+          spokeReinforcementBase,
+          rotate([0, 0, TAU / 8], spokeReinforcementBase),
+          rotate([0, 0, TAU / 4], spokeReinforcementBase),
+          rotate([0, 0, TAU * 0.375], spokeReinforcementBase)
+        );
+        const ringReinfInCutCylinder = cylinder({
+          height: height * 2,
+          radius: ringHoleCutRadius
+        });
+        return subtract(spokeReinforcements, ringReinfInCutCylinder);
+      };
+      const lightReinforcedRing = (opts) => {
+        const initOpts = reinforcedRingOpts(opts);
+        const modelProperties = reinforcedRingProps(initOpts);
+        const {
+          height,
+          baseThickness,
+          ringBlankRadius,
+          ringHoleCutRadius,
+          ringIntReinfBlankRadius
+        } = modelProperties.dims;
+        const ringReinfBase = ringReinforcementBase({
+          baseThickness,
+          ringBlankRadius,
+          ringHoleCutRadius
+        });
+        const ringReinfInnerEdge = ringReinforcementInnerEdge({
+          height,
+          ringIntReinfBlankRadius,
+          ringHoleCutRadius
+        });
+        const lightRingAssemblyParts = [
+          position.ctrMin(ringReinfBase),
+          position.ctrMin(ringReinfInnerEdge)
+        ];
+        const ringAssembly = union(...lightRingAssemblyParts);
+        const mainModel = position.ctr(ringAssembly);
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const mediumReinforcedRing = (opts) => {
+        const initOpts = reinforcedRingOpts(opts);
+        const modelProperties = reinforcedRingProps(initOpts);
+        const {
+          height,
+          baseThickness,
+          reinforcementThickness,
+          ringBlankRadius,
+          ringBlankDiam,
+          ringHoleCutRadius,
+          ringIntReinfBlankRadius
+        } = modelProperties.dims;
+        const ringReinfBase = ringReinforcementBase({
+          baseThickness,
+          ringBlankRadius,
+          ringHoleCutRadius
+        });
+        const ringReinfInnerEdge = ringReinforcementInnerEdge({
+          height,
+          ringIntReinfBlankRadius,
+          ringHoleCutRadius
+        });
+        const ringReinfSpokes = ringReinforcementSpokes({
+          reinforcementThickness,
+          height,
+          ringBlankDiam,
+          ringHoleCutRadius
+        });
+        const mediumRingAssemblyParts = [
+          position.ctrMin(ringReinfBase),
+          position.ctrMin(ringReinfInnerEdge),
+          position.ctrMin(ringReinfSpokes)
+        ];
+        const ringAssembly = union(...mediumRingAssemblyParts);
+        const mainModel = position.ctr(ringAssembly);
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const heavyReinforcedRing = (opts) => {
+        const initOpts = reinforcedRingOpts(opts);
+        const modelProperties = reinforcedRingProps(initOpts);
+        const {
+          height,
+          baseThickness,
+          reinforcementThickness,
+          ringBlankRadius,
+          ringBlankDiam,
+          ringHoleCutRadius,
+          ringIntReinfBlankRadius,
+          ringExtReinfHoleCutRadius
+        } = modelProperties.dims;
+        const ringReinfBase = ringReinforcementBase({
+          baseThickness,
+          ringBlankRadius,
+          ringHoleCutRadius
+        });
+        const ringReinfInnerEdge = ringReinforcementInnerEdge({
+          height,
+          ringIntReinfBlankRadius,
+          ringHoleCutRadius
+        });
+        const ringReinfSpokes = ringReinforcementSpokes({
+          reinforcementThickness,
+          height,
+          ringBlankDiam,
+          ringHoleCutRadius
+        });
+        const ringReinfOuterEdge = ringReinforcementOuterEdge({
+          height,
+          ringBlankRadius,
+          ringExtReinfHoleCutRadius
+        });
+        const heavyRingAssemblyParts = [
+          position.ctrMin(ringReinfBase),
+          position.ctrMin(ringReinfInnerEdge),
+          position.ctrMin(ringReinfSpokes),
+          position.ctrMin(ringReinfOuterEdge)
+        ];
+        const ringAssembly = union(...heavyRingAssemblyParts);
+        const mainModel = position.ctr(ringAssembly);
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      return {
+        defaults: reinforcedRingDefaults,
+        props: reinforcedRingProps,
+        lightReinforcedRing,
+        mediumReinforcedRing,
+        heavyReinforcedRing
+      };
+    };
+    module2.exports = {
+      init: reinforcedRingInit
+    };
+  }
+});
+
 // packages/swcad-js-components/src/reinforcements/index.js
 var require_reinforcements2 = __commonJS({
   "packages/swcad-js-components/src/reinforcements/index.js"(exports2, module2) {
     var boxSupportModule = require_box_support();
     var reinforcedJoistModule = require_reinforced_joist();
     var reinforcedRectPanelModule = require_reinforced_rect_panel();
+    var reinforcedRingModule = require_reinforced_ring();
     var reinforcementsInit = ({ jscad, swcadJs }) => {
       const boxSupport = boxSupportModule.init({ jscad, swcadJs });
       const reinforcedJoist = reinforcedJoistModule.init({ jscad, swcadJs });
       const reinforcedRectPanel = reinforcedRectPanelModule.init({ jscad, swcadJs });
+      const reinforcedRing = reinforcedRingModule.init({ jscad, swcadJs });
       return {
         boxSupport,
         reinforcedJoist,
-        reinforcedRectPanel
+        reinforcedRectPanel,
+        reinforcedRing
       };
     };
     module2.exports = { init: reinforcementsInit };
@@ -5239,9 +5281,6 @@ var require_routed_shapes = __commonJS({
         geometry,
         position
       } = swcadJs.calcs;
-      const {
-        standards
-      } = swcadJs.data;
       const {
         beadsBits: beadsBits2d
       } = swcadJs.profiles;
@@ -5281,12 +5320,7 @@ var require_routed_shapes = __commonJS({
             offset4: 0
           }
         };
-        const standardOpts = {
-          interfaceThickness: standards.INTERFACE_THICKNESS,
-          fitGap: standards.FIT_GAP
-        };
         const defaultOpts = {
-          ...standardOpts,
           size: defaultValues.dims.size,
           height: defaultValues.dims.height,
           radius: defaultValues.dims.radius,
@@ -5307,21 +5341,14 @@ var require_routed_shapes = __commonJS({
           topBit = defaults.opts.topBit,
           topBitOpts = defaults.opts.topBitOpts,
           bottomBit = defaults.opts.bottomBit,
-          bottomBitOpts = defaults.opts.bottomBitOpts,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap
+          bottomBitOpts = defaults.opts.bottomBitOpts
         } = opts;
-        const stdOpts = {
-          interfaceThickness,
-          fitGap
-        };
         const initOpts = {
           size,
           topBit,
           topBitOpts,
           bottomBit,
-          bottomBitOpts,
-          ...stdOpts
+          bottomBitOpts
         };
         return initOpts;
       };
@@ -5333,22 +5360,15 @@ var require_routed_shapes = __commonJS({
           topBit = defaults.opts.topBit,
           topBitOpts = defaults.opts.topBitOpts,
           bottomBit = defaults.opts.bottomBit,
-          bottomBitOpts = defaults.opts.bottomBitOpts,
-          interfaceThickness = defaults.opts.interfaceThickness,
-          fitGap = defaults.opts.fitGap
+          bottomBitOpts = defaults.opts.bottomBitOpts
         } = opts;
-        const stdOpts = {
-          interfaceThickness,
-          fitGap
-        };
         const initOpts = {
           height,
           radius,
           topBit,
           topBitOpts,
           bottomBit,
-          bottomBitOpts,
-          ...stdOpts
+          bottomBitOpts
         };
         return initOpts;
       };
@@ -5361,9 +5381,7 @@ var require_routed_shapes = __commonJS({
           topBit,
           topBitOpts,
           bottomBit,
-          bottomBitOpts,
-          interfaceThickness,
-          fitGap
+          bottomBitOpts
         } = opts;
         const modelConstants = {};
         const modelOpts = {
@@ -5375,23 +5393,13 @@ var require_routed_shapes = __commonJS({
           height,
           radius,
           topBit: topBitOpts,
-          bottomBit: bottomBitOpts,
-          interfaceThickness,
-          fitGap
+          bottomBit: bottomBitOpts
         };
         const modelPoints = {
           centre: defaults.vals.points.centre
         };
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts,
           dims: modelDims,
@@ -5745,7 +5753,6 @@ var require_brackets = __commonJS({
         const modelPoints = {};
         const modelComponents = {};
         const modelProperties = {
-          metadata: {},
           constants: modelConstants,
           opts: modelOpts,
           dims: modelDims,
@@ -5903,55 +5910,22 @@ var require_reinforced_length = __commonJS({
     "use strict";
     var reinforcedLengthInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
+        cuboid
       } = jscad.primitives;
       const {
         align,
-        translate,
-        rotate,
-        mirror
+        translate
       } = jscad.transforms;
       const {
         intersect,
-        subtract,
-        union,
-        scission
+        union
       } = jscad.booleans;
-      const {
-        extrudeLinear,
-        extrudeRotate,
-        project
-      } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
         standards
       } = swcadJs.data;
       const {
         math,
-        position,
-        geometry
+        position
       } = swcadJs.calcs;
       const {
         reinforcements
@@ -6023,14 +5997,6 @@ var require_reinforced_length = __commonJS({
         const modelPoints = {};
         const modelComponents = {};
         const modelProperties = {
-          metadata: {
-            id: "9999",
-            name: "New Model",
-            project: "New Project",
-            author: "Somebody Somewhere",
-            organization: "Salvador Workshop",
-            client: null
-          },
           constants: modelConstants,
           opts: modelOpts,
           dims: modelDims,
