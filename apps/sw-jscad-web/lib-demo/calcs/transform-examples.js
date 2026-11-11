@@ -6,7 +6,7 @@ const { translate, rotate, align } = jscad.transforms;
 const { union } = jscad.booleans
 const { TAU } = jscad.maths.constants
 
-const swcadJs = require('swcad-js').init({ jscad });
+const swcadJs = require('swcad-js-test').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
