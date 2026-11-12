@@ -16,6 +16,7 @@ export const swcadJsComponents = [
   { name: 'Mesh Panel (3D)', source: './lib-demo/components/mesh-panel-examples.js' },
   { name: 'Reinforcements (3D)', source: './lib-demo/components/reinforcements.js' },
   { name: 'More Reinforcements (3D)', source: './lib-demo/components/reinforcements-2.js' },
+  { name: 'Reinforced Lines (3D)', source: './lib-demo/components/reinforcements-3.js' },
   { name: 'Routed Shapes', source: './lib-demo/components/routed-shapes.js' },
   { name: 'Text (3D)', source: './lib-demo/components/text-3d.js' },
 ]

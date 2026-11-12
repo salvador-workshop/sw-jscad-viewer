@@ -88,10 +88,10 @@ const main = () => {
         return translate([idx * spaceUnit, 0, 0], oModel)
     })
     const outModelsJoists = joistModels.map((jModel, idx) => {
-        return translate([idx * spaceUnit, spaceUnit * 2.5, 0], jModel)
+        return translate([idx * spaceUnit * 2.75, spaceUnit, 0], jModel)
     })
     const outModelsBrackets = bracketModels.map((bModel, idx) => {
-        return translate([idx * spaceUnit, spaceUnit * 5, 0], bModel)
+        return translate([idx * spaceUnit, spaceUnit * 2, 0], bModel)
     })
 
     return [

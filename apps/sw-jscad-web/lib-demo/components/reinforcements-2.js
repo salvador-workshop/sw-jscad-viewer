@@ -27,12 +27,27 @@ const main = () => {
         heavyReinforcedLength,
     ]
 
-    const outModelsLenghts = reinfLengths.map((oModel, idx) => {
+    const lightReinforcedRing = reinforcements.reinforcedRing.lightReinforcedRing({})[0]
+    const mediumReinforcedRing = reinforcements.reinforcedRing.mediumReinforcedRing({})[0]
+    const heavyReinforcedRing = reinforcements.reinforcedRing.heavyReinforcedRing({})[0]
+
+    const reinfRings = [
+        lightReinforcedRing,
+        mediumReinforcedRing,
+        heavyReinforcedRing,
+    ]
+
+    const outModelsLengths = reinfLengths.map((oModel, idx) => {
         return translate([0, idx * spaceUnit, 0], oModel)
     })
 
+    const outModelsRings = reinfRings.map((oModel, idx) => {
+        return translate([spaceUnit * 2, idx * spaceUnit, 0], oModel)
+    })
+
     return [
-        ...outModelsLenghts,
+        ...outModelsLengths,
+        ...outModelsRings,
     ];
 }
 
