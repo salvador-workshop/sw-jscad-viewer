@@ -10,7 +10,7 @@ var require_constants = __commonJS({
     var tri30Factor = Math.sqrt(3);
     var tri45Factor = Math.sqrt(2);
     var eqTriHeightFactor = tri30Factor / 2;
-    var constants2 = {
+    var constants = {
       /**
        * Inches / Millimetre conversion rate
        * @memberof data.constants
@@ -36,7 +36,7 @@ var require_constants = __commonJS({
        */
       TRI_30_FACTOR: tri30Factor
     };
-    module2.exports = constants2;
+    module2.exports = constants;
   }
 });
 
@@ -142,11 +142,11 @@ var require_standards = __commonJS({
 var require_src = __commonJS({
   "packages/swcad-js-data/src/index.js"(exports2, module2) {
     "use strict";
-    var constants2 = require_constants();
+    var constants = require_constants();
     var standards = require_standards();
     var dataInit = ({ jscad }) => {
       const data = {
-        constants: constants2,
+        constants,
         standards: standards.init({ jscad })
       };
       return data;
@@ -289,12 +289,13 @@ var require_points = __commonJS({
       const { TAU } = jscad.maths.constants;
       const { colorize } = jscad.colors;
       const {
-        standards
+        standards,
+        constants
       } = swcadJs.data;
       const {
         math
       } = swcadJs.calcs;
-      const ptCentroid = (points, mode = "3d") => {
+      const centroid = (points, mode = "3d") => {
         const min = [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER];
         const max = [Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
         points.forEach((pt) => {
@@ -345,7 +346,7 @@ var require_points = __commonJS({
           return allPoints;
         }
         const simplePts = allPoints.map((pt) => [pt.x, pt.y]);
-        const pointCentroid = ptCentroid(simplePts, "2d");
+        const pointCentroid = centroid(simplePts, "2d");
         return allPoints.map((pt) => {
           return {
             x: pt.x - pointCentroid[0],
@@ -375,7 +376,7 @@ var require_points = __commonJS({
           return outPts;
         }
         const simplePts = outPts.map((pt) => [pt.x, pt.y]);
-        const pointCentroid = ptCentroid(simplePts, "2d");
+        const pointCentroid = centroid(simplePts, "2d");
         return outPts.map((pt) => {
           return {
             x: pt.x - pointCentroid[0],
@@ -384,7 +385,7 @@ var require_points = __commonJS({
         });
       };
       return {
-        ptCentroid,
+        centroid,
         getTriangularPtsInArea,
         getSquarePtsInArea
       };
@@ -3444,7 +3445,7 @@ var require_beads_bits2 = __commonJS({
         extrudeRotate
       } = jscad.extrusions;
       const {
-        constants: constants2
+        constants
       } = swcadJs.data;
       const {
         math
@@ -3582,7 +3583,7 @@ var require_beads_bits2 = __commonJS({
         cove
       };
       const basic30DegBead = (baseThickness, width) => {
-        const edgeOffset = baseThickness / constants2.TRI_30_FACTOR / 2;
+        const edgeOffset = baseThickness / constants.TRI_30_FACTOR / 2;
         const topWidth = width - edgeOffset * 2;
         const basic30DegBeadProfile = cylinderElliptic({
           height: baseThickness,
@@ -3592,7 +3593,7 @@ var require_beads_bits2 = __commonJS({
         return basic30DegBeadProfile;
       };
       const basic45DegBead = (baseThickness, width) => {
-        const edgeOffset = baseThickness / constants2.TRI_45_FACTOR / 2;
+        const edgeOffset = baseThickness / constants.TRI_45_FACTOR / 2;
         const topWidth = width - edgeOffset * 2;
         const basic45DegBeadProfile = cylinderElliptic({
           height: baseThickness,
@@ -3922,7 +3923,7 @@ var require_round_fitting = __commonJS({
         extrudeLinear
       } = jscad.extrusions;
       const {
-        constants: constants2
+        constants
       } = swcadJs.data;
       const {
         math,
@@ -3989,7 +3990,7 @@ var require_round_fitting = __commonJS({
         const width = interfaceThickness * 2 + dowelDiam;
         const roundCutProfileRadius = fitGap / 2 + dowelRadius;
         const invCutProfileSideLength = dowelDiam + fitGap;
-        const invCutProfileHeight = dowelDiam * constants2.EQUI_TRIANGLE_HEIGHT_FACTOR;
+        const invCutProfileHeight = dowelDiam * constants.EQUI_TRIANGLE_HEIGHT_FACTOR;
         const simpleHeight = dowelDiam / 3 + interfaceThickness + fitGap;
         const invSimpleHeight = invCutProfileHeight + interfaceThickness + fitGap;
         const modelOpts = defaults.vals.opts;
