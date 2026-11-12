@@ -10,7 +10,7 @@ var require_constants = __commonJS({
     var tri30Factor = Math.sqrt(3);
     var tri45Factor = Math.sqrt(2);
     var eqTriHeightFactor = tri30Factor / 2;
-    var constants = {
+    var constants2 = {
       /**
        * Inches / Millimetre conversion rate
        * @memberof data.constants
@@ -36,7 +36,7 @@ var require_constants = __commonJS({
        */
       TRI_30_FACTOR: tri30Factor
     };
-    module2.exports = constants;
+    module2.exports = constants2;
   }
 });
 
@@ -142,11 +142,11 @@ var require_standards = __commonJS({
 var require_src = __commonJS({
   "packages/swcad-js-data/src/index.js"(exports2, module2) {
     "use strict";
-    var constants = require_constants();
+    var constants2 = require_constants();
     var standards = require_standards();
     var dataInit = ({ jscad }) => {
       const data = {
-        constants,
+        constants: constants2,
         standards: standards.init({ jscad })
       };
       return data;
@@ -240,6 +240,161 @@ var require_geo_reg_poly = __commonJS({
   }
 });
 
+// packages/swcad-js-calcs/src/geometry/points.js
+var require_points = __commonJS({
+  "packages/swcad-js-calcs/src/geometry/points.js"(exports2, module2) {
+    "use strict";
+    var poinstInit = ({ jscad, swcadJs }) => {
+      const {
+        cube,
+        cylinder,
+        sphere,
+        cylinderElliptic,
+        circle,
+        cuboid,
+        roundedCuboid,
+        roundedCylinder,
+        roundedRectangle,
+        rectangle,
+        triangle
+      } = jscad.primitives;
+      const {
+        align,
+        translate,
+        rotate,
+        mirror
+      } = jscad.transforms;
+      const {
+        intersect,
+        subtract,
+        union,
+        scission
+      } = jscad.booleans;
+      const {
+        extrudeLinear,
+        extrudeRotate,
+        project
+      } = jscad.extrusions;
+      const {
+        measureDimensions,
+        measureBoundingBox,
+        measureVolume
+      } = jscad.measurements;
+      const {
+        hull,
+        hullChain
+      } = jscad.hulls;
+      const { vectorText } = jscad.text;
+      const { toOutlines } = jscad.geometries.geom2;
+      const { TAU } = jscad.maths.constants;
+      const { colorize } = jscad.colors;
+      const {
+        standards
+      } = swcadJs.data;
+      const {
+        math
+      } = swcadJs.calcs;
+      const ptCentroid = (points, mode = "3d") => {
+        const min = [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER];
+        const max = [Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
+        points.forEach((pt) => {
+          min[0] = Math.min(min[0], pt[0]);
+          min[1] = Math.min(min[1], pt[1]);
+          max[0] = Math.max(max[0], pt[0]);
+          max[1] = Math.max(max[1], pt[1]);
+          if (mode === "3d") {
+            min[2] = Math.min(min[2], pt[2]);
+            max[2] = Math.max(max[2], pt[2]);
+          }
+        });
+        let output = [
+          (max[0] + min[0]) / 2,
+          (max[1] + min[1]) / 2
+        ];
+        if (mode === "3d") {
+          output = [...output, (max[2] + min[2]) / 2];
+        }
+        return output;
+      };
+      const getTriangularPtsInArea = (x, y, distance, centrePoints = true) => {
+        const halfDist = distance / 2;
+        const allPoints = [];
+        const allYCoords = [];
+        let yCoordCtr = 0;
+        do {
+          allYCoords.push(yCoordCtr);
+          yCoordCtr = distance * constants.EQUI_TRIANGLE_HEIGHT_FACTOR + yCoordCtr;
+        } while (yCoordCtr < y);
+        const hasOffsetCollision = false;
+        let yIdxCtr = 0;
+        do {
+          let xCtr = 0;
+          do {
+            if (math.isEven(yIdxCtr)) {
+              allPoints.push({ x: xCtr, y: allYCoords[yIdxCtr] });
+            } else {
+              if (halfDist + xCtr <= x) {
+                allPoints.push({ x: halfDist + xCtr, y: allYCoords[yIdxCtr] });
+              }
+            }
+            xCtr = xCtr + distance;
+          } while (xCtr < x);
+          yIdxCtr = yIdxCtr + 1;
+        } while (yIdxCtr < allYCoords.length);
+        if (!centrePoints) {
+          return allPoints;
+        }
+        const simplePts = allPoints.map((pt) => [pt.x, pt.y]);
+        const pointCentroid = ptCentroid(simplePts, "2d");
+        return allPoints.map((pt) => {
+          return {
+            x: pt.x - pointCentroid[0],
+            y: pt.y - pointCentroid[1]
+          };
+        });
+      };
+      const getSquarePtsInArea = (x, y, distance, centrePoints = true) => {
+        const halfDist = distance / 2;
+        const allXCoords = [];
+        let xCtr = 0;
+        do {
+          allXCoords.push(xCtr);
+          xCtr = xCtr + distance;
+        } while (xCtr <= x);
+        const allYCoords = [];
+        let yCtr = 0;
+        do {
+          allYCoords.push(yCtr);
+          yCtr = yCtr + distance;
+        } while (yCtr <= y);
+        const allPoints = math.arrayCartesianProduct(allXCoords, allYCoords);
+        const outPts = allPoints.map((pt) => {
+          return { x: pt[0], y: pt[1] };
+        });
+        if (!centrePoints) {
+          return outPts;
+        }
+        const simplePts = outPts.map((pt) => [pt.x, pt.y]);
+        const pointCentroid = ptCentroid(simplePts, "2d");
+        return outPts.map((pt) => {
+          return {
+            x: pt.x - pointCentroid[0],
+            y: pt.y - pointCentroid[1]
+          };
+        });
+      };
+      return {
+        ptCentroid,
+        getTriangularPtsInArea,
+        getSquarePtsInArea
+      };
+    };
+    module2.exports = {
+      init: poinstInit
+    };
+  }
+});
+
 // packages/swcad-js-calcs/src/geometry/reinforcement/index.js
 var require_reinforcement = __commonJS({
   "packages/swcad-js-calcs/src/geometry/reinforcement/index.js"(exports2, module2) {
@@ -248,9 +403,6 @@ var require_reinforcement = __commonJS({
       const {
         math
       } = swcadJs.calcs;
-      const {
-        standards
-      } = swcadJs.data;
       const modelDefaults = () => {
         const defaultValues = {
           dims: {
@@ -573,7 +725,6 @@ var require_reinforcement = __commonJS({
         return data;
       };
       const reinforcedRectangle = (opts) => {
-        const defaults = rectangleDefaults();
         const initOpts = rectangleOpts(opts);
         const modelProperties = rectangleProps(initOpts);
         const data = {
@@ -611,29 +762,8 @@ var require_geometry = __commonJS({
   "packages/swcad-js-calcs/src/geometry/index.js"(exports2, module2) {
     "use strict";
     var geoRegPolyModule = require_geo_reg_poly();
+    var pointsModule = require_points();
     var reinforcementModule = require_reinforcement();
-    var ptCentroid = (points, mode = "3d") => {
-      const min = [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER];
-      const max = [Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
-      points.forEach((pt) => {
-        min[0] = Math.min(min[0], pt[0]);
-        min[1] = Math.min(min[1], pt[1]);
-        max[0] = Math.max(max[0], pt[0]);
-        max[1] = Math.max(max[1], pt[1]);
-        if (mode === "3d") {
-          min[2] = Math.min(min[2], pt[2]);
-          max[2] = Math.max(max[2], pt[2]);
-        }
-      });
-      let output = [
-        (max[0] + min[0]) / 2,
-        (max[1] + min[1]) / 2
-      ];
-      if (mode === "3d") {
-        output = [...output, (max[2] + min[2]) / 2];
-      }
-      return output;
-    };
     var coordDiffBetweenPoints = (startPt, endPt) => {
       return [
         endPt[0] - startPt[0],
@@ -654,8 +784,6 @@ var require_geometry = __commonJS({
       return midPt;
     };
     var geometryInit = ({ jscad, swcadJs }) => {
-      const { math } = swcadJs.calcs;
-      const { constants } = swcadJs.data;
       const angleOfTwoPtLine = (startPt, endPt, mode = "rad") => {
         const coordDiffs = coordDiffBetweenPoints(startPt, endPt);
         const angleRad = Math.atan2(coordDiffs[1], coordDiffs[0]);
@@ -685,76 +813,7 @@ var require_geometry = __commonJS({
         }
         return lineData;
       };
-      const getTriangularPtsInArea = (x, y, distance, centrePoints = true) => {
-        const halfDist = distance / 2;
-        const allPoints = [];
-        const allYCoords = [];
-        let yCoordCtr = 0;
-        do {
-          allYCoords.push(yCoordCtr);
-          yCoordCtr = distance * constants.EQUI_TRIANGLE_HEIGHT_FACTOR + yCoordCtr;
-        } while (yCoordCtr < y);
-        const hasOffsetCollision = false;
-        let yIdxCtr = 0;
-        do {
-          let xCtr = 0;
-          do {
-            if (math.isEven(yIdxCtr)) {
-              allPoints.push({ x: xCtr, y: allYCoords[yIdxCtr] });
-            } else {
-              if (halfDist + xCtr <= x) {
-                allPoints.push({ x: halfDist + xCtr, y: allYCoords[yIdxCtr] });
-              }
-            }
-            xCtr = xCtr + distance;
-          } while (xCtr < x);
-          yIdxCtr = yIdxCtr + 1;
-        } while (yIdxCtr < allYCoords.length);
-        if (!centrePoints) {
-          return allPoints;
-        }
-        const simplePts = allPoints.map((pt) => [pt.x, pt.y]);
-        const pointCentroid = ptCentroid(simplePts, "2d");
-        return allPoints.map((pt) => {
-          return {
-            x: pt.x - pointCentroid[0],
-            y: pt.y - pointCentroid[1]
-          };
-        });
-      };
-      const getSquarePtsInArea = (x, y, distance, centrePoints = true) => {
-        const halfDist = distance / 2;
-        const allXCoords = [];
-        let xCtr = 0;
-        do {
-          allXCoords.push(xCtr);
-          xCtr = xCtr + distance;
-        } while (xCtr <= x);
-        const allYCoords = [];
-        let yCtr = 0;
-        do {
-          allYCoords.push(yCtr);
-          yCtr = yCtr + distance;
-        } while (yCtr <= y);
-        const allPoints = math.arrayCartesianProduct(allXCoords, allYCoords);
-        const outPts = allPoints.map((pt) => {
-          return { x: pt[0], y: pt[1] };
-        });
-        if (!centrePoints) {
-          return outPts;
-        }
-        const simplePts = outPts.map((pt) => [pt.x, pt.y]);
-        const pointCentroid = ptCentroid(simplePts, "2d");
-        return outPts.map((pt) => {
-          return {
-            x: pt.x - pointCentroid[0],
-            y: pt.y - pointCentroid[1]
-          };
-        });
-      };
-      const points = {
-        centroid: ptCentroid
-      };
+      const points = pointsModule.init({ jscad, swcadJs });
       const regPoly = geoRegPolyModule.init({ jscad, swcadJs });
       const reinforcement = reinforcementModule.init({ jscad, swcadJs });
       return {
@@ -763,8 +822,6 @@ var require_geometry = __commonJS({
         midpointBetweenPoints,
         pointFromAngleAndDist,
         getLineDataFromOutlinePoints,
-        getTriangularPtsInArea,
-        getSquarePtsInArea,
         distanceBetweenPoints,
         points,
         regPoly,
@@ -1065,29 +1122,122 @@ var require_transform = __commonJS({
   }
 });
 
+// packages/swcad-js-calcs/src/geometry/lines.js
+var require_lines = __commonJS({
+  "packages/swcad-js-calcs/src/geometry/lines.js"(exports2, module2) {
+    "use strict";
+    var linesInit = ({ jscad, swcadJs }) => {
+      const {
+        cube,
+        cylinder,
+        sphere,
+        cylinderElliptic,
+        circle,
+        cuboid,
+        roundedCuboid,
+        roundedCylinder,
+        roundedRectangle,
+        rectangle,
+        triangle
+      } = jscad.primitives;
+      const {
+        align,
+        translate,
+        rotate,
+        mirror
+      } = jscad.transforms;
+      const {
+        intersect,
+        subtract,
+        union,
+        scission
+      } = jscad.booleans;
+      const {
+        extrudeLinear,
+        extrudeRotate,
+        project
+      } = jscad.extrusions;
+      const {
+        measureDimensions,
+        measureBoundingBox,
+        measureVolume
+      } = jscad.measurements;
+      const {
+        hull,
+        hullChain
+      } = jscad.hulls;
+      const { vectorText } = jscad.text;
+      const { toOutlines } = jscad.geometries.geom2;
+      const { TAU } = jscad.maths.constants;
+      const { colorize } = jscad.colors;
+      const {
+        standards
+      } = swcadJs.data;
+      const {
+        math,
+        geometry
+      } = swcadJs.calcs;
+      const lineComponentDetails = (opts) => {
+        const {
+          startPt,
+          endPt,
+          endOffset
+        } = opts;
+        const midPt = geometry.midpointBetweenPoints(startPt, endPt);
+        const lineLength = geometry.distanceBetweenPoints(startPt, endPt);
+        const offsetLineLength = lineLength - endOffset * 2;
+        const lineComponentAngle = geometry.angleOfTwoPtLine(startPt, endPt);
+        return {
+          midPt,
+          lineLength,
+          offsetLineLength,
+          lineComponentAngle
+        };
+      };
+      return {
+        lineComponentDetails
+      };
+    };
+    module2.exports = {
+      init: linesInit
+    };
+  }
+});
+
 // packages/swcad-js-calcs/src/index.js
 var require_src2 = __commonJS({
   "packages/swcad-js-calcs/src/index.js"(exports2, module2) {
     "use strict";
-    var geometry = require_geometry();
+    var geometryModule = require_geometry();
     var mathModule = require_math();
     var positionModule = require_position2();
-    var transform = require_transform();
+    var transformModule = require_transform();
+    var linesModule = require_lines();
     var calcsInit = ({ jscad, swcadJs }) => {
       const math = mathModule.init({ jscad, swcadJs });
       const position = positionModule.init({ jscad, swcadJs });
+      const initCalcs = {
+        math,
+        position
+      };
       const preLib = {
         ...swcadJs,
-        calcs: {
-          math,
-          position
-        }
+        calcs: initCalcs
+      };
+      const setupGeometry = geometryModule.init({ jscad, swcadJs: preLib });
+      const setupCalcs = {
+        ...initCalcs,
+        geometry: setupGeometry,
+        transform: transformModule.init({ jscad, swcadJs: preLib })
+      };
+      preLib.calcs = setupCalcs;
+      const finalGeometry = {
+        ...setupGeometry,
+        lines: linesModule.init({ jscad, swcadJs: preLib })
       };
       const calcs = {
-        math,
-        position,
-        geometry: geometry.init({ jscad, swcadJs: preLib }),
-        transform: transform.init({ jscad, swcadJs: preLib })
+        ...setupCalcs,
+        geometry: finalGeometry
       };
       return calcs;
     };
@@ -2749,9 +2899,9 @@ var require_mesh = __commonJS({
           } = modelProps.opts;
           let pts = [];
           if (holePattern2 == "tri") {
-            pts = geometry.getTriangularPtsInArea(meshAreaSize[0], meshAreaSize[1], holeDistance2);
+            pts = geometry.points.getTriangularPtsInArea(meshAreaSize[0], meshAreaSize[1], holeDistance2);
           } else {
-            pts = geometry.getSquarePtsInArea(meshAreaSize[0], meshAreaSize[1], holeDistance2);
+            pts = geometry.points.getSquarePtsInArea(meshAreaSize[0], meshAreaSize[1], holeDistance2);
           }
           return pts;
         };
@@ -3294,7 +3444,7 @@ var require_beads_bits2 = __commonJS({
         extrudeRotate
       } = jscad.extrusions;
       const {
-        constants
+        constants: constants2
       } = swcadJs.data;
       const {
         math
@@ -3432,7 +3582,7 @@ var require_beads_bits2 = __commonJS({
         cove
       };
       const basic30DegBead = (baseThickness, width) => {
-        const edgeOffset = baseThickness / constants.TRI_30_FACTOR / 2;
+        const edgeOffset = baseThickness / constants2.TRI_30_FACTOR / 2;
         const topWidth = width - edgeOffset * 2;
         const basic30DegBeadProfile = cylinderElliptic({
           height: baseThickness,
@@ -3442,7 +3592,7 @@ var require_beads_bits2 = __commonJS({
         return basic30DegBeadProfile;
       };
       const basic45DegBead = (baseThickness, width) => {
-        const edgeOffset = baseThickness / constants.TRI_45_FACTOR / 2;
+        const edgeOffset = baseThickness / constants2.TRI_45_FACTOR / 2;
         const topWidth = width - edgeOffset * 2;
         const basic45DegBeadProfile = cylinderElliptic({
           height: baseThickness,
@@ -3577,16 +3727,23 @@ var require_component_line = __commonJS({
           baseLineOffset,
           component
         } = opts;
-        const midPt = geometry.midpointBetweenPoints(startPt, endPt);
-        const lineLength = geometry.distanceBetweenPoints(startPt, endPt);
-        const offsetLineLength = lineLength - endOffset * 2;
+        const lineComponentDetails = geometry.lines.lineComponentDetails({
+          startPt,
+          endPt,
+          endOffset
+        });
+        const {
+          midPt,
+          lineLength,
+          offsetLineLength,
+          lineComponentAngle: compLineAngle
+        } = lineComponentDetails;
         const numSubLengths = Math.floor(offsetLineLength / unitLength);
         const componentUnits = numSubLengths + 1;
         const componentDims = measureDimensions(component);
         const componentBoundingBox = measureBoundingBox(component);
         const componentLineLength = offsetLineLength - componentDims[0];
         const componentUnitLength = componentLineLength / numSubLengths;
-        const compLineAngle = geometry.angleOfTwoPtLine(startPt, endPt);
         const lgProfileBeadWidth = standards.LG_PROFILE_BEAD_WIDTH;
         const mdProfileBeadWidth = standards.MD_PROFILE_BEAD_WIDTH;
         const smProfileBeadWidth = standards.SM_PROFILE_BEAD_WIDTH;
@@ -3695,7 +3852,6 @@ var require_component_line = __commonJS({
           let bLine = baseLine(modelProps2);
           let cSet = componentSet(modelProps2);
           const midPoint = [midPt[0], midPt[1], 0];
-          let a1 = cutBox(modelProps2);
           const rotatedCompLine = rotate(
             [0, 0, compLineAngle],
             cSet
@@ -3766,7 +3922,7 @@ var require_round_fitting = __commonJS({
         extrudeLinear
       } = jscad.extrusions;
       const {
-        constants
+        constants: constants2
       } = swcadJs.data;
       const {
         math,
@@ -3833,7 +3989,7 @@ var require_round_fitting = __commonJS({
         const width = interfaceThickness * 2 + dowelDiam;
         const roundCutProfileRadius = fitGap / 2 + dowelRadius;
         const invCutProfileSideLength = dowelDiam + fitGap;
-        const invCutProfileHeight = dowelDiam * constants.EQUI_TRIANGLE_HEIGHT_FACTOR;
+        const invCutProfileHeight = dowelDiam * constants2.EQUI_TRIANGLE_HEIGHT_FACTOR;
         const simpleHeight = dowelDiam / 3 + interfaceThickness + fitGap;
         const invSimpleHeight = invCutProfileHeight + interfaceThickness + fitGap;
         const modelOpts = defaults.vals.opts;
@@ -4426,7 +4582,8 @@ var require_reinforced_joist = __commonJS({
       } = jscad.primitives;
       const {
         align,
-        translate
+        translate,
+        rotate
       } = jscad.transforms;
       const {
         intersect,
@@ -4435,6 +4592,7 @@ var require_reinforced_joist = __commonJS({
       const {
         hull
       } = jscad.hulls;
+      const { TAU } = jscad.maths.constants;
       const {
         math,
         position
@@ -4462,7 +4620,6 @@ var require_reinforced_joist = __commonJS({
             width: math.inchesToMm(1.125),
             length: math.inchesToMm(5.5),
             unitLength: math.inchesToMm(1),
-            dowelHolderLength: math.inchesToMm(5 / 16),
             interfaceThickness: standards.INTERFACE_THICKNESS
           },
           points: {},
@@ -4472,7 +4629,6 @@ var require_reinforced_joist = __commonJS({
           width: defaultValues.dims.width,
           length: defaultValues.dims.length,
           unitLength: defaultValues.dims.unitLength,
-          dowelHolderLength: defaultValues.dims.dowelHolderLength,
           interfaceThickness: defaultValues.dims.interfaceThickness,
           reinforcementLevel: defaultValues.opts.reinforcementLevel
         };
@@ -4488,8 +4644,7 @@ var require_reinforced_joist = __commonJS({
           width,
           length,
           reinforcementLevel,
-          unitLength,
-          dowelHolderLength
+          unitLength
         } = opts;
         const lgProfileBeadWidth = standards.LG_PROFILE_BEAD_WIDTH;
         const mdProfileBeadWidth = standards.MD_PROFILE_BEAD_WIDTH;
@@ -4507,7 +4662,6 @@ var require_reinforced_joist = __commonJS({
           length,
           unitLength,
           lengthUnits,
-          dowelHolderLength,
           interfaceThickness,
           edgeWidth,
           supportWidth,
@@ -4531,6 +4685,124 @@ var require_reinforced_joist = __commonJS({
         };
         return modelProperties;
       };
+      const framePanelWebs = (modelProps) => {
+        const {
+          reinforcementLevel
+        } = modelProps.opts;
+        const {
+          lengthUnits,
+          unitLength,
+          length,
+          interfaceThickness,
+          width,
+          edgeWidth
+        } = modelProps.dims;
+        const {
+          interfaceProfileBeads
+        } = modelProps.components;
+        const panelPtsWidth = width - edgeWidth;
+        const braceUnitSize = [
+          panelPtsWidth,
+          unitLength
+        ];
+        const braceUnitMidpoint = [
+          braceUnitSize[0] / 2,
+          braceUnitSize[1] / 2
+        ];
+        const braceUnitCentrePoints = [];
+        for (let idx = 0; idx < lengthUnits; idx++) {
+          braceUnitCentrePoints.push([
+            braceUnitMidpoint[0],
+            unitLength * idx + braceUnitMidpoint[1],
+            0
+          ]);
+        }
+        let braceUnitPts = [
+          [0, 0, 0],
+          [braceUnitSize[0], braceUnitSize[1], 0],
+          [braceUnitSize[0], 0, 0],
+          [0, braceUnitSize[1], 0]
+        ];
+        const supportPts = braceUnitPts.map((buPt) => {
+          return translate(buPt, interfaceProfileBeads.md);
+        });
+        const supportLine1 = hull(supportPts[0], supportPts[1]);
+        const supportLine2 = hull(supportPts[2], supportPts[3]);
+        let diagonalSupports = supportLine1;
+        if (reinforcementLevel > 1) {
+          diagonalSupports = union(supportLine1, supportLine2);
+        }
+        const lightSupportPts = [
+          [0, 0, 0],
+          [braceUnitSize[0], 0, 0],
+          [0, braceUnitSize[1], 0],
+          [braceUnitSize[0], braceUnitSize[1], 0],
+          [0, braceUnitMidpoint[1], 0],
+          [braceUnitSize[0], braceUnitMidpoint[1], 0]
+        ];
+        let lightSupportProfilePts = lightSupportPts.map((lsPts) => {
+          return translate(lsPts, interfaceProfileBeads.sm);
+        });
+        const lightSupportLine1 = hull(lightSupportProfilePts[0], lightSupportProfilePts[1]);
+        const lightSupportLine2 = hull(lightSupportProfilePts[2], lightSupportProfilePts[3]);
+        const lightSupportLine3 = hull(lightSupportProfilePts[4], lightSupportProfilePts[5]);
+        let lightSupports = union(
+          lightSupportLine1,
+          lightSupportLine2
+        );
+        if (reinforcementLevel > 2) {
+          lightSupports = union(
+            lightSupports,
+            lightSupportLine3
+          );
+        }
+        const braceUnit = union(
+          diagonalSupports,
+          lightSupports
+        );
+        let braceUnits = braceUnitCentrePoints.map((bucPt) => {
+          return position.ctr(braceUnit, bucPt);
+        });
+        braceUnits = union(...braceUnits);
+        const edgePts = [
+          [0, 0, 0],
+          [0, length, 0],
+          [braceUnitSize[0], 0, 0],
+          [braceUnitSize[0], length, 0]
+        ];
+        const edgeProfilePts = edgePts.map((edgePt) => {
+          return position.ctr(interfaceProfileBeads.lg, edgePt);
+        });
+        const edge1 = hull(edgeProfilePts[0], edgeProfilePts[1]);
+        const edge2 = hull(edgeProfilePts[2], edgeProfilePts[3]);
+        const joistEdges = union(
+          edge1,
+          edge2
+        );
+        let endCap = cuboid({ size: [width, edgeWidth, interfaceThickness] });
+        endCap = align({
+          modes: ["min", "min", "center"],
+          relativeTo: [edgeWidth / -2, 0, 0]
+        }, endCap);
+        const endCaps = union(
+          endCap,
+          translate([0, length - edgeWidth, 0], endCap)
+        );
+        const joistWebs = union(
+          position.ctr(joistEdges),
+          position.ctr(braceUnits),
+          position.ctr(endCaps)
+        );
+        const keepArea = cuboid({
+          size: [
+            width,
+            length,
+            interfaceThickness * 2
+          ]
+        });
+        const websAssembly = intersect(joistWebs, keepArea);
+        return rotate([0, 0, TAU / 4], websAssembly);
+      };
       const reinforcedJoist = (opts) => {
         const defaults = reinforcedJoistDefaults();
         const {
@@ -4538,141 +4810,18 @@ var require_reinforced_joist = __commonJS({
           width = defaults.opts.width,
           length = defaults.opts.length,
           reinforcementLevel = defaults.opts.reinforcementLevel,
-          unitLength = defaults.opts.unitLength,
-          dowelHolderLength = defaults.opts.dowelHolderLength
+          unitLength = defaults.opts.unitLength
         } = opts;
         const inOpts = {
           interfaceThickness,
           width,
           length,
           reinforcementLevel,
-          unitLength,
-          dowelHolderLength
+          unitLength
         };
         const modelProperties = reinforcedJoistProps(inOpts);
-        const framePanelWebs = (modelProps) => {
-          const {
-            reinforcementLevel: reinforcementLevel2
-          } = modelProps.opts;
-          const {
-            lengthUnits,
-            unitLength: unitLength2,
-            length: length2,
-            interfaceThickness: interfaceThickness2,
-            width: width2,
-            edgeWidth
-          } = modelProps.dims;
-          const {
-            interfaceProfileBeads
-          } = modelProps.components;
-          const panelPtsWidth = width2 - edgeWidth;
-          const braceUnitSize = [
-            panelPtsWidth,
-            unitLength2
-          ];
-          const braceUnitMidpoint = [
-            braceUnitSize[0] / 2,
-            braceUnitSize[1] / 2
-          ];
-          const braceUnitCentrePoints = [];
-          for (let idx = 0; idx < lengthUnits; idx++) {
-            braceUnitCentrePoints.push([
-              braceUnitMidpoint[0],
-              unitLength2 * idx + braceUnitMidpoint[1],
-              0
-            ]);
-          }
-          let braceUnitPts = [
-            [0, 0, 0],
-            [braceUnitSize[0], braceUnitSize[1], 0],
-            [braceUnitSize[0], 0, 0],
-            [0, braceUnitSize[1], 0]
-          ];
-          const supportPts = braceUnitPts.map((buPt) => {
-            return translate(buPt, interfaceProfileBeads.md);
-          });
-          const supportLine1 = hull(supportPts[0], supportPts[1]);
-          const supportLine2 = hull(supportPts[2], supportPts[3]);
-          let diagonalSupports = supportLine1;
-          if (reinforcementLevel2 > 1) {
-            diagonalSupports = union(supportLine1, supportLine2);
-          }
-          const lightSupportPts = [
-            [0, 0, 0],
-            [braceUnitSize[0], 0, 0],
-            [0, braceUnitSize[1], 0],
-            [braceUnitSize[0], braceUnitSize[1], 0],
-            [0, braceUnitMidpoint[1], 0],
-            [braceUnitSize[0], braceUnitMidpoint[1], 0]
-          ];
-          let lightSupportProfilePts = lightSupportPts.map((lsPts) => {
-            return translate(lsPts, interfaceProfileBeads.sm);
-          });
-          const lightSupportLine1 = hull(lightSupportProfilePts[0], lightSupportProfilePts[1]);
-          const lightSupportLine2 = hull(lightSupportProfilePts[2], lightSupportProfilePts[3]);
-          const lightSupportLine3 = hull(lightSupportProfilePts[4], lightSupportProfilePts[5]);
-          let lightSupports = union(
-            lightSupportLine1,
-            lightSupportLine2
-          );
-          if (reinforcementLevel2 > 2) {
-            lightSupports = union(
-              lightSupports,
-              lightSupportLine3
-            );
-          }
-          const braceUnit = union(
-            diagonalSupports,
-            lightSupports
-          );
-          let braceUnits = braceUnitCentrePoints.map((bucPt) => {
-            return position.ctr(braceUnit, bucPt);
-          });
-          braceUnits = union(...braceUnits);
-          const edgePts = [
-            [0, 0, 0],
-            [0, length2, 0],
-            [braceUnitSize[0], 0, 0],
-            [braceUnitSize[0], length2, 0]
-          ];
-          const edgeProfilePts = edgePts.map((edgePt) => {
-            return position.ctr(interfaceProfileBeads.lg, edgePt);
-          });
-          const edge1 = hull(edgeProfilePts[0], edgeProfilePts[1]);
-          const edge2 = hull(edgeProfilePts[2], edgeProfilePts[3]);
-          const joistEdges = union(
-            edge1,
-            edge2
-          );
-          let endCap = cuboid({ size: [width2, edgeWidth, interfaceThickness2] });
-          endCap = align({
-            modes: ["min", "min", "center"],
-            relativeTo: [edgeWidth / -2, 0, 0]
-          }, endCap);
-          const endCaps = union(
-            endCap,
-            translate([0, length2 - edgeWidth, 0], endCap)
-          );
-          const joistWebs = union(
-            position.ctr(joistEdges),
-            position.ctr(braceUnits),
-            position.ctr(endCaps)
-          );
-          const keepArea = cuboid({
-            size: [
-              width2,
-              length2,
-              interfaceThickness2 * 2
-            ]
-          });
-          return intersect(joistWebs, keepArea);
-        };
-        const finalAssembly = (modelProps) => {
-          fPanelWebs = framePanelWebs(modelProps);
-          return fPanelWebs;
-        };
         let fPanelWebs = framePanelWebs(modelProperties);
-        let mainModel = finalAssembly(modelProperties);
+        let mainModel = fPanelWebs;
         let modelParts = {
           framePanelWebs: fPanelWebs
         };
@@ -5556,6 +5705,237 @@ var require_text2 = __commonJS({
   }
 });
 
+// packages/swcad-js-components/src/reinforcements/reinforced-joist-line.js
+var require_reinforced_joist_line = __commonJS({
+  "packages/swcad-js-components/src/reinforcements/reinforced-joist-line.js"(exports2, module2) {
+    "use strict";
+    var reinforcedJoistLineInit = ({ jscad, swcadJs }) => {
+      const {
+        cube,
+        cylinder,
+        sphere,
+        cylinderElliptic,
+        circle,
+        cuboid,
+        roundedCuboid,
+        roundedCylinder,
+        roundedRectangle,
+        rectangle,
+        triangle
+      } = jscad.primitives;
+      const {
+        align,
+        translate,
+        rotate,
+        mirror
+      } = jscad.transforms;
+      const {
+        intersect,
+        subtract,
+        union,
+        scission
+      } = jscad.booleans;
+      const {
+        extrudeLinear,
+        extrudeRotate,
+        project
+      } = jscad.extrusions;
+      const {
+        measureDimensions,
+        measureBoundingBox,
+        measureVolume
+      } = jscad.measurements;
+      const {
+        hull,
+        hullChain
+      } = jscad.hulls;
+      const { vectorText } = jscad.text;
+      const { toOutlines } = jscad.geometries.geom2;
+      const { TAU } = jscad.maths.constants;
+      const { colorize } = jscad.colors;
+      const {
+        standards
+      } = swcadJs.data;
+      const {
+        math,
+        geometry
+      } = swcadJs.calcs;
+      const {
+        reinforcements
+      } = swcadJs.components;
+      const reinforcedJoistLineDefaults = () => {
+        const defaultValues = {
+          constants: {
+            interfaceThickness: standards.INTERFACE_THICKNESS
+          },
+          opts: {
+            reinforcementLevel: 1
+          },
+          dims: {
+            width: math.inchesToMm(1.125),
+            unitLength: math.inchesToMm(1),
+            endOffset: 0
+          },
+          points: {
+            startPt: [0, 0],
+            endPt: [math.inchesToMm(3), math.inchesToMm(4)]
+          },
+          components: {},
+          types: {}
+        };
+        const defaultOpts = {
+          startPt: defaultValues.points.startPt,
+          endPt: defaultValues.points.endPt,
+          width: defaultValues.dims.width,
+          endOffset: defaultValues.dims.endOffset,
+          unitLength: defaultValues.dims.unitLength,
+          reinforcementLevel: defaultValues.opts.reinforcementLevel,
+          interfaceThickness: defaultValues.constants.interfaceThickness
+        };
+        return {
+          opts: defaultOpts,
+          vals: defaultValues
+        };
+      };
+      const reinforcedJoistLineOpts = (opts) => {
+        const defaults = reinforcedJoistLineDefaults();
+        console.log("reinforcedJoistLineOpts() -- opts", opts);
+        const {
+          startPt = defaults.opts.startPt,
+          endPt = defaults.opts.endPt,
+          width = defaults.opts.width,
+          endOffset = defaults.opts.endOffset,
+          unitLength = defaults.opts.unitLength,
+          reinforcementLevel = defaults.opts.reinforcementLevel,
+          interfaceThickness = defaults.opts.interfaceThickness
+        } = opts;
+        const initOpts = {
+          startPt,
+          endPt,
+          width,
+          endOffset,
+          unitLength,
+          reinforcementLevel,
+          interfaceThickness
+        };
+        console.log("reinforcedJoistLineOpts() -- initOpts", initOpts);
+        return initOpts;
+      };
+      const reinforcedJoistLineProps = (opts) => {
+        const defaults = reinforcedJoistLineDefaults();
+        console.log("reinforcedJoistLineProps() -- prop opts", opts);
+        const {
+          startPt,
+          endPt,
+          width,
+          endOffset,
+          unitLength,
+          reinforcementLevel,
+          interfaceThickness
+        } = opts;
+        const lineComponentDetails = geometry.lines.lineComponentDetails({
+          startPt,
+          endPt,
+          endOffset
+        });
+        const {
+          midPt,
+          lineLength,
+          offsetLineLength,
+          lineComponentAngle
+        } = lineComponentDetails;
+        const modelConstants = defaults.vals.constants;
+        const modelOpts = {
+          reinforcementLevel
+        };
+        const modelDims = {
+          width,
+          endOffset,
+          unitLength,
+          interfaceThickness,
+          lineLength,
+          offsetLineLength,
+          lineComponentAngle
+        };
+        const modelPoints = {
+          startPt,
+          endPt,
+          midPt
+        };
+        const modelComponents = defaults.vals.components;
+        const modelProperties = {
+          constants: modelConstants,
+          opts: modelOpts,
+          dims: modelDims,
+          points: modelPoints,
+          components: modelComponents
+        };
+        console.log("reinforcedJoistLineProps() -- modelProperties", modelProperties);
+        return modelProperties;
+      };
+      const reinfJoist = (modelProps) => {
+        const {
+          reinforcementLevel
+        } = modelProps.opts;
+        const {
+          width,
+          endOffset,
+          unitLength,
+          interfaceThickness,
+          lineLength,
+          offsetLineLength,
+          lineComponentAngle
+        } = modelProps.dims;
+        const {
+          startPt,
+          endPt,
+          midPt
+        } = modelProps.points;
+        const rJoistOpts = {
+          length: offsetLineLength,
+          width,
+          unitLength,
+          reinforcementLevel,
+          interfaceThickness
+        };
+        const rJoist = reinforcements.reinforcedJoist(rJoistOpts)[0];
+        return rJoist;
+      };
+      const reinforcedJoistLine = (opts) => {
+        const defaults = reinforcedJoistLineDefaults();
+        const initOpts = reinforcedJoistLineOpts(opts);
+        const modelProperties = reinforcedJoistLineProps(initOpts);
+        const {
+          width,
+          endOffset,
+          unitLength,
+          interfaceThickness,
+          lineLength,
+          offsetLineLength,
+          lineComponentAngle
+        } = modelProperties.dims;
+        const {
+          startPt,
+          endPt,
+          midPt
+        } = modelProperties.points;
+        const reinforcedJoist = reinfJoist(modelProperties);
+        let adjJoist = rotate([0, 0, lineComponentAngle], reinforcedJoist);
+        adjJoist = translate(midPt, adjJoist);
+        let mainModel = adjJoist;
+        let modelParts = {
+          reinforcedJoist
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      return reinforcedJoistLine;
+    };
+    module2.exports = {
+      init: reinforcedJoistLineInit
+    };
+  }
+});
+
 // packages/swcad-js-components/src/reinforcements/brackets.js
 var require_brackets = __commonJS({
   "packages/swcad-js-components/src/reinforcements/brackets.js"(exports2, module2) {
@@ -6264,6 +6644,311 @@ var require_reinforced_length = __commonJS({
   }
 });
 
+// packages/swcad-js-components/src/reinforcements/reinforced-line.js
+var require_reinforced_line = __commonJS({
+  "packages/swcad-js-components/src/reinforcements/reinforced-line.js"(exports2, module2) {
+    "use strict";
+    var reinforcedLineInit = ({ jscad, swcadJs }) => {
+      const {
+        cube,
+        cylinder,
+        sphere,
+        cylinderElliptic,
+        circle,
+        cuboid,
+        roundedCuboid,
+        roundedCylinder,
+        roundedRectangle,
+        rectangle,
+        triangle
+      } = jscad.primitives;
+      const {
+        align,
+        translate,
+        rotate,
+        mirror
+      } = jscad.transforms;
+      const {
+        intersect,
+        subtract,
+        union,
+        scission
+      } = jscad.booleans;
+      const {
+        extrudeLinear,
+        extrudeRotate,
+        project
+      } = jscad.extrusions;
+      const {
+        measureDimensions,
+        measureBoundingBox,
+        measureVolume
+      } = jscad.measurements;
+      const {
+        hull,
+        hullChain
+      } = jscad.hulls;
+      const { vectorText } = jscad.text;
+      const { toOutlines } = jscad.geometries.geom2;
+      const { TAU } = jscad.maths.constants;
+      const { colorize } = jscad.colors;
+      const {
+        standards
+      } = swcadJs.data;
+      const {
+        math,
+        geometry
+      } = swcadJs.calcs;
+      const {
+        reinforcements
+      } = swcadJs.components;
+      const reinforcedLineDefaults = () => {
+        const defInterfaceThickness = standards.INTERFACE_THICKNESS;
+        const defaultValues = {
+          constants: {
+            interfaceThickness: defInterfaceThickness
+          },
+          opts: {},
+          dims: {
+            width: math.inchesToMm(5 / 16),
+            height: math.inchesToMm(1 / 8),
+            unitLength: math.inchesToMm(1),
+            endOffset: 0,
+            baseThickness: defInterfaceThickness,
+            reinforcementThickness: 1.125
+          },
+          points: {
+            startPt: [0, 0],
+            endPt: [math.inchesToMm(3), math.inchesToMm(4)]
+          },
+          components: {},
+          types: {}
+        };
+        const defaultOpts = {
+          startPt: defaultValues.points.startPt,
+          endPt: defaultValues.points.endPt,
+          width: defaultValues.dims.width,
+          height: defaultValues.dims.height,
+          endOffset: defaultValues.dims.endOffset,
+          unitLength: defaultValues.dims.unitLength,
+          baseThickness: defaultValues.dims.baseThickness,
+          reinforcementThickness: defaultValues.dims.reinforcementThickness
+        };
+        return {
+          opts: defaultOpts,
+          vals: defaultValues
+        };
+      };
+      const reinforcedLineOpts = (opts) => {
+        const defaults = reinforcedLineDefaults();
+        console.log("reinforcedLineOpts() -- opts", opts);
+        const {
+          startPt = defaults.opts.startPt,
+          endPt = defaults.opts.endPt,
+          width = defaults.opts.width,
+          height = defaults.opts.height,
+          endOffset = defaults.opts.endOffset,
+          unitLength = defaults.opts.unitLength,
+          baseThickness = defaults.opts.baseThickness,
+          reinforcementThickness = defaults.opts.reinforcementThickness
+        } = opts;
+        const initOpts = {
+          startPt,
+          endPt,
+          width,
+          height,
+          endOffset,
+          unitLength,
+          baseThickness,
+          reinforcementThickness
+        };
+        console.log("reinforcedLineOpts() -- initOpts", initOpts);
+        return initOpts;
+      };
+      const reinforcedLineProps = (opts) => {
+        const defaults = reinforcedLineDefaults();
+        console.log("reinforcedLineProps() -- prop opts", opts);
+        const {
+          startPt,
+          endPt,
+          width,
+          height,
+          endOffset,
+          unitLength,
+          baseThickness,
+          reinforcementThickness
+        } = opts;
+        const lineComponentDetails = geometry.lines.lineComponentDetails({
+          startPt,
+          endPt,
+          endOffset
+        });
+        const {
+          midPt,
+          lineLength,
+          offsetLineLength,
+          lineComponentAngle
+        } = lineComponentDetails;
+        const modelConstants = defaults.vals.constants;
+        const modelOpts = defaults.vals.opts;
+        const modelDims = {
+          width,
+          height,
+          endOffset,
+          unitLength,
+          baseThickness,
+          reinforcementThickness,
+          lineLength,
+          offsetLineLength,
+          lineComponentAngle
+        };
+        const modelPoints = {
+          startPt,
+          endPt,
+          midPt
+        };
+        const modelComponents = defaults.vals.components;
+        const modelProperties = {
+          constants: modelConstants,
+          opts: modelOpts,
+          dims: modelDims,
+          points: modelPoints,
+          components: modelComponents
+        };
+        console.log("reinforcedLineProps() -- modelProperties", modelProperties);
+        return modelProperties;
+      };
+      const lightReinforcedLine = (opts) => {
+        const defaults = reinforcedLineDefaults();
+        const initOpts = reinforcedLineOpts(opts);
+        const modelProperties = reinforcedLineProps(initOpts);
+        const {
+          width,
+          height,
+          endOffset,
+          unitLength,
+          baseThickness,
+          reinforcementThickness,
+          lineLength,
+          offsetLineLength,
+          lineComponentAngle
+        } = modelProperties.dims;
+        const {
+          startPt,
+          endPt,
+          midPt
+        } = modelProperties.points;
+        const rOpts = {
+          size: [
+            offsetLineLength,
+            width,
+            height
+          ],
+          unitLength,
+          baseThickness,
+          reinforcementThickness
+        };
+        const lightReinfLength = reinforcements.reinforcedLength.lightReinforcedLength(rOpts)[0];
+        let adjLightReinfLength = rotate([0, 0, lineComponentAngle], lightReinfLength);
+        adjLightReinfLength = translate(midPt, adjLightReinfLength);
+        const mainModel = adjLightReinfLength;
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const mediumReinforcedLine = (opts) => {
+        const defaults = reinforcedLineDefaults();
+        const initOpts = reinforcedLineOpts(opts);
+        const modelProperties = reinforcedLineProps(initOpts);
+        const {
+          width,
+          height,
+          endOffset,
+          unitLength,
+          baseThickness,
+          reinforcementThickness,
+          lineLength,
+          offsetLineLength,
+          lineComponentAngle
+        } = modelProperties.dims;
+        const {
+          startPt,
+          endPt,
+          midPt
+        } = modelProperties.points;
+        const rOpts = {
+          size: [
+            offsetLineLength,
+            width,
+            height
+          ],
+          unitLength,
+          baseThickness,
+          reinforcementThickness
+        };
+        const mediumReinfLength = reinforcements.reinforcedLength.mediumReinforcedLength(rOpts)[0];
+        let adjMediumReinfLength = rotate([0, 0, lineComponentAngle], mediumReinfLength);
+        adjMediumReinfLength = translate(midPt, adjMediumReinfLength);
+        const mainModel = adjMediumReinfLength;
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const heavyReinforcedLine = (opts) => {
+        const defaults = reinforcedLineDefaults();
+        const initOpts = reinforcedLineOpts(opts);
+        const modelProperties = reinforcedLineProps(initOpts);
+        const {
+          width,
+          height,
+          endOffset,
+          unitLength,
+          baseThickness,
+          reinforcementThickness,
+          lineLength,
+          offsetLineLength,
+          lineComponentAngle
+        } = modelProperties.dims;
+        const {
+          startPt,
+          endPt,
+          midPt
+        } = modelProperties.points;
+        const rOpts = {
+          size: [
+            offsetLineLength,
+            width,
+            height
+          ],
+          unitLength,
+          baseThickness,
+          reinforcementThickness
+        };
+        const heavyReinfLength = reinforcements.reinforcedLength.heavyReinforcedLength(rOpts)[0];
+        let adjHeavyReinfLength = rotate([0, 0, lineComponentAngle], heavyReinfLength);
+        adjHeavyReinfLength = translate(midPt, adjHeavyReinfLength);
+        const mainModel = adjHeavyReinfLength;
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      return {
+        defaults: reinforcedLineDefaults,
+        props: reinforcedLineProps,
+        lightReinforcedLine,
+        mediumReinforcedLine,
+        heavyReinforcedLine
+      };
+    };
+    module2.exports = {
+      init: reinforcedLineInit
+    };
+  }
+});
+
 // packages/swcad-js-components/src/index.js
 var require_src4 = __commonJS({
   "packages/swcad-js-components/src/index.js"(exports2, module2) {
@@ -6275,8 +6960,10 @@ var require_src4 = __commonJS({
     var reinforcementsModule = require_reinforcements2();
     var routedShapesModule = require_routed_shapes();
     var textModule = require_text2();
+    var reinforcedJoistLineModule = require_reinforced_joist_line();
     var reinforcementBracketsModule = require_brackets();
     var reinforcedLengthModule = require_reinforced_length();
+    var reinforcedLineModule = require_reinforced_line();
     var componentsInit = ({ jscad, swcadJs }) => {
       const beadsBits = beadsBitsModule.init({ jscad, swcadJs });
       const preLib = {
@@ -6288,18 +6975,24 @@ var require_src4 = __commonJS({
       const routedShapes = routedShapesModule.init({ jscad, swcadJs: preLib });
       const mesh = meshModule.init({ jscad, swcadJs: preLib });
       const componentLine = componentLineModule.init({ jscad, swcadJs: preLib });
-      const setupReinforcements = reinforcementsModule.init({ jscad, swcadJs: preLib });
+      const initReinforcements = reinforcementsModule.init({ jscad, swcadJs: preLib });
       preLib.components = {
         beadsBits,
         routedShapes,
         mesh,
         componentLine,
-        reinforcements: setupReinforcements
+        reinforcements: initReinforcements
       };
-      const finalReinforcements = {
-        ...setupReinforcements,
+      const setupReinforcements = {
+        ...initReinforcements,
+        reinforcedJoistLine: reinforcedJoistLineModule.init({ jscad, swcadJs: preLib }),
         brackets: reinforcementBracketsModule.init({ jscad, swcadJs: preLib }),
         reinforcedLength: reinforcedLengthModule.init({ jscad, swcadJs: preLib })
+      };
+      preLib.components.reinforcements = setupReinforcements;
+      const finalReinforcements = {
+        ...setupReinforcements,
+        reinforcedLine: reinforcedLineModule.init({ jscad, swcadJs: preLib })
       };
       const components = {
         beadsBits,
