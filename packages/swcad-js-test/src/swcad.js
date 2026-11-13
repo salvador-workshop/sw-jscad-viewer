@@ -246,50 +246,6 @@ var require_points = __commonJS({
     "use strict";
     var poinstInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
-      } = jscad.primitives;
-      const {
-        align,
-        translate,
-        rotate,
-        mirror
-      } = jscad.transforms;
-      const {
-        intersect,
-        subtract,
-        union,
-        scission
-      } = jscad.booleans;
-      const {
-        extrudeLinear,
-        extrudeRotate,
-        project
-      } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
-      const {
-        standards,
         constants
       } = swcadJs.data;
       const {
@@ -1129,53 +1085,6 @@ var require_lines = __commonJS({
     "use strict";
     var linesInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
-      } = jscad.primitives;
-      const {
-        align,
-        translate,
-        rotate,
-        mirror
-      } = jscad.transforms;
-      const {
-        intersect,
-        subtract,
-        union,
-        scission
-      } = jscad.booleans;
-      const {
-        extrudeLinear,
-        extrudeRotate,
-        project
-      } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
-      const {
-        standards
-      } = swcadJs.data;
-      const {
-        math,
         geometry
       } = swcadJs.calcs;
       const lineComponentDetails = (opts) => {
@@ -1771,7 +1680,6 @@ var require_connections = __commonJS({
         return modelProperties;
       };
       const dovetail = (opts) => {
-        const defaults = modelDefaults();
         const initOpts = modelOpts(opts);
         const modelProperties = modelProps(initOpts);
         const {
@@ -1854,7 +1762,6 @@ var require_connections = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const tab = (opts) => {
-        const defaults = modelDefaults();
         const initOpts = modelOpts(opts);
         const modelProperties = modelProps(initOpts);
         const {
@@ -1937,7 +1844,6 @@ var require_connections = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const rightAngleTab = (opts) => {
-        const defaults = modelDefaults();
         const initOpts = modelOpts(opts);
         const modelProperties = modelProps(initOpts);
         const {
@@ -2016,23 +1922,17 @@ var require_connections = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const polygon = (opts) => {
-        const defaults = modelDefaults();
         const initOpts = modelOpts(opts);
         const modelProperties = modelProps(initOpts);
         const {
           segments
         } = modelProperties.opts;
         const {
-          width,
-          depth,
           radius,
           fitGap,
           diametre,
           interfaceMargin
         } = modelProperties.dims;
-        const {
-          sampleThickness
-        } = modelProperties.constants;
         const halfGap = fitGap / 2;
         const cornerRadius = math.inchesToMm(1 / 4);
         const specs = {
@@ -2070,7 +1970,6 @@ var require_connections = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const ellipse = (opts) => {
-        const defaults = modelDefaults();
         const initOpts = modelOpts(opts);
         const modelProperties = modelProps(initOpts);
         const {
@@ -2082,11 +1981,6 @@ var require_connections = __commonJS({
           fitGap,
           interfaceMargin
         } = modelProperties.dims;
-        const {
-          sampleThickness
-        } = modelProperties.constants;
-        const halfGap = fitGap / 2;
-        const cornerRadius = math.inchesToMm(1 / 4);
         const diam = [
           width - interfaceMargin[0] * 2,
           (depth - interfaceMargin[1] * 2) * 2
@@ -2151,24 +2045,18 @@ var require_connections = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const pegboard = (opts) => {
-        const defaults = modelDefaults();
         const initOpts = modelOpts(opts);
         const modelProperties = modelProps(initOpts);
         const {
           unitSegments
         } = modelProperties.opts;
         const {
-          width,
-          depth,
           unitRadius,
           unitSpacing,
           fitGap,
           unitDiametre,
           interfaceMargin
         } = modelProperties.dims;
-        const {
-          sampleThickness
-        } = modelProperties.constants;
         const halfGap = fitGap / 2;
         const cornerRadius = unitDiametre * 0.75;
         const specs = {
@@ -2218,7 +2106,6 @@ var require_connections = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const boltCircle = (opts) => {
-        const defaults = modelDefaults();
         const initOpts = modelOpts(opts);
         const modelProperties = modelProps(initOpts);
         const {
@@ -2227,21 +2114,14 @@ var require_connections = __commonJS({
         } = modelProperties.opts;
         const {
           radius,
-          diametre,
           unitRadius,
-          unitSpacing,
           fitGap,
-          unitDiametre,
           interfaceMargin
         } = modelProperties.dims;
-        const {
-          sampleThickness
-        } = modelProperties.constants;
         const halfGap = fitGap / 2;
         const holeRadius = unitRadius + halfGap;
         const inCircle = circle({ radius, segments });
         const holePoints = toOutlines(inCircle)[0];
-        const basePunch = circle({ radius: unitRadius });
         const dowels = holePoints.map((dPt) => {
           return translate(dPt, circle({ radius: unitRadius, segments: unitSegments }));
         });
@@ -2268,7 +2148,6 @@ var require_connections = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const dovetailRow = (opts) => {
-        const defaults = modelDefaults();
         const initOpts = modelOpts(opts);
         const modelProperties = modelProps(initOpts);
         const {
@@ -2277,7 +2156,6 @@ var require_connections = __commonJS({
         const {
           width,
           depth,
-          fitGap,
           interfaceMargin
         } = modelProperties.dims;
         const {
@@ -2334,7 +2212,6 @@ var require_connections = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const tabRow = (opts) => {
-        const defaults = modelDefaults();
         const initOpts = modelOpts(opts);
         const modelProperties = modelProps(initOpts);
         const {
@@ -2343,7 +2220,6 @@ var require_connections = __commonJS({
         const {
           width,
           depth,
-          fitGap,
           interfaceMargin
         } = modelProperties.dims;
         const {
@@ -2400,7 +2276,6 @@ var require_connections = __commonJS({
         return [mainModel, modelParts, modelProperties];
       };
       const rightAngleTabRow = (opts) => {
-        const defaults = modelDefaults();
         const initOpts = modelOpts(opts);
         const modelProperties = modelProps(initOpts);
         const {
@@ -2409,7 +2284,6 @@ var require_connections = __commonJS({
         const {
           width,
           depth,
-          fitGap,
           interfaceMargin
         } = modelProperties.dims;
         const {
@@ -2769,7 +2643,7 @@ var require_joint_panel = __commonJS({
         ];
         const mainModel = outProfiles;
         const modelParts = {
-          model: outProfiles,
+          mainModel,
           cut: comboCut
         };
         return [mainModel, modelParts, modelProperties];
@@ -2935,6 +2809,7 @@ var require_mesh = __commonJS({
         let meshPanelProfileInst = meshPanelProfile(modelProperties);
         let mainModel = finalAssembly(modelProperties);
         let modelParts = {
+          mainModel,
           meshPanelCutProfile: meshPanelCutProfileInst,
           meshPanelProfile: meshPanelProfileInst
         };
@@ -3071,7 +2946,9 @@ var require_box_curve = __commonJS({
         );
         const mainModel = position.ctr(cutCurve);
         const modelParts = {
-          mainModel
+          mainModel,
+          blank,
+          cutaway
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -3092,7 +2969,9 @@ var require_box_curve = __commonJS({
         );
         const mainModel = position.ctr(cutCurve);
         const modelParts = {
-          mainModel
+          mainModel,
+          blank,
+          cutaway
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -3333,6 +3212,7 @@ var require_reinforced_rect = __commonJS({
         const rectSecondaryBracingInst = rectSecondaryBracing(modelProperties);
         let mainModel = position.ctr(finalAssembly(modelProperties));
         let modelParts = {
+          mainModel,
           rectOutline: rectOutlineInst,
           rectPrimaryBracing: rectPrimaryBracingInst,
           rectSecondaryBracing: rectSecondaryBracingInst
@@ -3539,7 +3419,8 @@ var require_beads_bits2 = __commonJS({
         const extrudedBit = extrudeRotate({ segments: 32 }, bitProfile);
         const mainModel = extrudedBit;
         const modelParts = {
-          mainModel
+          mainModel,
+          bitProfile
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -3550,7 +3431,8 @@ var require_beads_bits2 = __commonJS({
         const extrudedBit = extrudeRotate({ segments: 32 }, bitProfile);
         const mainModel = extrudedBit;
         const modelParts = {
-          mainModel
+          mainModel,
+          bitProfile
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -3561,7 +3443,8 @@ var require_beads_bits2 = __commonJS({
         const extrudedBit = extrudeRotate({ segments: 32 }, bitProfile);
         const mainModel = extrudedBit;
         const modelParts = {
-          mainModel
+          mainModel,
+          bitProfile
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -3572,7 +3455,8 @@ var require_beads_bits2 = __commonJS({
         const extrudedBit = extrudeRotate({ segments: 32 }, bitProfile);
         const mainModel = extrudedBit;
         const modelParts = {
-          mainModel
+          mainModel,
+          bitProfile
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -4074,7 +3958,9 @@ var require_round_fitting = __commonJS({
         dHolder = rotate([Math.PI / 2, 0, 0], dHolder);
         const mainModel = position.ctr(dHolder);
         const modelParts = {
-          mainModel
+          mainModel,
+          section: dHolderSection,
+          cutaway: topCutaway
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -4098,76 +3984,70 @@ var require_round_fitting = __commonJS({
         dHolder = rotate([Math.PI / 2, 0, 0], dHolder);
         const mainModel = position.ctr(dHolder);
         const modelParts = {
-          mainModel
+          mainModel,
+          section: dHolderSection,
+          cutaway: channelCutaway
         };
         return [mainModel, modelParts, modelProperties];
       };
       const doubleRoundFitting = (opts) => {
         const initOpts = roundFittingOpts(opts);
         const modelProperties = roundFittingProps(initOpts);
-        const roundFittingSection = (modelProps) => {
-          const {
-            ratioDiamToHolderHeight,
-            ratioDiamToChannelDepth,
-            ratioDiamToSideChannelWidth,
-            ratioDiamToDowelDepth
-          } = modelProps.constants;
-          const {
-            dowelRadius,
-            dowelDiam,
-            interfaceThickness,
-            fitGap,
-            width
-          } = modelProps.dims;
-          const baseRect = rectangle({
-            size: [
-              width,
-              dowelDiam * ratioDiamToHolderHeight
-            ]
-          });
-          const topCutaway = roundFittingCutProfile(opts)[0];
-          const channelCutaway = invRoundFittingCutProfile(opts)[0];
-          let sideCutaway1 = triangle({
-            type: "ASA",
-            values: [
-              Math.PI / 6,
-              dowelDiam * ratioDiamToSideChannelWidth,
-              Math.PI / 6
-            ]
-          });
-          sideCutaway1 = rotate([0, 0, Math.PI / -2], sideCutaway1);
-          const sideCutaway2 = mirror({ normal: [1, 0, 0] }, sideCutaway1);
-          let dHolderSection = subtract(
-            align({ modes: ["center", "min", "center"] }, baseRect),
-            align({ modes: ["center", "min", "center"] }, channelCutaway)
-          );
-          dHolderSection = subtract(
-            align({ modes: ["center", "max", "center"] }, dHolderSection),
-            translate([0, dowelRadius / 3, 0], topCutaway)
-          );
-          dHolderSection = subtract(
-            align({ modes: ["min", "center", "center"] }, dHolderSection),
-            align({ modes: ["min", "center", "center"] }, sideCutaway1)
-          );
-          dHolderSection = subtract(
-            align({ modes: ["max", "center", "center"] }, dHolderSection),
-            align({ modes: ["max", "center", "center"] }, sideCutaway2)
-          );
-          return position.ctr(dHolderSection);
-        };
-        const finalAssembly = (modelProps) => {
-          const {
-            length
-          } = modelProps.dims;
-          const dHolderSection = roundFittingSection(modelProps);
-          let dHolder = extrudeLinear({ height: length }, dHolderSection);
-          dHolder = rotate([Math.PI / 2, 0, 0], dHolder);
-          return position.ctr(dHolder);
-        };
-        const roundFittingSectionInst = roundFittingSection(modelProperties);
-        const mainModel = finalAssembly(modelProperties);
+        const {
+          ratioDiamToHolderHeight,
+          ratioDiamToSideChannelWidth
+        } = modelProperties.constants;
+        const {
+          dowelRadius,
+          dowelDiam,
+          width,
+          length
+        } = modelProperties.dims;
+        const baseRect = rectangle({
+          size: [
+            width,
+            dowelDiam * ratioDiamToHolderHeight
+          ]
+        });
+        const topCutaway = roundFittingCutProfile(opts)[0];
+        const channelCutaway = invRoundFittingCutProfile(opts)[0];
+        const sideCutaway = triangle({
+          type: "ASA",
+          values: [
+            Math.PI / 6,
+            dowelDiam * ratioDiamToSideChannelWidth,
+            Math.PI / 6
+          ]
+        });
+        let sideCutaway1 = sideCutaway;
+        sideCutaway1 = rotate([0, 0, Math.PI / -2], sideCutaway1);
+        const sideCutaway2 = mirror({ normal: [1, 0, 0] }, sideCutaway1);
+        let dHolderSection = subtract(
+          align({ modes: ["center", "min", "center"] }, baseRect),
+          align({ modes: ["center", "min", "center"] }, channelCutaway)
+        );
+        dHolderSection = subtract(
+          align({ modes: ["center", "max", "center"] }, dHolderSection),
+          translate([0, dowelRadius / 3, 0], topCutaway)
+        );
+        dHolderSection = subtract(
+          align({ modes: ["min", "center", "center"] }, dHolderSection),
+          align({ modes: ["min", "center", "center"] }, sideCutaway1)
+        );
+        dHolderSection = subtract(
+          align({ modes: ["max", "center", "center"] }, dHolderSection),
+          align({ modes: ["max", "center", "center"] }, sideCutaway2)
+        );
+        const dowelHolderSection = position.ctr(dHolderSection);
+        let dHolder = extrudeLinear({ height: length }, dowelHolderSection);
+        dHolder = rotate([Math.PI / 2, 0, 0], dHolder);
+        const mainModel = position.ctr(dHolder);
         const modelParts = {
-          roundFittingSection: roundFittingSectionInst
+          mainModel,
+          topCutaway,
+          sideCutaway,
+          bottomCutaway: channelCutaway,
+          section: dowelHolderSection
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -4334,7 +4214,9 @@ var require_rectangular_fitting = __commonJS({
         dHolder = rotate([Math.PI / 2, 0, 0], dHolder);
         const mainModel = position.ctr(dHolder);
         const modelParts = {
-          mainModel
+          mainModel,
+          section: dHolderSection,
+          cutaway: topCutaway
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -4534,7 +4416,8 @@ var require_box_support = __commonJS({
           boxCurvesQtrModel
         ));
         const modelParts = {
-          mainModel
+          mainModel,
+          profile: boxCurvesQtrModel
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -4556,7 +4439,8 @@ var require_box_support = __commonJS({
           boxCurvesHalfModel
         ));
         const modelParts = {
-          mainModel
+          mainModel,
+          profile: boxCurvesHalfModel
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -4949,7 +4833,8 @@ var require_reinforced_rect_panel = __commonJS({
         ));
         const mainModel = extrudedReinforcedRect;
         const modelParts = {
-          mainModel
+          mainModel,
+          profile: reinforcedRect
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -5181,7 +5066,9 @@ var require_reinforced_ring = __commonJS({
         const ringAssembly = union(...lightRingAssemblyParts);
         const mainModel = position.ctr(ringAssembly);
         const modelParts = {
-          mainModel
+          mainModel,
+          base: ringReinfBase,
+          innerEdge: ringReinfInnerEdge
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -5221,7 +5108,10 @@ var require_reinforced_ring = __commonJS({
         const ringAssembly = union(...mediumRingAssemblyParts);
         const mainModel = position.ctr(ringAssembly);
         const modelParts = {
-          mainModel
+          mainModel,
+          base: ringReinfBase,
+          innerEdge: ringReinfInnerEdge,
+          spokes: ringReinfSpokes
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -5268,7 +5158,11 @@ var require_reinforced_ring = __commonJS({
         const ringAssembly = union(...heavyRingAssemblyParts);
         const mainModel = position.ctr(ringAssembly);
         const modelParts = {
-          mainModel
+          mainModel,
+          base: ringReinfBase,
+          innerEdge: ringReinfInnerEdge,
+          spokes: ringReinfSpokes,
+          outerEdge: ringReinfOuterEdge
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -5609,7 +5503,9 @@ var require_routed_shapes = __commonJS({
         }
         const mainModel = cutShape;
         const modelParts = {
-          mainModel
+          mainModel,
+          cutPathTop,
+          cutPathBottom
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -5712,48 +5608,9 @@ var require_reinforced_joist_line = __commonJS({
     "use strict";
     var reinforcedJoistLineInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
-      } = jscad.primitives;
-      const {
-        align,
         translate,
-        rotate,
-        mirror
+        rotate
       } = jscad.transforms;
-      const {
-        intersect,
-        subtract,
-        union,
-        scission
-      } = jscad.booleans;
-      const {
-        extrudeLinear,
-        extrudeRotate,
-        project
-      } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
         standards
       } = swcadJs.data;
@@ -5880,18 +5737,10 @@ var require_reinforced_joist_line = __commonJS({
         } = modelProps.opts;
         const {
           width,
-          endOffset,
           unitLength,
           interfaceThickness,
-          lineLength,
-          offsetLineLength,
-          lineComponentAngle
+          offsetLineLength
         } = modelProps.dims;
-        const {
-          startPt,
-          endPt,
-          midPt
-        } = modelProps.points;
         const rJoistOpts = {
           length: offsetLineLength,
           width,
@@ -5903,21 +5752,12 @@ var require_reinforced_joist_line = __commonJS({
         return rJoist;
       };
       const reinforcedJoistLine = (opts) => {
-        const defaults = reinforcedJoistLineDefaults();
         const initOpts = reinforcedJoistLineOpts(opts);
         const modelProperties = reinforcedJoistLineProps(initOpts);
         const {
-          width,
-          endOffset,
-          unitLength,
-          interfaceThickness,
-          lineLength,
-          offsetLineLength,
           lineComponentAngle
         } = modelProperties.dims;
         const {
-          startPt,
-          endPt,
           midPt
         } = modelProperties.points;
         const reinforcedJoist = reinfJoist(modelProperties);
@@ -6046,7 +5886,6 @@ var require_brackets = __commonJS({
           numReinforcements
         } = modelProperties.opts;
         const {
-          size,
           length,
           width,
           height,
@@ -6081,7 +5920,10 @@ var require_brackets = __commonJS({
         );
         const mainModel = position.ctr(rightAngleBracketAssembly);
         const modelParts = {
-          mainModel
+          mainModel,
+          sidePanel,
+          basePanel,
+          support: bracketReinf
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -6092,7 +5934,6 @@ var require_brackets = __commonJS({
           numReinforcements
         } = modelProperties.opts;
         const {
-          size,
           length,
           width,
           height,
@@ -6163,7 +6004,11 @@ var require_brackets = __commonJS({
         );
         const mainModel = position.ctr(cornerBracketAssembly);
         const modelParts = {
-          mainModel
+          mainModel,
+          sidePanelX,
+          sidePanelY,
+          supportX: bracketReinfX,
+          supportY: bracketReinfY
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -6211,7 +6056,10 @@ var require_reinforced_length = __commonJS({
         const defFitGap = standards.FIT_GAP;
         const defaultValues = {
           constants: {},
-          opts: {},
+          opts: {
+            hasReinforcedEnds: true,
+            hasUnitReinforcements: true
+          },
           dims: {
             size: [
               math.inchesToMm(3.5),
@@ -6229,7 +6077,9 @@ var require_reinforced_length = __commonJS({
           size: defaultValues.dims.size,
           unitLength: defaultValues.dims.unitLength,
           baseThickness: defaultValues.dims.baseThickness,
-          reinforcementThickness: defaultValues.dims.reinforcementThickness
+          reinforcementThickness: defaultValues.dims.reinforcementThickness,
+          hasReinforcedEnds: defaultValues.opts.hasReinforcedEnds,
+          hasUnitReinforcements: defaultValues.opts.hasUnitReinforcements
         };
         return {
           vals: defaultValues,
@@ -6242,13 +6092,17 @@ var require_reinforced_length = __commonJS({
           size = defaults.opts.size,
           unitLength = defaults.opts.unitLength,
           baseThickness = defaults.opts.baseThickness,
-          reinforcementThickness = defaults.opts.reinforcementThickness
+          reinforcementThickness = defaults.opts.reinforcementThickness,
+          hasReinforcedEnds = defaults.opts.hasReinforcedEnds,
+          hasUnitReinforcements = defaults.opts.hasUnitReinforcements
         } = opts;
         const initOpts = {
           size,
           unitLength,
           baseThickness,
-          reinforcementThickness
+          reinforcementThickness,
+          hasReinforcedEnds,
+          hasUnitReinforcements
         };
         return initOpts;
       };
@@ -6258,13 +6112,18 @@ var require_reinforced_length = __commonJS({
           size,
           unitLength,
           baseThickness,
-          reinforcementThickness
+          reinforcementThickness,
+          hasReinforcedEnds,
+          hasUnitReinforcements
         } = opts;
         const length = size[0];
         const width = size[1];
         const height = size[2];
         const modelConstants = defaults.vals.constants;
-        const modelOpts = defaults.vals.opts;
+        const modelOpts = {
+          hasReinforcedEnds,
+          hasUnitReinforcements
+        };
         const modelDims = {
           size,
           unitLength,
@@ -6330,22 +6189,8 @@ var require_reinforced_length = __commonJS({
           reinforcementThickness: [reinforcementThickness, reinforcementThickness, reinforcementThickness]
         })[0];
       };
-      const lightReinforcedLengthUnit = (opts) => {
-        const {
-          size,
-          baseThickness,
-          reinforcementThickness
-        } = opts;
-        const lightReinfUnitBase = reinforcementUnitBase({
-          length: size[0],
-          width: size[1],
-          baseThickness
-        });
-        const lightReinfUnitReinforcement = lightLengthReinforcement({
-          length: size[0],
-          reinforcementThickness,
-          spineHeight: size[2]
-        });
+      const endPieces = (opts) => {
+        const { size, reinforcementThickness } = opts;
         const endPiece = cuboid({
           size: [
             reinforcementThickness,
@@ -6367,19 +6212,52 @@ var require_reinforced_length = __commonJS({
           },
           endPiece
         );
-        const lightReinfUnitAssembly = union(
-          position.ctrMin(lightReinfUnitBase),
-          position.ctrMin(lightReinfUnitReinforcement),
+        return {
+          endPiece,
           endPiece1,
           endPiece2
+        };
+      };
+      const lightReinforcedLengthUnit = (opts) => {
+        const {
+          size,
+          baseThickness,
+          reinforcementThickness,
+          hasUnitReinforcements
+        } = opts;
+        const lightReinfUnitBase = reinforcementUnitBase({
+          length: size[0],
+          width: size[1],
+          baseThickness
+        });
+        const lightReinfUnitReinforcement = lightLengthReinforcement({
+          length: size[0],
+          reinforcementThickness,
+          spineHeight: size[2]
+        });
+        let lightReinfUnitAssembly = union(
+          position.ctrMin(lightReinfUnitBase),
+          position.ctrMin(lightReinfUnitReinforcement)
         );
+        if (hasUnitReinforcements) {
+          const {
+            endPiece1,
+            endPiece2
+          } = endPieces({ size, reinforcementThickness });
+          lightReinfUnitAssembly = union(
+            lightReinfUnitAssembly,
+            endPiece1,
+            endPiece2
+          );
+        }
         return position.ctr(lightReinfUnitAssembly);
       };
       const mediumReinforcedLengthUnit = (opts) => {
         const {
           size,
           baseThickness,
-          reinforcementThickness
+          reinforcementThickness,
+          hasUnitReinforcements
         } = opts;
         const mediumReinfUnitBase = reinforcementUnitBase({
           length: size[0],
@@ -6392,33 +6270,21 @@ var require_reinforced_length = __commonJS({
           reinforcementThickness,
           spineHeight: size[2]
         });
-        const endPiece = cuboid({
-          size: [
-            reinforcementThickness,
-            size[1],
-            size[2]
-          ]
-        });
-        const endPiece1 = align(
-          {
-            modes: ["min", "center", "min"],
-            relativeTo: [size[0] / -2, 0, 0]
-          },
-          endPiece
-        );
-        const endPiece2 = align(
-          {
-            modes: ["max", "center", "min"],
-            relativeTo: [size[0] / 2, 0, 0]
-          },
-          endPiece
-        );
-        const mediumReinfUnitAssembly = union(
+        let mediumReinfUnitAssembly = union(
           position.ctrMin(mediumReinfUnitBase),
-          position.ctrMin(mediumReinfUnitReinforcement),
-          endPiece1,
-          endPiece2
+          position.ctrMin(mediumReinfUnitReinforcement)
         );
+        if (hasUnitReinforcements) {
+          const {
+            endPiece1,
+            endPiece2
+          } = endPieces({ size, reinforcementThickness });
+          mediumReinfUnitAssembly = union(
+            mediumReinfUnitAssembly,
+            endPiece1,
+            endPiece2
+          );
+        }
         return position.ctr(mediumReinfUnitAssembly);
       };
       const heavyReinforcedLengthUnit = (opts) => {
@@ -6458,6 +6324,10 @@ var require_reinforced_length = __commonJS({
         const initOpts = reinforcedLengthOpts(opts);
         const modelProperties = reinforcedLengthProps(initOpts);
         const {
+          hasReinforcedEnds,
+          hasUnitReinforcements
+        } = modelProperties.opts;
+        const {
           size,
           unitLength,
           baseThickness,
@@ -6466,7 +6336,8 @@ var require_reinforced_length = __commonJS({
         const lightLengthUnitBase = lightReinforcedLengthUnit({
           size: [unitLength, size[1], size[2]],
           baseThickness,
-          reinforcementThickness
+          reinforcementThickness,
+          hasUnitReinforcements
         });
         const numUnits = Math.ceil(size[0] / unitLength) + 1;
         const lengthOffset = unitLength - reinforcementThickness;
@@ -6485,37 +6356,30 @@ var require_reinforced_length = __commonJS({
           position.ctr(lightReinfLengthAssembly),
           outputKeepBox({ size })
         );
-        const endPiece = cuboid({
-          size: [
-            reinforcementThickness,
-            size[1],
-            size[2]
-          ]
-        });
-        const endPiece1 = align(
-          {
-            modes: ["min", "center", "center"],
-            relativeTo: [size[0] / -2, 0, 0]
-          },
-          endPiece
-        );
-        const endPiece2 = align(
-          {
-            modes: ["max", "center", "center"],
-            relativeTo: [size[0] / 2, 0, 0]
-          },
-          endPiece
-        );
-        const mainModel = union(lightReinfLength, endPiece1, endPiece2);
+        let lightReinfLengthOutput = lightReinfLength;
+        const {
+          endPiece,
+          endPiece1,
+          endPiece2
+        } = endPieces({ size, reinforcementThickness });
+        if (hasReinforcedEnds) {
+          lightReinfLengthOutput = union(lightReinfLength, endPiece1, endPiece2);
+        }
+        const mainModel = lightReinfLengthOutput;
         const modelParts = {
           mainModel,
-          unit: lightLengthUnitBase
+          unit: lightLengthUnitBase,
+          endPiece
         };
         return [mainModel, modelParts, modelProperties];
       };
       const mediumReinforcedLength = (opts) => {
         const initOpts = reinforcedLengthOpts(opts);
         const modelProperties = reinforcedLengthProps(initOpts);
+        const {
+          hasReinforcedEnds,
+          hasUnitReinforcements
+        } = modelProperties.opts;
         const {
           size,
           unitLength,
@@ -6525,7 +6389,8 @@ var require_reinforced_length = __commonJS({
         const mediumLengthUnitBase = mediumReinforcedLengthUnit({
           size: [unitLength, size[1], size[2]],
           baseThickness,
-          reinforcementThickness
+          reinforcementThickness,
+          hasUnitReinforcements
         });
         const numUnits = Math.ceil(size[0] / unitLength) + 1;
         const lengthOffset = unitLength - reinforcementThickness;
@@ -6544,31 +6409,20 @@ var require_reinforced_length = __commonJS({
           position.ctr(mediumReinfLengthAssembly),
           outputKeepBox({ size })
         );
-        const endPiece = cuboid({
-          size: [
-            reinforcementThickness,
-            size[1],
-            size[2]
-          ]
-        });
-        const endPiece1 = align(
-          {
-            modes: ["min", "center", "center"],
-            relativeTo: [size[0] / -2, 0, 0]
-          },
-          endPiece
-        );
-        const endPiece2 = align(
-          {
-            modes: ["max", "center", "center"],
-            relativeTo: [size[0] / 2, 0, 0]
-          },
-          endPiece
-        );
-        const mainModel = union(mediumReinfLength, endPiece1, endPiece2);
+        let mediumReinfLengthOutput = mediumReinfLength;
+        const {
+          endPiece,
+          endPiece1,
+          endPiece2
+        } = endPieces({ size, reinforcementThickness });
+        if (hasReinforcedEnds) {
+          mediumReinfLengthOutput = union(mediumReinfLength, endPiece1, endPiece2);
+        }
+        const mainModel = mediumReinfLengthOutput;
         const modelParts = {
           mainModel,
-          unit: mediumLengthUnitBase
+          unit: mediumLengthUnitBase,
+          endPiece
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -6603,31 +6457,16 @@ var require_reinforced_length = __commonJS({
           position.ctr(heavyReinfLengthAssembly),
           outputKeepBox({ size })
         );
-        const endPiece = cuboid({
-          size: [
-            reinforcementThickness,
-            size[1],
-            size[2]
-          ]
-        });
-        const endPiece1 = align(
-          {
-            modes: ["min", "center", "center"],
-            relativeTo: [size[0] / -2, 0, 0]
-          },
-          endPiece
-        );
-        const endPiece2 = align(
-          {
-            modes: ["max", "center", "center"],
-            relativeTo: [size[0] / 2, 0, 0]
-          },
-          endPiece
-        );
+        const {
+          endPiece,
+          endPiece1,
+          endPiece2
+        } = endPieces({ size, reinforcementThickness });
         const mainModel = union(heavyReinfLength, endPiece1, endPiece2);
         const modelParts = {
           mainModel,
-          unit: heavyLengthUnitBase
+          unit: heavyLengthUnitBase,
+          endPiece
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -6651,48 +6490,9 @@ var require_reinforced_line = __commonJS({
     "use strict";
     var reinforcedLineInit = ({ jscad, swcadJs }) => {
       const {
-        cube,
-        cylinder,
-        sphere,
-        cylinderElliptic,
-        circle,
-        cuboid,
-        roundedCuboid,
-        roundedCylinder,
-        roundedRectangle,
-        rectangle,
-        triangle
-      } = jscad.primitives;
-      const {
-        align,
         translate,
-        rotate,
-        mirror
+        rotate
       } = jscad.transforms;
-      const {
-        intersect,
-        subtract,
-        union,
-        scission
-      } = jscad.booleans;
-      const {
-        extrudeLinear,
-        extrudeRotate,
-        project
-      } = jscad.extrusions;
-      const {
-        measureDimensions,
-        measureBoundingBox,
-        measureVolume
-      } = jscad.measurements;
-      const {
-        hull,
-        hullChain
-      } = jscad.hulls;
-      const { vectorText } = jscad.text;
-      const { toOutlines } = jscad.geometries.geom2;
-      const { TAU } = jscad.maths.constants;
-      const { colorize } = jscad.colors;
       const {
         standards
       } = swcadJs.data;
@@ -6820,23 +6620,18 @@ var require_reinforced_line = __commonJS({
         return modelProperties;
       };
       const lightReinforcedLine = (opts) => {
-        const defaults = reinforcedLineDefaults();
         const initOpts = reinforcedLineOpts(opts);
         const modelProperties = reinforcedLineProps(initOpts);
         const {
           width,
           height,
-          endOffset,
           unitLength,
           baseThickness,
           reinforcementThickness,
-          lineLength,
           offsetLineLength,
           lineComponentAngle
         } = modelProperties.dims;
         const {
-          startPt,
-          endPt,
           midPt
         } = modelProperties.points;
         const rOpts = {
@@ -6854,28 +6649,24 @@ var require_reinforced_line = __commonJS({
         adjLightReinfLength = translate(midPt, adjLightReinfLength);
         const mainModel = adjLightReinfLength;
         const modelParts = {
-          mainModel
+          mainModel,
+          baseModel: lightReinfLength
         };
         return [mainModel, modelParts, modelProperties];
       };
       const mediumReinforcedLine = (opts) => {
-        const defaults = reinforcedLineDefaults();
         const initOpts = reinforcedLineOpts(opts);
         const modelProperties = reinforcedLineProps(initOpts);
         const {
           width,
           height,
-          endOffset,
           unitLength,
           baseThickness,
           reinforcementThickness,
-          lineLength,
           offsetLineLength,
           lineComponentAngle
         } = modelProperties.dims;
         const {
-          startPt,
-          endPt,
           midPt
         } = modelProperties.points;
         const rOpts = {
@@ -6893,28 +6684,24 @@ var require_reinforced_line = __commonJS({
         adjMediumReinfLength = translate(midPt, adjMediumReinfLength);
         const mainModel = adjMediumReinfLength;
         const modelParts = {
-          mainModel
+          mainModel,
+          baseModel: mediumReinfLength
         };
         return [mainModel, modelParts, modelProperties];
       };
       const heavyReinforcedLine = (opts) => {
-        const defaults = reinforcedLineDefaults();
         const initOpts = reinforcedLineOpts(opts);
         const modelProperties = reinforcedLineProps(initOpts);
         const {
           width,
           height,
-          endOffset,
           unitLength,
           baseThickness,
           reinforcementThickness,
-          lineLength,
           offsetLineLength,
           lineComponentAngle
         } = modelProperties.dims;
         const {
-          startPt,
-          endPt,
           midPt
         } = modelProperties.points;
         const rOpts = {
@@ -6932,7 +6719,8 @@ var require_reinforced_line = __commonJS({
         adjHeavyReinfLength = translate(midPt, adjHeavyReinfLength);
         const mainModel = adjHeavyReinfLength;
         const modelParts = {
-          mainModel
+          mainModel,
+          baseModel: heavyReinfLength
         };
         return [mainModel, modelParts, modelProperties];
       };
