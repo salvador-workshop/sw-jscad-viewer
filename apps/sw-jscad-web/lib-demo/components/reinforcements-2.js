@@ -18,12 +18,20 @@ const spaceUnit = math.inchesToMm(1.5)
 
 const main = () => {
     const lightReinforcedLength = reinforcements.reinforcedLength.lightReinforcedLength({})[0]
-    const mediumReinforcedLength = reinforcements.reinforcedLength.mediumReinforcedLength({})[0]
+    const mediumReinforcedLength1 = reinforcements.reinforcedLength.mediumReinforcedLength({})[0]
+    const mediumReinforcedLength2 = reinforcements.reinforcedLength.mediumReinforcedLength({
+        hasReinforcedEnds: false,
+    })[0]
+    const mediumReinforcedLength3 = reinforcements.reinforcedLength.mediumReinforcedLength({
+        hasUnitReinforcements: false,
+    })[0]
     const heavyReinforcedLength = reinforcements.reinforcedLength.heavyReinforcedLength({})[0]
 
     const reinfLengths = [
         lightReinforcedLength,
-        mediumReinforcedLength,
+        mediumReinforcedLength1,
+        mediumReinforcedLength2,
+        mediumReinforcedLength3,
         heavyReinforcedLength,
     ]
 

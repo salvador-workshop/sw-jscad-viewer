@@ -6509,7 +6509,10 @@ var require_reinforced_line = __commonJS({
           constants: {
             interfaceThickness: defInterfaceThickness
           },
-          opts: {},
+          opts: {
+            hasReinforcedEnds: true,
+            hasUnitReinforcements: true
+          },
           dims: {
             width: math.inchesToMm(5 / 16),
             height: math.inchesToMm(1 / 8),
@@ -6533,7 +6536,9 @@ var require_reinforced_line = __commonJS({
           endOffset: defaultValues.dims.endOffset,
           unitLength: defaultValues.dims.unitLength,
           baseThickness: defaultValues.dims.baseThickness,
-          reinforcementThickness: defaultValues.dims.reinforcementThickness
+          reinforcementThickness: defaultValues.dims.reinforcementThickness,
+          hasReinforcedEnds: defaultValues.opts.hasReinforcedEnds,
+          hasUnitReinforcements: defaultValues.opts.hasUnitReinforcements
         };
         return {
           opts: defaultOpts,
@@ -6551,7 +6556,9 @@ var require_reinforced_line = __commonJS({
           endOffset = defaults.opts.endOffset,
           unitLength = defaults.opts.unitLength,
           baseThickness = defaults.opts.baseThickness,
-          reinforcementThickness = defaults.opts.reinforcementThickness
+          reinforcementThickness = defaults.opts.reinforcementThickness,
+          hasReinforcedEnds = defaults.opts.hasReinforcedEnds,
+          hasUnitReinforcements = defaults.opts.hasUnitReinforcements
         } = opts;
         const initOpts = {
           startPt,
@@ -6561,7 +6568,9 @@ var require_reinforced_line = __commonJS({
           endOffset,
           unitLength,
           baseThickness,
-          reinforcementThickness
+          reinforcementThickness,
+          hasReinforcedEnds,
+          hasUnitReinforcements
         };
         console.log("reinforcedLineOpts() -- initOpts", initOpts);
         return initOpts;
@@ -6577,7 +6586,9 @@ var require_reinforced_line = __commonJS({
           endOffset,
           unitLength,
           baseThickness,
-          reinforcementThickness
+          reinforcementThickness,
+          hasReinforcedEnds,
+          hasUnitReinforcements
         } = opts;
         const lineComponentDetails = geometry.lines.lineComponentDetails({
           startPt,
@@ -6591,7 +6602,10 @@ var require_reinforced_line = __commonJS({
           lineComponentAngle
         } = lineComponentDetails;
         const modelConstants = defaults.vals.constants;
-        const modelOpts = defaults.vals.opts;
+        const modelOpts = {
+          hasReinforcedEnds,
+          hasUnitReinforcements
+        };
         const modelDims = {
           width,
           height,
@@ -6623,6 +6637,10 @@ var require_reinforced_line = __commonJS({
         const initOpts = reinforcedLineOpts(opts);
         const modelProperties = reinforcedLineProps(initOpts);
         const {
+          hasReinforcedEnds,
+          hasUnitReinforcements
+        } = modelProperties.opts;
+        const {
           width,
           height,
           unitLength,
@@ -6642,7 +6660,9 @@ var require_reinforced_line = __commonJS({
           ],
           unitLength,
           baseThickness,
-          reinforcementThickness
+          reinforcementThickness,
+          hasReinforcedEnds,
+          hasUnitReinforcements
         };
         const lightReinfLength = reinforcements.reinforcedLength.lightReinforcedLength(rOpts)[0];
         let adjLightReinfLength = rotate([0, 0, lineComponentAngle], lightReinfLength);
@@ -6658,6 +6678,10 @@ var require_reinforced_line = __commonJS({
         const initOpts = reinforcedLineOpts(opts);
         const modelProperties = reinforcedLineProps(initOpts);
         const {
+          hasReinforcedEnds,
+          hasUnitReinforcements
+        } = modelProperties.opts;
+        const {
           width,
           height,
           unitLength,
@@ -6677,7 +6701,9 @@ var require_reinforced_line = __commonJS({
           ],
           unitLength,
           baseThickness,
-          reinforcementThickness
+          reinforcementThickness,
+          hasReinforcedEnds,
+          hasUnitReinforcements
         };
         const mediumReinfLength = reinforcements.reinforcedLength.mediumReinforcedLength(rOpts)[0];
         let adjMediumReinfLength = rotate([0, 0, lineComponentAngle], mediumReinfLength);
