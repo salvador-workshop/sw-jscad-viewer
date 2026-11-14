@@ -14,8 +14,29 @@ const {
     fittings,
 } = swcadJs.components
 
+const spaceUnit = math.inchesToMm(1.5)
+
 function main() {
-    const spaceUnit = math.inchesToMm(2.25)
+    const roundProfile1 = fittings.roundFittingCutProfile({
+        dowelRadius: 3.25 / 2,
+        length: math.inchesToMm(5 / 16),
+    })[0]
+
+    const roundProfile2 = fittings.invRoundFittingCutProfile({
+        dowelRadius: 3.25 / 2,
+        length: math.inchesToMm(5 / 16),
+    })[0]
+
+    const rectProfile1 = fittings.rectFittingCutProfile({
+        subjectSize: [math.inchesToMm(1 / 4), math.inchesToMm(1 / 8)],
+        length: math.inchesToMm(5 / 16),
+    })[0]
+
+    const cutProfiles = [
+        roundProfile1,
+        roundProfile2,
+        rectProfile1,
+    ]
 
     const simpleDowelHolder = fittings.roundFitting({
         dowelRadius: 3.25 / 2,
@@ -37,29 +58,51 @@ function main() {
         length: math.inchesToMm(5 / 16),
     })[0]
 
-    const roundProfile1 = fittings.roundFittingCutProfile({
+    const basicHolders = [
+        simpleDowelHolder,
+        simpleInvDowelHolder,
+        doubleDowelHolder,
+        flatStickHolder,
+    ]
+
+    const roundFittingCross = fittings.roundFittingCross({
         dowelRadius: 3.25 / 2,
         length: math.inchesToMm(5 / 16),
     })[0]
-
-    const roundProfile2 = fittings.invRoundFittingCutProfile({
+    const roundFittingTee = fittings.roundFittingTee({
         dowelRadius: 3.25 / 2,
         length: math.inchesToMm(5 / 16),
     })[0]
-
-    const rectProfile1 = fittings.rectFittingCutProfile({
-        subjectSize: [math.inchesToMm(1 / 4), math.inchesToMm(1 / 8)],
+    const roundFittingSplit = fittings.roundFittingSplit({
+        dowelRadius: 3.25 / 2,
         length: math.inchesToMm(5 / 16),
     })[0]
+    const [
+        maleSplitFitting,
+        femaleSplitFitting,
+    ] = roundFittingSplit
+
+    const advancedHolders = [
+        roundFittingCross,
+        roundFittingTee,
+        maleSplitFitting,
+        femaleSplitFitting,
+    ]
+
+    const cutProfilesOut = cutProfiles.map((model, idx) => {
+        return translate([spaceUnit * idx, spaceUnit * 0, spaceUnit * 0], model)
+    })
+    const basicHoldersOut = basicHolders.map((model, idx) => {
+        return translate([spaceUnit * idx, spaceUnit * 1, spaceUnit * 0], model)
+    })
+    const advancedHoldersOut = advancedHolders.map((model, idx) => {
+        return translate([spaceUnit * idx, spaceUnit * 2, spaceUnit * 0], model)
+    })
 
     return [
-        translate([spaceUnit * 0, spaceUnit * 0, spaceUnit * 0], simpleDowelHolder),
-        translate([spaceUnit * 1, spaceUnit * 0, spaceUnit * 0], simpleInvDowelHolder),
-        translate([spaceUnit * 2, spaceUnit * 0, spaceUnit * 0], doubleDowelHolder),
-        translate([spaceUnit * 3, spaceUnit * 0, spaceUnit * 0], flatStickHolder),
-        translate([spaceUnit * 0, spaceUnit * 1, spaceUnit * 0], roundProfile1),
-        translate([spaceUnit * 1, spaceUnit * 1, spaceUnit * 0], roundProfile2),
-        translate([spaceUnit * 2, spaceUnit * 1, spaceUnit * 0], rectProfile1),
+        ...cutProfilesOut,
+        ...basicHoldersOut,
+        ...advancedHoldersOut,
     ]
 }
 

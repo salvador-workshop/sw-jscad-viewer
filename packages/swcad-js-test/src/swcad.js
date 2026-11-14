@@ -1993,6 +1993,11 @@ var require_connections = __commonJS({
           radius[0] + fitGap / 2,
           radius[1] + fitGap / 2
         ];
+        console.log("width", width);
+        console.log("depth", depth);
+        console.log("diam", diam);
+        console.log("radius", radius);
+        console.log("holeRadius", holeRadius);
         const dowelCtr = [0, depth / -2 + interfaceMargin[1], 0];
         const dowel = ellipseShape({ radius, segments, center: dowelCtr });
         const dowelDie = ellipseShape({ radius: holeRadius, segments, center: dowelCtr });
@@ -2201,12 +2206,12 @@ var require_connections = __commonJS({
           project({}, dTailProfiles[1])
         ];
         const mainModel = [
-          dovetailProfiles[0],
-          dovetailProfiles[1]
+          dovetailProfiles[1],
+          dovetailProfiles[0]
         ];
         const modelParts = {
-          male: dovetailProfiles[0],
-          female: dovetailProfiles[1],
+          male: dovetailProfiles[1],
+          female: dovetailProfiles[0],
           cut: dovetailRowCut
         };
         return [mainModel, modelParts, modelProperties];
@@ -2265,12 +2270,12 @@ var require_connections = __commonJS({
           project({}, tProfiles[1])
         ];
         const mainModel = [
-          tabProfiles[0],
-          tabProfiles[1]
+          tabProfiles[1],
+          tabProfiles[0]
         ];
         const modelParts = {
-          male: tabProfiles[0],
-          female: tabProfiles[1],
+          male: tabProfiles[1],
+          female: tabProfiles[0],
           cut: tabRowCut
         };
         return [mainModel, modelParts, modelProperties];
@@ -2329,12 +2334,12 @@ var require_connections = __commonJS({
           project({}, rtProfiles[1])
         ];
         const mainModel = [
-          rAngTabProfiles[0],
-          rAngTabProfiles[1]
+          rAngTabProfiles[1],
+          rAngTabProfiles[0]
         ];
         const modelParts = {
-          male: rAngTabProfiles[0],
-          female: rAngTabProfiles[1],
+          male: rAngTabProfiles[1],
+          female: rAngTabProfiles[0],
           cut: rAngTabRowCut
         };
         return [mainModel, modelParts, modelProperties];
@@ -3792,7 +3797,8 @@ var require_round_fitting = __commonJS({
       const {
         circle,
         rectangle,
-        triangle
+        triangle,
+        cuboid
       } = jscad.primitives;
       const {
         align,
@@ -3801,11 +3807,14 @@ var require_round_fitting = __commonJS({
         mirror
       } = jscad.transforms;
       const {
-        subtract
+        subtract,
+        union,
+        intersect
       } = jscad.booleans;
       const {
         extrudeLinear
       } = jscad.extrusions;
+      const { TAU } = jscad.maths.constants;
       const {
         constants
       } = swcadJs.data;
@@ -3813,6 +3822,9 @@ var require_round_fitting = __commonJS({
         math,
         position
       } = swcadJs.calcs;
+      const {
+        connections
+      } = swcadJs.profiles;
       const roundFittingDefaults = () => {
         const defaultValues = {
           constants: {
@@ -4051,6 +4063,150 @@ var require_round_fitting = __commonJS({
         };
         return [mainModel, modelParts, modelProperties];
       };
+      const roundFittingCross = (opts) => {
+        const initOpts = roundFittingOpts(opts);
+        const modelProperties = roundFittingProps(initOpts);
+        const {
+          interfaceThickness,
+          length,
+          width,
+          simpleHeight
+        } = modelProperties.dims;
+        const totalLength = length * 2;
+        const blankBase = cuboid({ size: [totalLength, width, simpleHeight] });
+        const cutawayProfile = roundFittingCutProfile(opts)[0];
+        let cutawayBase = extrudeLinear({ height: totalLength * 1.5 }, cutawayProfile);
+        cutawayBase = position.ctr(rotate([0, TAU / 4, 0], cutawayBase));
+        const blank = union(
+          blankBase,
+          rotate([0, 0, TAU / 4], blankBase)
+        );
+        const cutaway = union(
+          cutawayBase,
+          rotate([0, 0, TAU / 4], cutawayBase)
+        );
+        const roundFittingCrossAssembly = subtract(
+          position.ctrMin(blank, [0, 0, -interfaceThickness]),
+          position.ctrMin(cutaway)
+        );
+        const mainModel = position.ctr(roundFittingCrossAssembly);
+        const modelParts = {
+          mainModel,
+          blankBase,
+          cutawayProfile,
+          cutawayBase,
+          blank,
+          cutaway
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const roundFittingTee = (opts) => {
+        const initOpts = roundFittingOpts(opts);
+        const modelProperties = roundFittingProps(initOpts);
+        const {
+          interfaceThickness,
+          length,
+          width,
+          simpleHeight,
+          dowelRadius,
+          dowelDiam,
+          invCutProfileHeight,
+          invCutProfileSideLength,
+          roundCutProfileRadius,
+          invSimpleHeight,
+          fitGap
+        } = modelProperties.dims;
+        const totalLength = length * 2;
+        const blankBase = cuboid({ size: [totalLength, width, simpleHeight] });
+        const blankBaseTee = align(
+          { modes: ["min", "center", "center"] },
+          cuboid({ size: [length, width, simpleHeight] })
+        );
+        const cutawayProfile = roundFittingCutProfile(opts)[0];
+        let cutawayBase = extrudeLinear({ height: totalLength * 1.5 }, cutawayProfile);
+        cutawayBase = position.ctr(rotate([0, TAU / 4, 0], cutawayBase));
+        let cutawayBaseTee = extrudeLinear({ height: length * 1.5 }, cutawayProfile);
+        cutawayBaseTee = align(
+          { modes: ["min", "center", "center"] },
+          rotate([0, TAU / 4, 0], cutawayBaseTee)
+        );
+        const blank = union(
+          blankBase,
+          rotate([0, 0, TAU / 4], blankBaseTee)
+        );
+        const cutaway = union(
+          cutawayBase,
+          rotate([0, 0, TAU / 4], cutawayBaseTee)
+        );
+        const blankOffsetY = fitGap / 2 - interfaceThickness;
+        const roundFittingTeeAssembly = subtract(
+          align({
+            modes: ["center", "min", "min"],
+            relativeTo: [0, blankOffsetY, -interfaceThickness]
+          }, blank),
+          align({
+            modes: ["center", "min", "min"]
+          }, cutaway)
+        );
+        const mainModel = position.ctr(roundFittingTeeAssembly);
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const roundFittingSplit = (opts) => {
+        const initOpts = roundFittingOpts(opts);
+        const modelProperties = roundFittingProps(initOpts);
+        const {
+          interfaceThickness,
+          length,
+          width,
+          simpleHeight,
+          dowelRadius
+        } = modelProperties.dims;
+        const connLength = interfaceThickness * 2 + dowelRadius;
+        const fittingBodyLength = (length - connLength) / 2;
+        const splitProfiles = connections.ellipse({
+          size: [width, connLength],
+          interfaceMargin: [interfaceThickness, interfaceThickness],
+          segments: 12
+        })[0];
+        const [maleSplitProfile, femaleSplitProfile] = splitProfiles;
+        const fittingBodyProfile = rectangle({ size: [width, fittingBodyLength] });
+        const maleFittingProfile = union(
+          align({ modes: ["center", "min", "center"] }, maleSplitProfile),
+          align({ modes: ["center", "max", "center"] }, fittingBodyProfile)
+        );
+        const femaleFittingProfile = union(
+          align({ modes: ["center", "max", "center"] }, femaleSplitProfile),
+          align({ modes: ["center", "min", "center"] }, fittingBodyProfile)
+        );
+        const maleFittingZone = extrudeLinear({ height: simpleHeight }, maleFittingProfile);
+        const femaleFittingZone = extrudeLinear({ height: simpleHeight }, femaleFittingProfile);
+        const baseFitting = roundFitting(opts)[0];
+        const maleRoundFitting = intersect(
+          position.ctrMin(maleFittingZone),
+          position.ctrMin(baseFitting)
+        );
+        const femaleRoundFitting = intersect(
+          position.ctrMin(femaleFittingZone),
+          position.ctrMin(baseFitting)
+        );
+        const mainModel = [
+          position.ctr(maleRoundFitting),
+          position.ctr(femaleRoundFitting)
+        ];
+        const modelParts = {
+          mainModel,
+          maleSplitProfile,
+          femaleSplitProfile,
+          maleFittingProfile,
+          femaleFittingProfile,
+          maleFitting: maleRoundFitting,
+          femaleFitting: femaleRoundFitting
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
       return {
         defaults: roundFittingDefaults,
         props: roundFittingProps,
@@ -4058,7 +4214,10 @@ var require_round_fitting = __commonJS({
         invRoundFittingCutProfile,
         roundFitting,
         inverseRoundFitting,
-        doubleRoundFitting
+        doubleRoundFitting,
+        roundFittingCross,
+        roundFittingTee,
+        roundFittingSplit
       };
     };
     module2.exports = {
@@ -4247,6 +4406,9 @@ var require_fittings = __commonJS({
         doubleRoundFitting: roundFitting.doubleRoundFitting,
         roundFittingCutProfile: roundFitting.roundFittingCutProfile,
         invRoundFittingCutProfile: roundFitting.invRoundFittingCutProfile,
+        roundFittingCross: roundFitting.roundFittingCross,
+        roundFittingTee: roundFitting.roundFittingTee,
+        roundFittingSplit: roundFitting.roundFittingSplit,
         rectangularFitting: rectangularFitting.rectangularFitting,
         rectFittingCutProfile: rectangularFitting.rectFittingCutProfile
       };
