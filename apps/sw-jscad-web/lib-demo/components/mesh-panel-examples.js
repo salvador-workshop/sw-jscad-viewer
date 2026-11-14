@@ -22,7 +22,7 @@ const main = () => {
         size: [math.inchesToMm(3), math.inchesToMm(4)],
         holeRadius: 3,
         holeDistance: math.inchesToMm(3 / 4),
-    })
+    })[0]
 
     const meshPanel2 = mesh.meshPanel({
         size: [math.inchesToMm(3), math.inchesToMm(4)],
@@ -30,14 +30,14 @@ const main = () => {
         holeRadius: 4,
         holeDistance: math.inchesToMm(3 / 4),
         pattern: 'square'
-    })
+    })[0]
 
     const meshPanel3 = mesh.meshPanel({
         size: [math.inchesToMm(3), math.inchesToMm(4)],
         holeRadius: 5,
         holeDistance: math.inchesToMm(3 / 4),
         edgeMargin: math.inchesToMm(1 / 2),
-    })
+    })[0]
 
     const models = [
         meshPanel1,

@@ -41,10 +41,22 @@ const main = () => {
         startPt: [0, 0, 0],
         endPt: [math.inchesToMm(3), math.inchesToMm(4), 0],
     })[0]
-    const mediumReinforcedLine = reinforcements.reinforcedLine.mediumReinforcedLine({
+    const mediumReinforcedLine1 = reinforcements.reinforcedLine.mediumReinforcedLine({
         startPt: [0, 0, 0],
         endPt: [math.inchesToMm(3), math.inchesToMm(4), 0],
         endOffset: 20
+    })[0]
+    const mediumReinforcedLine2 = reinforcements.reinforcedLine.mediumReinforcedLine({
+        startPt: [0, 0, 0],
+        endPt: [math.inchesToMm(3), math.inchesToMm(4), 0],
+        endOffset: 20,
+        hasReinforcedEnds: false,
+    })[0]
+    const mediumReinforcedLine3 = reinforcements.reinforcedLine.mediumReinforcedLine({
+        startPt: [0, 0, 0],
+        endPt: [math.inchesToMm(3), math.inchesToMm(4), 0],
+        endOffset: 20,
+        hasUnitReinforcements: false,
     })[0]
     const heavyReinforcedLine = reinforcements.reinforcedLine.heavyReinforcedLine({
         startPt: [0, 0, 0],
@@ -53,7 +65,9 @@ const main = () => {
 
     const reinfLines = [
         lightReinforcedLine,
-        mediumReinforcedLine,
+        mediumReinforcedLine1,
+        mediumReinforcedLine2,
+        mediumReinforcedLine3,
         heavyReinforcedLine,
     ]
 
