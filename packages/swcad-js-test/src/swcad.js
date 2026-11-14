@@ -3544,10 +3544,19 @@ var require_src3 = __commonJS({
           connections
         }
       };
-      const connectionsApi = {
+      const connectionsSetup = {
         ...connections,
-        jointPanel: jointPanelModule.init({ jscad, swcadJs: preLib }),
         tabRow: tabRowModule.init({ jscad, swcadJs: preLib })
+      };
+      preLib = {
+        ...swcadJs,
+        profiles: {
+          connections: connectionsSetup
+        }
+      };
+      const connectionsApi = {
+        ...connectionsSetup,
+        jointPanel: jointPanelModule.init({ jscad, swcadJs: preLib })
       };
       return {
         beadsBits: beadsBitsModule.init({ jscad, swcadJs: preLib }),
@@ -5326,7 +5335,6 @@ var require_reinforced_ring = __commonJS({
       };
       const reinforcedRingOpts = (opts) => {
         const defaults = reinforcedRingDefaults();
-        console.log("reinforcedRingOpts() -- opts", opts);
         const {
           height = defaults.opts.height,
           holeRadius = defaults.opts.holeRadius,
@@ -5343,12 +5351,10 @@ var require_reinforced_ring = __commonJS({
           reinforcementThickness,
           fitGap
         };
-        console.log("reinforcedRingOpts() -- initOpts", initOpts);
         return initOpts;
       };
       const reinforcedRingProps = (opts) => {
         const defaults = reinforcedRingDefaults();
-        console.log("reinforcedRingProps() -- opts", opts);
         const {
           height,
           holeRadius,
@@ -5388,7 +5394,6 @@ var require_reinforced_ring = __commonJS({
           points: modelPoints,
           components: modelComponents
         };
-        console.log("reinforcedRingProps() -- modelProperties", modelProperties);
         return modelProperties;
       };
       const ringReinforcementBase = (opts) => {
@@ -5969,7 +5974,7 @@ var require_text2 = __commonJS({
           message: opts.message,
           fontSize: opts.fontSize,
           charLineWidth: opts.charLineWidth
-        });
+        })[0];
         let message3D = extrudeLinear({ height: opts.extrudeHeight || DEFAULT_EXTRUDE_HEIGHT }, message2D);
         message3D = position.ctr(message3D);
         const mainModel = message3D;
@@ -6009,7 +6014,7 @@ var require_text2 = __commonJS({
         const textModel = flatText({
           ...opts,
           extrudeHeight: extrudeHt
-        });
+        })[0];
         const textModelDims = measureDimensions(textModel);
         const panelOffset = opts.panelOffset || 2;
         const textPanel2 = cuboid({
@@ -6098,7 +6103,6 @@ var require_reinforced_joist_line = __commonJS({
       };
       const reinforcedJoistLineOpts = (opts) => {
         const defaults = reinforcedJoistLineDefaults();
-        console.log("reinforcedJoistLineOpts() -- opts", opts);
         const {
           startPt = defaults.opts.startPt,
           endPt = defaults.opts.endPt,
@@ -6117,12 +6121,10 @@ var require_reinforced_joist_line = __commonJS({
           reinforcementLevel,
           interfaceThickness
         };
-        console.log("reinforcedJoistLineOpts() -- initOpts", initOpts);
         return initOpts;
       };
       const reinforcedJoistLineProps = (opts) => {
         const defaults = reinforcedJoistLineDefaults();
-        console.log("reinforcedJoistLineProps() -- prop opts", opts);
         const {
           startPt,
           endPt,
@@ -6169,7 +6171,6 @@ var require_reinforced_joist_line = __commonJS({
           points: modelPoints,
           components: modelComponents
         };
-        console.log("reinforcedJoistLineProps() -- modelProperties", modelProperties);
         return modelProperties;
       };
       const reinfJoist = (modelProps) => {
@@ -6988,7 +6989,6 @@ var require_reinforced_line = __commonJS({
       };
       const reinforcedLineOpts = (opts) => {
         const defaults = reinforcedLineDefaults();
-        console.log("reinforcedLineOpts() -- opts", opts);
         const {
           startPt = defaults.opts.startPt,
           endPt = defaults.opts.endPt,
@@ -7013,12 +7013,10 @@ var require_reinforced_line = __commonJS({
           hasReinforcedEnds,
           hasUnitReinforcements
         };
-        console.log("reinforcedLineOpts() -- initOpts", initOpts);
         return initOpts;
       };
       const reinforcedLineProps = (opts) => {
         const defaults = reinforcedLineDefaults();
-        console.log("reinforcedLineProps() -- prop opts", opts);
         const {
           startPt,
           endPt,
@@ -7071,7 +7069,6 @@ var require_reinforced_line = __commonJS({
           points: modelPoints,
           components: modelComponents
         };
-        console.log("reinforcedLineProps() -- modelProperties", modelProperties);
         return modelProperties;
       };
       const lightReinforcedLine = (opts) => {

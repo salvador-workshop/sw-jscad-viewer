@@ -17,24 +17,24 @@ const {
 const spaceUnit = math.inchesToMm(3.75)
 
 const main = () => {
-    const connEllipseProfiles = connections.ellipse({
+    const connEllipseProfiles = connections.tab.ellipse({
         segments: 18,
         interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
     })[0]
     const connEllipseMale = connEllipseProfiles[0]
     const connEllipseFemale = connEllipseProfiles[1]
 
-    const connTabProfiles = connections.tab({})[0]
+    const connTabProfiles = connections.tab.tab({})[0]
     const connTabMale = connTabProfiles[0]
     const connTabFemale = connTabProfiles[1]
 
-    const connDovetailProfiles = connections.dovetail({
+    const connDovetailProfiles = connections.tab.dovetail({
         interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
     })[0]
     const connDovetailMale = connDovetailProfiles[0]
     const connDovetailFemale = connDovetailProfiles[1]
 
-    const connRightAngleTabProfiles = connections.rightAngleTab({
+    const connRightAngleTabProfiles = connections.tab.rightAngleTab({
         interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
     })[0]
     const connRightAngleTabMale = connRightAngleTabProfiles[0]
@@ -79,20 +79,20 @@ const main = () => {
         connBoltCircleFemale,
     ]
 
-    const connDovetailRowProfiles = connections.dovetailRow({
+    const connDovetailRowProfiles = connections.tabRow.dovetailRow({
         size: [100, 33],
     })[0]
     const connDovetailRowMale = connDovetailRowProfiles[0]
     const connDovetailRowFemale = connDovetailRowProfiles[1]
 
-    const connTabRowProfiles = connections.tabRow({
+    const connTabRowProfiles = connections.tabRow.tabRow({
         size: [100, 33],
         interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
     })[0]
     const connTabRowMale = connTabRowProfiles[0]
     const connTabRowFemale = connTabRowProfiles[1]
 
-    const connRightAngleTabRowProfiles = connections.rightAngleTabRow({
+    const connRightAngleTabRowProfiles = connections.tabRow.rightAngleTabRow({
         size: [100, 33],
         interfaceMargin: [math.inchesToMm(3 / 8), math.inchesToMm(3 / 16)]
     })[0]
