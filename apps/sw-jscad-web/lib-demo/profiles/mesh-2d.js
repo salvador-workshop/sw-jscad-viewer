@@ -3,7 +3,7 @@ const jscad = require('@jscad/modeling')
 
 const { translate } = jscad.transforms;
 
-const swcadJs = require('swcad-js').init({ jscad });
+const swcadJs = require('swcad-js-test').init({ jscad });
 
 console.log('swcadJs', swcadJs)
 
@@ -18,19 +18,35 @@ const {
 const spaceUnit = math.inchesToMm(8)
 
 const main = () => {
-    const triPanelOpts = {
+    const triPanel = mesh.meshPanel({
+        holeRadius: math.inchesToMm(1 / 4),
+        holeSegments: 6,
         holePattern: 'tri',
-    }
-    const triPanel = mesh.meshPanel(triPanelOpts)[0]
-
-    const squarePanelOpts = {
+    })[0]
+    const squarePanel = mesh.meshPanel({
+        holeRadius: math.inchesToMm(1 / 4),
+        holeSegments: 12,
         holePattern: 'square',
-    }
-    const squarePanel = mesh.meshPanel(squarePanelOpts)[0]
+    })[0]
+
+    const triLatticePanel = mesh.meshLatticePanel({
+        holePattern: 'tri',
+        holeRadius: math.inchesToMm(1 / 4),
+        holeSegments: 9,
+        gapThickness: math.inchesToMm(1 / 8),
+    })[0]
+    const squareLatticePanel = mesh.meshLatticePanel({
+        holePattern: 'square',
+        holeRadius: math.inchesToMm(5 / 16),
+        holeSegments: 8,
+        gapThickness: math.inchesToMm(1 / 8),
+    })[0]
 
     const reinforcementProfiles = [
         triPanel,
         squarePanel,
+        triLatticePanel,
+        squareLatticePanel,
     ]
 
     const outModels = reinforcementProfiles.map((oModel, idx) => {

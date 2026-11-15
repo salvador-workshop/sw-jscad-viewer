@@ -2151,17 +2151,26 @@ var require_mesh = __commonJS({
         rectangle
       } = jscad.primitives;
       const {
-        subtract
+        subtract,
+        union,
+        intersect
       } = jscad.booleans;
+      const {
+        standards
+      } = swcadJs.data;
       const {
         math,
         geometry
       } = swcadJs.calcs;
       const meshPanelDefaults = () => {
+        const defInterfaceThickness = standards.INTERFACE_THICKNESS;
         const defaultValues = {
-          constants: {},
+          constants: {
+            interfaceThickness: defInterfaceThickness
+          },
           opts: {
-            holePattern: "tri"
+            holePattern: "tri",
+            holeSegments: 20
           },
           dims: {
             size: [
@@ -2170,7 +2179,8 @@ var require_mesh = __commonJS({
             ],
             edgeMargin: math.inchesToMm(3 / 16),
             holeRadius: math.inchesToMm(0.125),
-            holeDistance: math.inchesToMm(1)
+            holeDistance: math.inchesToMm(1),
+            gapThickness: defInterfaceThickness
           },
           points: {},
           components: {}
@@ -2180,12 +2190,36 @@ var require_mesh = __commonJS({
           edgeMargin: defaultValues.dims.edgeMargin,
           holeRadius: defaultValues.dims.holeRadius,
           holeDistance: defaultValues.dims.holeDistance,
-          holePattern: defaultValues.opts.holePattern
+          gapThickness: defaultValues.dims.gapThickness,
+          holePattern: defaultValues.opts.holePattern,
+          holeSegments: defaultValues.opts.holeSegments
         };
         return {
           opts: defaultOpts,
           vals: defaultValues
         };
+      };
+      const meshPanelOpts = (opts) => {
+        const defaults = meshPanelDefaults();
+        const {
+          size = defaults.opts.size,
+          edgeMargin = defaults.opts.edgeMargin,
+          holeRadius = defaults.opts.holeRadius,
+          holeDistance = defaults.opts.holeDistance,
+          gapThickness = defaults.opts.gapThickness,
+          holePattern = defaults.opts.holePattern,
+          holeSegments = defaults.opts.holeSegments
+        } = opts;
+        const initOpts = {
+          size,
+          edgeMargin,
+          holeRadius,
+          holeDistance,
+          gapThickness,
+          holePattern,
+          holeSegments
+        };
+        return initOpts;
       };
       const meshPanelProps = (opts) => {
         const defaults = meshPanelDefaults();
@@ -2194,7 +2228,9 @@ var require_mesh = __commonJS({
           edgeMargin,
           holeRadius,
           holeDistance,
-          holePattern
+          gapThickness,
+          holePattern,
+          holeSegments
         } = opts;
         const width = size[0];
         const depth = size[1];
@@ -2205,7 +2241,8 @@ var require_mesh = __commonJS({
         ];
         const modelConstants = defaults.vals.constants;
         const modelOpts = {
-          holePattern
+          holePattern,
+          holeSegments
         };
         const modelDims = {
           size,
@@ -2215,7 +2252,8 @@ var require_mesh = __commonJS({
           edgeMargin,
           holeRadius,
           holeDiam,
-          holeDistance
+          holeDistance,
+          gapThickness
         };
         const modelPoints = defaults.vals.points;
         const modelComponents = defaults.vals.components;
@@ -2228,76 +2266,123 @@ var require_mesh = __commonJS({
         };
         return modelProperties;
       };
-      const meshPanel = (opts) => {
-        const defaults = meshPanelDefaults();
+      const meshPanelBlankProfile = (modelProps) => {
         const {
-          size = defaults.opts.size,
-          edgeMargin = defaults.opts.edgeMargin,
-          holeRadius = defaults.opts.holeRadius,
-          holeDistance = defaults.opts.holeDistance,
-          holePattern = defaults.opts.holePattern
-        } = opts;
-        const inOpts = {
+          size
+        } = modelProps.dims;
+        const baseRect = rectangle({ size });
+        return baseRect;
+      };
+      const meshPanelFrameBlankProfile = (modelProps) => {
+        const {
           size,
-          edgeMargin,
-          holeRadius,
-          holeDistance,
+          edgeMargin
+        } = modelProps.dims;
+        const baseRect = rectangle({ size });
+        const cutRect = rectangle({
+          size: [
+            size[0] - edgeMargin * 2,
+            size[1] - edgeMargin * 2
+          ]
+        });
+        return subtract(baseRect, cutRect);
+      };
+      const meshPanelPoints = (modelProps) => {
+        const {
+          meshAreaSize,
+          holeDistance
+        } = modelProps.dims;
+        const {
           holePattern
-        };
-        const modelProperties = meshPanelProps(inOpts);
-        const meshPanelPoints = (modelProps) => {
-          const {
-            meshAreaSize,
-            holeDistance: holeDistance2
-          } = modelProps.dims;
-          const {
-            holePattern: holePattern2
-          } = modelProps.opts;
-          let pts = [];
-          if (holePattern2 == "tri") {
-            pts = geometry.points.getTriangularPtsInArea(meshAreaSize[0], meshAreaSize[1], holeDistance2);
-          } else {
-            pts = geometry.points.getSquarePtsInArea(meshAreaSize[0], meshAreaSize[1], holeDistance2);
-          }
-          return pts;
-        };
-        const meshPanelCutProfile = (modelProps) => {
-          const {
-            holeRadius: holeRadius2
-          } = modelProps.dims;
-          const cutPts = meshPanelPoints(modelProps);
-          const cutCircles = cutPts.map((cutPt) => {
-            return circle({ radius: holeRadius2, center: [cutPt.x, cutPt.y] });
+        } = modelProps.opts;
+        let pts = [];
+        if (holePattern == "tri") {
+          pts = geometry.points.getTriangularPtsInArea(meshAreaSize[0], meshAreaSize[1], holeDistance);
+        } else {
+          pts = geometry.points.getSquarePtsInArea(meshAreaSize[0], meshAreaSize[1], holeDistance);
+        }
+        return pts;
+      };
+      const meshPanelCutProfile = (modelProps) => {
+        const {
+          holeSegments
+        } = modelProps.opts;
+        const {
+          holeRadius
+        } = modelProps.dims;
+        const cutPts = meshPanelPoints(modelProps);
+        const cutCircles = cutPts.map((cutPt) => {
+          return circle({
+            radius: holeRadius,
+            center: [cutPt.x, cutPt.y],
+            segments: holeSegments
           });
-          return cutCircles;
-        };
-        const meshPanelProfile = (modelProps) => {
-          const {
-            size: size2
-          } = modelProps.dims;
-          const baseRect = rectangle({ size: size2 });
-          return baseRect;
-        };
-        const finalAssembly = (modelProps) => {
-          let subComp1 = meshPanelProfile(modelProps);
-          let subComp2 = meshPanelCutProfile(modelProps);
-          return subtract(
-            subComp1,
-            subComp2
-          );
-        };
-        let meshPanelCutProfileInst = meshPanelCutProfile(modelProperties);
-        let meshPanelProfileInst = meshPanelProfile(modelProperties);
-        const mainModel = finalAssembly(modelProperties);
+        });
+        return cutCircles;
+      };
+      const meshPanel = (opts) => {
+        const inOpts = meshPanelOpts(opts);
+        const modelProperties = meshPanelProps(inOpts);
+        let mPanelCutProfile = meshPanelCutProfile(modelProperties);
+        let mPanelBlankProfile = meshPanelBlankProfile(modelProperties);
+        const mainModel = subtract(
+          mPanelBlankProfile,
+          mPanelCutProfile
+        );
         const modelParts = {
           mainModel,
-          meshPanelCutProfile: meshPanelCutProfileInst,
-          meshPanelProfile: meshPanelProfileInst
+          blank: mPanelBlankProfile,
+          cutaway: mPanelCutProfile
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const meshLatticePanel = (opts) => {
+        const defaults = meshPanelDefaults();
+        const inOpts = meshPanelOpts(opts);
+        const modelProperties = meshPanelProps(inOpts);
+        const setupOpts = {
+          ...inOpts,
+          size: [
+            inOpts.size[0] + inOpts.holeRadius * 6,
+            inOpts.size[1] + inOpts.holeRadius * 6
+          ],
+          edgeMargin: defaults.vals.constants.interfaceThickness,
+          holeDistance: inOpts.holeRadius * 2 + inOpts.gapThickness
+        };
+        const setupProperties = meshPanelProps(setupOpts);
+        let setupCutProfile = meshPanelCutProfile(setupProperties);
+        let setupBlankProfile = meshPanelBlankProfile(setupProperties);
+        const setupModel = subtract(
+          setupBlankProfile,
+          setupCutProfile
+        );
+        const latticeFrame = meshPanelFrameBlankProfile(modelProperties);
+        const keepBox = rectangle({
+          size: [
+            inOpts.size[0] - 1e-3,
+            inOpts.size[1] - 1e-3
+          ]
+        });
+        const innerLattice = intersect(
+          keepBox,
+          setupModel
+        );
+        const mainModel = union(
+          latticeFrame,
+          innerLattice
+        );
+        const modelParts = {
+          mainModel,
+          blank: setupBlankProfile,
+          cutaway: setupCutProfile,
+          latticeFrame,
+          innerLattice
         };
         return [mainModel, modelParts, modelProperties];
       };
       return {
-        meshPanel
+        meshPanel,
+        meshLatticePanel
       };
     };
     module2.exports = { init: mesh2dInit };
@@ -4721,22 +4806,90 @@ var require_mesh2 = __commonJS({
       const {
         mesh: mesh2d
       } = swcadJs.profiles;
-      const meshPanel = (opts) => {
+      const meshPanelDefaults = () => {
+        const defInterfaceThickness = standards.INTERFACE_THICKNESS;
+        const defaultValues = {
+          constants: {
+            interfaceThickness: defInterfaceThickness
+          },
+          opts: {
+            holePattern: "tri",
+            holeSegments: 20
+          },
+          dims: {
+            size: [
+              math.inchesToMm(6),
+              math.inchesToMm(3)
+            ],
+            thickness: defInterfaceThickness,
+            edgeMargin: math.inchesToMm(3 / 16),
+            holeRadius: math.inchesToMm(0.125),
+            holeDistance: math.inchesToMm(1),
+            gapThickness: defInterfaceThickness
+          },
+          points: {},
+          components: {}
+        };
+        const defaultOpts = {
+          size: defaultValues.dims.size,
+          thickness: defaultValues.dims.thickness,
+          edgeMargin: defaultValues.dims.edgeMargin,
+          holeRadius: defaultValues.dims.holeRadius,
+          holeDistance: defaultValues.dims.holeDistance,
+          gapThickness: defaultValues.dims.gapThickness,
+          holePattern: defaultValues.opts.holePattern,
+          holeSegments: defaultValues.opts.holeSegments
+        };
+        return {
+          opts: defaultOpts,
+          vals: defaultValues
+        };
+      };
+      const meshPanelOpts = (opts) => {
+        const defaults = meshPanelDefaults();
         const {
-          size,
-          thickness = standards.INTERFACE_THICKNESS,
-          edgeMargin = math.inchesToMm(1 / 8),
-          holeRadius,
-          holeDistance,
-          holePattern = "tri"
+          size = defaults.opts.size,
+          thickness = defaults.opts.thickness,
+          edgeMargin = defaults.opts.edgeMargin,
+          holeRadius = defaults.opts.holeRadius,
+          holeDistance = defaults.opts.holeDistance,
+          gapThickness = defaults.opts.gapThickness,
+          holePattern = defaults.opts.holePattern,
+          holeSegments = defaults.opts.holeSegments
         } = opts;
-        const mPanelProfile = mesh2d.meshPanel({
-          size: [size[0], size[1]],
+        const initOpts = {
+          size,
+          thickness,
           edgeMargin,
           holeRadius,
           holeDistance,
-          holePattern
-        })[0];
+          gapThickness,
+          holePattern,
+          holeSegments
+        };
+        return initOpts;
+      };
+      const meshPanel = (opts) => {
+        const inOpts = meshPanelOpts(opts);
+        const {
+          thickness
+        } = inOpts;
+        const mPanelProfile = mesh2d.meshPanel(inOpts)[0];
+        let mPanel = extrudeLinear({ height: thickness }, mPanelProfile);
+        mPanel = position.ctr(mPanel);
+        const mainModel = mPanel;
+        const modelParts = {
+          mainModel,
+          profile: mPanelProfile
+        };
+        return [mainModel, modelParts, opts];
+      };
+      const meshLatticePanel = (opts) => {
+        const inOpts = meshPanelOpts(opts);
+        const {
+          thickness
+        } = inOpts;
+        const mPanelProfile = mesh2d.meshLatticePanel(inOpts)[0];
         let mPanel = extrudeLinear({ height: thickness }, mPanelProfile);
         mPanel = position.ctr(mPanel);
         const mainModel = mPanel;
@@ -4747,7 +4900,8 @@ var require_mesh2 = __commonJS({
         return [mainModel, modelParts, opts];
       };
       return {
-        meshPanel
+        meshPanel,
+        meshLatticePanel
       };
     };
     module2.exports = { init: mesh3dInit };
