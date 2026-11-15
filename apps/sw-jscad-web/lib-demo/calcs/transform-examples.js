@@ -5,7 +5,7 @@ const { cuboid, sphere, cylinder, ellipse } = jscad.primitives
 const { translate, rotate, align } = jscad.transforms;
 const { union } = jscad.booleans
 
-const swcadJs = require('swcad-js-test').init({ jscad });
+const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
