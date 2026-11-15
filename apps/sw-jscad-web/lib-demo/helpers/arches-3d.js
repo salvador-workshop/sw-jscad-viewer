@@ -4,7 +4,7 @@ const jscad = require('@jscad/modeling')
 const swcadJs = require('swcad-js-test').init({ jscad });
 console.log('swcadJs', swcadJs)
 
-const swcadJsHelpers = require('swcad-js-helpers').init({ jscad, swcadJs });
+const swcadJsHelpers = require('swcad-js-helpers-test').init({ jscad, swcadJs });
 console.log('swcadJsHelpers', swcadJsHelpers)
 
 const {
@@ -22,7 +22,7 @@ const {
 const main = () => {
     const layoutOpts = {
         layoutMargin: 20,
-        layoutSpace: 0,
+        layoutSpace: 10,
     }
 
     const profile1 = shapes.square.cornerCircNotch({ sqLength: 5 });

@@ -842,6 +842,15 @@ var require_transform = __commonJS({
       const {
         position
       } = swcadJs.calcs;
+      const stack = ({ reverse = false }, geoms) => {
+        let stackHeight = 0;
+        const geomList = reverse ? geoms.reverse() : geoms;
+        return geomList.map((geom) => {
+          const alignedGeom = position.ctrMin(geom, [0, 0, stackHeight]);
+          stackHeight = stackHeight + measureDimensions(geom)[2];
+          return alignedGeom;
+        });
+      };
       const cutQuadrant = (inShape) => {
         const inShapeDims = measureDimensions(inShape);
         const maskDims = [
@@ -879,9 +888,69 @@ var require_transform = __commonJS({
           otherHalf
         );
       };
+      const bisect3d = (opts, geom) => {
+        const geomDims = measureDimensions(geom);
+        const baseCutBox = cuboid({
+          size: [
+            geomDims[0] + 3,
+            geomDims[1] + 3,
+            geomDims[2] + 3
+          ]
+        });
+        let alignedCutBox = null;
+        const remAxis = opts.axis || "z";
+        switch (remAxis) {
+          case "-x":
+            alignedCutBox = align({ modes: ["min", "center", "center"] }, baseCutBox);
+            break;
+          case "x":
+            alignedCutBox = align({ modes: ["max", "center", "center"] }, baseCutBox);
+            break;
+          case "-y":
+            alignedCutBox = align({ modes: ["center", "min", "center"] }, baseCutBox);
+            break;
+          case "y":
+            alignedCutBox = align({ modes: ["center", "max", "center"] }, baseCutBox);
+            break;
+          case "-z":
+            alignedCutBox = position.ctrMin(baseCutBox);
+            break;
+          case "z":
+          default:
+            alignedCutBox = position.ctrMax(baseCutBox);
+        }
+        return subtract(
+          geom,
+          alignedCutBox
+        );
+      };
+      const cutCircularSlice = (opts, geom) => {
+        const geomDims = measureDimensions(geom);
+        const baseCutBox = cuboid({
+          size: [
+            geomDims[0] + 3,
+            geomDims[1] + 3,
+            geomDims[2] + 3
+          ]
+        });
+        const cutBox1 = colorize(
+          [0.7, 0.7, 0.1, 0.5],
+          rotate(
+            [0, 0, opts.centralAngle / 2],
+            align({ modes: ["max", "center", "center"] }, baseCutBox)
+          )
+        );
+        const cutBox2 = mirror({ normal: [1, 0, 0] }, cutBox1);
+        let cutAssembly = subtract(geom, cutBox1);
+        cutAssembly = subtract(cutAssembly, cutBox2);
+        return cutAssembly;
+      };
       return {
+        stack,
         cutQuadrant,
-        cloneQuadrant
+        cloneQuadrant,
+        bisect3d,
+        cutCircularSlice
       };
     };
     module2.exports = { init: transformUtils };

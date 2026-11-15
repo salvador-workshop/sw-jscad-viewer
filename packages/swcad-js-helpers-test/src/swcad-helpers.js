@@ -163,11 +163,94 @@ var require_src = __commonJS({
   }
 });
 
+// packages/swcad-js-helpers-calcs/src/geometry/geo-reg-poly.js
+var require_geo_reg_poly = __commonJS({
+  "packages/swcad-js-helpers-calcs/src/geometry/geo-reg-poly.js"(exports2, module2) {
+    "use strict";
+    var geoRegPoly = ({ jscad, swcadJs, swcadJsHelpers }) => {
+      return {
+        /**
+         * Calculates side length from apothem and # of sides.
+         * @memberof calcs.geometry.regPoly
+         * @param {number} apothem - distance from center to the midpoint of one side
+         * @param {number} numSides - number of polygon sides
+         * @returns side length
+         */
+        sideLengthFromApothem: (apothem, numSides) => {
+          return apothem * 2 * Math.tan(Math.PI / numSides);
+        },
+        /**
+         * Calculates side length from circumradius and # of sides.
+         * @memberof calcs.geometry.regPoly
+         * @param {number} circumradius - distance from center to vertex
+         * @param {number} numSides - number of polygon sides
+         * @returns side length
+         */
+        sideLengthFromCircumRadius: (circumradius, numSides) => {
+          return circumradius * 2 * Math.sin(Math.PI / numSides);
+        },
+        /**
+         * Calculates apothem from circumradius and # of sides.
+         * @memberof calcs.geometry.regPoly
+         * @param {number} circumradius - distance from center to vertex
+         * @param {number} numSides - number of polygon sides
+         * @returns apothem
+         */
+        apothemFromCircumradius: (circumradius, numSides) => {
+          return circumradius * Math.cos(Math.PI / numSides);
+        },
+        /**
+         * Calculates apothem from side length and # of sides.
+         * @memberof calcs.geometry.regPoly
+         * @param {number} sideLength - side length
+         * @param {number} numSides - number of polygon sides
+         * @returns apothem
+         */
+        apothemFromSideLength: (sideLength, numSides) => {
+          return sideLength / 2 * Math.tan(Math.PI / numSides);
+        },
+        /**
+         * Calculates circumradius from apothem and # of sides.
+         * @memberof calcs.geometry.regPoly
+         * @param {number} apothem - distance from center to the midpoint of one side
+         * @param {number} numSides - number of polygon sides
+         * @returns circumradius
+         */
+        circumradiusFromApothem: (apothem, numSides) => {
+          return apothem / Math.cos(Math.PI / numSides);
+        },
+        /**
+         * Calculates circumradius from side length and # of sides.
+         * @memberof calcs.geometry.regPoly
+         * @param {number} sideLength - side length
+         * @param {number} numSides - number of polygon sides
+         * @returns circumradius
+         */
+        circumradiusFromSideLength: (sideLength, numSides) => {
+          return sideLength / 2 * Math.sin(Math.PI / numSides);
+        },
+        /**
+         * Calculates interior angle from # of sides.
+         * @memberof calcs.geometry.regPoly
+         * @param {number} numSides - number of polygon sides
+         * @returns interior angle
+         */
+        interiorAngle: (numSides) => {
+          return 2 * Math.PI / numSides;
+        }
+      };
+    };
+    module2.exports = {
+      init: geoRegPoly
+    };
+  }
+});
+
 // packages/swcad-js-helpers-calcs/src/geometry/geo-triangle.js
 var require_geo_triangle = __commonJS({
   "packages/swcad-js-helpers-calcs/src/geometry/geo-triangle.js"(exports2, module2) {
     "use strict";
-    var geoTriangleInit = ({ jscad, swcadJs }) => {
+    var geoTriangleInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
       const { TAU } = jscad.maths.constants;
       const rightTriangleOpts = ({
         hypot,
@@ -233,10 +316,14 @@ var require_geo_triangle = __commonJS({
 var require_geometry = __commonJS({
   "packages/swcad-js-helpers-calcs/src/geometry/index.js"(exports2, module2) {
     "use strict";
+    var geoRegPolyModule = require_geo_reg_poly();
     var geoTriangleModule = require_geo_triangle();
     var geometryInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
+      const regPoly = geoRegPolyModule.init({ jscad, swcadJs, swcadJsHelpers });
+      const triangle = geoTriangleModule.init({ jscad, swcadJs, swcadJsHelpers });
       return {
-        triangle: geoTriangleModule.init({ jscad, swcadJs })
+        regPoly,
+        triangle
       };
     };
     module2.exports = { init: geometryInit };
@@ -247,11 +334,8 @@ var require_geometry = __commonJS({
 var require_pos_rectangle = __commonJS({
   "packages/swcad-js-helpers-calcs/src/position/pos-rectangle.js"(exports2, module2) {
     "use strict";
-    var geoRectangleInit = ({ jscad, swcadJs }) => {
-      const {
-        measureBoundingBox
-      } = jscad.measurements;
-      const { position } = swcadJs.calcs;
+    var geoRectangleInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
+      const { position } = swcadJsHelpers.calcs;
       const getRectangleCoords = (rectGeom) => {
         return position.getGeomCoords(rectGeom);
       };
@@ -269,6 +353,7 @@ var require_pos_rectangle = __commonJS({
         };
       };
       return {
+        getRectangleCoords,
         getRectangleCorners
       };
     };
@@ -282,8 +367,58 @@ var require_position = __commonJS({
     "use strict";
     var posRectangle = require_pos_rectangle();
     var positionInit = ({ jscad, swcadJs, swcadJsHelpers }) => {
+      const {
+        measureDimensions,
+        measureBoundingBox
+      } = jscad.measurements;
+      const measure = (inputGeom) => {
+        return {
+          boundingBox: measureBoundingBox(inputGeom),
+          dimensions: measureDimensions(inputGeom)
+        };
+      };
+      const getGeomCoords = (geom) => {
+        const bBox = measureBoundingBox(geom);
+        return {
+          right: bBox[1][0],
+          // (+X)
+          left: bBox[0][0],
+          // (-X)
+          back: bBox[1][1],
+          // (+Y)
+          front: bBox[0][1],
+          // (-Y)
+          top: bBox[1][2],
+          // (+Z)
+          bottom: bBox[0][2]
+          // (-Z)
+        };
+      };
+      const findLongAxis = (size) => {
+        const is2d = size.length == 2 && size.every((sizeNum) => typeof sizeNum === "number" && sizeNum > 0);
+        const is3d = size.length == 3 && size.every((sizeNum) => typeof sizeNum === "number" && sizeNum > 0);
+        if (!is2d && !is3d) {
+          return null;
+        }
+        const maxDim = Math.max(...size);
+        const maxDimIdx = size.indexOf(maxDim);
+        const axes = ["x", "y", "z"];
+        return axes[maxDimIdx];
+      };
+      const setupCalcsPosition = {
+        measure,
+        getGeomCoords,
+        findLongAxis
+      };
+      const preHelpers = {
+        ...swcadJsHelpers,
+        calcs: {
+          position: setupCalcsPosition
+        }
+      };
       return {
-        rectangle: posRectangle.init({ jscad, swcadJs })
+        ...setupCalcsPosition,
+        rectangle: posRectangle.init({ jscad, swcadJs, swcadJsHelpers: preHelpers })
       };
     };
     module2.exports = { init: positionInit };
@@ -851,7 +986,7 @@ var require_rect_frame = __commonJS({
             frameWidth * 2 + size[0],
             frameWidth * 2 + size[1]
           ],
-          longAxis: cornerOpts.longAxis || basePosition.findLongAxis(size)
+          longAxis: cornerOpts.longAxis || position.findLongAxis(size)
         };
         const iCornOpts = { ...cornerOpts, longAxis: specs.longAxis };
         const oCornOpts = { ...outCornerOpts, longAxis: specs.longAxis };
@@ -1612,28 +1747,25 @@ var require_layout = __commonJS({
             fontSize: 3.5,
             charLineWidth: 1,
             ...frameOpts
-          });
+          })[0];
           const subtitleText2 = text2d.basicText({
             message: subtitle,
             fontSize: 3,
             charLineWidth: 0.75,
             ...frameOpts
-          });
-          ;
+          })[0];
           const data1Text2 = text2d.basicText({
             message: data1,
             fontSize: 3,
             charLineWidth: 0.75,
             ...frameOpts
-          });
-          ;
+          })[0];
           const data2Text2 = text2d.basicText({
             message: data2,
             fontSize: 3,
             charLineWidth: 0.75,
             ...frameOpts
-          });
-          ;
+          })[0];
           const frameSpacer = frameWidth * 1.25;
           const basicFrame2 = subtract(
             rectangle({
@@ -1666,25 +1798,25 @@ var require_layout = __commonJS({
           fontSize: 3.5,
           charLineWidth: 1,
           ...frameOpts
-        });
+        })[0];
         const subtitleText = text3d.textPanel({
           message: subtitle,
           fontSize: 3,
           charLineWidth: 0.75,
           ...frameOpts
-        });
+        })[0];
         const data1Text = text3d.textPanel({
           message: data1,
           fontSize: 3,
           charLineWidth: 0.75,
           ...frameOpts
-        });
+        })[0];
         const data2Text = text3d.textPanel({
           message: data2,
           fontSize: 3,
           charLineWidth: 0.75,
           ...frameOpts
-        });
+        })[0];
         const basicFrame = subtract(
           cuboid({ size: [layoutDims[0], layoutDims[1], frameWidth] }),
           cuboid({ size: [layoutDims[0] - frameWidth * 2, layoutDims[1] - frameWidth * 2, 3] })
