@@ -157,89 +157,6 @@ var require_src = __commonJS({
   }
 });
 
-// packages/swcad-js-calcs/src/geometry/geo-reg-poly.js
-var require_geo_reg_poly = __commonJS({
-  "packages/swcad-js-calcs/src/geometry/geo-reg-poly.js"(exports2, module2) {
-    "use strict";
-    var geoRegPoly = ({ jscad, swcadJs }) => {
-      return {
-        /**
-         * Calculates side length from apothem and # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} apothem - distance from center to the midpoint of one side
-         * @param {number} numSides - number of polygon sides
-         * @returns side length
-         */
-        sideLengthFromApothem: (apothem, numSides) => {
-          return apothem * 2 * Math.tan(Math.PI / numSides);
-        },
-        /**
-         * Calculates side length from circumradius and # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} circumradius - distance from center to vertex
-         * @param {number} numSides - number of polygon sides
-         * @returns side length
-         */
-        sideLengthFromCircumRadius: (circumradius, numSides) => {
-          return circumradius * 2 * Math.sin(Math.PI / numSides);
-        },
-        /**
-         * Calculates apothem from circumradius and # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} circumradius - distance from center to vertex
-         * @param {number} numSides - number of polygon sides
-         * @returns apothem
-         */
-        apothemFromCircumradius: (circumradius, numSides) => {
-          return circumradius * Math.cos(Math.PI / numSides);
-        },
-        /**
-         * Calculates apothem from side length and # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} sideLength - side length
-         * @param {number} numSides - number of polygon sides
-         * @returns apothem
-         */
-        apothemFromSideLength: (sideLength, numSides) => {
-          return sideLength / 2 * Math.tan(Math.PI / numSides);
-        },
-        /**
-         * Calculates circumradius from apothem and # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} apothem - distance from center to the midpoint of one side
-         * @param {number} numSides - number of polygon sides
-         * @returns circumradius
-         */
-        circumradiusFromApothem: (apothem, numSides) => {
-          return apothem / Math.cos(Math.PI / numSides);
-        },
-        /**
-         * Calculates circumradius from side length and # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} sideLength - side length
-         * @param {number} numSides - number of polygon sides
-         * @returns circumradius
-         */
-        circumradiusFromSideLength: (sideLength, numSides) => {
-          return sideLength / 2 * Math.sin(Math.PI / numSides);
-        },
-        /**
-         * Calculates interior angle from # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} numSides - number of polygon sides
-         * @returns interior angle
-         */
-        interiorAngle: (numSides) => {
-          return 2 * Math.PI / numSides;
-        }
-      };
-    };
-    module2.exports = {
-      init: geoRegPoly
-    };
-  }
-});
-
 // packages/swcad-js-calcs/src/geometry/points.js
 var require_points = __commonJS({
   "packages/swcad-js-calcs/src/geometry/points.js"(exports2, module2) {
@@ -734,7 +651,6 @@ var require_reinforcement = __commonJS({
 var require_geometry = __commonJS({
   "packages/swcad-js-calcs/src/geometry/index.js"(exports2, module2) {
     "use strict";
-    var geoRegPolyModule = require_geo_reg_poly();
     var pointsModule = require_points();
     var reinforcementModule = require_reinforcement();
     var coordDiffBetweenPoints = (startPt, endPt) => {
@@ -787,7 +703,6 @@ var require_geometry = __commonJS({
         return lineData;
       };
       const points = pointsModule.init({ jscad, swcadJs });
-      const regPoly = geoRegPolyModule.init({ jscad, swcadJs });
       const reinforcement = reinforcementModule.init({ jscad, swcadJs });
       return {
         coordDiffBetweenPoints,
@@ -797,7 +712,6 @@ var require_geometry = __commonJS({
         getLineDataFromOutlinePoints,
         distanceBetweenPoints,
         points,
-        regPoly,
         reinforcement
       };
     };
@@ -889,10 +803,6 @@ var require_position = __commonJS({
       const {
         align
       } = jscad.transforms;
-      const {
-        measureDimensions,
-        measureBoundingBox
-      } = jscad.measurements;
       const alignModes = {
         ctr: ["center", "center", "center"],
         ctrMin: ["center", "center", "min"],
@@ -907,45 +817,8 @@ var require_position = __commonJS({
       const ctrMax = (inGeom, pt = [0, 0, 0]) => {
         return align({ modes: alignModes.ctrMax, relativeTo: pt }, inGeom);
       };
-      const measure = (inputGeom) => {
-        return {
-          boundingBox: measureBoundingBox(inputGeom),
-          dimensions: measureDimensions(inputGeom)
-        };
-      };
-      const getGeomCoords = (geom) => {
-        const bBox = measureBoundingBox(geom);
-        return {
-          right: bBox[1][0],
-          // (+X)
-          left: bBox[0][0],
-          // (-X)
-          back: bBox[1][1],
-          // (+Y)
-          front: bBox[0][1],
-          // (-Y)
-          top: bBox[1][2],
-          // (+Z)
-          bottom: bBox[0][2]
-          // (-Z)
-        };
-      };
-      const findLongAxis = (size) => {
-        const is2d = size.length == 2 && size.every((sizeNum) => typeof sizeNum === "number" && sizeNum > 0);
-        const is3d = size.length == 3 && size.every((sizeNum) => typeof sizeNum === "number" && sizeNum > 0);
-        if (!is2d && !is3d) {
-          return null;
-        }
-        const maxDim = Math.max(...size);
-        const maxDimIdx = size.indexOf(maxDim);
-        const axes = ["x", "y", "z"];
-        return axes[maxDimIdx];
-      };
       const positionCore = {
         alignModes,
-        measure,
-        getGeomCoords,
-        findLongAxis,
         ctr,
         ctrMin,
         ctrMax
@@ -969,15 +842,6 @@ var require_transform = __commonJS({
       const {
         position
       } = swcadJs.calcs;
-      const stack = ({ reverse = false }, geoms) => {
-        let stackHeight = 0;
-        const geomList = reverse ? geoms.reverse() : geoms;
-        return geomList.map((geom) => {
-          const alignedGeom = position.ctrMin(geom, [0, 0, stackHeight]);
-          stackHeight = stackHeight + measureDimensions(geom)[2];
-          return alignedGeom;
-        });
-      };
       const cutQuadrant = (inShape) => {
         const inShapeDims = measureDimensions(inShape);
         const maskDims = [
@@ -1015,67 +879,7 @@ var require_transform = __commonJS({
           otherHalf
         );
       };
-      const bisect3d = (opts, geom) => {
-        const geomDims = measureDimensions(geom);
-        const baseCutBox = cuboid({
-          size: [
-            geomDims[0] + 3,
-            geomDims[1] + 3,
-            geomDims[2] + 3
-          ]
-        });
-        let alignedCutBox = null;
-        const remAxis = opts.axis || "z";
-        switch (remAxis) {
-          case "-x":
-            alignedCutBox = align({ modes: ["min", "center", "center"] }, baseCutBox);
-            break;
-          case "x":
-            alignedCutBox = align({ modes: ["max", "center", "center"] }, baseCutBox);
-            break;
-          case "-y":
-            alignedCutBox = align({ modes: ["center", "min", "center"] }, baseCutBox);
-            break;
-          case "y":
-            alignedCutBox = align({ modes: ["center", "max", "center"] }, baseCutBox);
-            break;
-          case "-z":
-            alignedCutBox = position.ctrMin(baseCutBox);
-            break;
-          case "z":
-          default:
-            alignedCutBox = position.ctrMax(baseCutBox);
-        }
-        return subtract(
-          geom,
-          alignedCutBox
-        );
-      };
-      const cutCircularSlice = (opts, geom) => {
-        const geomDims = measureDimensions(geom);
-        const baseCutBox = cuboid({
-          size: [
-            geomDims[0] + 3,
-            geomDims[1] + 3,
-            geomDims[2] + 3
-          ]
-        });
-        const cutBox1 = colorize(
-          [0.7, 0.7, 0.1, 0.5],
-          rotate(
-            [0, 0, opts.centralAngle / 2],
-            align({ modes: ["max", "center", "center"] }, baseCutBox)
-          )
-        );
-        const cutBox2 = mirror({ normal: [1, 0, 0] }, cutBox1);
-        let cutAssembly = subtract(geom, cutBox1);
-        cutAssembly = subtract(cutAssembly, cutBox2);
-        return cutAssembly;
-      };
       return {
-        bisect3d,
-        cutCircularSlice,
-        stack,
         cutQuadrant,
         cloneQuadrant
       };

@@ -8,18 +8,30 @@ const jscad = require('@jscad/modeling')
 
 const { cuboid } = jscad.primitives
 const { translate } = jscad.transforms
+const { measureDimensions } = jscad.measurements;
 
-const swcadJs = require('swcad-js').init({ jscad });
+const swcadJs = require('swcad-js-test').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
   math,
+  position,
   transform,
 } = swcadJs.calcs
 
 const {
   routedCuboid,
 } = swcadJs.components.routedShapes
+
+const stack = ({ reverse = false }, geoms) => {
+  let stackHeight = 0
+  const geomList = reverse ? geoms.reverse() : geoms
+  return geomList.map(geom => {
+    const alignedGeom = position.ctrMin(geom, [0, 0, stackHeight])
+    stackHeight = stackHeight + measureDimensions(geom)[2]
+    return alignedGeom
+  })
+}
 
 
 //==============================================================================
@@ -100,7 +112,7 @@ const top = topData[0]
 
 // The library also has helper functions
 
-const introPlinth = transform.stack({}, [base, mid, top])
+const introPlinth = stack({}, [base, mid, top])
 
 
 //==============================================================================
