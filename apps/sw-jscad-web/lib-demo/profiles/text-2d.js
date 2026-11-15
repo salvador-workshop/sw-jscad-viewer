@@ -22,7 +22,7 @@ function main() {
         message: 'Hello world! Nice to see you.',
         fontSize: 4,
         charLineWidth: 1
-    })
+    })[0]
 
     return textContent
 }

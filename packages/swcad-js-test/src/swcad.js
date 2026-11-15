@@ -157,89 +157,6 @@ var require_src = __commonJS({
   }
 });
 
-// packages/swcad-js-calcs/src/geometry/geo-reg-poly.js
-var require_geo_reg_poly = __commonJS({
-  "packages/swcad-js-calcs/src/geometry/geo-reg-poly.js"(exports2, module2) {
-    "use strict";
-    var geoRegPoly = ({ jscad, swcadJs }) => {
-      return {
-        /**
-         * Calculates side length from apothem and # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} apothem - distance from center to the midpoint of one side
-         * @param {number} numSides - number of polygon sides
-         * @returns side length
-         */
-        sideLengthFromApothem: (apothem, numSides) => {
-          return apothem * 2 * Math.tan(Math.PI / numSides);
-        },
-        /**
-         * Calculates side length from circumradius and # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} circumradius - distance from center to vertex
-         * @param {number} numSides - number of polygon sides
-         * @returns side length
-         */
-        sideLengthFromCircumRadius: (circumradius, numSides) => {
-          return circumradius * 2 * Math.sin(Math.PI / numSides);
-        },
-        /**
-         * Calculates apothem from circumradius and # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} circumradius - distance from center to vertex
-         * @param {number} numSides - number of polygon sides
-         * @returns apothem
-         */
-        apothemFromCircumradius: (circumradius, numSides) => {
-          return circumradius * Math.cos(Math.PI / numSides);
-        },
-        /**
-         * Calculates apothem from side length and # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} sideLength - side length
-         * @param {number} numSides - number of polygon sides
-         * @returns apothem
-         */
-        apothemFromSideLength: (sideLength, numSides) => {
-          return sideLength / 2 * Math.tan(Math.PI / numSides);
-        },
-        /**
-         * Calculates circumradius from apothem and # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} apothem - distance from center to the midpoint of one side
-         * @param {number} numSides - number of polygon sides
-         * @returns circumradius
-         */
-        circumradiusFromApothem: (apothem, numSides) => {
-          return apothem / Math.cos(Math.PI / numSides);
-        },
-        /**
-         * Calculates circumradius from side length and # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} sideLength - side length
-         * @param {number} numSides - number of polygon sides
-         * @returns circumradius
-         */
-        circumradiusFromSideLength: (sideLength, numSides) => {
-          return sideLength / 2 * Math.sin(Math.PI / numSides);
-        },
-        /**
-         * Calculates interior angle from # of sides.
-         * @memberof calcs.geometry.regPoly
-         * @param {number} numSides - number of polygon sides
-         * @returns interior angle
-         */
-        interiorAngle: (numSides) => {
-          return 2 * Math.PI / numSides;
-        }
-      };
-    };
-    module2.exports = {
-      init: geoRegPoly
-    };
-  }
-});
-
 // packages/swcad-js-calcs/src/geometry/points.js
 var require_points = __commonJS({
   "packages/swcad-js-calcs/src/geometry/points.js"(exports2, module2) {
@@ -734,7 +651,6 @@ var require_reinforcement = __commonJS({
 var require_geometry = __commonJS({
   "packages/swcad-js-calcs/src/geometry/index.js"(exports2, module2) {
     "use strict";
-    var geoRegPolyModule = require_geo_reg_poly();
     var pointsModule = require_points();
     var reinforcementModule = require_reinforcement();
     var coordDiffBetweenPoints = (startPt, endPt) => {
@@ -787,7 +703,6 @@ var require_geometry = __commonJS({
         return lineData;
       };
       const points = pointsModule.init({ jscad, swcadJs });
-      const regPoly = geoRegPolyModule.init({ jscad, swcadJs });
       const reinforcement = reinforcementModule.init({ jscad, swcadJs });
       return {
         coordDiffBetweenPoints,
@@ -797,7 +712,6 @@ var require_geometry = __commonJS({
         getLineDataFromOutlinePoints,
         distanceBetweenPoints,
         points,
-        regPoly,
         reinforcement
       };
     };
@@ -889,10 +803,6 @@ var require_position = __commonJS({
       const {
         align
       } = jscad.transforms;
-      const {
-        measureDimensions,
-        measureBoundingBox
-      } = jscad.measurements;
       const alignModes = {
         ctr: ["center", "center", "center"],
         ctrMin: ["center", "center", "min"],
@@ -907,45 +817,8 @@ var require_position = __commonJS({
       const ctrMax = (inGeom, pt = [0, 0, 0]) => {
         return align({ modes: alignModes.ctrMax, relativeTo: pt }, inGeom);
       };
-      const measure = (inputGeom) => {
-        return {
-          boundingBox: measureBoundingBox(inputGeom),
-          dimensions: measureDimensions(inputGeom)
-        };
-      };
-      const getGeomCoords = (geom) => {
-        const bBox = measureBoundingBox(geom);
-        return {
-          right: bBox[1][0],
-          // (+X)
-          left: bBox[0][0],
-          // (-X)
-          back: bBox[1][1],
-          // (+Y)
-          front: bBox[0][1],
-          // (-Y)
-          top: bBox[1][2],
-          // (+Z)
-          bottom: bBox[0][2]
-          // (-Z)
-        };
-      };
-      const findLongAxis = (size) => {
-        const is2d = size.length == 2 && size.every((sizeNum) => typeof sizeNum === "number" && sizeNum > 0);
-        const is3d = size.length == 3 && size.every((sizeNum) => typeof sizeNum === "number" && sizeNum > 0);
-        if (!is2d && !is3d) {
-          return null;
-        }
-        const maxDim = Math.max(...size);
-        const maxDimIdx = size.indexOf(maxDim);
-        const axes = ["x", "y", "z"];
-        return axes[maxDimIdx];
-      };
       const positionCore = {
         alignModes,
-        measure,
-        getGeomCoords,
-        findLongAxis,
         ctr,
         ctrMin,
         ctrMax
@@ -1073,11 +946,11 @@ var require_transform = __commonJS({
         return cutAssembly;
       };
       return {
-        bisect3d,
-        cutCircularSlice,
         stack,
         cutQuadrant,
-        cloneQuadrant
+        cloneQuadrant,
+        bisect3d,
+        cutCircularSlice
       };
     };
     module2.exports = { init: transformUtils };
@@ -4426,7 +4299,8 @@ var require_round_fitting = __commonJS({
           simpleHeight,
           dowelRadius
         } = modelProperties.dims;
-        const connLength = interfaceThickness * 2 + dowelRadius;
+        const ellipseTabRadius = dowelRadius;
+        const connLength = interfaceThickness * 2 + ellipseTabRadius;
         const fittingBodyLength = (length - connLength) / 2;
         const splitProfiles = connections.tab.ellipse({
           size: [width, connLength],
@@ -4494,18 +4368,22 @@ var require_rectangular_fitting = __commonJS({
     "use strict";
     var rectangularFittingInit = ({ jscad, swcadJs }) => {
       const {
-        rectangle
+        rectangle,
+        cuboid
       } = jscad.primitives;
       const {
         align,
         rotate
       } = jscad.transforms;
       const {
-        subtract
+        subtract,
+        union,
+        intersect
       } = jscad.booleans;
       const {
         extrudeLinear
       } = jscad.extrusions;
+      const { TAU } = jscad.maths.constants;
       const {
         standards
       } = swcadJs.data;
@@ -4513,6 +4391,9 @@ var require_rectangular_fitting = __commonJS({
         math,
         position
       } = swcadJs.calcs;
+      const {
+        connections
+      } = swcadJs.profiles;
       const rectangularFittingDefaults = () => {
         const defaultValues = {
           constants: {},
@@ -4641,11 +4522,153 @@ var require_rectangular_fitting = __commonJS({
         };
         return [mainModel, modelParts, modelProperties];
       };
+      const rectangularFittingCross = (opts) => {
+        const initOpts = rectangularFittingOpts(opts);
+        const modelProperties = rectangularFittingProps(initOpts);
+        const {
+          interfaceThickness,
+          length,
+          width,
+          height
+        } = modelProperties.dims;
+        const totalLength = length * 2;
+        const blankBase = cuboid({ size: [totalLength, width, height] });
+        const cutawayProfile = rectFittingCutProfile(opts)[0];
+        let cutawayBase = extrudeLinear({ height: totalLength * 1.5 }, cutawayProfile);
+        cutawayBase = position.ctr(rotate([TAU / 4, 0, 0], cutawayBase));
+        const blank = union(
+          blankBase,
+          rotate([0, 0, TAU / 4], blankBase)
+        );
+        const cutaway = union(
+          cutawayBase,
+          rotate([0, 0, TAU / 4], cutawayBase)
+        );
+        const rectangularFittingCrossAssembly = subtract(
+          position.ctrMin(blank, [0, 0, -interfaceThickness]),
+          position.ctrMin(cutaway)
+        );
+        const mainModel = position.ctr(rectangularFittingCrossAssembly);
+        const modelParts = {
+          mainModel,
+          blankBase,
+          cutawayProfile,
+          cutawayBase,
+          blank,
+          cutaway
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const rectangularFittingTee = (opts) => {
+        const initOpts = rectangularFittingOpts(opts);
+        const modelProperties = rectangularFittingProps(initOpts);
+        const {
+          interfaceThickness,
+          length,
+          width,
+          height,
+          fitGap
+        } = modelProperties.dims;
+        const totalLength = length * 2;
+        const blankBase = cuboid({ size: [totalLength, width, height] });
+        const blankBaseTee = align(
+          { modes: ["min", "center", "center"] },
+          cuboid({ size: [length, width, height] })
+        );
+        const cutawayProfile = rectFittingCutProfile(opts)[0];
+        let cutawayBase = extrudeLinear({ height: totalLength * 1.5 }, cutawayProfile);
+        cutawayBase = position.ctr(rotate([TAU / 4, 0, 0], cutawayBase));
+        let cutawayBaseTee = extrudeLinear({ height: length * 1.5 }, cutawayProfile);
+        cutawayBaseTee = align(
+          { modes: ["center", "min", "center"] },
+          rotate([TAU / 4, 0, 0], cutawayBaseTee)
+        );
+        const blank = union(
+          blankBase,
+          rotate([0, 0, TAU / 4], blankBaseTee)
+        );
+        const cutaway = union(
+          rotate([0, 0, TAU / 4], cutawayBase),
+          cutawayBaseTee
+        );
+        const blankOffsetY = fitGap / 2 - interfaceThickness;
+        const rectangularFittingTeeAssembly = subtract(
+          align({
+            modes: ["center", "min", "min"],
+            relativeTo: [0, blankOffsetY, -interfaceThickness]
+          }, blank),
+          align({
+            modes: ["center", "min", "min"]
+          }, cutaway)
+        );
+        const mainModel = position.ctr(rectangularFittingTeeAssembly);
+        const modelParts = {
+          mainModel
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
+      const rectangularFittingSplit = (opts) => {
+        const initOpts = rectangularFittingOpts(opts);
+        const modelProperties = rectangularFittingProps(initOpts);
+        const {
+          subjectWidth,
+          interfaceThickness,
+          length,
+          width,
+          height
+        } = modelProperties.dims;
+        const ellipseTabRadius = subjectWidth / 2;
+        const connLength = interfaceThickness * 2 + ellipseTabRadius;
+        const fittingBodyLength = (length - connLength) / 2;
+        const splitProfiles = connections.tab.ellipse({
+          size: [width, connLength],
+          interfaceMargin: [interfaceThickness, interfaceThickness],
+          segments: 12
+        })[0];
+        const [maleSplitProfile, femaleSplitProfile] = splitProfiles;
+        const fittingBodyProfile = rectangle({ size: [width, fittingBodyLength] });
+        const maleFittingProfile = union(
+          align({ modes: ["center", "min", "center"] }, maleSplitProfile),
+          align({ modes: ["center", "max", "center"] }, fittingBodyProfile)
+        );
+        const femaleFittingProfile = union(
+          align({ modes: ["center", "max", "center"] }, femaleSplitProfile),
+          align({ modes: ["center", "min", "center"] }, fittingBodyProfile)
+        );
+        const maleFittingZone = extrudeLinear({ height }, maleFittingProfile);
+        const femaleFittingZone = extrudeLinear({ height }, femaleFittingProfile);
+        const baseFitting = rectangularFitting(opts)[0];
+        const maleRoundFitting = intersect(
+          position.ctrMin(maleFittingZone),
+          position.ctrMin(baseFitting)
+        );
+        const femaleRoundFitting = intersect(
+          position.ctrMin(femaleFittingZone),
+          position.ctrMin(baseFitting)
+        );
+        const mainModel = [
+          position.ctr(maleRoundFitting),
+          position.ctr(femaleRoundFitting)
+        ];
+        const modelParts = {
+          mainModel,
+          maleSplitProfile,
+          femaleSplitProfile,
+          maleFittingProfile,
+          femaleFittingProfile,
+          maleFitting: maleRoundFitting,
+          femaleFitting: femaleRoundFitting
+        };
+        return [mainModel, modelParts, modelProperties];
+      };
       return {
         defaults: rectangularFittingDefaults,
         props: rectangularFittingProps,
         rectFittingCutProfile,
-        rectangularFitting
+        rectangularFitting,
+        rectangularFittingCross,
+        rectangularFittingTee,
+        rectangularFittingSplit
       };
     };
     module2.exports = {
@@ -4672,7 +4695,10 @@ var require_fittings = __commonJS({
         roundFittingTee: roundFitting.roundFittingTee,
         roundFittingSplit: roundFitting.roundFittingSplit,
         rectangularFitting: rectangularFitting.rectangularFitting,
-        rectFittingCutProfile: rectangularFitting.rectFittingCutProfile
+        rectFittingCutProfile: rectangularFitting.rectFittingCutProfile,
+        rectangularFittingCross: rectangularFitting.rectangularFittingCross,
+        rectangularFittingTee: rectangularFitting.rectangularFittingTee,
+        rectangularFittingSplit: rectangularFitting.rectangularFittingSplit
       };
     };
     module2.exports = { init: fittingsInit };

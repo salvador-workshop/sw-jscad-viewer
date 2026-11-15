@@ -29,7 +29,7 @@ function main() {
 
     const rectProfile1 = fittings.rectFittingCutProfile({
         subjectSize: [math.inchesToMm(1 / 4), math.inchesToMm(1 / 8)],
-        length: math.inchesToMm(5 / 16),
+        length: math.inchesToMm(3 / 8),
     })[0]
 
     const cutProfiles = [
@@ -77,16 +77,42 @@ function main() {
         dowelRadius: 3.25 / 2,
         length: math.inchesToMm(5 / 16),
     })[0]
+
     const [
-        maleSplitFitting,
-        femaleSplitFitting,
+        maleSplitRoundFitting,
+        femaleSplitRoundFitting,
     ] = roundFittingSplit
 
-    const advancedHolders = [
+    const advancedHoldersRound = [
         roundFittingCross,
         roundFittingTee,
-        maleSplitFitting,
-        femaleSplitFitting,
+        maleSplitRoundFitting,
+        femaleSplitRoundFitting,
+    ]
+
+    const rectFittingCross = fittings.rectangularFittingCross({
+        subjectSize: [math.inchesToMm(1 / 4), math.inchesToMm(1 / 8)],
+        length: math.inchesToMm(3 / 8),
+    })[0]
+    const rectFittingTee = fittings.rectangularFittingTee({
+        subjectSize: [math.inchesToMm(1 / 4), math.inchesToMm(1 / 8)],
+        length: math.inchesToMm(3 / 8),
+    })[0]
+    const rectFittingSplit = fittings.rectangularFittingSplit({
+        subjectSize: [math.inchesToMm(1 / 4), math.inchesToMm(1 / 8)],
+        length: math.inchesToMm(3 / 8),
+    })[0]
+
+    const [
+        maleSplitRectFitting,
+        femaleSplitRectFitting,
+    ] = rectFittingSplit
+
+    const advancedHoldersRect = [
+        rectFittingCross,
+        rectFittingTee,
+        maleSplitRectFitting,
+        femaleSplitRectFitting,
     ]
 
     const cutProfilesOut = cutProfiles.map((model, idx) => {
@@ -95,14 +121,18 @@ function main() {
     const basicHoldersOut = basicHolders.map((model, idx) => {
         return translate([spaceUnit * idx, spaceUnit * 1, spaceUnit * 0], model)
     })
-    const advancedHoldersOut = advancedHolders.map((model, idx) => {
+    const advancedHoldersRoundOut = advancedHoldersRound.map((model, idx) => {
         return translate([spaceUnit * idx, spaceUnit * 2, spaceUnit * 0], model)
+    })
+    const advancedHoldersRectOut = advancedHoldersRect.map((model, idx) => {
+        return translate([spaceUnit * idx, spaceUnit * 3, spaceUnit * 0], model)
     })
 
     return [
         ...cutProfilesOut,
         ...basicHoldersOut,
-        ...advancedHoldersOut,
+        ...advancedHoldersRoundOut,
+        ...advancedHoldersRectOut,
     ]
 }
 

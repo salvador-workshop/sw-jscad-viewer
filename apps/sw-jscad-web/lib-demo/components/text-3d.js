@@ -22,26 +22,26 @@ function main() {
         fontSize: 4,
         charLineWidth: 1,
         extrudeHeight: 1.333
-    })
+    })[0]
 
     const engravedTextContent1 = text.engravedText({
         message: 'Hello world! Nice to see you.',
         fontSize: 4,
         engravingDepth: 0.5
-    })
+    })[0]
 
     const engravedTextContent2 = text.engravedText({
         message: 'Hello world! Nice to see you.',
         fontSize: 4,
         engravingDepth: 0.5,
         inverted: true
-    })
+    })[0]
 
     const panelTextContent = text.textPanel({
         message: 'Hello world! Nice to see you.',
         fontSize: 4,
         charLineWidth: 0.5,
-    })
+    })[0]
 
     return [
         translate([spaceUnit * 0, spaceUnit * 0, spaceUnit * 0], flatTextContent),

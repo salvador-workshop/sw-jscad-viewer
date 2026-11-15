@@ -4,7 +4,6 @@ const jscad = require('@jscad/modeling')
 const { cuboid, sphere, cylinder, ellipse } = jscad.primitives
 const { translate, rotate, align } = jscad.transforms;
 const { union } = jscad.booleans
-const { TAU } = jscad.maths.constants
 
 const swcadJs = require('swcad-js').init({ jscad });
 console.log('swcadJs', swcadJs)
@@ -40,7 +39,6 @@ const main = () => {
         shape4,
         shape5,
     ]
-
     const shapeStack1 = transform.stack({}, [shape1, shape2, shape3])
     const shapeStack2 = transform.stack({ reverse: true }, [shape1, shape2, shape3])
 
