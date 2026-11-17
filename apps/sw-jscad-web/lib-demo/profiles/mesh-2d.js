@@ -15,7 +15,7 @@ const {
     mesh,
 } = swcadJs.profiles
 
-const spaceUnit = math.inchesToMm(8)
+const spaceUnit = math.inchesToMm(7.25)
 
 const main = () => {
     const triPanel = mesh.meshPanel({

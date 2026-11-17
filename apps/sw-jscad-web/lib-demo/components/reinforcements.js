@@ -3,7 +3,7 @@ const jscad = require('@jscad/modeling')
 
 const { translate } = jscad.transforms;
 
-const swcadJs = require('swcad-js').init({ jscad });
+const swcadJs = require('swcad-js-test').init({ jscad });
 console.log('swcadJs', swcadJs)
 
 const {
@@ -18,11 +18,11 @@ const spaceUnit = math.inchesToMm(2.75)
 
 const main = () => {
     const boxSupportQtr = reinforcements.boxSupport.boxSupportQuarter({
-        size: [20, 20],
+        size: [20, 20, 1.333],
     })[0]
 
     const boxSupportHalf = reinforcements.boxSupport.boxSupportHalf({
-        size: [20, 20],
+        size: [20, 20, 1.333],
         margin: [5, 5, 1.333],
     })[0]
 

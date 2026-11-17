@@ -14,7 +14,7 @@ const {
     beadsBits,
 } = swcadJs.components
 
-const spaceUnit = math.inchesToMm(3)
+const spaceUnit = math.inchesToMm(2.5)
 
 function main() {
     const interfaceThickness = 1.333333

@@ -33,7 +33,7 @@ function main() {
 
     const componentLine2 = componentLine({
         endOffset: 5,
-        baseLineOffset: 0,
+        baseLineOffset: 4,
         component: baseComponent2,
         startPt: [50, 50],
         endPt: [70, 150],

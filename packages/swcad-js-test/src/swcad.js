@@ -778,8 +778,8 @@ var require_math = __commonJS({
         },
         /**
          * Gets a random integer between `min` and `max`. The maximum is exclusive and the minimum is inclusive.
-         * @param {number} min
-         * @param {number} max
+         * @param {number} min - minimum value (inclusive)
+         * @param {number} max - maximum value (exclusive)
          * @returns {number} random integer
          * @memberof calcs.math
          */
@@ -965,12 +965,7 @@ var require_lines = __commonJS({
       const {
         geometry
       } = swcadJs.calcs;
-      const lineComponentDetails = (opts) => {
-        const {
-          startPt,
-          endPt,
-          endOffset
-        } = opts;
+      const lineComponentDetails = (startPt, endPt, endOffset) => {
         const midPt = geometry.midpointBetweenPoints(startPt, endPt);
         const lineLength = geometry.distanceBetweenPoints(startPt, endPt);
         const offsetLineLength = lineLength - endOffset * 2;
@@ -1434,7 +1429,7 @@ var require_tab = __commonJS({
             // scission only works with 3D objects. Need a filler thickness for now
           },
           opts: {
-            segments: 6
+            segments: 16
           },
           dims: {
             size: [
@@ -1888,7 +1883,6 @@ var require_connections = __commonJS({
             unitSegments: 24
           },
           dims: {
-            unitSpacing: math.inchesToMm(1),
             unitRadius: 6.35,
             radius: 12.7,
             interfaceMargin: math.inchesToMm(3 / 8)
@@ -1898,7 +1892,6 @@ var require_connections = __commonJS({
         const defaultOpts = {
           fitGap: standards.FIT_GAP,
           radius: defaultValues.dims.radius,
-          unitSpacing: defaultValues.dims.unitSpacing,
           unitRadius: defaultValues.dims.unitRadius,
           segments: defaultValues.opts.segments,
           unitSegments: defaultValues.opts.unitSegments,
@@ -1913,7 +1906,6 @@ var require_connections = __commonJS({
         const defaults = modelDefaults();
         const {
           radius = defaults.opts.radius,
-          unitSpacing = defaults.opts.unitSpacing,
           unitRadius = defaults.opts.unitRadius,
           unitSegments = defaults.opts.unitSegments,
           segments = defaults.opts.segments,
@@ -1923,7 +1915,6 @@ var require_connections = __commonJS({
         const initOpts = {
           fitGap,
           radius,
-          unitSpacing,
           unitRadius,
           segments,
           unitSegments,
@@ -1935,7 +1926,6 @@ var require_connections = __commonJS({
         const defaults = modelDefaults();
         const {
           radius,
-          unitSpacing,
           unitRadius,
           segments,
           unitSegments,
@@ -1958,7 +1948,6 @@ var require_connections = __commonJS({
         const modelDims = {
           fitGap,
           radius,
-          unitSpacing,
           unitRadius,
           diametre,
           unitDiametre,
@@ -2023,67 +2012,6 @@ var require_connections = __commonJS({
         };
         return [mainModel, modelParts, modelProperties];
       };
-      const pegboard = (opts) => {
-        const initOpts = modelOpts(opts);
-        const modelProperties = modelProps(initOpts);
-        const {
-          unitSegments
-        } = modelProperties.opts;
-        const {
-          unitRadius,
-          unitSpacing,
-          fitGap,
-          unitDiametre,
-          interfaceMargin
-        } = modelProperties.dims;
-        const halfGap = fitGap / 2;
-        const cornerRadius = unitDiametre * 0.75;
-        const specs = {
-          dowelRadius: -halfGap + unitRadius,
-          holeRadius: halfGap + unitRadius
-        };
-        specs.totalWidth = interfaceMargin[0] * 2 + (unitRadius * 2 + unitSpacing);
-        const halfWidth = specs.totalWidth / 2;
-        specs.cornerPoints = [
-          [halfWidth - cornerRadius, halfWidth - cornerRadius, 0],
-          [-halfWidth + cornerRadius, halfWidth - cornerRadius, 0],
-          [-halfWidth + cornerRadius, -halfWidth + cornerRadius, 0],
-          [halfWidth - cornerRadius, -halfWidth + cornerRadius, 0]
-        ];
-        const halfUnit = unitSpacing / 2;
-        specs.dowelPoints = [
-          [halfUnit, halfUnit, 0],
-          [-halfUnit, halfUnit, 0],
-          [-halfUnit, -halfUnit, 0],
-          [halfUnit, -halfUnit, 0]
-        ];
-        const corners = specs.cornerPoints.map((cPt) => {
-          return translate(cPt, circle({ radius: cornerRadius }));
-        });
-        const dowels = specs.dowelPoints.map((dPt) => {
-          return translate(dPt, circle({ radius: specs.dowelRadius, segments: unitSegments }));
-        });
-        const dowelDies = specs.dowelPoints.map((dPt) => {
-          return translate(dPt, circle({ radius: specs.holeRadius, segments: unitSegments }));
-        });
-        const basePlate = hull(corners);
-        const dowelAssembly = union(dowels);
-        const male = dowelAssembly;
-        const female = subtract(basePlate, dowelDies);
-        const pegboardProfiles = [
-          female,
-          male
-        ];
-        const mainModel = [
-          pegboardProfiles[1],
-          pegboardProfiles[0]
-        ];
-        const modelParts = {
-          male: pegboardProfiles[1],
-          female: pegboardProfiles[0]
-        };
-        return [mainModel, modelParts, modelProperties];
-      };
       const boltCircle = (opts) => {
         const initOpts = modelOpts(opts);
         const modelProperties = modelProps(initOpts);
@@ -2132,7 +2060,6 @@ var require_connections = __commonJS({
         props: modelProps,
         tab,
         polygon,
-        pegboard,
         boltCircle
       };
     };
@@ -3186,7 +3113,6 @@ var require_tab_row = __commonJS({
             // scission only works with 3D objects. Need a filler thickness for now
           },
           opts: {
-            segments: 6,
             numConnectors: 3
           },
           dims: {
@@ -3204,7 +3130,6 @@ var require_tab_row = __commonJS({
         const defaultOpts = {
           fitGap: standards.FIT_GAP,
           size: defaultValues.dims.size,
-          segments: defaultValues.opts.segments,
           numConnectors: defaultValues.opts.numConnectors,
           interfaceMargin: defaultValues.dims.interfaceMargin
         };
@@ -3218,14 +3143,12 @@ var require_tab_row = __commonJS({
         const {
           size = defaults.opts.size,
           numConnectors = defaults.opts.numConnectors,
-          segments = defaults.opts.segments,
           interfaceMargin = defaults.opts.interfaceMargin,
           fitGap = defaults.opts.fitGap
         } = opts;
         const initOpts = {
           fitGap,
           size,
-          segments,
           numConnectors,
           interfaceMargin
         };
@@ -3235,7 +3158,6 @@ var require_tab_row = __commonJS({
         const defaults = modelDefaults();
         const {
           size,
-          segments,
           numConnectors,
           interfaceMargin,
           fitGap
@@ -3254,7 +3176,6 @@ var require_tab_row = __commonJS({
           sampleThickness: defaults.vals.constants.sampleThickness
         };
         const modelOpts2 = {
-          segments,
           numConnectors
         };
         const modelDims = {
@@ -3843,11 +3764,11 @@ var require_component_line = __commonJS({
           baseLineOffset,
           component
         } = opts;
-        const lineComponentDetails = geometry.lines.lineComponentDetails({
+        const lineComponentDetails = geometry.lines.lineComponentDetails(
           startPt,
           endPt,
           endOffset
-        });
+        );
         const {
           midPt,
           lineLength,
@@ -4688,7 +4609,9 @@ var require_rectangular_fitting = __commonJS({
         );
         const mainModel = position.ctr(rectangularFittingTeeAssembly);
         const modelParts = {
-          mainModel
+          mainModel,
+          blank,
+          cutaway
         };
         return [mainModel, modelParts, modelProperties];
       };
@@ -5015,7 +4938,7 @@ var require_box_support = __commonJS({
         const {
           size,
           margin,
-          marginHeight
+          height
         } = modelProperties.dims;
         const boxCurvesQtrData = reinforcements.boxCurve.boxCurveQuarter({
           size,
@@ -5023,7 +4946,7 @@ var require_box_support = __commonJS({
         });
         const boxCurvesQtrModel = boxCurvesQtrData[0];
         const mainModel = position.ctr(extrudeLinear(
-          { height: marginHeight },
+          { height },
           boxCurvesQtrModel
         ));
         const modelParts = {
@@ -5038,7 +4961,7 @@ var require_box_support = __commonJS({
         const {
           size,
           margin,
-          marginHeight
+          height
         } = modelProperties.dims;
         const boxCurvesHalfData = reinforcements.boxCurve.boxCurveHalf({
           size,
@@ -5046,7 +4969,7 @@ var require_box_support = __commonJS({
         });
         const boxCurvesHalfModel = boxCurvesHalfData[0];
         const mainModel = position.ctr(extrudeLinear(
-          { height: marginHeight },
+          { height },
           boxCurvesHalfModel
         ));
         const modelParts = {
@@ -5846,7 +5769,14 @@ var require_routed_shapes = __commonJS({
       } = swcadJs.components;
       const modelDefaults = () => {
         const defaultValues = {
-          constants: {},
+          constants: {
+            bitTypes: [
+              "cove",
+              "roundOver",
+              "rabbet",
+              "chamfer"
+            ]
+          },
           opts: {},
           dims: {
             size: [
@@ -6314,11 +6244,11 @@ var require_reinforced_joist_line = __commonJS({
           reinforcementLevel,
           interfaceThickness
         } = opts;
-        const lineComponentDetails = geometry.lines.lineComponentDetails({
+        const lineComponentDetails = geometry.lines.lineComponentDetails(
           startPt,
           endPt,
           endOffset
-        });
+        );
         const {
           midPt,
           lineLength,
@@ -6514,7 +6444,7 @@ var require_brackets = __commonJS({
           interfaceThickness
         } = modelProperties.dims;
         let bracketReinf = reinforcements.boxSupport.boxSupportQuarter({
-          size: [height, width]
+          size: [height, width, interfaceThickness]
         })[0];
         bracketReinf = position.ctrMin(rotate([0, TAU / -4, 0], bracketReinf));
         const reinforcementsPtsLength = length - interfaceThickness;
@@ -6577,7 +6507,7 @@ var require_brackets = __commonJS({
           ];
         }
         let bracketReinfX = reinforcements.boxSupport.boxSupportQuarter({
-          size: [height, width / 2]
+          size: [height, width / 2, interfaceThickness]
         })[0];
         bracketReinfX = position.ctrMin(rotate([0, TAU / -4, 0], bracketReinfX));
         const reinforcementsPtsLengthX = length - interfaceThickness;
@@ -6594,7 +6524,7 @@ var require_brackets = __commonJS({
           ...bracketReinforcementsX
         );
         let bracketReinfY = reinforcements.boxSupport.boxSupportQuarter({
-          size: [height, length / 2]
+          size: [height, length / 2, interfaceThickness]
         })[0];
         bracketReinfY = position.ctrMin(rotate([0, TAU / -4, TAU / -4], bracketReinfY));
         const reinforcementsPtsLengthY = width - interfaceThickness;
@@ -7209,11 +7139,11 @@ var require_reinforced_line = __commonJS({
           hasReinforcedEnds,
           hasUnitReinforcements
         } = opts;
-        const lineComponentDetails = geometry.lines.lineComponentDetails({
+        const lineComponentDetails = geometry.lines.lineComponentDetails(
           startPt,
           endPt,
           endOffset
-        });
+        );
         const {
           midPt,
           lineLength,

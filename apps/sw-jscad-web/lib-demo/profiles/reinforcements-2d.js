@@ -14,7 +14,7 @@ const {
     reinforcements,
 } = swcadJs.profiles
 
-const spaceUnit = math.inchesToMm(3)
+const spaceUnit = math.inchesToMm(2.25)
 
 const main = () => {
     const reinfRect1 = reinforcements.reinforcedRect({ size: [40, 45] })[0]
