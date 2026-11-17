@@ -22,12 +22,14 @@ const main = () => {
         size: [math.inchesToMm(3), math.inchesToMm(4)],
         holeRadius: 3,
         holeDistance: math.inchesToMm(3 / 4),
+        holePattern: 'tri',
     })[0]
 
     const meshPanel2 = mesh.meshPanel({
         size: [math.inchesToMm(3), math.inchesToMm(4)],
         thickness: 5,
         holeRadius: 4,
+        holeSegments: 6,
         holeDistance: math.inchesToMm(3 / 4),
         holePattern: 'square'
     })[0]

@@ -18,17 +18,17 @@ const spaceUnit = math.inchesToMm(2)
 
 const main = () => {
     const reinforcedJoistLine1 = reinforcements.reinforcedJoistLine({
-        startPt: [0, 0, 0],
-        endPt: [math.inchesToMm(2.5), math.inchesToMm(2.5), 0],
+        startPt: [0, 0],
+        endPt: [math.inchesToMm(2.5), math.inchesToMm(2.5)],
     })[0]
     const reinforcedJoistLine2 = reinforcements.reinforcedJoistLine({
-        startPt: [0, 0, 0],
-        endPt: [math.inchesToMm(3), math.inchesToMm(3), 0],
+        startPt: [0, 0],
+        endPt: [math.inchesToMm(3), math.inchesToMm(3)],
         endOffset: 12.5
     })[0]
     const reinforcedJoistLine3 = reinforcements.reinforcedJoistLine({
-        startPt: [0, 0, 0],
-        endPt: [math.inchesToMm(2.5), math.inchesToMm(4), 0],
+        startPt: [0, 0],
+        endPt: [math.inchesToMm(2.5), math.inchesToMm(4)],
     })[0]
 
     const reinfJoistLines = [
@@ -38,29 +38,29 @@ const main = () => {
     ]
 
     const lightReinforcedLine = reinforcements.reinforcedLine.lightReinforcedLine({
-        startPt: [0, 0, 0],
-        endPt: [math.inchesToMm(3), math.inchesToMm(4), 0],
+        startPt: [0, 0],
+        endPt: [math.inchesToMm(3), math.inchesToMm(4)],
     })[0]
     const mediumReinforcedLine1 = reinforcements.reinforcedLine.mediumReinforcedLine({
-        startPt: [0, 0, 0],
-        endPt: [math.inchesToMm(3), math.inchesToMm(4), 0],
+        startPt: [0, 0],
+        endPt: [math.inchesToMm(3), math.inchesToMm(4)],
         endOffset: 20
     })[0]
     const mediumReinforcedLine2 = reinforcements.reinforcedLine.mediumReinforcedLine({
-        startPt: [0, 0, 0],
-        endPt: [math.inchesToMm(3), math.inchesToMm(4), 0],
+        startPt: [0, 0],
+        endPt: [math.inchesToMm(3), math.inchesToMm(4)],
         endOffset: 20,
         hasReinforcedEnds: false,
     })[0]
     const mediumReinforcedLine3 = reinforcements.reinforcedLine.mediumReinforcedLine({
-        startPt: [0, 0, 0],
-        endPt: [math.inchesToMm(3), math.inchesToMm(4), 0],
+        startPt: [0, 0],
+        endPt: [math.inchesToMm(3), math.inchesToMm(4)],
         endOffset: 20,
         hasUnitReinforcements: false,
     })[0]
     const heavyReinforcedLine = reinforcements.reinforcedLine.heavyReinforcedLine({
-        startPt: [0, 0, 0],
-        endPt: [math.inchesToMm(2), math.inchesToMm(4), 0],
+        startPt: [0, 0],
+        endPt: [math.inchesToMm(2), math.inchesToMm(4)],
     })[0]
 
     const reinfLines = [
