@@ -23,21 +23,21 @@ function main() {
     const baseComponent2 = cuboid({ size: [10, 15, 5] })
 
     const componentLine1 = componentLine({
+        unitLength: math.inchesToMm(1),
+        startPt: [0, 0],
+        endPt: [80, 40],
         endOffset: 0,
         baseLineOffset: 0,
         component: baseComponent1,
-        startPt: [0, 0],
-        endPt: [80, 40],
-        unitLength: math.inchesToMm(1),
     })[0]
 
     const componentLine2 = componentLine({
-        endOffset: 5,
-        baseLineOffset: 0,
-        component: baseComponent2,
+        unitLength: math.inchesToMm(1.25),
         startPt: [50, 50],
         endPt: [70, 150],
-        unitLength: math.inchesToMm(1),
+        endOffset: 5,
+        baseLineOffset: 4,
+        component: baseComponent2,
     })[0]
 
     return [

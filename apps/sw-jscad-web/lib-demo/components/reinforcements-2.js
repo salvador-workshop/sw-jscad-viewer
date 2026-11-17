@@ -14,7 +14,7 @@ const {
     reinforcements,
 } = swcadJs.components
 
-const spaceUnit = math.inchesToMm(1.5)
+const spaceUnit = math.inchesToMm(1.25)
 
 const main = () => {
     const lightReinforcedLength = reinforcements.reinforcedLength.lightReinforcedLength({})[0]

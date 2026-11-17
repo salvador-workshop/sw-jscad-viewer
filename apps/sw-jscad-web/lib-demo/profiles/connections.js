@@ -14,7 +14,7 @@ const {
     connections,
 } = swcadJs.profiles
 
-const spaceUnit = math.inchesToMm(3.75)
+const spaceUnit = math.inchesToMm(3.5)
 
 const main = () => {
     const connEllipseProfiles = connections.tab.ellipse({
@@ -54,11 +54,9 @@ const main = () => {
         connEllipseFemale,
     ]
 
-    const connPegboardProfiles = connections.pegboard({})[0]
-    const connPegboardMale = connPegboardProfiles[0]
-    const connPegboardFemale = connPegboardProfiles[1]
-
-    const connPolygonProfiles = connections.polygon({})[0]
+    const connPolygonProfiles = connections.polygon({
+        segments: 6,
+    })[0]
     const connPolygonMale = connPolygonProfiles[0]
     const connPolygonFemale = connPolygonProfiles[1]
 
@@ -66,13 +64,12 @@ const main = () => {
         radius: 20,
         unitRadius: 5,
         unitSegments: 18,
+        segments: 7,
     })[0]
     const connBoltCircleMale = connBoltCircleProfiles[0]
     const connBoltCircleFemale = connBoltCircleProfiles[1]
 
     const faceConnectionProfiles = [
-        connPegboardMale,
-        connPegboardFemale,
         connPolygonMale,
         connPolygonFemale,
         connBoltCircleMale,

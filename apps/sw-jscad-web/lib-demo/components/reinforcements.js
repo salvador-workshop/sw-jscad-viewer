@@ -18,24 +18,28 @@ const spaceUnit = math.inchesToMm(2.75)
 
 const main = () => {
     const boxSupportQtr = reinforcements.boxSupport.boxSupportQuarter({
-        size: [20, 20],
+        size: [20, 20, 1.333],
+        margin: [2, 4],
     })[0]
 
     const boxSupportHalf = reinforcements.boxSupport.boxSupportHalf({
-        size: [20, 20],
-        margin: [5, 5, 1.333],
+        size: [20, 20, 1.333],
+        margin: [3, 6],
     })[0]
 
     const reinfRect1 = reinforcements.reinforcedRectPanel({
-        size: [40, 45, 3]
+        size: [40, 45, 3],
+        reinforcementThickness: [3, 2.25, 1.5]
     })[0]
     const reinfRect2 = reinforcements.reinforcedRectPanel({
         size: [40, 45, 3],
-        reinforcementPattern: 'cross'
+        reinforcementPattern: 'cross',
+        reinforcementThickness: [3, 2.25, 1.5]
     })[0]
     const reinfRect3 = reinforcements.reinforcedRectPanel({
         size: [40, 45, 3],
-        reinforcementPattern: 'full'
+        reinforcementPattern: 'full',
+        reinforcementThickness: [3, 2.25, 1.5]
     })[0]
 
     const basicModels = [
@@ -76,7 +80,7 @@ const main = () => {
     const rightAngleBracket = reinforcements.brackets.rightAngleBracket({})[0]
     const rightAngleCornerBracket = reinforcements.brackets.rightAngleCornerBracket({
         size: [math.inchesToMm(1), math.inchesToMm(1.5), math.inchesToMm(0.75)],
-        numReinforcements: [2,3]
+        numReinforcements: [2, 3]
     })[0]
 
     const bracketModels = [

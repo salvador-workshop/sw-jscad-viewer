@@ -14,12 +14,23 @@ const {
     reinforcements,
 } = swcadJs.profiles
 
-const spaceUnit = math.inchesToMm(3)
+const spaceUnit = math.inchesToMm(2.25)
 
 const main = () => {
-    const reinfRect1 = reinforcements.reinforcedRect({ size: [40, 45] })[0]
-    const reinfRect2 = reinforcements.reinforcedRect({ size: [40, 45], reinforcementPattern: 'cross' })[0]
-    const reinfRect3 = reinforcements.reinforcedRect({ size: [40, 45], reinforcementPattern: 'full' })[0]
+    const reinfRect1 = reinforcements.reinforcedRect({
+        size: [40, 45],
+        reinforcementThickness: [3, 2.25, 1.5]
+    })[0]
+    const reinfRect2 = reinforcements.reinforcedRect({
+        size: [40, 45], 
+        reinforcementPattern: 'cross',
+        reinforcementThickness: [3, 2.25, 1.5]
+    })[0]
+    const reinfRect3 = reinforcements.reinforcedRect({
+        size: [40, 45], 
+        reinforcementPattern: 'full',
+        reinforcementThickness: [3, 2.25, 1.5]
+    })[0]
 
     const rectProfiles = [
         reinfRect1,

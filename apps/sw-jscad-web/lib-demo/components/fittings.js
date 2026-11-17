@@ -14,7 +14,7 @@ const {
     fittings,
 } = swcadJs.components
 
-const spaceUnit = math.inchesToMm(1.5)
+const spaceUnit = math.inchesToMm(1.25)
 
 function main() {
     const roundProfile1 = fittings.roundFittingCutProfile({

@@ -18,8 +18,8 @@ const {
 
 const main = () => {
     const layoutOpts = {
-        layoutMargin: 15,
-        layoutSpace: 5,
+        layoutMargin: 1,
+        layoutSpace: 1,
         noFrame: true,
     }
 
